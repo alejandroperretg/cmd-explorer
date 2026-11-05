@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free Electron Gas · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 07</span><span>Syllabus §2.1</span><span>Kittel ch. 6</span><span>Notes pp. 39–42</span><span>Sheets 8, 9.1</span><span>Exam 2022 Q2</span></div>
+  <h1>Free Electron Gas</h1>
+  <p class="lead">The valence electrons of a simple metal, treated as independent particles in a box with a flat potential. Counting their allowed states gives the Fermi sphere, the Fermi energy, a large pressure at T = 0, and an electronic heat capacity about 100 times below the classical value. All of transport (topic 08) is built on this picture.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>Put $N$ non-interacting electrons in a cube $V=L^3$ with zero potential inside. The Schrödinger equation gives plane waves, and the boundary conditions turn $\mathbf k$ into a cubic grid with one point per $(2\pi)^3/V$. Filling that grid two electrons per point, lowest energy first, gives a sphere of radius $k_F=(3\pi^2n)^{1/3}$. From there everything follows by integrating over the sphere: $\varepsilon_F$, the density of states $D(\varepsilon)$, the energy $U_0=\tfrac35N\varepsilon_F$, the pressure $p=\tfrac23U_0/V$, and, with Fermi–Dirac smearing, $C_{el}=\tfrac{\pi^2}{2}Nk_B\,T/T_F$.</p>
+  <p>Key results to leave with: the counting argument behind $n=k_F^3/3\pi^2$ (exam Q2d), the lowest state for each boundary condition (Q2b), and why only electrons within about $k_BT$ of $\varepsilon_F$ can absorb heat. The lecture notes state most of these results without derivation, so the derivations are given in full below.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 6 (Energy Levels in One Dimension; Free Electron Gas in Three Dimensions; Heat Capacity of the Electron Gas; Experimental Heat Capacity of Metals), and the lecture notes pp. 39–42.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>2.1.1 Boundary conditions</h3>
+      <p>Model: electrons in a cube of side $L$, flat potential inside (the ion cores are smeared out), no electron–electron Coulomb interaction. Two choices of boundary condition:</p>
+      <ul>
+        <li><b>Fixed (hard walls):</b> $\psi=0$ on the walls. Standing waves $\sin(k_xx)\sin(k_yy)\sin(k_zz)$ with $k_i=\pi n_i/L$, $n_i=1,2,3,\dots$ Only the positive octant of k-space; one point per $(\pi/L)^3$.</li>
+        <li><b>Periodic (Born–von Kármán):</b> $\psi(x+L,y,z)=\psi(x,y,z)$, same for $y,z$. Plane waves need $e^{ik_xL}=1$, so $k_i=2\pi n_i/L$ with $n_i\in\mathbb Z$. All of k-space; one point per $(2\pi/L)^3=(2\pi)^3/V$.</li>
+      </ul>
+      <p>Both give the same number of states below a given energy ($\tfrac18$ of the sphere at $8\times$ the density), so bulk results agree for large $L$. Periodic conditions are preferred: travelling waves can carry current, and they match Bloch's theorem later (topic 09).</p>
+    </article>
+
+    <article class="card">
+      <h3>2.1.2 Free-electron solution of the Schrödinger equation</h3>
+      <p>With $\hat{\mathbf p}=-i\hbar\nabla$ and $U=0$ inside the box:</p>
+      $$-\frac{\hbar^2}{2m}\nabla^2\psi(\mathbf r)=\varepsilon\,\psi(\mathbf r),\qquad \nabla^2=\partial_x^2+\partial_y^2+\partial_z^2 .$$
+      <p>Separate $\psi=X(x)Y(y)Z(z)$: each factor obeys $X''=-k_x^2X$, so $X\propto e^{ik_xx}$. Normalising, $\int_V|\psi|^2d^3r=1$ fixes the prefactor:</p>
+      $$\psi_{\mathbf k}(\mathbf r)=\frac{1}{\sqrt V}\,e^{i\mathbf k\cdot\mathbf r},\qquad \varepsilon_{\mathbf k}=\frac{\hbar^2k^2}{2m},\qquad \mathbf p=\hbar\mathbf k,\quad \mathbf v=\frac{\hbar\mathbf k}{m},\quad \lambda=\frac{2\pi}{k}.$$
+      <p>$\psi_{\mathbf k}$ is an eigenstate of momentum, so it is spread evenly over the whole box ($|\psi|^2=1/V$). <b>Lowest state:</b> periodic BC, $\mathbf k=0$, $\psi=V^{-1/2}$ and $\varepsilon=0$; hard walls, $\psi=(2/L)^{3/2}\sin\frac{\pi x}{L}\sin\frac{\pi y}{L}\sin\frac{\pi z}{L}$ with $\varepsilon=3\pi^2\hbar^2/2mL^2$ (1.13 eV for $L=1$ nm, $1.1\times10^{-14}$ eV for $L=1$ cm).</p>
+    </article>
+
+    <article class="card">
+      <h3>2.1.3 Filling the Fermi sphere</h3>
+      <p>At $T=0$ the $N$ electrons occupy the lowest states, two per k-point (spin ↑↓, Pauli). Because $\varepsilon$ depends only on $|\mathbf k|$, the filled region is a sphere of radius $k_F$. Count: states inside = 2 × sphere volume / volume per point,</p>
+      $$N=2\cdot\frac{\tfrac43\pi k_F^3}{(2\pi)^3/V}=\frac{V k_F^3}{3\pi^2}\;\Rightarrow\; k_F=\Big(3\pi^2\frac NV\Big)^{1/3},\quad \varepsilon_F=\frac{\hbar^2}{2m}\big(3\pi^2n\big)^{2/3}.$$
+      <p>Also $v_F=\hbar k_F/m$ and $T_F=\varepsilon_F/k_B$ ($T_F$ is a reference scale, not the electron temperature). Cu, $n=8.45\times10^{28}$ m⁻³: $k_F=1.36\times10^{10}$ m⁻¹, $\varepsilon_F=7.0$ eV, $v_F=1.57\times10^6$ m/s, $T_F=8.1\times10^4$ K, $\lambda_F=0.46$ nm.</p>
+      <p><b>Density of states.</b> Replace $k_F$ by $k$: the number of states with energy below $\varepsilon$ is $N(\varepsilon)=\frac{V}{3\pi^2}\big(\frac{2m\varepsilon}{\hbar^2}\big)^{3/2}$, so</p>
+      $$D(\varepsilon)=\frac{dN}{d\varepsilon}=\frac{V}{2\pi^2}\Big(\frac{2m}{\hbar^2}\Big)^{3/2}\sqrt\varepsilon,\qquad D(\varepsilon_F)=\frac{3N}{2\varepsilon_F}.$$
+      <p>$D$ is the total DOS including spin (states per J); the lecture's $g(\varepsilon)=D/V$ is per volume. For Cu, $D(\varepsilon_F)/N=0.21$ states per eV per electron.</p>
+      <div class="check"><b>Check:</b> the Cu numbers recomputed from $n$ (node, CODATA) give $k_F=1.358\times10^{10}$ m⁻¹, $\varepsilon_F=7.02$ eV, $v_F=1.572\times10^6$ m/s, matching Kittel ch. 6 Table 1 (1.36, 7.00, 1.57).</div>
+    </article>
+
+    <article class="card">
+      <h3>Fermi–Dirac distribution</h3>
+      <p>At temperature $T$ the probability that a state of energy $\varepsilon$ is occupied is</p>
+      $$f(\varepsilon,T)=\frac{1}{e^{(\varepsilon-\mu)/k_BT}+1},$$
+      <p>a step at $T=0$, rounded over a width of a few $k_BT$ for $T>0$, with $f(\mu)=\tfrac12$. $\mu$ is fixed by $N=\int_0^\infty f\,D\,d\varepsilon$. In 3D it barely moves, $\mu\approx\varepsilon_F[1-\tfrac{\pi^2}{12}(T/T_F)^2]$, because $k_BT\ll\varepsilon_F$ in every metal ($k_BT=25.85$ meV at 300 K, 0.4 % of Cu's $\varepsilon_F$). $D(\varepsilon)$ counts the states, $f$ says which are filled; the energy is $U=\int\varepsilon\,D\,f\,d\varepsilon$ and needs both.</p>
+    </article>
+
+    <article class="card">
+      <h3>2.1.4 Total energy</h3>
+      <p>At $T=0$, add up $\varepsilon$ over the filled states:</p>
+      $$U_0=\int_0^{\varepsilon_F}\varepsilon\,D(\varepsilon)\,d\varepsilon=\frac{3N}{2\varepsilon_F^{3/2}}\int_0^{\varepsilon_F}\varepsilon^{3/2}d\varepsilon=\frac35N\varepsilon_F ,$$
+      <p>using $D=\frac{3N}{2}\varepsilon^{1/2}/\varepsilon_F^{3/2}$. The mean energy per electron is $\tfrac35\varepsilon_F$, 4.2 eV for Cu, about 160 times $k_BT$ at room temperature. A classical gas would have $U=0$ at $T=0$; this energy is purely a consequence of the Pauli principle.</p>
+    </article>
+
+    <article class="card">
+      <h3>2.1.5 Pressure</h3>
+      <p>At fixed $N$, $\varepsilon_F\propto(N/V)^{2/3}$, so $U_0=\tfrac35N\varepsilon_F\propto V^{-2/3}$ and</p>
+      $$p=-\frac{\partial U_0}{\partial V}\Big|_N=\frac23\frac{U_0}{V}=\frac25\,n\,\varepsilon_F>0 .$$
+      <p>For Cu, $p=38$ GPa at $T=0$. This degeneracy pressure is not thermal: squeezing the box raises every $k$ and with it the energy. In a real metal it is balanced by the electron–ion attraction. The bulk modulus follows as $B=-V\,\partial p/\partial V=\tfrac53p=\tfrac23n\varepsilon_F$ (63 GPa for Cu; Kittel ch. 6 problem 2).</p>
+    </article>
+
+    <article class="card">
+      <h3>2.1.6 Specific heat</h3>
+      <p><b>Estimate.</b> Heating to $T$ can only lift electrons within about $k_BT$ of $\varepsilon_F$ into empty states just above; deeper electrons have no empty state within reach. That is a fraction $\sim k_BT/\varepsilon_F$ of $N$, each gaining $\sim k_BT$: $U-U_0\sim Nk_BT\cdot k_BT/\varepsilon_F\propto T^2$, so $C\propto T$.</p>
+      <p><b>Derivation (Sommerfeld, Kittel eqs. 29–36).</b> $N$ is fixed, so $\int D\,\partial_Tf\,d\varepsilon=0$, and $\varepsilon_F$ times this can be subtracted:</p>
+      $$C_{el}=\frac{\partial U}{\partial T}=\int_0^\infty(\varepsilon-\varepsilon_F)\,D(\varepsilon)\,\frac{\partial f}{\partial T}\,d\varepsilon\approx D(\varepsilon_F)\,k_B^2T\int_{-\infty}^{\infty}\frac{x^2e^x}{(e^x+1)^2}dx .$$
+      <p>Here $\partial_Tf$ is peaked within a few $k_BT$ of $\varepsilon_F$, so $D$ is taken out at $\varepsilon_F$, $\mu\to\varepsilon_F$, $x=(\varepsilon-\varepsilon_F)/k_BT$, and the lower limit $-\varepsilon_F/k_BT\to-\infty$. The integral is $\pi^2/3$:</p>
+      $$C_{el}=\frac{\pi^2}{3}D(\varepsilon_F)\,k_B^2T=\frac{\pi^2}{2}\,Nk_B\,\frac{T}{T_F}\equiv\gamma T .$$
+      <p>$N$ counts <b>electrons</b>. For Cu at 300 K, $C_{el}$ is 1.2 % of the classical $\tfrac32Nk_B$. In a metal at low $T$, $C=\gamma T+AT^3$ (electrons + Debye phonons): a plot of $C/T$ against $T^2$ is a straight line with intercept $\gamma$. Measured $\gamma$ exceeds the free-electron value by a thermal effective mass $m_{th}/m=\gamma_{obs}/\gamma_{free}$: 1.38 (Cu), 1.26 (Na), 1.48 (Al) from Kittel ch. 6 Table 2, due to the lattice potential and to electron–phonon and electron–electron interactions.</p>
+      <div class="assume"><b>Notation:</b> the lecture writes $c_v=\frac{\pi^2}{2}\frac{k_BT}{\varepsilon_F}Nk_B$. Here lower-case $c_v$ is the total heat capacity (it carries $N$), unlike the per-volume $c_v$ of the phonon chapter. The p42 line "$c_v=\gamma T+AT$" is missing the cube on $T$ (p41 has it).</div>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="sphere">
+    <div class="rail">
+      <span class="eyebrow">2.1.3 · Counting k-points</span>
+      <h3>Filling the Fermi sphere</h3>
+      <p>The allowed k-points of a real cube of side $L$ are filled two electrons at a time, lowest energy first, and plotted in 3D. The counted result is compared with the continuum formula $k_F=(3\pi^2N/V)^{1/3}$. Free electrons, SI units, electron mass.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Boundary condition</legend><div class="opts">
+          <label><input type="radio" name="fs-bc" value="pbc" checked><span>Periodic</span></label>
+          <label><input type="radio" name="fs-bc" value="hw"><span>Hard walls</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="fs-n"><span>Electrons N</span> <output for="fs-n"></output></label><input type="range" id="fs-n" min="2" max="2000" step="2" value="500" data-fmt="0"></div>
+        <div class="ctl"><label for="fs-l"><span>Box side L</span> <output for="fs-l"></output></label><input type="range" id="fs-l" min="0.8" max="4" step="0.01" value="1.81" data-fmt="2" data-unit=" nm"></div>
+        <label class="chk" for="fs-spin"><input type="checkbox" id="fs-spin"> Forget spin (one electron per k-point)</label>
+      </div>
+      <div class="state"><span class="pill atom" id="fs-pill"></span><dl class="readout" id="fs-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is 500 electrons at the electron density of Cu. Compare "largest filled |k|" with "k_F formula": they differ by about 5 % because of shell structure, and the gap closes as N grows.</li>
+        <li>Switch to hard walls: the points fill one octant on a grid twice as fine, and the lowest state is no longer at ε = 0. The counted k_F comes out about 10 % high at N = 500, because the planes n_i = 0 are not allowed (a surface effect); the excess shrinks as N grows.</li>
+        <li>Tick "Forget spin": the sphere grows by 2^(1/3) = 1.26 and the staircase leaves the formula. That is the most common exam slip.</li>
+        <li>Drag N down to a few tens: the staircase gets jumpy (shell structure). The continuum formula is a large-N result.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot tall" id="fs-p3"></div>
+        <figcaption><b>How to read:</b> each dot is one occupied k-point, with axes k_x, k_y, k_z in nm⁻¹. Copper dots hold two electrons; with spin forgotten they hold one. The green circles are the equator lines of the Fermi sphere from the continuum formula. The filled points should end close to the sphere. Drag to rotate.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>occupied k-point</span><span><i class="sw" style="background:var(--ef)"></i>sphere of radius k_F (formula)</span></div>
+      </figure>
+      <figure><div class="plot tall" id="fs-p2"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is energy in eV, the vertical axis the number of electrons with energy below it. The copper staircase is counted from the real k-points; the blue curve is the continuum $N(\varepsilon)=\frac{V}{3\pi^2}(2m\varepsilon/\hbar^2)^{3/2}$, whose slope is $D(\varepsilon)$. The green dashed line is ε_F from the formula. The staircase hugs the curve when N is large and spin is counted.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>counted</span><span><i class="sw" style="background:var(--emp)"></i>continuum N(ε)</span><span><i class="sw" style="background:var(--ef)"></i>ε_F</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="smear">
+    <div class="rail">
+      <span class="eyebrow">2.1.6 · Fermi–Dirac at T &gt; 0</span>
+      <h3>Fermi–Dirac smearing and the heat capacity</h3>
+      <p>The 3D free-electron gas at temperature T, solved numerically: μ(T) from particle conservation, then U(T) and C(T). Plots use reduced units ε/ε_F and T/T_F, so one set of curves serves every material; the readout converts to kelvin and eV for the chosen one.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Fermi gas</legend><div class="opts">
+          <label><input type="radio" name="fd-mat" value="Cu"><span>Cu</span></label>
+          <label><input type="radio" name="fd-mat" value="Na"><span>Na</span></label>
+          <label><input type="radio" name="fd-mat" value="Al"><span>Al</span></label>
+          <label><input type="radio" name="fd-mat" value="He" checked><span>³He</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="fd-t"><span>Temperature (log scale)</span> <output for="fd-t"></output></label><input type="range" id="fd-t" min="-2.6" max="0" step="0.01" value="-0.99" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="fd-pill"></span><dl class="readout" id="fd-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Cu at room temperature (slide to T ≈ 300 K): the step barely rounds. Only about 0.4 % of the electrons sit in the smeared shell, and C_el is about 1 % of classical.</li>
+        <li>The opening state is liquid ³He at 0.5 K (T_F = 4.9 K, sheet 8.1): visibly smeared and only partly degenerate.</li>
+        <li>Raise T/T_F towards 1: μ drops below zero, C bends over towards the classical 3/2 Nk_B and the gas becomes classical.</li>
+        <li>Lower-right plot: in 2D μ stays at ε_F until T/T_F ≈ 0.2, then falls (sheet 8.2). In 3D it falls as −π²/12 (T/T_F)² from the start.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot short" id="fd-p1"></div>
+        <figcaption><b>How to read:</b> occupation f against ε/ε_F. The copper curve is f at your temperature, the dashed grey step is T = 0, and the green line marks μ. The shaded band is μ ± 2k_BT, where nearly all the change happens.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>f(ε, T)</span><span><i class="sw" style="background:var(--muted)"></i>T = 0</span><span><i class="sw" style="background:var(--ef)"></i>μ</span></div>
+      </figure>
+      <figure><div class="plot short" id="fd-p2"></div>
+        <figcaption><b>How to read:</b> states per energy against ε/ε_F, in units of N/ε_F. The blue curve is D(ε) ∝ √ε (available states); the copper area is D·f (filled states). Electrons move from just below ε_F to just above it, and the area stays equal to N.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>D(ε)</span><span><i class="sw" style="background:var(--occ)"></i>D·f, filled</span></div>
+      </figure>
+      <figure><div class="plot short" id="fd-p3"></div>
+        <figcaption><b>How to read:</b> heat capacity per electron, C/(Nk_B), against T/T_F. The copper curve is the exact numerical result, the green dashed line Sommerfeld's (π²/2) T/T_F, and the grey line the classical 3/2. The dot is your temperature. Metals live at the far left, where the line and the curve coincide.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>exact</span><span><i class="sw" style="background:var(--ef)"></i>Sommerfeld</span><span><i class="sw" style="background:var(--muted)"></i>classical</span></div>
+      </figure>
+      <figure><div class="plot short" id="fd-p4"></div>
+        <figcaption><b>How to read:</b> chemical potential μ/ε_F against T/T_F. The copper curve is 3D (numerical), the blue curve 2D (sheet 8.2's closed form), and the green dashed curve the 3D Sommerfeld expansion. Dots mark your temperature.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>3D</span><span><i class="sw" style="background:var(--emp)"></i>2D</span><span><i class="sw" style="background:var(--ef)"></i>1 − π²/12 (T/T_F)²</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="cross">
+    <div class="rail">
+      <span class="eyebrow">2.1.6 · Sheet 9.1 cross-over</span>
+      <h3>Electron–phonon heat-capacity cross-over</h3>
+      <p>Low-temperature heat capacity of a metal, C = γT + AT³ per mole of atoms, with γ from free electrons (Kittel eq. 36) or from measurement, and A from the Debye T³ law. Data: Kittel ch. 5 Table 1 and ch. 6 Tables 1–2.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Metal</legend><div class="opts">
+          <label><input type="radio" name="co-mat" value="Cu" checked><span>Cu</span></label>
+          <label><input type="radio" name="co-mat" value="Na"><span>Na</span></label>
+          <label><input type="radio" name="co-mat" value="Al"><span>Al</span></label>
+        </div></fieldset>
+        <fieldset class="seg"><legend>Electronic γ</legend><div class="opts">
+          <label><input type="radio" name="co-g" value="free" checked><span>Free, Z e⁻/atom</span></label>
+          <label><input type="radio" name="co-g" value="obs"><span>Measured</span></label>
+          <label><input type="radio" name="co-g" value="z1"><span>Board: Z = 1</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="co-th"><span>Debye temperature Θ_D</span> <output for="co-th"></output></label><input type="range" id="co-th" min="100" max="500" step="1" value="343" data-fmt="0" data-unit=" K"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="co-pill"></span><dl class="readout" id="co-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Al with "Free": T× ≈ 6.1 K. Switch to "Board: Z = 1": it drops to 3.5 K because two thirds of the electrons go missing.</li>
+        <li>Switch to "Measured": every T× rises by 12–22 %, because real γ is larger (thermal effective mass).</li>
+        <li>Move Θ_D by ±10 %: T× ∝ Θ_D^(3/2) moves by about ±15 %. The choice of data source matters, which is why the sheet asks you to state it.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="co-p1"></div>
+        <figcaption><b>How to read:</b> log–log axes, temperature in K against heat capacity in mJ mol⁻¹ K⁻¹. The copper line is γT (slope 1), the blue line AT³ (slope 3), the grey curve their sum. They cross at the green dashed line T×. Below it the electrons dominate.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>electrons γT</span><span><i class="sw" style="background:var(--emp)"></i>phonons AT³</span><span><i class="sw" style="background:var(--muted)"></i>total</span><span><i class="sw" style="background:var(--ef)"></i>T×</span></div>
+      </figure>
+      <figure><div class="plot" id="co-p2"></div>
+        <figcaption><b>How to read:</b> the plot experimenters use, C/T in mJ mol⁻¹ K⁻² against T² in K². The line has intercept γ (dashed copper) and slope A. At the cross-over C/T = 2γ (green dot), where T² = γ/A.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--fg)"></i>C/T = γ + AT²</span><span><i class="sw" style="background:var(--occ)"></i>γ</span><span><i class="sw dot" style="background:var(--ef)"></i>cross-over</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-8-1">
+    <span class="tag">Sheet 8 · Problem 1 · 4 pts</span>
+    <h3>Liquid He³</h3>
+    <p class="ask">³He has spin 1/2 and is a fermion. The density of liquid ³He is 0.081 g/cm³ at T → 0 K. Calculate the Fermi energy ε_F and the Fermi temperature T_F.</p>
+    <h4>Method</h4>
+    <p>Treat the atoms as a free Fermi gas of spin-½ particles: two per k-point, so the 3D formulas of 2.1.3 apply unchanged, with the <b>atomic</b> mass in place of $m_e$. Number density from mass density, then $k_F=(3\pi^2n)^{1/3}$, $\varepsilon_F=\hbar^2k_F^2/2m_3$, $T_F=\varepsilon_F/k_B$.</p>
+    <div class="assume"><b>Assumption:</b> atomic mass of ³He $m_3=3.016\,$u (standard value, e.g. CRC Handbook). Interactions between the atoms are neglected, as in Kittel ch. 6 problem 5, of which this is a copy.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$m_3=3.016\times1.6605\times10^{-27}\,\text{kg}=5.008\times10^{-27}$ kg; $\rho=0.081$ g/cm³ $=81$ kg/m³.</li>
+        <li>$n=\rho/m_3=1.617\times10^{28}$ m⁻³.</li>
+        <li>$k_F=(3\pi^2n)^{1/3}=7.82\times10^{9}$ m⁻¹.</li>
+        <li>$\varepsilon_F=\dfrac{\hbar^2k_F^2}{2m_3}=6.80\times10^{-23}\,\text{J}=4.24\times10^{-4}$ eV (1 eV $=1.602\times10^{-19}$ J).</li>
+        <li>$T_F=\varepsilon_F/k_B=4.9$ K.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $\varepsilon_F\approx4.2\times10^{-4}$ eV, $T_F\approx4.9$ K.</div>
+      <div class="check"><b>Sanity check:</b> scaling from Cu, $\varepsilon_F\propto n^{2/3}/m$: $7.02\,\text{eV}\times(1.617/8.45)^{2/3}\times m_e/m_3=4.24\times10^{-4}$ eV (node), the same value by a second route. The mass ratio $m_3/m_e\approx5500$ explains why $T_F$ is in kelvin, not $10^4$ K. Using $m_e$ by mistake gives 2.3 eV.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-8-2">
+    <span class="tag">Sheet 8 · Problem 2 · 4 pts</span>
+    <h3>Chemical potential in 2D</h3>
+    <p class="ask">Show that the chemical potential of a quantum electron gas in two dimensions is $\mu(T)=k_BT\ln\!\Big[\exp\!\Big(\dfrac{\pi\hbar^2}{m_ek_BT}\dfrac NA\Big)-1\Big]$ with N electrons per area A. Hint: $D(\varepsilon)=A\,m_e/(\pi\hbar^2)$.</p>
+    <h4>Method</h4>
+    <p>Fix $\mu$ by particle conservation, $N=\int_0^\infty f(\varepsilon)D\,d\varepsilon$. In 2D, $D$ is constant, so the Fermi integral can be done in closed form and inverted.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Where the hint comes from: in 2D, $N=2\cdot\pi k^2/(2\pi/L)^2=Ak^2/2\pi$ and $\varepsilon=\hbar^2k^2/2m_e$, so $N(\varepsilon)=Am_e\varepsilon/\pi\hbar^2$ and $D=dN/d\varepsilon=Am_e/\pi\hbar^2$.</li>
+        <li>$N=\dfrac{Am_e}{\pi\hbar^2}\displaystyle\int_0^\infty\frac{d\varepsilon}{e^{(\varepsilon-\mu)/k_BT}+1}$.</li>
+        <li>Multiply numerator and denominator by $e^{-(\varepsilon-\mu)/k_BT}$: the integrand is $-k_BT\,\frac{d}{d\varepsilon}\ln\!\big(1+e^{-(\varepsilon-\mu)/k_BT}\big)$, so the integral is $k_BT\ln\!\big(1+e^{\mu/k_BT}\big)$.</li>
+        <li>$\dfrac NA=\dfrac{m_ek_BT}{\pi\hbar^2}\ln\!\big(1+e^{\mu/k_BT}\big)\;\Rightarrow\;e^{\mu/k_BT}=\exp\!\Big(\dfrac{\pi\hbar^2}{m_ek_BT}\dfrac NA\Big)-1$.</li>
+        <li>Take the log and multiply by $k_BT$: the stated result.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $\mu(T)=k_BT\ln\big[\exp(\pi\hbar^2n/m_ek_BT)-1\big]$, $n=N/A$. With $\varepsilon_F=\pi\hbar^2n/m_e$ this is $\mu=\varepsilon_F+k_BT\ln\big(1-e^{-T_F/T}\big)$.</div>
+      <div class="check"><b>Sanity check:</b> $T\to0$: $\mu\to\pi\hbar^2n/m_e$, the 2D Fermi energy from step 1 with $N(\varepsilon_F)=N$. High $T$: $\mu\approx k_BT\ln(\pi\hbar^2n/m_ek_BT)<0$, the classical result. Numerically (node), integrating $f\,D$ with this μ returns exactly N at $T/T_F=0.1$ and 1. The deviation from $\varepsilon_F$ is exponentially small, so μ stays flat up to about $0.2\,T_F$ (Model 2, lower right).</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-8-3">
+    <span class="tag">Sheet 8 · Problem 3 · 4 pts</span>
+    <h3>Entropy of an electron gas</h3>
+    <p class="ask">From $C_V=(\partial U/\partial T)_V=T(\partial S/\partial T)_V$, deduce $S=-k_B\int_0^\infty[f_{FD}\ln f_{FD}+(1-f_{FD})\ln(1-f_{FD})]\,D(\varepsilon)\,d\varepsilon$, with $f_{FD}=1/[1+e^{(\varepsilon-\mu)/k_BT}]$, $U=\int_0^\infty f_{FD}\,\varepsilon\,D\,d\varepsilon$ and $D(\varepsilon)=\frac{V}{2\pi^2}(2m/\hbar^2)^{3/2}\varepsilon^{1/2}$.</p>
+    <h4>Method</h4>
+    <p>Show that the $T$-derivative of the proposed $S$ equals $\frac1T\,\partial U/\partial T$, then check that both sides agree at $T=0$. Two facts do the work: $\ln\frac{1-f}{f}=\frac{\varepsilon-\mu}{k_BT}$, and $N$ is fixed at constant $V$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Let $s(f)=-[f\ln f+(1-f)\ln(1-f)]$. Then $\dfrac{ds}{df}=\ln\dfrac{1-f}{f}=\dfrac{\varepsilon-\mu}{k_BT}$.</li>
+        <li>$D$ does not depend on $T$ at fixed $V$, so $\dfrac{\partial S}{\partial T}=k_B\displaystyle\int\frac{ds}{df}\frac{\partial f}{\partial T}D\,d\varepsilon=\frac1T\int(\varepsilon-\mu)\frac{\partial f}{\partial T}D\,d\varepsilon$.</li>
+        <li>$N=\int fD\,d\varepsilon$ is constant, so $\int\frac{\partial f}{\partial T}D\,d\varepsilon=0$ (the $T$-dependence of $\mu$ sits inside $\partial f/\partial T$). The $\mu$ term drops out.</li>
+        <li>What remains is $\dfrac{\partial S}{\partial T}=\dfrac1T\displaystyle\int\varepsilon\frac{\partial f}{\partial T}D\,d\varepsilon=\frac1T\frac{\partial U}{\partial T}=\frac{C_V}{T}$, as the identity requires.</li>
+        <li>Integration constant: at $T=0$ every $f$ is 0 or 1, and $0\ln0=0$, so the formula gives $S(0)=0$, the third law. Then $S(T)=\int_0^TC_V/T'\,dT'$ is reproduced at all $T$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $S=-k_B\int_0^\infty[f\ln f+(1-f)\ln(1-f)]D\,d\varepsilon$. Each one-electron state adds the two-outcome entropy of being occupied with probability $f$ (like the site entropy of a lattice gas), so only the shell within a few $k_BT$ of $\mu$ contributes. At low $T$, $S=\frac{\pi^2}{3}D(\varepsilon_F)k_B^2T=C_{el}$.</div>
+      <div class="check"><b>Sanity check:</b> numerically (node, 3D gas, μ(T) solved), at $T/T_F=0.2$ the formula gives $S/Nk_B=0.9398$ and $\int_0^TC/T'\,dT'$ gives 0.9396. At $T/T_F=0.01$ it gives 0.04934 against $\frac{\pi^2}{2}T/T_F=0.04935$.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-9-1">
+    <span class="tag">Sheet 9 · Problem 1 · 4 pts</span>
+    <h3>Heat capacity cross-over electron to phonon system</h3>
+    <p class="ask">In metals the electrons give a heat capacity ∝ T at low temperature, the phonons one ∝ T³. Find the cross-over temperature where both are equal for (i) Cu, (ii) Na, (iii) Al, from open-source material data. State data sources, assumptions and formulas.</p>
+    <h4>Method</h4>
+    <p>Per mole of atoms, the electrons give $\gamma T$ with Kittel eq. 36, $C_{el}=\frac12\pi^2Nk_BT/T_F$, where $N$ is the number of <b>electrons</b>: $N=ZN_A$ for valence $Z$. The phonons give the Debye law $AT^3$ with $N_A$ atoms. Set them equal:</p>
+    $$\gamma=\frac{\pi^2}{2}\frac{ZR}{T_F},\qquad A=\frac{12\pi^4}{5}\frac{R}{\Theta_D^3},\qquad T_\times=\sqrt{\frac{\gamma}{A}}=\sqrt{\frac{5Z\,\Theta_D^3}{24\pi^2\,T_F}} .$$
+    <div class="assume"><b>Assumptions and sources:</b> free-electron γ from $T_F$ (Kittel ch. 6 Table 1), with $Z$ = 1, 1, 3. $\Theta_D$ is the low-temperature value from Kittel ch. 5 Table 1. The T³ law holds because $T_\times<\Theta_D/50$ in all three cases (Kittel's criterion for a clean T³ regime). The alternative with measured γ (Kittel ch. 6 Table 2) is given too. Other handbooks list slightly different $\Theta_D$; since $T_\times\propto\Theta_D^{3/2}$, a 5 % change moves $T_\times$ by about 7.5 %.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Data</h4>
+      <div class="dict"><table>
+        <thead><tr><th>Metal</th><th>Z</th><th>T_F (K)</th><th>Θ_D (K)</th><th>γ free</th><th>γ meas.</th><th>T× free</th><th>T× meas.</th></tr></thead>
+        <tbody>
+          <tr><td>Cu</td><td>1</td><td>8.12×10⁴</td><td>343</td><td>0.505</td><td>0.695</td><td>3.2 K</td><td>3.8 K</td></tr>
+          <tr><td>Na</td><td>1</td><td>3.75×10⁴</td><td>158</td><td>1.094</td><td>1.38</td><td>1.5 K</td><td>1.7 K</td></tr>
+          <tr><td>Al</td><td>3</td><td>13.49×10⁴</td><td>428</td><td>0.912</td><td>1.35</td><td>6.1 K</td><td>7.4 K</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">γ in mJ mol⁻¹ K⁻². A = 0.0482 (Cu), 0.493 (Na), 0.0248 (Al) mJ mol⁻¹ K⁻⁴.</p>
+      <h4>Steps</h4>
+      <ol>
+        <li>Cu: $\gamma=\frac{\pi^2}{2}\cdot\frac{8.314}{8.12\times10^4}=5.05\times10^{-4}$ J mol⁻¹ K⁻², $A=\frac{12\pi^4}{5}\cdot\frac{8.314}{343^3}=4.82\times10^{-5}$ J mol⁻¹ K⁻⁴, $T_\times=\sqrt{\gamma/A}=3.24$ K.</li>
+        <li>Na: same formula, $T_\times=1.49$ K.</li>
+        <li>Al: three electrons per atom, so $\gamma=3\cdot\frac{\pi^2}{2}\frac{R}{T_F}=9.12\times10^{-4}$ J mol⁻¹ K⁻² and $T_\times=6.07$ K.</li>
+        <li>With measured γ, $T_\times=\sqrt{\gamma_{obs}/A}$: 3.80, 1.67, 7.38 K.</li>
+      </ol>
+      <div class="result"><b>Result (free electrons):</b> Cu ≈ 3.2 K, Na ≈ 1.5 K, Al ≈ 6.1 K. With measured γ: 3.8 K, 1.7 K, 7.4 K.</div>
+      <div class="assume"><b>Tutor board 13:</b> it cancels the electron N against the atom N, which sets Z = 1, and gets Al ≈ 3.5 K. Al has three conduction electrons per atom, so γ is three times larger and T× is √3 times higher, about 6 K.</div>
+      <div class="check"><b>Sanity check:</b> the computed free γ reproduces Kittel ch. 6 Table 2's free-electron column (0.505, 1.094, 0.912). At Cu's T× = 3.22 K, γT = 1.63 and AT³ = 1.61 mJ mol⁻¹ K⁻¹ (node). The board's own inputs with Z = 3 give 6.04 K for Al. All T× lie below Θ_D/50 (6.9, 3.2, 8.6 K).</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>2022, Q2 "Quantum electron gas"</b> (a–d) is exactly 2.1.1–2.1.3. It does not reach energy, pressure or heat capacity, but those are short calculations from the same counting and are fair game in exercise form (sheets 8, 9.1). In 5 minutes without notes you should be able to: write the Schrödinger equation and its normalised plane-wave solution, state both boundary conditions and the lowest state of each, derive $k_F$ by counting with the spin factor, and evaluate $\varepsilon_F$, $T_F$, $v_F$ from a given density.</p>
+  </div>
+  <article class="hw" id="exam-q2">
+    <span class="tag">Exam 2022 · Q2 · model answer</span>
+    <h3>Quantum electron gas</h3>
+    <p class="ask">a) Schrödinger equation for a single electron. b) Normalised solution for a single electron with the lowest kinetic energy. c) In reciprocal space the k-vectors form a simple cubic grid: what is the k-space volume per k-point? d) Why are electron density and Fermi wavevector related as they are?</p>
+    <details>
+      <summary>Show model answer</summary>
+      <ol>
+        <li><b>a)</b> Free electron, $U=0$ in the box $V=L^3$: $-\dfrac{\hbar^2}{2m}\nabla^2\psi(\mathbf r)=\varepsilon\psi(\mathbf r)$.</li>
+        <li><b>b)</b> State the boundary condition first. Periodic: $\psi_{\mathbf k}=V^{-1/2}e^{i\mathbf k\cdot\mathbf r}$, $\varepsilon=\hbar^2k^2/2m$; the lowest state is $\mathbf k=0$, $\psi=1/\sqrt V$, $\varepsilon=0$. The prefactor follows from $\int_V|\psi|^2d^3r=1$. Hard walls: $\psi=(2/L)^{3/2}\sin\frac{\pi x}{L}\sin\frac{\pi y}{L}\sin\frac{\pi z}{L}$, $\varepsilon=3\pi^2\hbar^2/2mL^2$.</li>
+        <li><b>c)</b> Periodic BC: $e^{ik_iL}=1\Rightarrow k_i=2\pi n_i/L$, a simple cubic grid of spacing $2\pi/L$ (not fcc). Volume per point: $(2\pi/L)^3=8\pi^3/V$.</li>
+        <li><b>d)</b> At $T=0$ the electrons fill the lowest states, two per k-point (Pauli, spin ↑↓), and $\varepsilon\propto k^2$ makes the filled region a sphere. Counting: $N=2\cdot\frac43\pi k_F^3/(8\pi^3/V)$, so $n=N/V=k_F^3/3\pi^2$, i.e. $k_F=(3\pi^2n)^{1/3}$.</li>
+      </ol>
+      <div class="check"><b>Points lost in practice:</b> spin factor 2, a missing normalisation constant, mixing the two boundary conditions, calling the grid fcc.</div>
+    </details>
+  </article>
+  <article class="hw" id="exam-na">
+    <span class="tag">Exam-style exercise · 2022 pattern</span>
+    <h3>The electron gas of sodium</h3>
+    <p class="ask">Sodium is monovalent with conduction-electron density $n=2.65\times10^{28}$ m⁻³. (i) Find $k_F$, $\lambda_F$, $\varepsilon_F$, $T_F$, $v_F$. (ii) Find the mean energy per electron and the pressure of the electron gas at $T=0$. (iii) What fraction of the classical heat capacity $\frac32Nk_B$ does the electron gas have at 300 K? Free electrons, $m=m_e$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li>$k_F=(3\pi^2n)^{1/3}=9.22\times10^9$ m⁻¹, $\lambda_F=2\pi/k_F=0.68$ nm.</li>
+        <li>$\varepsilon_F=\hbar^2k_F^2/2m_e=5.19\times10^{-19}$ J $=3.24$ eV; $T_F=3.76\times10^4$ K; $v_F=\hbar k_F/m_e=1.07\times10^6$ m/s.</li>
+        <li>$U_0/N=\frac35\varepsilon_F=1.94$ eV; $p=\frac25n\varepsilon_F=5.5$ GPa.</li>
+        <li>$C_{el}/(\frac32Nk_B)=\frac{\pi^2}{2}\frac{T}{T_F}\big/\frac32=\frac{\pi^2}{3}\frac{T}{T_F}=0.026$ at 300 K.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $k_F=9.2\times10^9$ m⁻¹, $\varepsilon_F=3.2$ eV, $T_F=3.8\times10^4$ K, $v_F=1.1\times10^6$ m/s; $U_0/N=1.9$ eV, $p=5.5$ GPa; $C_{el}$ is 2.6 % of classical.</div>
+      <div class="check"><b>Sanity check:</b> Kittel ch. 6 Table 1 lists Na at $k_F=0.92\times10^8$ cm⁻¹, $v_F=1.07\times10^8$ cm/s, $\varepsilon_F=3.23$ eV, $T_F=3.75\times10^4$ K (node recomputation agrees to rounding).</div>
+    </details>
+  </article>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 6 (eqs. 17–21, 29–38; Tables 1 and 2; problems 2, 3, 5) and ch. 5 (Debye T³ law, Table 1).</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 39–42.</li>
+    <li>Problem sheets 8 and 9 (problem 1), Fall 2026.</li>
+    <li>Tutoring boards: "Conduction &amp; Free Electron Gas"; "Conductivity Wednesday".</li>
+    <li>Condensed Matter Physics exam 2022, as recovered by alumni, Q2.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, sAx, layout, CFG, vline, hline, lin, setRead, setPill, rgba, K, PI } = CM;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const fx = (x, d = 3) => { const s = x.toExponential(d - 1).split('e'); return s[0] + '×10' + (+s[1]).toString().replace('-', '⁻').replace(/\d/g, c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]); };
+
+  /* ---------- Model 1: k-point filling ---------- */
+  // Sorted integer k-point lists. Periodic: n_i in [-10,10] covers N=2000 without spin (r≈7.8). Hard walls: n_i in [1,18] (octant r≈15.6).
+  const LIST = {};
+  function kList(bc) {
+    if (LIST[bc]) return LIST[bc];
+    const a = [], [lo, hi] = bc === 'pbc' ? [-10, 10] : [1, 18];
+    for (let x = lo; x <= hi; x++) for (let y = lo; y <= hi; y++) for (let z = lo; z <= hi; z++) a.push([x, y, z, x * x + y * y + z * z]);
+    return (LIST[bc] = a.sort((p, q) => p[3] - q[3]));
+  }
+  const NCU = 8.45e28; // Cu electron density, Kittel ch. 6 Table 1
+  function renderFS() {
+    const bc = radio('fs-bc'), N = +$('fs-n').value, L = +$('fs-l').value * 1e-9, g = $('fs-spin').checked ? 1 : 2;
+    const V = L ** 3, n = N / V, P = Math.ceil(N / g), pts = kList(bc).slice(0, P);
+    const unit = (bc === 'pbc' ? 2 : 1) * PI / L;                  // k-grid spacing, 1/m
+    const Ek = n2 => K.hbar ** 2 * n2 * unit * unit / (2 * K.me) / K.e;   // eV
+    const kF = Math.cbrt(3 * PI * PI * n), eF = K.hbar ** 2 * kF * kF / (2 * K.me) / K.e;
+    const kTop = Math.sqrt(pts[pts.length - 1][3]) * unit, eTop = Ek(pts[pts.length - 1][3]);
+    const s = unit * 1e-9, R = kF * 1e-9;                            // to nm⁻¹
+    const pt = { type: 'scatter3d', mode: 'markers', x: pts.map(p => p[0] * s), y: pts.map(p => p[1] * s), z: pts.map(p => p[2] * s),
+      marker: { size: N > 800 ? 2.2 : 3, color: C.occ, opacity: 0.85 }, hoverinfo: 'skip' };
+    const th = bc === 'pbc' ? lin(0, 2 * PI, 97) : lin(0, PI / 2, 33), z0 = th.map(() => 0), c = th.map(Math.cos), sn = th.map(Math.sin);
+    const circ = (x, y, z) => ({ type: 'scatter3d', mode: 'lines', x, y, z, line: { color: C.ef, width: 4 }, hoverinfo: 'skip' });
+    const cR = c.map(v => v * R), sR = sn.map(v => v * R);
+    const lim = bc === 'pbc' ? [-1.15 * R, 1.15 * R] : [0, 1.15 * R];
+    Plotly.react('fs-p3', [pt, circ(cR, sR, z0), circ(cR, z0, sR), circ(z0, cR, sR)], layout({
+      margin: { l: 0, r: 0, t: 0, b: 0 },
+      scene: { xaxis: sAx('k_x (nm⁻¹)', { range: lim }), yaxis: sAx('k_y (nm⁻¹)', { range: lim }), zaxis: sAx('k_z (nm⁻¹)', { range: lim }), aspectmode: 'cube',
+        camera: { eye: { x: 1.5, y: 1.3, z: 0.9 } } } }), CFG);
+    // staircase: electrons with energy ≤ ε
+    const xs = [0], ys = [0];
+    pts.forEach((p, i) => { const E = Ek(p[3]); xs.push(E, E); ys.push(ys[ys.length - 1], Math.min(g * (i + 1), N)); });
+    const emax = 1.35 * Math.max(eF, eTop), es = lin(0, emax, 120);
+    const cont = es.map(E => V / (3 * PI * PI) * Math.pow(2 * K.me * E * K.e / K.hbar ** 2, 1.5));
+    Plotly.react('fs-p2', [
+      { x: es, y: cont, mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: 'ε = %{x:.2f} eV<br>N = %{y:.0f}<extra>continuum</extra>' },
+      { x: xs, y: ys, mode: 'lines', line: { color: C.occ, width: 2 }, hovertemplate: 'ε = %{x:.2f} eV<br>N = %{y:.0f}<extra>counted</extra>' }],
+      layout({ shapes: [vline(eF, C.ef)], xaxis: ax('Energy ε (eV)', { range: [0, emax] }), yaxis: ax('Electrons with energy ≤ ε', { range: [0, 1.6 * N], rangemode: 'tozero' }) }), CFG);
+    const r = n / NCU;
+    setPill('fs-pill', Math.abs(r - 1) < 0.03 ? ['metal', 'Electron density of Cu'] : ['atom', 'n = ' + r.toFixed(2) + ' × n(Cu)']);
+    setRead('fs-read', [
+      ['Density n', fx(n) + ' m⁻³'],
+      ['Volume per k-point', (bc === 'pbc' ? '(2π/L)³ = ' : '(π/L)³ = ') + (s ** 3).toFixed(3) + ' nm⁻³'],
+      ['k_F formula (3π²n)^(1/3)', R.toFixed(2) + ' nm⁻¹'],
+      ['Largest filled |k|', (kTop * 1e-9).toFixed(2) + ' nm⁻¹'],
+      ['ε_F formula', eF.toFixed(2) + ' eV'],
+      ['Highest filled level', eTop.toFixed(2) + ' eV'],
+      ['Lowest level', Ek(pts[0][3]).toFixed(3) + ' eV'],
+      ['k-points used', P + (g === 1 ? ' (1 e⁻ each)' : ' (2 e⁻ each)')]]);
+  }
+  onChange('input[name="fs-bc"], #fs-spin', renderFS);
+
+  /* ---------- Model 2: Fermi–Dirac, reduced units x = ε/ε_F, t = T/T_F, D = 1.5√x per electron ---------- */
+  const EF = { Cu: 7.00, Na: 3.23, Al: 11.63, He: 4.24e-4 };          // eV; metals Kittel ch. 6 Table 1, ³He from sheet 8.1 (node)
+  const NAME = { Cu: 'Cu', Na: 'Na', Al: 'Al', He: '³He' };
+  const simp = (g, a, b, n = 400) => { const h = (b - a) / n; let s = g(a) + g(b); for (let i = 1; i < n; i++) s += (i % 2 ? 4 : 2) * g(a + i * h); return s * h / 3; };
+  const Ff = (x, mu, t) => 1 / (Math.exp((x - mu) / t) + 1);
+  // ∫0^∞ g(x) dx over the window where f varies; x = y² removes the √x kink at 0. Below the window f = 1 (handled analytically by callers).
+  const win = (g, mu, t) => { const a = Math.max(0, mu - 40 * t), b = Math.max(mu, 0) + 40 * t; return simp(y => g(y * y) * 2 * y, Math.sqrt(a), Math.sqrt(b)); };
+  const Nof = (mu, t) => Math.max(0, mu - 40 * t) ** 1.5 + win(x => 1.5 * Math.sqrt(x) * Ff(x, mu, t), mu, t);
+  function mu3(t) { let lo = -60 * t - 5, hi = 1.5; for (let i = 0; i < 70; i++) { const m = (lo + hi) / 2; Nof(m, t) > 1 ? hi = m : lo = m; } return (lo + hi) / 2; }
+  const Uof = (mu, t) => 0.6 * Math.max(0, mu - 40 * t) ** 2.5 + win(x => 1.5 * x ** 1.5 * Ff(x, mu, t), mu, t);
+  // C/Nk_B = ∫ D (x−μ) ∂f/∂t, ∂f/∂t = f(1−f)[(x−μ)/t² + μ'/t], μ' from ∫ D ∂f/∂t = 0. Checked against a finite difference of U (node, scratch check.js).
+  function cel(mu, t) {
+    const w = x => { const f = Ff(x, mu, t); return 1.5 * Math.sqrt(x) * f * (1 - f); };
+    const I0 = win(w, mu, t), I1 = win(x => w(x) * (x - mu), mu, t), I2 = win(x => w(x) * (x - mu) ** 2, mu, t);
+    return (I2 - I1 * I1 / I0) / (t * t);   // μ' = −I1/(t·I0) substituted
+  }
+  const mu2 = t => 1 + t * Math.log1p(-Math.exp(-1 / t));            // sheet 8.2 closed form, μ/ε_F
+  const TG = lin(0.0025, 1, 160), MU3 = TG.map(mu3), CG = TG.map((t, i) => cel(MU3[i], t));
+  const XS = lin(0, 2, 401);
+  function renderFD() {
+    const mat = radio('fd-mat'), t = Math.pow(10, +$('fd-t').value), eF = EF[mat], TF = eF / K.kBeV, T = t * TF;
+    const out = document.querySelector('output[for="fd-t"]'); out.textContent = 'T/T_F = ' + (t < 0.01 ? t.toFixed(4) : t.toFixed(3));
+    const mu = mu3(t), C3 = cel(mu, t), U = Uof(mu, t);
+    const f = XS.map(x => Ff(x, mu, t)), Dx = XS.map(x => 1.5 * Math.sqrt(x));
+    const band = { type: 'rect', xref: 'x', yref: 'paper', x0: mu - 2 * t, x1: mu + 2 * t, y0: 0, y1: 1, fillcolor: rgba(C.ef, 0.12), line: { width: 0 } };
+    Plotly.react('fd-p1', [
+      { x: [0, 1, 1, 2], y: [1, 1, 0, 0], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: XS, y: f, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'ε/ε_F = %{x:.3f}<br>f = %{y:.3f}<extra></extra>' }],
+      layout({ shapes: [band, vline(mu, C.ef)], xaxis: ax('ε / ε_F', { range: [0, 2] }), yaxis: ax('Occupation f', { range: [-0.05, 1.08] }) }), CFG);
+    Plotly.react('fd-p2', [
+      { x: XS, y: XS.map((x, i) => x <= 1 ? Dx[i] : 0), mode: 'lines', line: { color: C.muted, width: 1.2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: XS, y: XS.map((x, i) => Dx[i] * f[i]), mode: 'lines', fill: 'tozeroy', fillcolor: rgba(C.occ, 0.35), line: { color: C.occ, width: 2 }, hovertemplate: 'D·f = %{y:.3f}<extra></extra>' },
+      { x: XS, y: Dx, mode: 'lines', line: { color: C.emp, width: 2 }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(mu, C.ef)], xaxis: ax('ε / ε_F', { range: [0, 2] }), yaxis: ax('States per energy (N/ε_F)', { range: [0, 2.2] }) }), CFG);
+    Plotly.react('fd-p3', [
+      { x: [0, 1], y: [0, PI * PI / 2], mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: TG, y: CG, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'T/T_F = %{x:.3f}<br>C/Nk_B = %{y:.3f}<extra></extra>' },
+      { x: [t], y: [C3], mode: 'markers', marker: { color: C.occ, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [hline(1.5, C.muted)], xaxis: ax('T / T_F', { range: [0, 1] }), yaxis: ax('C / (N k_B)', { range: [0, 1.7] }) }), CFG);
+    Plotly.react('fd-p4', [
+      { x: TG, y: TG.map(s => 1 - PI * PI / 12 * s * s), mode: 'lines', line: { color: C.ef, width: 1.8, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: TG, y: TG.map(mu2), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: '2D: μ/ε_F = %{y:.3f}<extra></extra>' },
+      { x: TG, y: MU3, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: '3D: μ/ε_F = %{y:.3f}<extra></extra>' },
+      { x: [t, t], y: [mu, mu2(t)], mode: 'markers', marker: { color: [C.occ, C.emp], size: 9, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ xaxis: ax('T / T_F', { range: [0, 1] }), yaxis: ax('μ / ε_F', { range: [-0.1, 1.08] }) }), CFG);
+    setPill('fd-pill', t < 0.05 ? ['metal', 'Degenerate: Sommerfeld holds'] : t < 0.4 ? ['semi', 'Partly degenerate'] : ['ins', 'Approaching a classical gas']);
+    const Tstr = T < 10 ? T.toFixed(2) + ' K' : T < 1e4 ? T.toFixed(0) + ' K' : fx(T) + ' K';
+    setRead('fd-read', [
+      [NAME[mat] + ' ε_F, T_F', (eF < 0.01 ? fx(eF) : eF.toFixed(2)) + ' eV, ' + (TF < 100 ? TF.toFixed(2) : fx(TF)) + ' K'],
+      ['Temperature T', Tstr],
+      ['k_BT / ε_F', t.toPrecision(2)],
+      ['μ / ε_F (exact, 3D)', mu.toFixed(4)],
+      ['μ / ε_F (Sommerfeld)', (1 - PI * PI / 12 * t * t).toFixed(4)],
+      ['(U − U₀)/N, exact', ((U - 0.6) * eF < 0.01 ? fx((U - 0.6) * eF) : ((U - 0.6) * eF).toFixed(3)) + ' eV'],
+      ['C / Nk_B exact | (π²/2)T/T_F', C3.toFixed(4) + ' | ' + (PI * PI / 2 * t).toFixed(4)],
+      ['C / (3/2 Nk_B classical)', (100 * C3 / 1.5).toFixed(2) + ' %']]);
+  }
+  onChange('input[name="fd-mat"]', renderFD);
+
+  /* ---------- Model 3: C = γT + AT³ per mole of atoms ---------- */
+  // T_F: Kittel ch. 6 Table 1; Θ_D: Kittel ch. 5 Table 1; γ_obs: Kittel ch. 6 Table 2 (mJ/mol K²). Free γ recomputed = 0.505, 1.094, 0.912 (node), matching Table 2.
+  const MET = { Cu: { Z: 1, TF: 8.12e4, th: 343, gobs: 0.695 }, Na: { Z: 1, TF: 3.75e4, th: 158, gobs: 1.38 }, Al: { Z: 3, TF: 13.49e4, th: 428, gobs: 1.35 } };
+  const Rg = K.kB * K.NA;
+  let lastMat = null;
+  function renderCO() {
+    const mat = radio('co-mat'), m = MET[mat], gsel = radio('co-g');
+    if (mat !== lastMat) { lastMat = mat; const el = $('co-th'); el.value = m.th; document.querySelector('output[for="co-th"]').textContent = CM.fmtSlider(el); }
+    const th = +$('co-th').value;
+    const gFree = PI * PI / 2 * m.Z * Rg / m.TF * 1e3, gZ1 = PI * PI / 2 * Rg / m.TF * 1e3;    // mJ/mol K²
+    const g = gsel === 'free' ? gFree : gsel === 'obs' ? m.gobs : gZ1;
+    const A = 12 * PI ** 4 / 5 * Rg / th ** 3 * 1e3;                                              // mJ/mol K⁴
+    const Tx = Math.sqrt(g / A);
+    const Ts = lin(Math.log10(0.3), Math.log10(30), 120).map(v => 10 ** v);
+    Plotly.react('co-p1', [
+      { x: Ts, y: Ts.map(T => g * T), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'T = %{x:.2f} K<br>γT = %{y:.3g}<extra></extra>' },
+      { x: Ts, y: Ts.map(T => A * T ** 3), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'T = %{x:.2f} K<br>AT³ = %{y:.3g}<extra></extra>' },
+      { x: Ts, y: Ts.map(T => g * T + A * T ** 3), mode: 'lines', line: { color: C.muted, width: 1.5 }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(Tx, C.ef)], xaxis: ax('Temperature T (K)', { type: 'log' }), yaxis: ax('C (mJ mol⁻¹ K⁻¹)', { type: 'log', exponentformat: 'power' }) }), CFG);
+    const T2 = lin(0, (2.2 * Tx) ** 2, 50);
+    Plotly.react('co-p2', [
+      { x: T2, y: T2.map(s => g + A * s), mode: 'lines', line: { color: C.fg, width: 2 }, hovertemplate: 'T² = %{x:.1f} K²<br>C/T = %{y:.3f}<extra></extra>' },
+      { x: [Tx * Tx], y: [2 * g], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'T× = ' + Tx.toFixed(2) + ' K<extra></extra>' }],
+      layout({ shapes: [{ type: 'line', xref: 'paper', x0: 0, x1: 1, y0: g, y1: g, line: { color: C.occ, width: 2, dash: 'dash' } }],
+        xaxis: ax('T² (K²)', { rangemode: 'tozero' }), yaxis: ax('C/T (mJ mol⁻¹ K⁻²)', { rangemode: 'tozero' }) }), CFG);
+    const ok = Tx < th / 50;
+    setPill('co-pill', gsel === 'z1' && m.Z > 1 ? ['ins', 'Valence missing: γ too small by ' + m.Z + '×'] : ok ? ['metal', 'T× below Θ_D/50: T³ law valid'] : ['semi', 'T× above Θ_D/50: T³ law marginal']);
+    setRead('co-read', [
+      ['Valence Z, T_F', m.Z + ', ' + fx(m.TF) + ' K'],
+      ['γ (this choice)', g.toFixed(3) + ' mJ mol⁻¹ K⁻²'],
+      ['A = (12π⁴/5) R/Θ_D³', A.toPrecision(3) + ' mJ mol⁻¹ K⁻⁴'],
+      ['Cross-over T× = √(γ/A)', Tx.toFixed(2) + ' K'],
+      ['T× free | measured | Z = 1', [gFree, m.gobs, gZ1].map(v => Math.sqrt(v / A).toFixed(2)).join(' | ') + ' K'],
+      ['Θ_D / 50', (th / 50).toFixed(1) + ' K']]);
+  }
+  onChange('input[name="co-mat"], input[name="co-g"]', renderCO);
+
+  CM.wire({ fs: renderFS, fd: renderFD, co: renderCO });
+});
+</script>
+</body>
+</html>

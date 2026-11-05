@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crystal structure and symmetry · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+<style>
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets .btn { padding: 4px 9px; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 01</span><span>Syllabus §1.1</span><span>Kittel ch. 1</span><span>Notes pp. 2–7, 16</span><span>Sheet 1</span></div>
+  <h1>Crystal structure and symmetry</h1>
+  <p class="lead">A crystal is a lattice of points with the same group of atoms (the basis) attached to every point. Everything later in the course is built on this: the reciprocal lattice, Brillouin zones, phonons and Bloch electrons all start from the primitive vectors.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>This topic answers three questions. Where are the atoms? Answer with a lattice, its primitive vectors and a basis. Which operations leave the lattice unchanged? Rotations, reflections and inversion, and only 1-, 2-, 3-, 4- and 6-fold rotation axes are possible. That restriction gives exactly 14 Bravais lattices. And how densely can atoms be packed? You need the coordination number and the packing fraction.</p>
+  <p>Key results to leave with: the fcc and bcc primitive vectors and their cell volume ($a^3/4$ and $a^3/2$), the coordination numbers (sc 6, bcc 8, fcc and hcp 12, diamond 4), and the packing fractions (0.524, 0.680, 0.740, 0.740, 0.340). The 2022 exam asked for all of it for fcc (Q1).</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 1 (Crystal structure: lattice and basis, primitive cell, lattice types, index system, simple crystal structures; pp. 3–19), and the lecture notes pp. 2–7 and 16.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>1.1.1 Lattice, basis, crystal structure</h3>
+      <p>A <b>lattice</b> is an infinite set of mathematical points that looks the same from every point. Each point is an integer combination of three linearly independent <b>primitive translation vectors</b>:</p>
+      $$\mathbf R = n_1\mathbf a_1 + n_2\mathbf a_2 + n_3\mathbf a_3,\qquad n_i\in\mathbb Z .$$
+      <p>A <b>basis</b> is the group of atoms attached identically to every lattice point. Atom $j$ sits at $\mathbf r_j = x_j\mathbf a_1+y_j\mathbf a_2+z_j\mathbf a_3$ with $0\le x_j,y_j,z_j\lt 1$. Lattice + basis = <b>crystal structure</b>. Think of wallpaper: the lattice says <i>where</i> the motif goes and the basis says <i>what</i> it is.</p>
+      <div class="assume"><b>Notation:</b> the lecture notes write the lattice vector as $\mathbf R$, Kittel as $\mathbf T$. This page uses $\mathbf R$ and keeps $\mathbf T$ for the translation part of a symmetry operation, as the notes do.</div>
+    </article>
+    <article class="card">
+      <h3>1.1.1 Primitive cell and Wigner–Seitz cell</h3>
+      <p>A <b>primitive cell</b> fills all space without gaps or overlaps when repeated by the lattice translations, and contains exactly <b>one</b> lattice point. The parallelepiped spanned by $\mathbf a_1,\mathbf a_2,\mathbf a_3$ is one choice, with volume</p>
+      $$V_c = |\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)| .$$
+      <p>The choice of primitive vectors is <b>not unique</b>, but every primitive cell has the same volume. A <b>conventional cell</b> (e.g. the cube of fcc) is larger and shows the symmetry more clearly. To count points in it, a corner point counts ⅛, an edge point ¼, a face point ½ and an interior point 1.</p>
+      <p>The <b>Wigner–Seitz cell</b> is the set of points of space closer to one lattice point than to any other. Construct it by drawing the perpendicular bisector planes to the lines joining that point to its neighbours and keeping the smallest enclosed volume. It is primitive and has the full symmetry of the lattice.</p>
+    </article>
+    <article class="card">
+      <h3>1.1.2 Symmetry operations</h3>
+      <p>A symmetry operation maps the lattice onto itself: $\mathbf R' = M\mathbf R + \mathbf T$, with $M$ a 3×3 matrix and $\mathbf T$ a lattice translation. $M$ must keep lengths, so it is orthogonal ($M^TM=\mathbb 1$, $\det M=\pm1$):</p>
+      <ul>
+        <li><b>rotation</b> $C_n$ by $2\pi/n$ ($\det M=+1$);</li>
+        <li><b>inversion</b> $M=-\mathbb 1$, $\mathbf r\to-\mathbf r$;</li>
+        <li><b>reflection</b> in a plane with unit normal $\hat{\mathbf n}$: $M=\mathbb 1-2\hat{\mathbf n}\hat{\mathbf n}^T$. This equals inversion after a 180° rotation about $\hat{\mathbf n}$, as stated in the notes (p. 4).</li>
+      </ul>
+      <p>Practical rule: <b>the columns of $M$ are the images of $\hat{\mathbf x},\hat{\mathbf y},\hat{\mathbf z}$</b>. Rotation about a unit axis $\hat{\mathbf n}$ by $\varphi$ (Rodrigues):</p>
+      $$M = \cos\varphi\,\mathbb 1 + \sin\varphi\,[\hat{\mathbf n}]_\times + (1-\cos\varphi)\,\hat{\mathbf n}\hat{\mathbf n}^T .$$
+      <p>Here $[\hat{\mathbf n}]_\times\mathbf v = \hat{\mathbf n}\times\mathbf v$. Try it in Model 2.</p>
+    </article>
+    <article class="card">
+      <h3>1.1.2 Why only 1, 2, 3, 4 and 6-fold axes</h3>
+      <p>In the basis $\mathbf a_1,\mathbf a_2,\mathbf a_3$ a symmetry maps lattice vectors to lattice vectors, so its matrix has <b>integer entries</b> and an integer trace. The trace does not depend on the basis. In a Cartesian frame with $z$ along the axis, a rotation by $\varphi$ has trace $1+2\cos\varphi$. Hence</p>
+      $$2\cos\varphi\in\mathbb Z \;\Rightarrow\; \varphi \in \{0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ\}\ (\text{and their negatives}).$$
+      <p>That is $n = 1, 6, 4, 3, 2$. A 5-fold axis ($2\cos72^\circ=0.618$) is impossible: pentagons cannot tile a plane.</p>
+      <div class="assume"><b>Notes slip:</b> the notes' table of basic rotations (p. 4) labels the 6-fold rotation "C₅"; it is $C_6$ (60°). The notes also list 240°, 270°, 300°, which are the same operations as −120°, −90°, −60°.</div>
+    </article>
+    <article class="card">
+      <h3>1.1.2 The 14 Bravais lattices</h3>
+      <p>In 2D there are 5 lattice types: oblique, square, hexagonal, rectangular, centred rectangular. In 3D, combining the allowed point symmetries with centring gives <b>14</b>, grouped into <b>7 crystal systems</b> by the shape of the conventional cell (Kittel Table 1). P = primitive, I = body-centred, F = face-centred, C = base-centred, R = rhombohedral.</p>
+      <div class="dict"><table>
+        <thead><tr><th>System</th><th>Lattices</th><th>Conventional cell</th></tr></thead>
+        <tbody>
+          <tr><td>Triclinic</td><td>P (1)</td><td>a₁≠a₂≠a₃, α≠β≠γ</td></tr>
+          <tr><td>Monoclinic</td><td>P, C (2)</td><td>a₁≠a₂≠a₃, α=γ=90°≠β</td></tr>
+          <tr><td>Orthorhombic</td><td>P, C, I, F (4)</td><td>a₁≠a₂≠a₃, all 90°</td></tr>
+          <tr><td>Tetragonal</td><td>P, I (2)</td><td>a₁=a₂≠a₃, all 90°</td></tr>
+          <tr><td>Cubic</td><td>P, I, F (3)</td><td>a₁=a₂=a₃, all 90°</td></tr>
+          <tr><td>Trigonal</td><td>R (1)</td><td>a₁=a₂=a₃, α=β=γ&lt;120°, ≠90°</td></tr>
+          <tr><td>Hexagonal</td><td>P (1)</td><td>a₁=a₂≠a₃, α=β=90°, γ=120°</td></tr>
+        </tbody>
+      </table></div>
+      <p>1+2+4+2+3+1+1 = 14. Missing combinations reduce to listed ones. Example: "base-centred cubic" is just simple tetragonal (sheet 1.1a, Model 1).</p>
+    </article>
+    <article class="card">
+      <h3>1.1.2 The three cubic lattices</h3>
+      <p>Primitive vectors in Kittel's choice ($a$ = cube edge):</p>
+      $$\text{sc: } a\hat{\mathbf x},\ a\hat{\mathbf y},\ a\hat{\mathbf z}$$
+      $$\text{bcc: } \tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}-\hat{\mathbf z}),\ \tfrac a2(-\hat{\mathbf x}+\hat{\mathbf y}+\hat{\mathbf z}),\ \tfrac a2(\hat{\mathbf x}-\hat{\mathbf y}+\hat{\mathbf z})$$
+      $$\text{fcc: } \tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}),\ \tfrac a2(\hat{\mathbf y}+\hat{\mathbf z}),\ \tfrac a2(\hat{\mathbf z}+\hat{\mathbf x})$$
+      <div class="dict"><table>
+        <thead><tr><th></th><th>sc</th><th>bcc</th><th>fcc</th></tr></thead>
+        <tbody>
+          <tr><td>Points per cube</td><td>1</td><td>2</td><td>4</td></tr>
+          <tr><td>Primitive V_c</td><td>a³</td><td>a³/2</td><td>a³/4</td></tr>
+          <tr><td>Angle a₁, a₂</td><td>90°</td><td>109.47°</td><td>60°</td></tr>
+          <tr><td>Nearest neighbours</td><td>6 at a</td><td>8 at 0.866a</td><td>12 at 0.707a</td></tr>
+          <tr><td>Second neighbours</td><td>12 at 1.414a</td><td>6 at a</td><td>6 at a</td></tr>
+          <tr><td>Packing fraction</td><td>π/6 = 0.524</td><td>π√3/8 = 0.680</td><td>π√2/6 = 0.740</td></tr>
+        </tbody>
+      </table></div>
+      <p>Values as in Kittel Table 2; recomputed by counting lattice points in shells (node script, also run live in Model 1).</p>
+    </article>
+    <article class="card">
+      <h3>Index system: (hkl), {hkl}, [uvw], ⟨uvw⟩</h3>
+      <p>This answers the open "what does this mean exactly?" on notes p. 9.</p>
+      <ul>
+        <li><b>(hkl)</b>: a plane, or the set of parallel planes. Take the intercepts with the axes in units of $\mathbf a_1,\mathbf a_2,\mathbf a_3$, take reciprocals, and scale to the smallest integers. Equivalently, the plane passes through $\mathbf a_1/h$, $\mathbf a_2/k$, $\mathbf a_3/l$. An intercept at ∞ gives 0. A negative index is written with a bar: $(\bar 1 00)$.</li>
+        <li>Example: intercepts 1, 2, ∞ → reciprocals 1, ½, 0 → <b>(210)</b>.</li>
+        <li><b>{hkl}</b>: all planes equivalent by symmetry. {100} = the six cube faces.</li>
+        <li><b>[uvw]</b>: a direction, the smallest integers along $u\mathbf a_1+v\mathbf a_2+w\mathbf a_3$. <b>⟨uvw⟩</b>: the family of equivalent directions, e.g. ⟨111⟩ = the body diagonals.</li>
+        <li>In <b>cubic</b> crystals only, [hkl] ⟂ (hkl).</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>1.1.5 Simple crystal structures</h3>
+      <p>Each structure is a Bravais lattice plus a basis. Coordinates are in units of the cube edge, or of a₁, a₂, a₃ for hcp. Example lattice constants are from Kittel ch. 1.</p>
+      <div class="dict"><table>
+        <thead><tr><th>Structure</th><th>Lattice + basis</th><th>CN</th><th>Examples (a)</th></tr></thead>
+        <tbody>
+          <tr><td>NaCl</td><td>fcc; Cl⁻ 000, Na⁺ ½½½</td><td>6</td><td>NaCl 5.63 Å, MgO 4.20, KCl 6.29</td></tr>
+          <tr><td>CsCl</td><td>sc; Cs⁺ 000, Cl⁻ ½½½</td><td>8</td><td>CsCl 4.11 Å, β-CuZn 2.94</td></tr>
+          <tr><td>hcp</td><td>simple hexagonal; 000, ⅔⅓½</td><td>12</td><td>Mg c/a 1.623, Zn 1.861 (ideal 1.633)</td></tr>
+          <tr><td>Diamond</td><td>fcc; 000, ¼¼¼ (same atom)</td><td>4</td><td>C 3.567 Å, Si 5.430, Ge 5.658</td></tr>
+          <tr><td>Zinc blende</td><td>fcc; Zn 000, S ¼¼¼</td><td>4</td><td>ZnS 5.41 Å, GaAs 5.65</td></tr>
+        </tbody>
+      </table></div>
+      <p>NaCl is two fcc lattices shifted by half the body diagonal. Diamond is two fcc lattices shifted by a quarter of it. hcp and fcc are both stacks of close-packed triangular layers: hcp stacks ABAB…, fcc stacks ABCABC… along [111]. <b>Diamond and hcp are not Bravais lattices</b>: each needs a 2-atom basis.</p>
+      <div class="assume"><b>hcp convention:</b> this page uses Kittel's $\mathbf a_1=(a,0,0)$, $\mathbf a_2=(-\tfrac a2,\tfrac{\sqrt3}2a,0)$ (120°, also notes p. 6), so the second atom is at (⅔, ⅓, ½). The notes' worked example (p. 16) uses $\mathbf a_2=a(\tfrac12,\tfrac{\sqrt3}2,0)$ (60°), which gives (⅓, ⅓, ½). Both are the same point $(\tfrac a2,\tfrac{a}{2\sqrt3},\tfrac c2)$; state your convention.</div>
+    </article>
+    <article class="card">
+      <h3>1.1.3 Direct imaging of atomic structure</h3>
+      <p>Atoms can be imaged directly. <b>TEM</b> needs an electron wavelength $\lambda = h/p$ smaller than the atomic spacing. <b>STM</b> scans a sharp tip over the surface; the tunnelling current falls as $I\propto e^{-2\kappa d}$ with $\kappa=\sqrt{2m\phi}/\hbar$, so a change in height of a fraction of an ångström changes $I$ strongly. That sensitivity gives atomic resolution.</p>
+      <p>The notes treat this with diffraction ("1.2"), and sheet 2.3 has the numbers, so it is worked out on the <a href="02-reciprocal-lattice.html">reciprocal lattice page</a>.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="model1">
+    <div class="rail">
+      <span class="eyebrow">1.1.1 · Primitive lattice · Model 1</span>
+      <h3>Lattice and primitive vectors</h3>
+      <p>The points of a cubic lattice around the origin (green), with Kittel's three primitive vectors and the primitive cell they span. Pick a neighbour shell to highlight it and count it. Drag the plot to rotate it.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Lattice</legend><div class="opts">
+          <label><input type="radio" name="m1-lat" value="sc"><span>sc</span></label>
+          <label><input type="radio" name="m1-lat" value="bcc"><span>bcc</span></label>
+          <label><input type="radio" name="m1-lat" value="fcc" checked><span>fcc</span></label>
+          <label><input type="radio" name="m1-lat" value="bct"><span>Base-centred</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m1-shell"><span>Neighbour shell highlighted</span> <output for="m1-shell"></output></label><input type="range" id="m1-shell" min="0" max="3" step="1" value="1" data-fmt="0"></div>
+        <label class="chk" for="m1-cell"><input type="checkbox" id="m1-cell" checked> Primitive cell</label>
+        <label class="chk" for="m1-cube"><input type="checkbox" id="m1-cube" checked> Conventional cube</label>
+      </div>
+      <div class="state"><span class="pill atom" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>fcc, shell 1: count the 12 copper points. They sit at the face centres, along the ⟨110⟩ face diagonals (exam Q1c).</li>
+        <li>Switch between sc, bcc and fcc and watch the primitive cell shrink from a³ to a³/2 to a³/4, while the cube stays the same.</li>
+        <li>Base-centred (sheet 1.1a): a₁ and a₂ are perpendicular and equally long, and a₃ is perpendicular to both. That makes it simple tetragonal with a′ = a/√2.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot tall" id="m1-p"></div>
+        <figcaption><b>How to read:</b> axes are Cartesian x, y, z in units of the cube edge a. Blue dots are lattice points, the green dot is the origin, copper dots are the chosen neighbour shell of the origin. Green arrows are the primitive vectors a₁, a₂, a₃; the thin green box is the primitive cell they span; the grey box is the conventional cube from 0 to a. Look for: the primitive cell holds one point, the cube holds 1, 2 or 4.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--emp)"></i>lattice point</span><span><i class="sw dot" style="background:var(--occ)"></i>neighbour shell</span><span><i class="sw" style="background:var(--ef)"></i>primitive vectors / cell</span><span><i class="sw" style="background:var(--muted)"></i>conventional cube</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model3">
+    <div class="rail">
+      <span class="eyebrow">1.1.2 · Lattice classification by symmetry · Model 2</span>
+      <h3>Symmetry matrices</h3>
+      <p>Choose an axis and an angle, and optionally follow the rotation by an inversion. The arrows are the images of x̂, ŷ, ẑ, which are the columns of M. The bold box is the image of the cube; if it lands exactly on the grey cube, the operation is a symmetry of the cube.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Rotation axis</legend><div class="opts">
+          <label><input type="radio" name="m3-ax" value="x"><span>[100]</span></label>
+          <label><input type="radio" name="m3-ax" value="y"><span>[010]</span></label>
+          <label><input type="radio" name="m3-ax" value="z"><span>[001]</span></label>
+          <label><input type="radio" name="m3-ax" value="d111" checked><span>[111]</span></label>
+          <label><input type="radio" name="m3-ax" value="d110"><span>[110]</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m3-phi"><span>Rotation angle φ</span> <output for="m3-phi"></output></label><input type="range" id="m3-phi" min="0" max="360" step="1" value="60" data-fmt="0" data-unit="°"></div>
+        <label class="chk" for="m3-inv"><input type="checkbox" id="m3-inv"> Then invert (r → −r)</label>
+        <div><span class="note">Sheet 1.3 presets</span>
+          <div class="presets">
+            <button class="btn" type="button" data-ax="x" data-phi="180" data-inv="0">a</button>
+            <button class="btn" type="button" data-ax="z" data-phi="0" data-inv="1">b</button>
+            <button class="btn" type="button" data-ax="z" data-phi="120" data-inv="0">"b" (c)</button>
+            <button class="btn" type="button" data-ax="y" data-phi="180" data-inv="1">d</button>
+            <button class="btn" type="button" data-ax="d111" data-phi="60" data-inv="0">e</button>
+            <button class="btn" type="button" data-ax="d110" data-phi="180" data-inv="1">f</button>
+          </div></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m3-pill"></span><dl class="readout" id="m3-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Axis [111]: slide φ from 0 to 360°. The cube maps onto itself only at 120° and 240°, so [111] is a 3-fold axis. At 60° (sheet 1.3e) it is not a symmetry, even though 2cos 60° = 1 is allowed for some lattices (hexagonal).</li>
+        <li>Axis [100]: the cube returns at every 90°. Try 72°: 2cos φ = 0.618 is not an integer, so no lattice allows it.</li>
+        <li>Preset d: a 180° rotation about ŷ followed by inversion is the mirror y → −y, the reflection at the xz-plane.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot tall" id="m3-p"></div>
+        <figcaption><b>How to read:</b> axes are x, y, z (arbitrary units; the cube runs from −1 to 1). The grey cube is the original; the bold box is its image under M (it covers the grey cube when the operation is a symmetry). The faint grey arrows are x̂, ŷ, ẑ; copper, blue and green arrows are Mx̂, Mŷ, Mẑ, which are the first, second and third columns of M. The dashed grey line is the rotation axis.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Mx̂ (column 1)</span><span><i class="sw" style="background:var(--emp)"></i>Mŷ (column 2)</span><span><i class="sw" style="background:var(--ef)"></i>Mẑ (column 3)</span><span><i class="sw" style="background:var(--fg)"></i>image of cube</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model2">
+    <div class="rail">
+      <span class="eyebrow">1.1.5 · Simple crystal structures · Model 3</span>
+      <h3>Packing fraction</h3>
+      <p>Put a sphere of radius r on every atom position and grow r until neighbours touch. The left plot is a cut through the cell along a plane where spheres touch. The right plot compares packing fractions. Spheres are not allowed to overlap.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Structure</legend><div class="opts">
+          <label><input type="radio" name="m2-st" value="sc"><span>sc</span></label>
+          <label><input type="radio" name="m2-st" value="bcc"><span>bcc</span></label>
+          <label><input type="radio" name="m2-st" value="fcc" checked><span>fcc</span></label>
+          <label><input type="radio" name="m2-st" value="hcp"><span>hcp</span></label>
+          <label><input type="radio" name="m2-st" value="dia"><span>diamond</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m2-r"><span>Sphere radius r / r_max</span> <output for="m2-r"></output></label><input type="range" id="m2-r" min="0.3" max="1" step="0.01" value="1" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>fcc at r/r_max = 1: the spheres touch along the face diagonal, so 4r = √2a. They do <i>not</i> touch along the cube edge. Taking r = a/2 is the classic exam mistake.</li>
+        <li>diamond: the spheres touch along the bonds (¼ of the body diagonal), and the cut shows large empty regions. The PF is 0.34, only 46 % of fcc.</li>
+        <li>Lower r to 0.5 and see the PF fall by a factor 8: PF ∝ r³.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m2-cut"></div>
+        <figcaption><b>How to read:</b> a 2D cut through the cell, axes in units of a (lengths drawn to scale). The outline is the cell. Copper discs are atoms in the plane, blue discs are the second basis atom (diamond: other fcc sublattice; hcp: layer B, dashed, lying c/2 above this plane). The green line joins two touching neighbours; its length is 2r_max.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>atom</span><span><i class="sw dot" style="background:var(--emp)"></i>second basis atom</span><span><i class="sw" style="background:var(--ef)"></i>touching line = 2r</span></div>
+      </figure>
+      <figure><div class="plot" id="m2-bar"></div>
+        <figcaption><b>How to read:</b> bars are the maximum packing fraction of each structure (spheres touching); the copper bar is the chosen one. The green dot is the packing fraction at your current radius. The dotted line is 0.740, the densest possible packing of equal spheres.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>chosen structure</span><span><i class="sw dot" style="background:var(--ef)"></i>current PF</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-1-1">
+    <span class="tag">Sheet 1 · Problem 1 · 4 pts</span>
+    <h3>Bravais lattices</h3>
+    <p class="ask">Is it a primitive (Bravais) lattice? If yes, give three primitive translation vectors; if not, describe it as a Bravais lattice with as small a basis as possible. (a) Base-centred cubic: sc plus points in the centres of the horizontal faces. (b) Side-centred cubic: sc plus points in the centres of the vertical faces. (c) Edge-centred cubic: sc plus points at the midpoints of the lines joining nearest neighbours.</p>
+    <h4>Method</h4>
+    <p>First count points per cube (corner ⅛, face ½, edge ¼). Then test the defining property of a lattice: every point must see the same surroundings. Take the vector $\mathbf t$ from a corner to one of the extra points. If adding $\mathbf t$ to <i>every</i> point lands on a point, $\mathbf t$ is a lattice translation. If it fails for even one point, the set is not a lattice, and only the sc translations remain, with the extra points as basis atoms.</p>
+    <div class="assume"><b>Assumption:</b> "horizontal" faces are the two faces normal to z (top and bottom); "vertical" faces are the four normal to x and y. The cube edge is a.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a)</b> Points per cube: $8\cdot\tfrac18 + 2\cdot\tfrac12 = 2$, at $0$ and $\tfrac a2(1,1,0)$. Adding $\mathbf t=\tfrac a2(1,1,0)$ sends corners to top/bottom face centres and face centres to corners, e.g. $\tfrac a2(1,1,0)+\mathbf t = a(1,1,0)$. Every point lands on a point, so <b>it is a Bravais lattice</b>.</li>
+        <li>Primitive vectors: $\mathbf a_1=\tfrac a2(1,1,0)$, $\mathbf a_2=\tfrac a2(-1,1,0)$, $\mathbf a_3=a(0,0,1)$. Check: $V_c=|\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)| = a^3/2$, i.e. one point per primitive cell for two per cube.</li>
+        <li>$|\mathbf a_1|=|\mathbf a_2|=a/\sqrt2$, and all three vectors are mutually perpendicular, so this is <b>simple tetragonal</b> with $a'=a/\sqrt2$, $c=a$. That is why "base-centred cubic" is not among the 14.</li>
+        <li><b>(b)</b> Points per cube: $8\cdot\tfrac18 + 4\cdot\tfrac12 = 3$, at $0$, $\tfrac a2(1,0,1)$, $\tfrac a2(0,1,1)$. Try $\mathbf t=\tfrac a2(1,0,1)$: the point $\tfrac a2(0,1,1)$ goes to $\tfrac a2(1,1,2)$, the centre of a <i>horizontal</i> face, which is empty. The other candidates $\tfrac a2(0,1,1)$ and $\tfrac a2(1,-1,0)$ fail the same way. <b>Not a Bravais lattice.</b></li>
+        <li>Only the sc translations map the structure onto itself, so it is <b>sc ($a\hat{\mathbf x}, a\hat{\mathbf y}, a\hat{\mathbf z}$) with a 3-point basis</b>: $0$, $\tfrac a2(1,0,1)$, $\tfrac a2(0,1,1)$.</li>
+        <li><b>(c)</b> Points per cube: $8\cdot\tfrac18 + 12\cdot\tfrac14 = 4$, at $0$, $\tfrac a2\hat{\mathbf x}$, $\tfrac a2\hat{\mathbf y}$, $\tfrac a2\hat{\mathbf z}$. Try $\mathbf t=\tfrac a2\hat{\mathbf x}$: $\tfrac a2\hat{\mathbf y}$ goes to $\tfrac a2(1,1,0)$, a face centre, which is empty. The other differences fail the same way. <b>Not a Bravais lattice: sc with a 4-point basis</b> $0$, $\tfrac a2\hat{\mathbf x}$, $\tfrac a2\hat{\mathbf y}$, $\tfrac a2\hat{\mathbf z}$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> (a) Bravais, simple tetragonal: $\tfrac a2(1,1,0)$, $\tfrac a2(-1,1,0)$, $a(0,0,1)$. (b) sc + 3-atom basis. (c) sc + 4-atom basis.</div>
+      <div class="check"><b>Sanity check:</b> basis size × (points per primitive cell of the true lattice) must equal points per cube: (a) $a^3/(a^3/2)=2$ ✓, (b) 3 × 1 = 3 ✓, (c) 4 × 1 = 4 ✓. Model 1 "Base-centred" shows the 90° angles and $V_c=a^3/2$.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-1-2">
+    <span class="tag">Sheet 1 · Problem 2 · 4 pts</span>
+    <h3>Packing fraction</h3>
+    <p class="ask">Identical solid spheres sit on the points of each structure, with neighbours just touching. Give the coordination number (number of nearest neighbours) and the packing fraction (sphere volume / total volume) for (a) fcc, (b) hcp, (c) sc, (d) diamond.</p>
+    <h4>Method</h4>
+    <p>Find the nearest-neighbour distance $d$; touching means $r=d/2$. Then divide the volume of the atoms in one cell by the cell volume: $f = N_{\rm cell}\,\tfrac43\pi r^3 / V_{\rm cell}$. Any cell works (conventional or primitive) as long as $N_{\rm cell}$ and $V_{\rm cell}$ belong to the same cell.</p>
+    <div class="assume"><b>Assumption:</b> hcp has the ideal ratio $c/a=\sqrt{8/3}$, so spheres touch both within a layer and between layers (the sheet asks for a close-packed arrangement). Real hcp metals deviate (Mg 1.623, Zn 1.861; Kittel ch. 1).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a) fcc.</b> Nearest neighbours are at the face centres, $d=a/\sqrt2$; there are 12 (4 in each of the three cube planes through the origin). Spheres touch along the face diagonal: $4r=\sqrt2 a$, $r=a/(2\sqrt2)$. With 4 atoms per cube: $f = 4\cdot\tfrac43\pi\,\dfrac{a^3}{16\sqrt2}\Big/a^3 = \dfrac{\pi}{3\sqrt2}$.</li>
+        <li><b>(b) hcp.</b> 6 neighbours in the layer, 3 above, 3 below: CN = 12. Primitive cell: rhombic prism with base $\tfrac{\sqrt3}{2}a^2$, height $c$, 2 atoms, $r=a/2$. Touching between layers: the distance from an A atom to a B atom is $\sqrt{a^2/3+c^2/4}=a$, so $c=\sqrt{8/3}\,a$. Then $f=\dfrac{2\cdot\tfrac43\pi(a/2)^3}{\tfrac{\sqrt3}{2}a^2\cdot\sqrt{8/3}\,a}=\dfrac{\pi}{3\sqrt2}$.</li>
+        <li><b>(c) sc.</b> 6 neighbours at $d=a$, $r=a/2$, 1 atom per cube: $f=\tfrac43\pi\tfrac{a^3}{8}/a^3=\pi/6$.</li>
+        <li><b>(d) diamond.</b> Each atom bonds to 4 atoms of the other fcc sublattice at ¼ of the body diagonal: $d=\sqrt3a/4$, $r=\sqrt3a/8$. Atoms per cube: $8\cdot\tfrac18+6\cdot\tfrac12+4=8$. $f = 8\cdot\tfrac43\pi\,\dfrac{3\sqrt3a^3}{512}\Big/a^3 = \dfrac{\sqrt3\,\pi}{16}$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> (a) fcc: CN 12, $f=\pi/(3\sqrt2)=0.740$. (b) hcp: CN 12, $f=0.740$. (c) sc: CN 6, $f=\pi/6=0.524$. (d) diamond: CN 4, $f=\sqrt3\pi/16=0.340$.</div>
+      <div class="check"><b>Sanity check:</b> the values match Kittel Table 2 (sc, fcc), ch. 1 p. 15 (hcp 0.74) and p. 17 (diamond 0.34, "46 percent" of fcc: 0.340/0.740 = 0.459 ✓). The order fcc = hcp &gt; sc &gt; diamond agrees with the sheet's statement. fcc via the primitive cell: $\tfrac43\pi r^3/(a^3/4)$ gives the same 0.740. Coordination numbers recounted with a node script over all lattice points within 3a.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-1-3">
+    <span class="tag">Sheet 1 · Problem 3 · 6 pts</span>
+    <h3>Symmetry operations</h3>
+    <p class="ask">Give the 3×3 matrices for the x, y, z coordinate transformation of: (a) 180° rotation around the x-axis; (b) inversion; "(b)" 120° rotation around the z-axis; (d) reflection at the xz-plane; (e) 60° rotation around [111]; (f) reflection at the (110) plane (through the origin).</p>
+    <h4>Method</h4>
+    <p>Write the images of $\hat{\mathbf x},\hat{\mathbf y},\hat{\mathbf z}$ as the columns of $M$. For a rotation about an oblique axis use the Rodrigues formula (Concepts). For a reflection with unit normal $\hat{\mathbf n}$ use $M=\mathbb 1-2\hat{\mathbf n}\hat{\mathbf n}^T$. Each preset in Model 2 shows one answer.</p>
+    <div class="assume"><b>Assumptions:</b> (1) The sheet labels two parts "b)" and has no c); the 120° rotation is called (c) here. (2) Rotations are <i>active</i> and right-handed: the point $\mathbf r$ moves to $\mathbf r'=M\mathbf r$, turning anticlockwise when viewed from the tip of the axis. If "coordinate transformation" is read as rotating the axes instead (passive), each rotation matrix is replaced by its transpose. (a), (b), (d) and (f) are their own transposes, so they do not change.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a)</b> $\hat{\mathbf x}\to\hat{\mathbf x}$, $\hat{\mathbf y}\to-\hat{\mathbf y}$, $\hat{\mathbf z}\to-\hat{\mathbf z}$: $M=\begin{pmatrix}1&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;-1\end{pmatrix}$.</li>
+        <li><b>(b)</b> $\mathbf r\to-\mathbf r$: $M=-\mathbb 1=\begin{pmatrix}-1&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;-1\end{pmatrix}$.</li>
+        <li><b>(c)</b> $\cos120^\circ=-\tfrac12$, $\sin120^\circ=\tfrac{\sqrt3}2$: $M=\begin{pmatrix}-\tfrac12&amp;-\tfrac{\sqrt3}2&amp;0\\\tfrac{\sqrt3}2&amp;-\tfrac12&amp;0\\0&amp;0&amp;1\end{pmatrix}$.</li>
+        <li><b>(d)</b> The xz-plane has normal $\hat{\mathbf y}$, so only $y$ flips: $M=\begin{pmatrix}1&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;1\end{pmatrix}$. This also equals $-C_2(\hat{\mathbf y})$, the notes' "rotation then inversion".</li>
+        <li><b>(e)</b> $\hat{\mathbf n}=(1,1,1)/\sqrt3$, $\varphi=60^\circ$: $\cos\varphi\,\mathbb 1$ gives ½ on the diagonal, $(1-\cos\varphi)\hat{\mathbf n}\hat{\mathbf n}^T$ adds $\tfrac16$ to every entry, and $\sin\varphi[\hat{\mathbf n}]_\times$ adds $\pm\tfrac12$ off the diagonal:
+          $$M=\frac13\begin{pmatrix}2&amp;-1&amp;2\\2&amp;2&amp;-1\\-1&amp;2&amp;2\end{pmatrix}.$$</li>
+        <li><b>(f)</b> The (110) plane has normal $\hat{\mathbf n}=(1,1,0)/\sqrt2$, so $\hat{\mathbf n}\hat{\mathbf n}^T$ has ½ in the four top-left entries: $M=\mathbb 1-2\hat{\mathbf n}\hat{\mathbf n}^T=\begin{pmatrix}0&amp;-1&amp;0\\-1&amp;0&amp;0\\0&amp;0&amp;1\end{pmatrix}$, i.e. $(x,y,z)\to(-y,-x,z)$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> the six matrices above. Determinants: +1 for the rotations (a), (c), (e); −1 for inversion and the reflections (b), (d), (f).</div>
+      <div class="check"><b>Sanity check:</b> every $M$ is orthogonal (columns are unit length and mutually perpendicular). For (e), $M^2$ is the cyclic permutation $x\to y\to z\to x$ (the 120° rotation about [111]), and $M^3 = 2\hat{\mathbf n}\hat{\mathbf n}^T-\mathbb 1$ (the 180° rotation); both were checked numerically in node. (e) leaves $(1,1,1)$ fixed and has trace $2=1+2\cos60^\circ$ ✓. (f) equals $-C_2([110])$ ✓. Note: (e) is <i>not</i> a symmetry of a cubic lattice, because [111] is only a 3-fold axis there. It is a matrix exercise; Model 2 shows the cube failing to map onto itself.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>2022 Q1: FCC lattice</h3>
+      <p>The exam asked: (a) general properties of the fcc lattice, (b) sketch and calculate the primitive basis vectors, (c) coordination number, (d) packing fraction. This is sheet 1.2a plus the fcc primitive vectors. Model answer:</p>
+      <ol>
+        <li><b>(a)</b> A cubic Bravais lattice: points at the cube corners and face centres, 4 per conventional cube ($8\cdot\tfrac18+6\cdot\tfrac12$). It has full cubic symmetry: three 4-fold axes ⟨100⟩, four 3-fold ⟨111⟩, six 2-fold ⟨110⟩, mirror planes and inversion. It is close-packed: the (111) planes are triangular layers stacked ABCABC…, and neighbours touch along ⟨110⟩. Its Wigner–Seitz cell is a rhombic dodecahedron; its reciprocal lattice is bcc. Examples: Cu, Al, Ag, Au, Ni.</li>
+        <li><b>(b)</b> Sketch the cube with the origin at a corner and draw three arrows to the three adjacent face centres: $\mathbf a_1=\tfrac a2(1,1,0)$, $\mathbf a_2=\tfrac a2(0,1,1)$, $\mathbf a_3=\tfrac a2(1,0,1)$, each of length $a/\sqrt2$ and 60° apart. They span a rhombohedron with $V_c=\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)=a^3/4$, so one point per primitive cell (Model 1, fcc).</li>
+        <li><b>(c)</b> 12 nearest neighbours at $a/\sqrt2$, the maximum for equal spheres (6 second neighbours at $a$).</li>
+        <li><b>(d)</b> Touching along the face diagonal: $4r=\sqrt2 a$; $f=4\cdot\tfrac43\pi r^3/a^3=\pi/(3\sqrt2)\approx0.74$.</li>
+      </ol>
+      <p><b>Points lost:</b> giving the cube edges instead of primitive vectors; taking $r=a/2$; not drawing the vectors from one corner to three face centres; forgetting that the primitive cell holds 1 point, not 4.</p>
+    </div>
+    <div class="card">
+      <h3>Exam-style exercise: copper</h3>
+      <p>Copper is fcc with $a = 3.61$ Å (Kittel Table 3). Find (i) the primitive cell volume, (ii) the nearest-neighbour distance and coordination number, (iii) the radius of touching spheres and the packing fraction, (iv) the number of atoms per m³.</p>
+      <ol>
+        <li>$V_c=a^3/4 = (3.61\times10^{-10}\,\text{m})^3/4 = 1.18\times10^{-29}$ m³.</li>
+        <li>$d=a/\sqrt2 = 2.55$ Å; CN = 12.</li>
+        <li>$r=d/2=1.28$ Å; $f=0.740$, independent of $a$.</li>
+        <li>$n = 4/a^3 = 1/V_c = 8.50\times10^{28}$ m⁻³.</li>
+      </ol>
+      <div class="check"><b>Sanity check:</b> computed in node. Kittel Table 4 lists for Cu 8.45 × 10²² cm⁻³ = 8.45 × 10²⁸ m⁻³ and a nearest-neighbour distance of 2.56 Å, which agree within 0.6 % (the tables use slightly different data). The same $n$ reappears as the electron density of Cu (one valence electron per atom) on the free-electron-gas page.</div>
+    </div>
+    <div class="card">
+      <h3>Five-minute checklist</h3>
+      <ul>
+        <li>Write the primitive vectors of sc, bcc and fcc and get $V_c$ from the triple product.</li>
+        <li>Count points per cube (corner ⅛, edge ¼, face ½).</li>
+        <li>For each structure, state CN, the direction in which spheres touch, $r(a)$ and PF.</li>
+        <li>Decide whether a structure is Bravais (translation test); name hcp, diamond and NaCl as lattice + basis.</li>
+        <li>Write a rotation or reflection matrix by columns; state why 5-fold axes are impossible.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 1 (pp. 3–22: Tables 1–4, Figs. 8–24, Problem 3) and ch. 2 (Wigner–Seitz cell of fcc).</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 2–7, 9, 16.</li>
+    <li>Problem sheet 1, Fall 2026.</li>
+    <li>Condensed Matter Physics exam 2022, recovered by alumni (Q1).</li>
+    <li>Tutoring boards: "Condensed Matter" (lattices and symmetry) and "Condensed Matter PSet 1" (packing fraction, fcc primitive cell).</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, sAx, layout, CFG, setRead, setPill, rgba, PI } = CM;
+  const S = Math.sqrt, um = s => String(s).replace(/-/g, '−');
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const norm = v => S(dot(v, v));
+  const sAxis = t => sAx(t, { range: [-1.25, 1.25] });
+
+  // Edges of the parallelepiped spanned by v (3 vectors) from origin o, as one null-separated polyline.
+  function boxEdges(v, o = [0, 0, 0]) {
+    const P = (i, j, k) => [0, 1, 2].map(c => o[c] + i * v[0][c] + j * v[1][c] + k * v[2][c]);
+    const X = [], Y = [], Z = [];
+    for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) for (let k = 0; k < 2; k++) {
+      const p = P(i, j, k);
+      [[1 - i, j, k], [i, 1 - j, k], [i, j, 1 - k]].forEach(([a, b, c], d) => {
+        if ([i, j, k][d] === 1) return;            // draw each edge once, from its lower end
+        const q = P(a, b, c); X.push(p[0], q[0], null); Y.push(p[1], q[1], null); Z.push(p[2], q[2], null);
+      });
+    }
+    return { X, Y, Z };
+  }
+  // Arrows from origin to tips: a line trace plus a cone trace for the heads.
+  function arrows(tips, color, width, head = 0.16) {
+    const X = [], Y = [], Z = [];
+    tips.forEach(t => { X.push(0, t[0], null); Y.push(0, t[1], null); Z.push(0, t[2], null); });
+    return [
+      { type: 'scatter3d', mode: 'lines', x: X, y: Y, z: Z, line: { color, width }, hoverinfo: 'skip' },
+      { type: 'cone', x: tips.map(t => t[0]), y: tips.map(t => t[1]), z: tips.map(t => t[2]),
+        u: tips.map(t => t[0] / norm(t)), v: tips.map(t => t[1] / norm(t)), w: tips.map(t => t[2] / norm(t)),
+        anchor: 'tip', sizemode: 'absolute', sizeref: head, colorscale: [[0, color], [1, color]], showscale: false, hoverinfo: 'skip' }];
+  }
+  const label3 = (pts, texts, color) => ({ type: 'scatter3d', mode: 'text', x: pts.map(p => p[0]), y: pts.map(p => p[1]), z: pts.map(p => p[2]),
+    text: texts, textfont: { color, size: 13, family: CM.MONO }, hoverinfo: 'skip' });
+  const scene3 = (t, cam) => ({ xaxis: sAxis('x' + t), yaxis: sAxis('y' + t), zaxis: sAxis('z' + t), aspectmode: 'cube',
+    camera: { eye: cam }, bgcolor: 'rgba(0,0,0,0)' });
+
+  /* ---------- Model 1: lattice and primitive vectors ---------- */
+  // Primitive vectors: Kittel ch. 1 Figs. 10, 11. Materials: Kittel Table 3 (a) and Table 4 (n, 10^28 m^-3), checked in node.
+  const LAT = {
+    sc:  { basis: [[0, 0, 0]], v: [[1, 0, 0], [0, 1, 0], [0, 0, 1]], vc: 'a³', mat: ['Po', 3.34, 2.67], pill: 'Bravais · 1 point per cube' },
+    bcc: { basis: [[0, 0, 0], [.5, .5, .5]], v: [[.5, .5, -.5], [-.5, .5, .5], [.5, -.5, .5]], vc: 'a³/2', mat: ['Fe', 2.87, 8.50], pill: 'Bravais · 2 points per cube' },
+    fcc: { basis: [[0, 0, 0], [.5, .5, 0], [.5, 0, .5], [0, .5, .5]], v: [[.5, .5, 0], [0, .5, .5], [.5, 0, .5]], vc: 'a³/4', mat: ['Cu', 3.61, 8.45], pill: 'Bravais · 4 points per cube' },
+    bct: { basis: [[0, 0, 0], [.5, .5, 0]], v: [[.5, .5, 0], [-.5, .5, 0], [0, 0, 1]], vc: 'a³/2', mat: null, pill: 'Bravais: simple tetragonal in disguise' } };
+  const ORD = ['1st', '2nd', '3rd'];
+  function latticePoints(L) {
+    const pts = [];
+    for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++) for (let k = -2; k <= 2; k++) L.basis.forEach(b => {
+      const p = [i + b[0], j + b[1], k + b[2]];
+      if (p.every(c => Math.abs(c) <= 1 + 1e-9)) pts.push(p);
+    });
+    return pts;
+  }
+  function renderM1() {
+    const key = radio('m1-lat'), L = LAT[key], sh = +$('m1-shell').value, pts = latticePoints(L);
+    const dist = pts.map(norm), shells = [...new Set(dist.filter(d => d > 1e-9).map(d => +d.toFixed(6)))].sort((a, b) => a - b);
+    const dSh = sh ? shells[sh - 1] : -1, inSh = d => Math.abs(d - dSh) < 1e-6;
+    const other = pts.filter((p, i) => dist[i] > 1e-9 && !inSh(dist[i])), hit = pts.filter((p, i) => inSh(dist[i]));
+    const mk = (P, color, size) => ({ type: 'scatter3d', mode: 'markers', x: P.map(p => p[0]), y: P.map(p => p[1]), z: P.map(p => p[2]),
+      marker: { color, size, line: { width: 0 } }, hovertemplate: '(%{x}, %{y}, %{z}) a<extra></extra>' });
+    const T = [mk(other, rgba(C.emp, 0.6), 4), mk(hit, C.occ, 8), mk([[0, 0, 0]], C.ef, 9)];
+    if ($('m1-cube').checked) { const e = boxEdges([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); T.push({ type: 'scatter3d', mode: 'lines', x: e.X, y: e.Y, z: e.Z, line: { color: C.muted, width: 3 }, hoverinfo: 'skip' }); }
+    if ($('m1-cell').checked) { const e = boxEdges(L.v); T.push({ type: 'scatter3d', mode: 'lines', x: e.X, y: e.Y, z: e.Z, line: { color: rgba(C.ef, 0.7), width: 2 }, hoverinfo: 'skip' }); }
+    T.push(...arrows(L.v, C.ef, 7, 0.14), label3(L.v.map(v => v.map(c => c * 1.18)), ['a₁', 'a₂', 'a₃'], C.ef));
+    Plotly.react('m1-p', T, layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm1', scene: scene3(' (a)', { x: 1.55, y: 1.2, z: 0.75 }) }), CFG);
+
+    const Vc = Math.abs(dot(L.v[0], cross(L.v[1], L.v[2])));
+    const ang = (i, j) => (Math.acos(dot(L.v[i], L.v[j]) / (norm(L.v[i]) * norm(L.v[j]))) * 180 / PI).toFixed(2) + '°';
+    const count = d => dist.filter(x => Math.abs(x - d) < 1e-6).length;   // shells 1–3 lie fully inside the block (checked)
+    const rows = [['Points per cube', String(L.basis.length)], ['Primitive cell V_c', `${L.vc} = ${Vc.toFixed(3)} a³`],
+      ['Cube / V_c', (1 / Vc).toFixed(0) + ' (= points per cube)'], ['|a₁|, |a₂|, |a₃|', L.v.map(v => norm(v).toFixed(3)).join(', ') + ' a'],
+      ['Angles (a₁,a₂), (a₂,a₃)', ang(0, 1) + ', ' + ang(1, 2)],
+      ['Nearest neighbours', `${count(shells[0])} at ${shells[0].toFixed(3)} a`]];
+    if (sh) rows.push([`${ORD[sh - 1]} shell`, `${hit.length} at ${dSh.toFixed(3)} a`]);
+    if (L.mat) { const [m, aA, nK] = L.mat;
+      rows.push([`${m}: a (Kittel)`, aA.toFixed(2) + ' Å'], [`${m}: nn distance`, (shells[0] * aA).toFixed(2) + ' Å'],
+        [`${m}: atoms per m³`, `${(L.basis.length / aA ** 3 * 100).toFixed(2)}×10²⁸ (Kittel ${nK.toFixed(2)})`]); }
+    else rows.push(['Same lattice as', 'simple tetragonal, a′ = a/√2, c = a']);
+    setRead('m1-read', rows);
+    setPill('m1-pill', [key === 'bct' ? 'ins' : 'semi', L.pill]);
+  }
+  onChange('input[name="m1-lat"], #m1-cell, #m1-cube', renderM1);
+
+  /* ---------- Model 3: packing fraction ---------- */
+  const r2 = S(2), r3 = S(3);
+  function triPts(x0, x1, y0, y1, off = [0, 0]) {       // hexagonal layer, a1 = (1,0), a2 = (-1/2, √3/2)
+    const P = [];
+    for (let i = -4; i <= 4; i++) for (let j = -4; j <= 4; j++) {
+      const x = i - j / 2 + off[0], y = j * r3 / 2 + off[1];
+      if (x > x0 - 0.6 && x < x1 + 0.6 && y > y0 - 0.6 && y < y1 + 0.6) P.push([x, y]);
+    }
+    return P;
+  }
+  // rmax in units of a; pf = PF at touching; checked against Kittel Table 2, pp. 15, 17 and node.
+  const ST = {
+    sc:  { name: 'sc', cn: 6, pf: PI / 6, rmax: 0.5, rtxt: 'a/2', along: 'cube edge [100]', N: '1 per cube (a³)', pft: 'π/6', mat: ['Po', 3.34],
+           cut: () => ({ W: [0, 1], H: [0, 1], A: [[0, 0], [1, 0], [0, 1], [1, 1]], B: [], touch: [[0, 0], [1, 0]], cell: 'M0,0H1V1H0Z', xl: 'x (a), face (001)', yl: 'y (a)' }) },
+    bcc: { name: 'bcc', cn: 8, pf: PI * r3 / 8, rmax: r3 / 4, rtxt: '√3a/4', along: 'body diagonal [111]', N: '2 per cube (a³)', pft: 'π√3/8', mat: ['Fe', 2.87],
+           cut: () => ({ W: [0, r2], H: [0, 1], A: [[0, 0], [r2, 0], [0, 1], [r2, 1], [r2 / 2, 0.5]], B: [], touch: [[0, 0], [r2 / 2, 0.5]], cell: `M0,0H${r2}V1H0Z`, xl: 'along [110] (a), plane (1̄10)', yl: 'z (a)' }) },
+    fcc: { name: 'fcc', cn: 12, pf: PI / (3 * r2), rmax: r2 / 4, rtxt: 'a/(2√2)', along: 'face diagonal [110]', N: '4 per cube (a³)', pft: 'π/(3√2)', mat: ['Cu', 3.61],
+           cut: () => ({ W: [0, 1], H: [0, 1], A: [[0, 0], [1, 0], [0, 1], [1, 1], [0.5, 0.5]], B: [], touch: [[0, 0], [0.5, 0.5]], cell: 'M0,0H1V1H0Z', xl: 'x (a), face (001)', yl: 'y (a)' }) },
+    hcp: { name: 'hcp', cn: 12, pf: PI / (3 * r2), rmax: 0.5, rtxt: 'a/2', along: 'basal edge, and A→B between layers', N: '2 per prism (√3/2·a²c)', pft: 'π/(3√2)', mat: ['Mg', 3.21],
+           cut: () => ({ W: [-0.75, 1.25], H: [-0.3, 1.15], A: triPts(-0.75, 1.25, -0.3, 1.15), B: triPts(-0.75, 1.25, -0.3, 1.15, [0.5, r3 / 6]), dashB: true,
+                         touch: [[0, 0], [1, 0]], cell: `M0,0L1,0L0.5,${r3 / 2}L-0.5,${r3 / 2}Z`, xl: 'x (a), basal plane', yl: 'y (a)' }) },
+    dia: { name: 'diamond', cn: 4, pf: PI * r3 / 16, rmax: r3 / 8, rtxt: '√3a/8', along: 'bond, ¼ body diagonal', N: '8 per cube (a³)', pft: '√3π/16', mat: ['Si', 5.430],
+           cut: () => ({ W: [0, r2], H: [0, 1], A: [[0, 0], [r2 / 2, 0], [r2, 0], [0, 1], [r2 / 2, 1], [r2, 1]], B: [[r2 / 4, 0.25], [3 * r2 / 4, 0.25]],
+                         touch: [[0, 0], [r2 / 4, 0.25]], bonds: true, cell: `M0,0H${r2}V1H0Z`, xl: 'along [110] (a), plane (1̄10)', yl: 'z (a)' }) } };
+  const ORDER = ['sc', 'bcc', 'fcc', 'hcp', 'dia'];
+  function renderM2() {
+    const key = radio('m2-st'), s = ST[key], q = +$('m2-r').value, r = q * s.rmax, g = s.cut();
+    const circ = (p, fill, line, dash) => ({ type: 'circle', xref: 'x', yref: 'y', x0: p[0] - r, x1: p[0] + r, y0: p[1] - r, y1: p[1] + r,
+      fillcolor: fill, line: { color: line, width: 1.5, dash: dash ? 'dash' : 'solid' }, layer: 'below' });
+    const shapes = [...g.A.map(p => circ(p, rgba(C.occ, 0.35), C.occ)), ...g.B.map(p => circ(p, rgba(C.emp, g.dashB ? 0.12 : 0.35), C.emp, g.dashB)),
+      { type: 'path', path: g.cell, line: { color: C.muted, width: 1.5 } }];
+    const T = [];
+    if (g.bonds) {                                         // diamond: nearest-neighbour bonds A–B (length √3/4 a)
+      const X = [], Y = []; g.A.forEach(a => g.B.forEach(b => { if (Math.abs(Math.hypot(a[0] - b[0], a[1] - b[1]) - r3 / 4) < 1e-6) { X.push(a[0], b[0], null); Y.push(a[1], b[1], null); } }));
+      T.push({ x: X, y: Y, mode: 'lines', line: { color: C.muted, width: 2 }, hoverinfo: 'skip' });
+    }
+    const all = [...g.A, ...g.B];
+    T.push({ x: all.map(p => p[0]), y: all.map(p => p[1]), mode: 'markers', marker: { color: C.fg, size: 4 }, hovertemplate: '(%{x:.3f}, %{y:.3f}) a<extra></extra>' },
+      { x: g.touch.map(p => p[0]), y: g.touch.map(p => p[1]), mode: 'lines', line: { color: C.ef, width: 3 }, hoverinfo: 'skip' });
+    Plotly.react('m2-cut', T, layout({ shapes, margin: { l: 50, r: 10, t: 8, b: 44 },
+      xaxis: ax(g.xl, { range: g.W, zeroline: false, showgrid: false }), yaxis: ax(g.yl, { range: g.H, zeroline: false, showgrid: false, scaleanchor: 'x', constrain: 'domain' }) }), CFG);
+
+    const names = ORDER.map(k => ST[k].name), pfs = ORDER.map(k => ST[k].pf);
+    Plotly.react('m2-bar', [
+      { type: 'bar', x: names, y: pfs, marker: { color: ORDER.map(k => k === key ? C.occ : rgba(C.muted, 0.35)) }, hovertemplate: '%{x}: %{y:.3f}<extra></extra>' },
+      { x: [s.name], y: [s.pf * q ** 3], mode: 'markers', marker: { color: C.ef, size: 12, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'now %{y:.3f}<extra></extra>' }],
+      layout({ shapes: [CM.hline(PI / (3 * r2), C.muted, 'dot')], xaxis: ax('', { type: 'category' }), yaxis: ax('Packing fraction', { range: [0, 0.8] }) }), CFG);
+
+    const [m, aA] = s.mat;
+    setRead('m2-read', [['Coordination number', String(s.cn)], ['Spheres touch along', s.along], ['r_max', `${s.rtxt} = ${s.rmax.toFixed(3)} a`],
+      ['Atoms per cell', s.N], ['PF at r_max', `${s.pft} = ${s.pf.toFixed(3)}`], ['PF now (∝ r³)', (s.pf * q ** 3).toFixed(3)],
+      [`${m}: a = ${aA.toFixed(2)} Å`, `r = ${(r * aA).toFixed(2)} Å`]]);
+    setPill('m2-pill', q > 0.995 ? ['semi', 'Spheres touch: densest for this structure'] : ['ins', `Gaps: r can still grow ×${(1 / q).toFixed(2)}`]);
+  }
+  onChange('input[name="m2-st"]', renderM2);
+
+  /* ---------- Model 2: symmetry matrices ---------- */
+  const AX = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1], d111: [1, 1, 1], d110: [1, 1, 0] };
+  function rod(n, t) {                                    // Rodrigues rotation matrix about unit axis n by angle t
+    const l = norm(n), u = n.map(c => c / l), c = Math.cos(t), s = Math.sin(t);
+    const K = [[0, -u[2], u[1]], [u[2], 0, -u[0]], [-u[1], u[0], 0]];
+    return [0, 1, 2].map(i => [0, 1, 2].map(j => (i === j ? c : 0) + s * K[i][j] + (1 - c) * u[i] * u[j]));
+  }
+  const NICE = [[0, '0'], [1, '1'], [0.5, '½'], [1 / 3, '⅓'], [2 / 3, '⅔'], [S(3) / 2, '√3/2']];
+  const nice = x => { const h = NICE.find(([v]) => Math.abs(Math.abs(x) - v) < 1e-9); return h ? (x < -1e-9 && h[0] ? '−' : '') + h[1] : um(x.toFixed(3)); };
+  const CORNERS = []; for (const a of [-1, 1]) for (const b of [-1, 1]) for (const c of [-1, 1]) CORNERS.push([a, b, c]);
+  function renderM3() {
+    const n = AX[radio('m3-ax')], phi = +$('m3-phi').value, inv = $('m3-inv').checked, sg = inv ? -1 : 1;
+    const M = rod(n, phi * PI / 180).map(r => r.map(x => sg * x));
+    const app = v => [0, 1, 2].map(i => dot(M[i], v));
+    const cols = [0, 1, 2].map(j => [M[0][j], M[1][j], M[2][j]]);
+    const cube = boxEdges([[2, 0, 0], [0, 2, 0], [0, 0, 2]], [-1, -1, -1]);
+    const img = { X: [], Y: [], Z: [] };
+    for (let i = 0; i < cube.X.length; i++) { if (cube.X[i] === null) { img.X.push(null); img.Y.push(null); img.Z.push(null); continue; }
+      const p = app([cube.X[i], cube.Y[i], cube.Z[i]]); img.X.push(p[0]); img.Y.push(p[1]); img.Z.push(p[2]); }
+    const u = n.map(c => c / norm(n) * 1.7);
+    const T = [
+      { type: 'scatter3d', mode: 'lines', x: cube.X, y: cube.Y, z: cube.Z, line: { color: C.muted, width: 3 }, hoverinfo: 'skip' },
+      { type: 'scatter3d', mode: 'lines', x: img.X, y: img.Y, z: img.Z, line: { color: C.fg, width: 5 }, hoverinfo: 'skip' },
+      { type: 'scatter3d', mode: 'lines', x: [-u[0], u[0]], y: [-u[1], u[1]], z: [-u[2], u[2]], line: { color: C.muted, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      ...arrows([[1, 0, 0], [0, 1, 0], [0, 0, 1]], rgba(C.muted, 0.6), 3, 0.1)];
+    [C.occ, C.emp, C.ef].forEach((col, j) => T.push(...arrows([cols[j]], col, 8, 0.18)));
+    T.push(label3(cols.map(v => v.map(c => c * 1.25)), ['Mx̂', 'Mŷ', 'Mẑ'], C.fg));
+    Plotly.react('m3-p', T, layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm3', scene: scene3('', { x: 1.6, y: 1.25, z: 0.8 }) }), CFG);
+
+    const images = CORNERS.map(app);
+    const sym = images.every(p => CORNERS.some(c => Math.hypot(p[0] - c[0], p[1] - c[1], p[2] - c[2]) < 1e-6));
+    const det = dot(M[0], cross(M[1], M[2])), tr = M[0][0] + M[1][1] + M[2][2], twoc = 2 * Math.cos(phi * PI / 180);
+    const okLat = Math.abs(twoc - Math.round(twoc)) < 1e-9;
+    setRead('m3-read', [['Row 1', M[0].map(nice).join('  ')], ['Row 2', M[1].map(nice).join('  ')], ['Row 3', M[2].map(nice).join('  ')],
+      ['det M', nice(det)], ['trace M', um(tr.toFixed(3))], ['2 cos φ', um(twoc.toFixed(3)) + (okLat ? ' (integer: allowed in some lattice)' : ' (not integer: no lattice)')],
+      ['Maps cube onto itself', sym ? 'yes' : 'no']]);
+    setPill('m3-pill', sym ? ['semi', 'Symmetry of the cube'] : ['ins', 'Not a symmetry of the cube']);
+  }
+  onChange('input[name="m3-ax"], #m3-inv', renderM3);
+  document.querySelectorAll('.presets .btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelector(`input[name="m3-ax"][value="${b.dataset.ax}"]`).checked = true;
+    $('m3-inv').checked = b.dataset.inv === '1';
+    const sl = $('m3-phi'); sl.value = b.dataset.phi; sl.dispatchEvent(new Event('input'));
+  }));
+
+  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3 });
+});
+</script>
+</body>
+</html>

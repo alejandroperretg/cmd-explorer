@@ -38,6 +38,7 @@
 - [ ] Readable in light and dark (nav "Dark/Light" button), plots re-themed.
 - [ ] Every numeric claim checked, with the method stated as above.
 - [ ] Every topic-list subsection of the section has a Concepts entry.
+- [ ] Interactive models are organised by topic-list number. Each model's eyebrow starts with the subsection number it serves, e.g. `2.1.1 · Boundary conditions`. Chapter 2 gets at least one model per subsection (the user's emphasis). Chapters 1 and 3 get one per section at minimum.
 - [ ] Every sheet problem for the topic (see `PLAN.md`) has a guide. The exam angle is filled: the exam is mostly exercises with some theory, in the pattern of 2022, so include at least one exam-style exercise with a worked solution.
 - [ ] Do not edit `index.html` or tick `PLAN.md`. Both happen after review.
 - [ ] Testing in the browser pane: other agents share it, so open your own tab (`tabs_create`), pass its `tabId` on every call, and serve on your own port (`node tools/serve.js <port>`).

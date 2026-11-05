@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transport · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+<style>
+  .pending { border: 1px dashed var(--occ); }
+  .pending .eyebrow { color: var(--occ); }
+  .tbl { overflow-x: auto; }
+  .tbl table { border-collapse: collapse; font-size: 13px; width: 100%; }
+  .tbl th, .tbl td { text-align: left; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl th { color: var(--muted); font-weight: 600; font-size: 12px; }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 08</span><span>Syllabus §2.2, 2.4, 2.5, 2.7.7</span><span>Kittel ch. 6, 8, App. F</span><span>Notes pp. 42–49</span><span>Sheet 9</span></div>
+  <h1>Transport: conductivity, Umklapp, Wiedemann–Franz, thermoelectrics</h1>
+  <p class="lead">How electrons carry charge and heat through a metal or semiconductor. A field shifts the Fermi sphere and scattering holds it in place. That one picture gives Ohm's law, the AC response, the Wiedemann–Franz law and, once a temperature gradient is added, the thermoelectric effects of exam question 3.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>The free electron gas of <a href="07-free-electron-gas.html">Topic 07</a> is in equilibrium: the Fermi sphere sits at the origin and carries no current. Transport asks what happens when a force pushes the electrons and scattering pulls them back. The Boltzmann equation tracks the occupation $f(\vec r,\vec k,t)$. In the relaxation-time approximation it gives a Fermi sphere shifted by $\delta\vec k=-e\tau\vec E/\hbar$, and therefore $\sigma=ne^2\tau/m$.</p>
+  <p>Results to leave with: $\sigma=ne^2\tau/m$ and Ohm's law; $\sigma(\omega)=\sigma_0/(1+i\omega\tau)$ (sheet 9.2); Matthiessen's rule $\rho=\rho_{ph}(T)+\rho_i$; why Umklapp scattering matters for resistance; $\kappa/\sigma=LT$ with $L=\pi^2k_B^2/3e^2$; and the coupled charge and energy fluxes that define the thermopower $Q$ and the Peltier coefficient $\Pi=QT$.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed.: ch. 6 ("Electrical Conductivity and Ohm's Law", "Experimental Electrical Resistivity of Metals", "Umklapp Scattering", "Thermal Conductivity of Metals"), Appendix F ("Boltzmann Transport Equation") and ch. 8 ("Thermoelectric Effects"); lecture notes pp. 42–49. The Fermi sphere, $D(\varepsilon_F)$ and the Sommerfeld heat capacity are on <a href="07-free-electron-gas.html#concepts">Topic 07</a> and are used here without re-deriving them.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>2.2.1 Boltzmann transport equation</h3>
+      <p>$f(\vec r,\vec k,t)$ is the occupation of the state $\vec k$ near position $\vec r$. It describes wave packets that are larger than a lattice cell but smaller than the mean free path. Without collisions, occupation is carried along the trajectories: an electron found at $(\vec r,\vec k)$ now was at $(\vec r-\vec v\,dt,\ \vec k-\vec F\,dt/\hbar)$ a time $dt$ ago. Collisions add or remove occupation at a fixed point. Expanding to first order in $dt$:</p>
+      $$\frac{\partial f}{\partial t}+\vec v\cdot\nabla_{\vec r}f+\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f=\Big(\frac{\partial f}{\partial t}\Big)_{\!s}$$
+      <p>Here $\vec v=\nabla_{\vec k}\varepsilon/\hbar$ is the group velocity and $\vec F$ the external force, $(-e)\vec E$ for an electron in a field. The left side is drift and force; the right side, the scattering term, contains all the microscopic physics (transition rates $\propto|\langle\vec k'|H'|\vec k\rangle|^2$) and is hard to evaluate in general.</p>
+    </article>
+
+    <article class="card">
+      <h3>2.2.2 Relaxation-time approximation</h3>
+      <p>Assume that scattering drives $f$ back toward the local equilibrium $f_0=f_{FD}(\varepsilon(\vec k))$ at a rate proportional to the deviation:</p>
+      $$\Big(\frac{\partial f}{\partial t}\Big)_{\!s}=-\,\frac{f-f_0}{\tau}$$
+      <p>$1/\tau$ is the scattering rate and $\tau$ (s) the mean time between collisions. Switch off a field at $t=0$ and $f-f_0$ decays as $e^{-t/\tau}$ (lecture example, notes p43; Kittel App. F eq. 8).</p>
+      <div class="assume"><b>Notes slip:</b> the handwritten line on notes p43 has no minus sign. The blackboard photo on the same page, the recap on p45 and Kittel App. F eq. 6 all have it. The minus is required: without it the deviation would grow instead of relaxing.</div>
+      <p class="note">Do not confuse this τ with Kittel's τ = k<sub>B</sub>T in ch. 5 and App. F.</p>
+    </article>
+
+    <article class="card">
+      <h3>2.2.3 Electrical conductivity: the shifted Fermi sphere</h3>
+      <p>For a static, uniform field $\vec E$ the drift and time terms vanish. To first order, $f_0+\tau\frac{(-e)\vec E}{\hbar}\cdot\nabla_{\vec k}f_0=f_{st}$, which is the Taylor expansion of a shifted distribution:</p>
+      $$f_{st}(\vec k)=f_0\!\Big(\vec k+\frac{e\tau\vec E}{\hbar}\Big),\qquad \delta\vec k=-\frac{e\tau\vec E}{\hbar}$$
+      <p>The whole Fermi sphere moves by $\delta\vec k$, against the field (the electron charge is $-e$). Only a thin shell changes occupation: states are emptied on one side and filled on the other (<a href="#m-fs">Model 1</a>). Summing $(-e)\vec v_{\vec k}/V$ over the occupied states, with 2 for spin and $(2\pi)^3/V$ per $\vec k$ state, gives</p>
+      $$\vec j=\frac{-e}{V}\,2\sum_{\vec k}\vec v_{\vec k}f_{st}=\frac{ne^2\tau}{m}\vec E\quad\Rightarrow\quad\sigma=\frac{ne^2\tau}{m},\ \ \rho=\frac1\sigma$$
+      <p>Units: $[\sigma]=\mathrm{A\,V^{-1}m^{-1}}=\mathrm{S/m}$, $[\rho]=\Omega\,\mathrm m$. Kittel reaches the same result from $\hbar\,d\vec k/dt=-e\vec E$ with the shift frozen at $t=\tau$ (eqs. 39–43). With the mobility $\mu=e\tau/m$, $\sigma=ne\mu$.</p>
+      <p>Only the Fermi surface contributes: the same integral gives $\sigma=\tfrac13e^2\tau v_F^2D(\varepsilon_F)$, with $D$ per unit volume. Inserting $D(\varepsilon_F)=3n/2\varepsilon_F$ from <a href="07-free-electron-gas.html#concepts">Topic 07</a> and $\varepsilon_F=\tfrac12mv_F^2$ gives back $ne^2\tau/m$.</p>
+      <div class="assume"><b>Notes slip:</b> notes p44 writes $\vec j=n\,\frac{e\vec E}{m}\tau$, one factor $e$ short. The correct line is $\vec j=(ne)\,\frac{e\vec E}{m}\tau$: charge density × drift velocity. The board's "$\sigma=n\mu$" is missing the same $e$: $\sigma=ne\mu$ (Kittel ch. 8).</div>
+    </article>
+
+    <article class="card">
+      <h3>2.2.4 Ohm's law</h3>
+      <p><b>Microscopic:</b> $\vec j=\sigma\vec E$, a local relation between current density and field.</p>
+      <p><b>Macroscopic:</b> a bar of length $L$ and cross-section $A$ with voltage $V$ has $E=V/L$ and $I=jA$, so</p>
+      $$V=\frac{\rho L}{A}\,I=RI,\qquad R=\rho\frac{L}{A}$$
+      <p>Typical size: copper at 295 K has $\rho=1.70\ \mu\Omega\,\mathrm{cm}=1.70\times10^{-8}\ \Omega\,\mathrm m$ (Kittel ch. 6 Table 3). With $n=8.45\times10^{28}\ \mathrm{m^{-3}}$ (Kittel Table 1), $\tau=m/ne^2\rho=2.5\times10^{-14}$ s and $\ell=v_F\tau=39$ nm. A current of 10⁶ A/m² drifts at only $j/ne=7.4\times10^{-5}$ m/s, about 10⁻¹⁰ of $v_F=1.57\times10^6$ m/s.</p>
+      <p class="note">Checked with node: m/(ne²ρ) = 2.47 × 10⁻¹⁴ s; v_Fτ = 38.8 nm; 10⁶/(ne) = 7.39 × 10⁻⁵ m/s.</p>
+    </article>
+
+    <article class="card">
+      <h3>AC conductivity σ(ω) (sheet 9.2)</h3>
+      <p>The drift velocity obeys Newton's law with a friction term, $m(\frac{d}{dt}+\frac1\tau)\vec v=-e\vec E$. With $\vec E=\vec E_0e^{i\omega t}$, the sheet's convention:</p>
+      $$\sigma(\omega)=\frac{\sigma_0}{1+i\omega\tau}=\sigma_0\,\frac{1-i\omega\tau}{1+\omega^2\tau^2},\qquad\sigma_0=\frac{ne^2\tau}{m}$$
+      <p>For $\omega\tau\ll1$ the current follows the field (Ohmic). For $\omega\tau\gg1$, $\sigma\approx-i\,ne^2/m\omega$: the electrons are freely accelerated between collisions, the current lags the field by 90° and no power is absorbed. The crossover $\omega\tau=1$ is at $f=1/2\pi\tau\approx6$ THz for Cu at room temperature (<a href="#m-ac">Model 2</a>).</p>
+      <div class="assume"><b>Sign convention:</b> this page follows the sheet, with time dependence $e^{+i\omega t}$. Kittel ch. 6 Problem 6 uses $e^{-i\omega t}$ and writes $\sigma(\omega)=\sigma(0)\frac{1+i\omega\tau}{1+(\omega\tau)^2}=\frac{\sigma(0)}{1-i\omega\tau}$. The physics is the same; only the sign of $i$ flips (complex conjugate).</div>
+    </article>
+
+    <article class="card">
+      <h3>2.4.1 Conductivity of metals: Matthiessen's rule</h3>
+      <p>A perfect periodic lattice does not scatter Bloch electrons. Resistance comes from departures from periodicity: lattice vibrations (phonons) and static defects (impurities, vacancies). If the two scattering processes are independent, their rates add:</p>
+      $$\frac1\tau=\frac1{\tau_{ph}}+\frac1{\tau_i}\quad\Rightarrow\quad\rho=\rho_{ph}(T)+\rho_i$$
+      <ul>
+        <li>$\rho_i$ (residual resistivity) is independent of $T$ and set by sample purity: about 1 μΩ cm per atomic percent of impurity (Kittel).</li>
+        <li>$T\gg\Theta_D$: the phonon number grows ∝ $T$, so $\rho_{ph}\propto T$.</li>
+        <li>$T\ll\Theta_D$: $\rho_{ph}\propto T^5$ (stated in the lecture; Kittel App. J). Fewer phonons, and those left have small $q$ and scatter only through small angles.</li>
+      </ul>
+      <p>Kittel's pure-copper example: at 4 K, $\tau\approx2\times10^{-9}$ s and $\ell=v_F\tau\approx0.3$ cm, which is the notes' p46 number. The resistivity ratio $\rho(295\,\mathrm K)/\rho_i$ measures purity (<a href="#m-rt">Model 3</a>).</p>
+      <p class="note">Checked: 1.57 × 10⁶ m/s × 2 × 10⁻⁹ s = 3.1 mm. The implied ρ(4 K) = m/(ne²τ) = 2.1 × 10⁻¹³ Ω m is 8 × 10⁴ times below 295 K, matching Kittel's "nearly 10⁵".</p>
+    </article>
+
+    <article class="card">
+      <h3>2.4.2 Umklapp processes</h3>
+      <p>In electron–phonon scattering crystal momentum is conserved only up to a reciprocal lattice vector:</p>
+      $$\vec k'=\vec k+\vec q+\vec G$$
+      <p>$\vec G=0$ is a <b>normal</b> process. A small phonon $\vec q$ turns $\vec k$ through a small angle and hardly reduces the current. With $\vec G\neq0$ (<b>Umklapp</b>, "flip-over"), $\vec k+\vec q$ leaves the zone and is folded back by $\vec G$. The electron ends up on the far side of the Fermi sphere, scattered through an angle near π, so it loses almost all its forward velocity. Umklapp is therefore much more effective at relaxing the current, and the heat current too.</p>
+      <p>If the Fermi sphere does not touch the zone face, Umklapp needs a phonon with at least $q_0=G-2k_F$ (the gap between neighbouring Fermi spheres; <a href="#m-um">Model 4</a>). The two sources stress opposite ends of the temperature scale:</p>
+      <ul>
+        <li><b>Lecture (notes p47):</b> Umklapp needs large $|\vec q|$, so it occurs at higher $T$, where such phonons are thermally excited. Since it is efficient, it is what hinders electrical and thermal conduction there.</li>
+        <li><b>Kittel ch. 6:</b> Umklapp accounts for most of the electrical resistivity of metals at <i>low</i> temperatures. Low here means low compared with $\Theta_D$ but still above a characteristic $\theta_U$. Even there the few Umklapp events outweigh the many inefficient small-angle normal events. Only for $T\ll\theta_U$ does the supply of phonons with $q\ge q_0$ freeze out, as $e^{-\theta_U/T}$, leaving normal scattering alone. Potassium: $\theta_U=23$ K against $\Theta_D=91$ K, with Umklapp negligible below about 2 K.</li>
+      </ul>
+      <p>Both statements are correct. Umklapp needs a minimum $q$ (the lecture's point), so it disappears at the very lowest $T$. Wherever those phonons exist, it dominates the resistance (Kittel's point).</p>
+      <div class="assume"><b>Number check:</b> Kittel quotes $q_0=0.267\,k_F$ for one electron per atom in bcc. The straight-line gap along the nearest zone face, $q_0=|\vec G_{110}|-2k_F$ with $k_Fa=(6\pi^2)^{1/3}$ and $|\vec G_{110}|a=2\sqrt2\pi$, gives $0.280\,k_F$ (node). Kittel gives no derivation; his 0.267 is reproduced by the same formula with Table 1's rounded $k_F=0.75\times10^8$ cm⁻¹ for K and $a\approx5.23$ Å (0.266–0.268), whereas the unrounded $k_F=0.746\times10^8$ cm⁻¹ gives 0.280. Model 4 uses the exact geometry. Its $\theta_U\approx\Theta_D\,q_0/q_D$ (a Debye phonon of wavevector $q_0$, $q_D$ for 2 atoms per $a^3$) is this page's estimate, not Kittel's: 20 K against the measured 23 K.</div>
+    </article>
+
+    <article class="card">
+      <h3>2.5 Wiedemann–Franz law</h3>
+      <p>The heat flux obeys Fourier's law, $\vec j_u=\kappa(-\nabla T)$. Kinetic theory gives $\kappa=\tfrac13Cv\ell$. For the electron gas, use the Sommerfeld heat capacity $C_{el}=\frac{\pi^2}{2}\frac{k_BT}{\varepsilon_F}nk_B$ (<a href="07-free-electron-gas.html#smear">Topic 07</a>) with $v=v_F$, $\ell=v_F\tau$ and $\varepsilon_F=\tfrac12mv_F^2$:</p>
+      $$\kappa_{el}=\frac{\pi^2nk_B^2T\tau}{3m},\qquad\frac{\kappa_{el}}{\sigma}=\frac{\pi^2}{3}\Big(\frac{k_B}{e}\Big)^2T=LT$$
+      <p>$n$, $\tau$ and $m$ cancel because the same electrons carry the charge and the heat. The Lorenz number is $L=2.44\times10^{-8}\ \mathrm{W\,\Omega\,K^{-2}}$ (node; Kittel prints 2.45). Kittel Table 5 gives measured values for Cu of 2.23 at 0 °C and 2.33 at 100 °C, in the same units.</p>
+      <p>Check for copper: $L\sigma T=2.44\times10^{-8}\times5.88\times10^{7}\times300=431$ W m⁻¹ K⁻¹. Kittel ch. 5 Table 1 measures 401 W m⁻¹ K⁻¹. The law fails at intermediate temperatures, where small-angle inelastic scattering degrades the heat current more than the charge current (<a href="#m-wf">Model 5</a>).</p>
+      <p class="note">Notes p48 gives the units of κ as J/(m K), which is missing a s⁻¹: κ is in W m⁻¹ K⁻¹.</p>
+    </article>
+
+    <article class="card pending" id="thermo">
+      <span class="eyebrow">2.7.7 · not yet lectured — from Kittel</span>
+      <h3>2.7.7 Thermoelectric effects: coupled fluxes</h3>
+      <p>The notes give only the separate laws $\vec j=\sigma\vec E$ and $\vec j_u=\kappa(-\nabla T)$. In reality each flux responds to <b>both</b> driving forces. In linear response:</p>
+      $$\begin{aligned}\vec j&=L_{11}\vec E+L_{12}(-\nabla T)\\ \vec j_u&=L_{21}\vec E+L_{22}(-\nabla T)\end{aligned}$$
+      <p>$\vec j$ is the electric current density (A/m²) and $\vec j_u$ the energy flux (W/m²), with energies measured from the chemical potential μ, so it is the heat flux. $L_{11}=\sigma$.</p>
+      <ul>
+        <li><b>Thermopower Q (Seebeck):</b> open circuit, $\vec j=0$. A temperature gradient then builds up a field $\vec E=Q\nabla T$, so $Q=L_{12}/L_{11}$ (V/K).</li>
+        <li><b>Peltier coefficient Π:</b> uniform temperature, $\nabla T=0$. The current carries energy $\vec j_u=\Pi\vec j$, so $\Pi=L_{21}/L_{11}$ (V = J/C: energy carried per unit charge).</li>
+        <li><b>Kelvin relation:</b> Onsager reciprocity gives $L_{21}=TL_{12}$, hence $\Pi=QT$.</li>
+      </ul>
+      <p>Eliminating $\vec E$ gives the form to write in an exam:</p>
+      $$\vec j=\sigma\big(\vec E-Q\nabla T\big),\qquad\vec j_u=\Pi\,\vec j-\kappa\nabla T,\qquad\kappa=L_{22}-\frac{L_{12}L_{21}}{L_{11}}$$
+      <p class="note">Checked by substitution: E = j/σ + Q∇T inserted into the second line gives j<sub>u</sub> = (L₂₁/L₁₁) j − (L₂₂ − L₂₁L₁₂/L₁₁) ∇T.</p>
+    </article>
+
+    <article class="card pending">
+      <span class="eyebrow">2.7.7 · not yet lectured — from Kittel</span>
+      <h3>2.7.7 Sign and size of Π and Q</h3>
+      <p>Kittel's drift picture for a non-degenerate semiconductor (ch. 8, eqs. 54–60): each electron carries the energy $(E_c-\mu)+\tfrac32k_BT$ above the Fermi level, and its energy flux runs opposite to its charge flux. This gives</p>
+      $$\Pi_e=-\frac{E_c-\mu+\tfrac32k_BT}{e}\ (<0),\qquad\Pi_h=+\frac{\mu-E_v+\tfrac32k_BT}{e}\ (>0),\qquad Q=\frac{\Pi}{T}$$
+      <p>The sign of $Q$ gives the sign of the carriers. Heat one end of an n-type sample: electrons diffuse to the cold end and charge it negatively. This is the quick hot-probe test for n vs p type (Kittel Fig. 23). Example: n-Si with $E_c-\mu=0.25$ eV at 300 K gives $\Pi_e=-0.289$ V and $Q=-0.96$ mV/K.</p>
+      <p>In a metal only electrons within $k_BT$ of $\varepsilon_F$ contribute, so $Q$ is smaller by about $k_BT/\varepsilon_F$. The free-electron (Mott) result is $Q=-\frac{\pi^2k_B^2T}{2e\varepsilon_F}$, or −1.57 μV/K for Cu at 300 K (<a href="#m-te">Model 6</a>).</p>
+      <div class="assume"><b>Source:</b> the metal formula is the standard Boltzmann result for a constant τ (Mott formula). Kittel ch. 8 does not give it; App. F has the method. Measured Cu has the opposite (positive) sign, a known failure of the free-electron model that band structure explains. No measured value is quoted here because none is in the course sources.</div>
+      <p class="note">Checked with node: (0.25 + 1.5 × 0.025852) V = 0.2888 V, /300 K = 0.963 mV/K; π²k_B²(300 K)/(2e · 7.00 eV) = 1.570 μV/K.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <!-- Model 1: shifted Fermi sphere -->
+  <section class="bench" id="m-fs">
+    <div class="rail">
+      <span class="eyebrow">2.2.1 · Model 1 · Boltzmann: shifted distribution, Cu</span>
+      <h3>Shifted Fermi sphere</h3>
+      <p>A field $\vec E$ along +x pushes every $\vec k$ toward −x, and scattering resets the states at rate 1/τ. In the steady state the whole Fermi sphere sits shifted by $\delta k=e\tau E/\hbar$. The real shift is tiny, so the drawing magnifies it by the factor shown, which steps in 1-2-5 jumps as you move the sliders.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="fs-E"><span>Field E</span> <output for="fs-E"></output></label><input type="range" id="fs-E" min="0.01" max="1" step="0.01" value="0.11" data-fmt="2" data-unit=" V/m"></div>
+        <div class="ctl"><label for="fs-lt"><span>Relaxation time τ</span> <output for="fs-lt"></output></label><input type="range" id="fs-lt" min="-15" max="-9" step="0.05" value="-13.6" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill metal" id="fs-pill"></span><dl class="readout" id="fs-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The default is a household wire (about 10 A in 1.5 mm²). The drift speed is well under a millimetre per second, while the electrons at the Fermi surface move at 1.57 × 10⁶ m/s.</li>
+        <li>Raise τ to about 2 × 10⁻⁹ s (very pure Cu at 4 K, Kittel). σ grows 10⁵-fold and the mean free path reaches millimetres.</li>
+        <li>Watch which states change: only the rim. The bulk of the sphere stays occupied either way.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="fs-p1"></div>
+        <figcaption><b>How to read:</b> a cut through k-space at k<sub>z</sub> = 0, in units of k<sub>F</sub>. The dashed circle is the equilibrium Fermi sphere and the filled disc the shifted one. The copper crescent on the left holds newly occupied states and the blue crescent on the right the emptied ones. Their imbalance is the current. The arrow shows the field direction; the shift is magnified by the factor in the readout.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>newly occupied</span><span><i class="sw" style="background:var(--emp)"></i>emptied</span><span><i class="sw" style="background:var(--muted)"></i>equilibrium sphere</span></div>
+      </figure>
+      <figure><div class="plot" id="fs-p2"></div>
+        <figcaption><b>How to read:</b> the electron drift speed after the field is switched on at t = 0 and off at t = 5τ, in real units. It rises as 1 − e<sup>−t/τ</sup> to eτE/m and decays as e<sup>−t/τ</sup> once the field is off: the relaxation-time approximation in action. The green lines mark t = τ after each switch.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 2: sigma(omega) -->
+  <section class="bench" id="m-ac">
+    <div class="rail">
+      <span class="eyebrow">2.2.3 · Model 2 · conductivity σ(ω)</span>
+      <h3>Conductivity at frequency ω</h3>
+      <p>$\sigma(\omega)=\sigma_0/(1+i\omega\tau)$ in the sheet's $e^{+i\omega t}$ convention. Switch to Kittel's $e^{-i\omega t}$ convention to see that only the sign of Im σ changes. The current in real time is identical in both.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Convention</legend><div class="opts">
+          <label><input type="radio" name="ac-conv" value="sheet" checked><span>Sheet e^{+iωt}</span></label>
+          <label><input type="radio" name="ac-conv" value="kittel"><span>Kittel e^{−iωt}</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="ac-lf"><span>Frequency f = ω/2π</span> <output for="ac-lf"></output></label><input type="range" id="ac-lf" min="9" max="15" step="0.05" value="12.8" data-fmt="2"></div>
+        <div class="ctl"><label for="ac-lt"><span>Relaxation time τ</span> <output for="ac-lt"></output></label><input type="range" id="ac-lt" min="-15" max="-12" step="0.05" value="-13.6" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill metal" id="ac-pill"></span><dl class="readout" id="ac-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Lower f to 1 GHz: σ is real and equal to σ<sub>0</sub>, and current and field are in phase.</li>
+        <li>Raise f past the green line (ωτ = 1): Re σ falls, |Im σ| peaks at ωτ = 1 with value σ<sub>0</sub>/2, and the lag approaches 90°.</li>
+        <li>Flip the convention: the Im σ curve mirrors, but the time-domain plot does not change.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="ac-p1"></div>
+        <figcaption><b>How to read:</b> real (copper) and imaginary (blue) parts of σ(ω)/σ<sub>0</sub> against frequency, on a log axis. The green dashed line is ωτ = 1 and the dot your frequency. Free-electron model only; real metals add interband absorption at optical frequencies.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Re σ/σ₀</span><span><i class="sw" style="background:var(--emp)"></i>Im σ/σ₀</span></div>
+      </figure>
+      <figure><div class="plot" id="ac-p2"></div>
+        <figcaption><b>How to read:</b> two periods of the field E(t) (dashed) and the current j(t) (solid), each normalised to its DC-limit amplitude, against time in periods. The current is smaller than σ<sub>0</sub>E and lags the field by φ = arctan ωτ.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--muted)"></i>E(t)</span><span><i class="sw" style="background:var(--occ)"></i>j(t)</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 3: rho(T) -->
+  <section class="bench" id="m-rt">
+    <div class="rail">
+      <span class="eyebrow">2.4.1 · Model 3 · Matthiessen, Cu</span>
+      <h3>Resistivity versus temperature</h3>
+      <p>Phonon resistivity from the Bloch–Grüneisen formula, scaled so that pure Cu has 1.70 μΩ cm at 295 K (Kittel Table 3), plus a constant impurity term of 1 μΩ cm per atomic percent (Kittel).</p>
+      <div class="ctls">
+        <div class="ctl"><label for="rt-c"><span>Impurity content</span> <output for="rt-c"></output></label><input type="range" id="rt-c" min="0" max="4" step="0.05" value="1.25" data-fmt="2"></div>
+        <div class="ctl"><label for="rt-th"><span>Debye temperature Θ</span> <output for="rt-th"></output></label><input type="range" id="rt-th" min="100" max="500" step="1" value="343" data-fmt="0" data-unit=" K"></div>
+      </div>
+      <div class="state"><span class="pill metal" id="rt-pill"></span><dl class="readout" id="rt-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The default is about 20 ppm impurities, Kittel's example of a resistivity ratio near 1000. Add impurities: the low-T plateau rises, while the room-temperature value hardly changes.</li>
+        <li>Read the local exponent on the right: 5 at low T, 1 above Θ. The crossover sits near Θ/5.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="rt-p1"></div>
+        <figcaption><b>How to read:</b> resistivity against temperature, both on log axes. The dotted copper curve is the phonon part, the dashed blue line the residual part and the solid curve their sum (Matthiessen). The green line marks Θ.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--fg)"></i>total ρ</span><span><i class="sw" style="background:var(--occ)"></i>ρ_ph</span><span><i class="sw" style="background:var(--emp)"></i>ρ_i</span></div>
+      </figure>
+      <figure><div class="plot" id="rt-p2"></div>
+        <figcaption><b>How to read:</b> the local exponent d ln ρ<sub>ph</sub>/d ln T of the phonon part against temperature. A flat value p means ρ<sub>ph</sub> ∝ T<sup>p</sup>: 5 deep in the quantum regime, 1 in the classical regime above Θ (green line).</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 4: Umklapp -->
+  <section class="bench" id="m-um">
+    <div class="rail">
+      <span class="eyebrow">2.4.2 · Model 4 · Umklapp, bcc metal</span>
+      <h3>Umklapp: minimum phonon and freeze-out</h3>
+      <p>Two Fermi spheres in neighbouring zones, separated by $\vec G_{110}$ (the nearest zone face of bcc). The gap between them is the smallest phonon $q_0$ that can make an Umklapp process. With a Debye phonon spectrum, phonons of that size become scarce below $\theta_U\approx\Theta_D\,q_0/q_D$.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="um-z"><span>Electrons per atom z</span> <output for="um-z"></output></label><input type="range" id="um-z" min="0.5" max="1.6" step="0.01" value="1" data-fmt="2"></div>
+        <div class="ctl"><label for="um-th"><span>Debye temperature Θ_D</span> <output for="um-th"></output></label><input type="range" id="um-th" min="40" max="400" step="1" value="91" data-fmt="0" data-unit=" K"></div>
+      </div>
+      <div class="state"><span class="pill metal" id="um-pill"></span><dl class="readout" id="um-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The default is potassium (z = 1, Θ<sub>D</sub> = 91 K). The estimate θ<sub>U</sub> ≈ 20 K is close to Kittel's measured 23 K.</li>
+        <li>Raise z past about 1.48: the sphere reaches the zone face, q<sub>0</sub> drops to zero and Umklapp no longer freezes out.</li>
+        <li>On the right, the region T &lt; θ<sub>U</sub> is the lecture's "no Umklapp at low T". The region θ<sub>U</sub> &lt; T &lt; Θ<sub>D</sub> is Kittel's "Umklapp dominates at low T".</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="um-p1"></div>
+        <figcaption><b>How to read:</b> a cut through k-space along [110], in units of 1/a. Copper discs are the Fermi spheres around 0 and around G; the green dashed line is the zone face at G/2. The blue arrow is the smallest phonon q<sub>0</sub> bridging the spheres. An electron at k (right rim) that absorbs it lands at k + q on the neighbouring sphere, which is the same state as k′ = k + q − G on the left rim: its velocity is reversed.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Fermi spheres</span><span><i class="sw" style="background:var(--emp)"></i>q₀</span><span><i class="sw" style="background:var(--ef)"></i>zone face</span></div>
+      </figure>
+      <figure><div class="plot" id="um-p2"></div>
+        <figcaption><b>How to read:</b> the Boltzmann factor e<sup>−θ<sub>U</sub>/T</sup>, which sets the supply of phonons large enough for Umklapp, against temperature. It is about 1 at high T and freezes out exponentially for T ≪ θ<sub>U</sub>. The green lines mark θ<sub>U</sub> and Θ<sub>D</sub>.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 5: Wiedemann–Franz -->
+  <section class="bench" id="m-wf">
+    <div class="rail">
+      <span class="eyebrow">2.5 · Model 5 · Wiedemann–Franz, Cu</span>
+      <h3>Thermal conductivity from σ</h3>
+      <p>The law predicts $\kappa_{el}=L\sigma T$ with $L=\pi^2k_B^2/3e^2$. Here σ(T) is taken from Model 3's copper resistivity (Θ = 343 K). Compare the Lorenz number with the classical Drude estimate and with Kittel's measured values.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="wf-T"><span>Temperature T</span> <output for="wf-T"></output></label><input type="range" id="wf-T" min="20" max="400" step="1" value="300" data-fmt="0" data-unit=" K"></div>
+        <div class="ctl"><label for="wf-c"><span>Impurity content</span> <output for="wf-c"></output></label><input type="range" id="wf-c" min="0" max="4" step="0.05" value="1.25" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill metal" id="wf-pill"></span><dl class="readout" id="wf-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>At 300 K the prediction is about 420 W m⁻¹ K⁻¹. Kittel measures 401 (the green dot).</li>
+        <li>Add impurities: κ<sub>el</sub> at low T drops with σ, while the ratio κ/σT stays L. Impurity scattering is elastic, which is where the law works best.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="wf-p1"></div>
+        <figcaption><b>How to read:</b> the Wiedemann–Franz prediction κ<sub>el</sub> = LσT for copper against temperature (log axis). The copper dot is your temperature and the green dot Kittel's measured κ at 300 K. Real κ falls well below this curve at intermediate temperatures, where inelastic small-angle scattering breaks the law.</figcaption>
+      </figure>
+      <figure><div class="plot" id="wf-p2"></div>
+        <figcaption><b>How to read:</b> Lorenz numbers in 10⁻⁸ W Ω K⁻². Bars are Kittel's measured values at 0 °C (Table 5). The green line is the Sommerfeld value π²k<sub>B</sub>²/3e² = 2.44 and the blue dashed line the classical estimate (3/2)(k<sub>B</sub>/e)² = 1.11, which uses C = (3/2)nk<sub>B</sub> and v² = 3k<sub>B</sub>T/m.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 6: thermoelectric -->
+  <section class="bench pending" id="m-te">
+    <div class="rail">
+      <span class="eyebrow">2.7.7 · Model 6 · not yet lectured — from Kittel</span>
+      <h3>Thermopower and Peltier coefficient</h3>
+      <p>A non-degenerate semiconductor bar with its ends at different temperatures and no current flowing. Kittel's drift picture gives $\Pi=\mp(\Delta+\tfrac32k_BT)/e$, with Δ the distance from μ to the band edge of the carriers, and $Q=\Pi/T$. The free-electron metal value for Cu is shown for scale.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Carriers</legend><div class="opts">
+          <label><input type="radio" name="te-car" value="n" checked><span>n-type (electrons)</span></label>
+          <label><input type="radio" name="te-car" value="p"><span>p-type (holes)</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="te-d"><span>Δ = distance μ to band edge</span> <output for="te-d"></output></label><input type="range" id="te-d" min="0.05" max="0.6" step="0.01" value="0.25" data-fmt="2" data-unit=" eV"></div>
+        <div class="ctl"><label for="te-T"><span>Mean temperature T</span> <output for="te-T"></output></label><input type="range" id="te-T" min="100" max="600" step="5" value="300" data-fmt="0" data-unit=" K"></div>
+        <div class="ctl"><label for="te-dT"><span>Temperature difference ΔT</span> <output for="te-dT"></output></label><input type="range" id="te-dT" min="0" max="50" step="1" value="10" data-fmt="0" data-unit=" K"></div>
+      </div>
+      <div class="state"><span class="pill semi" id="te-pill"></span><dl class="readout" id="te-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Switch n → p: Π and Q change sign and the hot end changes polarity. This is the hot-probe test for carrier type.</li>
+        <li>Compare the Cu line in the left plot: about 600 times smaller. In a metal only electrons within k<sub>B</sub>T of ε<sub>F</sub> carry excess energy.</li>
+        <li>Check the Kelvin relation in the readout: Π/T equals Q exactly.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="te-p1"></div>
+        <figcaption><b>How to read:</b> thermopower Q (mV/K) against temperature for the chosen Δ: n-type in blue (negative), p-type in copper (positive), the Cu free-electron value in green (near zero on this scale). The dot is your temperature and carrier type.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>n-type</span><span><i class="sw" style="background:var(--occ)"></i>p-type</span><span><i class="sw" style="background:var(--ef)"></i>Cu (free electrons)</span></div>
+      </figure>
+      <figure><div class="plot" id="te-p2"></div>
+        <figcaption><b>How to read:</b> the open-circuit potential φ along the bar (solid, left axis, mV relative to the cold end) and the temperature (dashed, right axis), from the cold end at x = 0 to the hot end at x = 1. The field E = Q∇T builds up until it stops the diffusion current, so φ(hot) − φ(cold) = −∫Q dT.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--fg)"></i>potential φ</span><span><i class="sw" style="background:var(--muted)"></i>temperature</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+  <article class="hw" id="hw-9-2">
+    <span class="tag">Sheet 9 · Problem 2 · 6 pts</span>
+    <h3>Frequency dependence of electrical conductivity</h3>
+    <p class="ask">(i) For a metal modelled as a free electron gas with a time-dependent homogeneous force $\vec F(t)$ on each electron, show that the non-equilibrium distribution is $f_E(t,\vec k)=f_0\big(t-\tau,\ \vec k-\tau\frac{\vec F}{\hbar}\big)$, with τ the relaxation time. (ii) Scattering acts as a friction term, $m\big(\frac{d}{dt}+\frac1\tau\big)\vec v=\vec F$. Show with this ansatz that in a homogeneous field $\vec E(t)$ oscillating at angular frequency ω the AC conductivity is $\sigma(\omega)=\frac{\sigma_{DC}}{1+i\omega\tau}$.</p>
+    <h4>Method</h4>
+    <p>(i) Write the Boltzmann equation in the relaxation-time approximation for a homogeneous system ($\nabla_{\vec r}f=0$). Expand the proposed $f_E$ to first order in τ and check that it satisfies the equation to that order. (ii) Insert $\vec E=\vec E_0e^{i\omega t}$ into the equation of motion, solve for the steady-state drift velocity, and use $\vec j=-ne\vec v$.</p>
+    <div class="assume"><b>Reading of the sheet:</b> "show" in (i) is taken to mean "to first order in τ" (linear response), which is how the lecture derived the static shifted sphere on p43–44. The sheet's form of $\sigma(\omega)$ fixes the time dependence as $e^{+i\omega t}$. Kittel ch. 6 Problem 6 is the same exercise in the $e^{-i\omega t}$ convention.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Homogeneous system: $\partial_tf+\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f=-\frac{f-f_0}{\tau}$.</li>
+        <li>Expand the ansatz to first order: $f_E\approx f_0-\tau\,\partial_tf_0-\tau\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f_0$. Hence $-\frac{f_E-f_0}{\tau}=\partial_tf_0+\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f_0$.</li>
+        <li>Left side with $f=f_E$: $\partial_tf_E+\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f_E=\partial_tf_0+\frac{\vec F}{\hbar}\cdot\nabla_{\vec k}f_0+\mathcal O(\tau)$. The correction terms are τ times second derivatives (or $\dot{\vec F}$), which is second order in the perturbation. Both sides agree to first order, which proves (i).</li>
+        <li>Interpretation: the distribution now is the equilibrium one from one relaxation time ago, displaced by the momentum $\tau\vec F$ gained since the last collision. For a static field $\vec F=-e\vec E$ it reduces to the lecture's shifted sphere $f_0(\vec k+e\tau\vec E/\hbar)$.</li>
+        <li>(ii) Each electron's mean (drift) velocity obeys $m(\dot{\vec v}+\vec v/\tau)=-e\vec E_0e^{i\omega t}$. Try $\vec v=\vec v_0e^{i\omega t}$: $m\big(i\omega+\frac1\tau\big)\vec v_0=-e\vec E_0$, so $\vec v_0=-\frac{e\tau/m}{1+i\omega\tau}\vec E_0$.</li>
+        <li>Current density: $\vec j=n(-e)\vec v=\frac{ne^2\tau/m}{1+i\omega\tau}\vec E$. With $\sigma_{DC}=ne^2\tau/m$ (2.2.3) this is $\sigma(\omega)=\frac{\sigma_{DC}}{1+i\omega\tau}$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $f_E(t,\vec k)=f_0(t-\tau,\vec k-\tau\vec F/\hbar)$ solves the relaxation-time Boltzmann equation to first order; $\sigma(\omega)=\sigma_{DC}/(1+i\omega\tau)=\sigma_{DC}(1-i\omega\tau)/(1+\omega^2\tau^2)$ for $e^{+i\omega t}$.</div>
+      <div class="check"><b>Sanity check:</b> ω → 0 gives σ<sub>DC</sub>. For ωτ ≫ 1, σ → −i ne²/(mω), independent of τ: free acceleration, current 90° behind the field. Replacing i by −i reproduces Kittel's eq. 62, σ(0)(1 + iωτ)/(1 + ω²τ²). For Cu, ωτ = 1 at f = 1/(2πτ) = 6.4 THz with τ = 2.47 × 10⁻¹⁴ s (node), so household and radio frequencies are fully in the DC limit.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card" id="exam-q3">
+    <span class="eyebrow">2022 Q3 · Thermoelectric phenomena · not yet lectured — from Kittel</span>
+    <p><b>(a) Give expressions for the energy flux and the current density. (b) Define the Peltier coefficient and the absolute thermopower Q.</b> The notes' separate laws $\vec j=\sigma\vec E$ and $\vec j_u=\kappa(-\nabla T)$ are not a full answer: Q3 asks for the <i>coupled</i> fluxes.</p>
+    <details>
+      <summary>Show model answer</summary>
+      <ol>
+        <li>(a) In linear response each flux depends on both forces:
+          $$\vec j=L_{11}\vec E+L_{12}(-\nabla T),\qquad\vec j_u=L_{21}\vec E+L_{22}(-\nabla T),$$
+          with $L_{11}=\sigma$ and energies measured from μ. Equivalent form: $\vec j=\sigma(\vec E-Q\nabla T)$, $\vec j_u=\Pi\vec j-\kappa\nabla T$. For a semiconductor with electrons (Kittel): $\vec j=ne\mu_e\vec E$ and $\vec j_u=n\big(E_c-\mu+\tfrac32k_BT\big)(-\mu_e)\vec E$, with mobility $\mu_e>0$.</li>
+        <li>(b) Thermopower: in open circuit ($\vec j=0$) a temperature gradient produces $\vec E=Q\nabla T$, so $Q=L_{12}/L_{11}$, in V/K. Peltier coefficient: at uniform T the energy flux carried by a current is $\vec j_u=\Pi\vec j$, so $\Pi=L_{21}/L_{11}$, the energy carried per unit charge, in V.</li>
+        <li>Kelvin relation: $\Pi=QT$ (Onsager, $L_{21}=TL_{12}$). Signs: electrons give $\Pi,Q<0$ ($\Pi_e=-(E_c-\mu+\tfrac32k_BT)/e$); holes give $\Pi,Q>0$.</li>
+      </ol>
+    </details>
+    <p>Points are lost for writing only the uncoupled Ohm and Fourier laws, for sign errors, and for not linking the sign of Q to the carrier type.</p>
+  </div>
+
+  <article class="hw" id="exam-ex1">
+    <span class="tag">Exam-style exercise · thermoelectrics</span>
+    <h3>Hot-probe test on n-type silicon</h3>
+    <p class="ask">An n-type Si bar at 300 K has its Fermi level 0.25 eV below the conduction band edge. (a) Find Π and Q in Kittel's drift model. (b) One end is heated by 10 K with no current flowing: which end becomes positive, and what voltage appears? (c) What heat flux does a current density of 10⁴ A/m² carry at uniform temperature?</p>
+    <h4>Method</h4>
+    <p>$\Pi_e=-(E_c-\mu+\tfrac32k_BT)/e$, then $Q=\Pi/T$ (Kelvin). Open circuit means $\vec E=Q\nabla T$; the Peltier heat flux is $j_u=\Pi j$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li>$k_BT=25.85$ meV at 300 K, so $\tfrac32k_BT=38.8$ meV and $\Pi_e=-(0.250+0.0388)\ \mathrm{eV}/e=-0.289$ V.</li>
+        <li>$Q=\Pi/T=-0.289/300=-0.96$ mV/K.</li>
+        <li>$V_{hot}-V_{cold}=-Q\,\Delta T=+9.6$ mV: the hot end is positive, because electrons pile up at the cold end.</li>
+        <li>$j_u=\Pi j=-0.289\ \mathrm V\times10^4\ \mathrm{A/m^2}=-2.9\times10^3\ \mathrm{W/m^2}$. The minus sign means heat flows opposite to $\vec j$, i.e. along the electron motion.</li>
+      </ol>
+      <div class="result"><b>Result:</b> Π = −0.29 V, Q = −0.96 mV/K, hot end +9.6 mV, Peltier heat flux 2.9 kW/m² against the current.</div>
+      <div class="check"><b>Sanity check:</b> the same numbers come out of Model 6 at its default settings. The order of magnitude matches Kittel Fig. 23, where QT for n-Si is a few tenths of a volt. The magnitude is about 600 times the Cu free-electron value (1.57 μV/K), as expected from (Δ/k_BT)/(k_BT/ε_F)-type scaling.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="exam-ex2">
+    <span class="tag">Exam-style exercise · conduction in copper</span>
+    <h3>Relaxation time, mean free path and thermal conductivity of Cu</h3>
+    <p class="ask">Copper at 295 K: ρ = 1.70 μΩ cm, n = 8.45 × 10²⁸ m⁻³, v<sub>F</sub> = 1.57 × 10⁶ m/s (Kittel). Find τ, ℓ, the AC crossover frequency, and estimate κ from the Wiedemann–Franz law.</p>
+    <h4>Method</h4>
+    <p>Invert $\sigma=ne^2\tau/m$; then $\ell=v_F\tau$, $f=1/2\pi\tau$ and $\kappa=L\sigma T$ with $L=\pi^2k_B^2/3e^2$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li>$\tau=\frac{m}{ne^2\rho}=\frac{9.109\times10^{-31}}{8.45\times10^{28}\,(1.602\times10^{-19})^2\,1.70\times10^{-8}}=2.47\times10^{-14}$ s.</li>
+        <li>$\ell=v_F\tau=1.57\times10^6\times2.47\times10^{-14}=3.9\times10^{-8}$ m ≈ 39 nm, about 100 lattice spacings.</li>
+        <li>$f_{\omega\tau=1}=1/2\pi\tau=6.4$ THz.</li>
+        <li>$\kappa=L\sigma T=2.44\times10^{-8}\times5.88\times10^{7}\times295=424$ W m⁻¹ K⁻¹.</li>
+      </ol>
+      <div class="result"><b>Result:</b> τ ≈ 2.5 × 10⁻¹⁴ s, ℓ ≈ 39 nm, f ≈ 6 THz, κ ≈ 420 W m⁻¹ K⁻¹.</div>
+      <div class="check"><b>Sanity check:</b> κ measured (Kittel ch. 5 Table 1, 300 K) is 401 W m⁻¹ K⁻¹, about 6% below the estimate. That matches the measured Lorenz number for Cu (2.23–2.33 × 10⁻⁸, Kittel Table 5) sitting slightly below 2.44 × 10⁻⁸. Model 1 reproduces τ and ℓ at its default τ.</div>
+    </details>
+  </article>
+
+  <div class="card">
+    <p><b>Not asked in 2022:</b> the Boltzmann equation, σ, Matthiessen, Umklapp and Wiedemann–Franz. Sheet 9.2 is the likeliest exercise pattern. In 5 minutes without notes you should be able to: write the Boltzmann equation with the RTA term (with its minus sign); derive $\sigma=ne^2\tau/m$ from the shifted sphere; derive $\sigma(\omega)$ and its limits; sketch ρ(T) with residual, $T^5$ and $T$ regions; draw the two-sphere Umklapp picture; and derive $L=\pi^2k_B^2/3e^2$.</p>
+  </div>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed.: ch. 6 (Tables 1, 3, 5; "Electrical Conductivity and Ohm's Law", "Umklapp Scattering", "Thermal Conductivity of Metals", Problem 6); ch. 5 Table 1; ch. 8 "Thermoelectric Effects" (eqs. 54–60, Fig. 23); Appendix F "Boltzmann Transport Equation".</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 42–49.</li>
+    <li>Problem sheet 9 (problem 2), Fall 2026.</li>
+    <li>Condensed Matter and Devices topic list (§2.2, 2.4, 2.5, 2.7.7); 2022 exam as recovered by alumni (Q3).</li>
+    <li>Tutoring boards 10 "Conduction &amp; Free Electron Gas" and 13 "Conductivity Wednesday": no readable transport content; the shifted-sphere model follows the board 10 suggestion.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, layout, CFG, vline, hline, lin, setRead, setPill, rgba, PI, K } = CM;
+  const e = K.e, me = K.me, kB = K.kB, hbar = K.hbar;
+
+  /* Cu free-electron data, Kittel ch. 6 Table 1: n = 8.45e22 cm^-3, v_F = 1.57e8 cm/s, eps_F = 7.00 eV */
+  const CU = { n: 8.45e28, vF: 1.57e6, EF: 7.00 };
+  const kFcu = me * CU.vF / hbar;   // = 1.354e10 1/m; check (3 pi^2 n)^(1/3) = 1.358e10
+  const sup = s => String(s).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹⁻'['0123456789-'.indexOf(c)] ?? c).join('');
+  const sci = (x, d = 2) => {
+    if (x === 0) return '0';
+    const p = Math.floor(Math.log10(Math.abs(x))), m = x / 10 ** p;
+    return (p >= -2 && p <= 3) ? String(Number(x.toPrecision(d + 1))) : `${m.toFixed(d)} × 10${sup(p)}`;
+  };
+  const neg = s => String(s).replace(/^-/, '−');
+  const setOut = (id, txt) => { const o = document.querySelector(`output[for="${id}"]`); if (o) o.textContent = txt; };
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onRadio = (name, fn) => document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.addEventListener('change', () => CM.schedule(fn)));
+  function tUnit(t) { return t < 1e-12 ? [1e-15, 'fs'] : t < 1e-9 ? [1e-12, 'ps'] : [1e-9, 'ns']; }
+  function vUnit(v) { return v < 1e-3 ? [1e-6, 'μm/s'] : v < 1 ? [1e-3, 'mm/s'] : [1, 'm/s']; }
+  const circ = (cx, r, n = 121) => { const a = lin(0, 2 * PI, n); return { x: a.map(t => cx + r * Math.cos(t)), y: a.map(t => r * Math.sin(t)) }; };
+  // part of the unit circle centred at cL lying outside the unit circle centred at cR (cL < cR)
+  function crescentLeft(cL, cR) {
+    const xi = (cL + cR) / 2, h = Math.sqrt(Math.max(0, 1 - ((cR - cL) / 2) ** 2));
+    const a = Math.atan2(h, xi - cL), b = Math.atan2(h, xi - cR), X = [], Y = [];
+    lin(a, 2 * PI - a, 80).forEach(t => { X.push(cL + Math.cos(t)); Y.push(Math.sin(t)); });
+    lin(2 * PI - b, b, 80).forEach(t => { X.push(cR + Math.cos(t)); Y.push(Math.sin(t)); });
+    return { x: X, y: Y };
+  }
+  const arrow = (x, y, ax_, ay, color, text = '') => ({ x, y, ax: ax_, ay, xref: 'x', yref: 'y', axref: 'x', ayref: 'y', showarrow: true,
+    arrowhead: 3, arrowsize: 1.1, arrowwidth: 2, arrowcolor: color, text, font: { color, size: 12 } });
+  const label = (x, y, text, color, o = {}) => Object.assign({ x, y, text, showarrow: false, font: { color, size: 12 } }, o);
+
+  /* ---------- Model 1: shifted Fermi sphere ---------- */
+  function renderFS() {
+    const E = +$('fs-E').value, tau = 10 ** +$('fs-lt').value;
+    setOut('fs-lt', `${sci(tau)} s`);
+    const vd = e * tau * E / me, r = vd / CU.vF;          // delta k / k_F = v_d / v_F (since hbar k = m v)
+    // drawing magnification M from the 1-2-5 series, chosen so the drawn shift lies in (0.12, 0.3] k_F
+    const p = Math.floor(Math.log10(0.3 / r)), M = [5, 2, 1].map(c => c * 10 ** p).find(m => m * r <= 0.3);
+    const d = r * M, sig = CU.n * e * e * tau / me, j = sig * E;
+    const shifted = circ(-d, 1), eq = circ(0, 1);
+    const fill = (s, col, a) => ({ x: s.x, y: s.y, mode: 'lines', fill: 'toself', fillcolor: rgba(col, a), line: { color: col, width: 0 }, hoverinfo: 'skip' });
+    Plotly.react('fs-p1', [
+      fill(shifted, C.occ, 0.16),
+      fill(crescentLeft(-d, 0), C.occ, 0.75),
+      Object.assign(fill(crescentLeft(-d, 0), C.emp, 0.75), { x: crescentLeft(-d, 0).x.map(x => -x - d) }),
+      { x: shifted.x, y: shifted.y, mode: 'lines', line: { color: C.occ, width: 2 }, hoverinfo: 'skip' },
+      { x: eq.x, y: eq.y, mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' }],
+      layout({ xaxis: ax('k_x / k_F', { range: [-1.6, 1.6], zeroline: true }), yaxis: ax('k_y / k_F', { range: [-1.35, 1.35], scaleanchor: 'x', zeroline: true }),
+        annotations: [arrow(1.45, 1.2, 0.85, 1.2, C.fg, ''), label(1.15, 1.32, 'E', C.fg), arrow(-d, -0.04, 0, -0.04, C.occ, ''),
+          label(-0.5, -0.18, d > 0.02 ? 'δk' : '', C.occ)] }), CFG);
+    // drift speed after switch-on at 0 and switch-off at 5 tau
+    const [tu, tn] = tUnit(tau), [vu, vn] = vUnit(vd), T = lin(-1, 10, 400);
+    const v = T.map(s => s < 0 ? 0 : s < 5 ? vd * (1 - Math.exp(-s)) : vd * (1 - Math.exp(-5)) * Math.exp(-(s - 5)));
+    Plotly.react('fs-p2', [
+      { x: T.map(s => s * tau / tu), y: v.map(x => x / vu), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: `%{y:.3g} ${vn}<extra></extra>` }],
+      layout({ shapes: [vline(tau / tu, C.ef), vline(6 * tau / tu, C.ef), vline(0, C.muted, 'dot'), vline(5 * tau / tu, C.muted, 'dot')],
+        xaxis: ax(`time t (${tn})`), yaxis: ax(`drift speed (${vn})`, { rangemode: 'tozero' }),
+        annotations: [label(2.5 * tau / tu, vd / vu * 1.08, 'field on', C.muted), label(7.5 * tau / tu, vd / vu * 1.08, 'field off', C.muted)] }), CFG);
+    setPill('fs-pill', ['metal', `shift drawn × ${sci(M, 0)}`]);
+    setRead('fs-read', [['σ = ne²τ/m', sci(sig) + ' S/m'], ['ρ', sci(1e8 / sig) + ' μΩ cm'], ['j = σE', sci(j / 1e6) + ' A/mm²'],
+      ['drift speed eτE/m', sci(vd / vu) + ' ' + vn], ['δk / k_F', sci(r)], ['mean free path v_Fτ', sci(CU.vF * tau * 1e9) + ' nm']]);
+  }
+
+  /* ---------- Model 2: sigma(omega) ---------- */
+  function renderAC() {
+    const f = 10 ** +$('ac-lf').value, tau = 10 ** +$('ac-lt').value, w = 2 * PI * f, wt = w * tau, sgn = radio('ac-conv') === 'sheet' ? -1 : 1;
+    setOut('ac-lf', f >= 1e12 ? sci(f / 1e12) + ' THz' : sci(f / 1e9) + ' GHz');
+    setOut('ac-lt', `${sci(tau)} s`);
+    const F = lin(9, 15, 300).map(x => 10 ** x), re = F.map(x => 1 / (1 + (2 * PI * x * tau) ** 2)), im = F.map((x, i) => sgn * 2 * PI * x * tau * re[i]);
+    const fc = 1 / (2 * PI * tau), R = 1 / (1 + wt * wt), I = sgn * wt * R;
+    Plotly.react('ac-p1', [
+      { x: F, y: re, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'Re = %{y:.3f}<extra></extra>' },
+      { x: F, y: im, mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'Im = %{y:.3f}<extra></extra>' },
+      { x: [f, f], y: [R, I], mode: 'markers', marker: { color: [C.occ, C.emp], size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(fc, C.ef), hline(0, C.line, 'solid')], xaxis: ax('frequency f (Hz)', { type: 'log', exponentformat: 'power' }),
+        yaxis: ax('σ(ω) / σ₀', { range: [-1.05, 1.05] }) }), CFG);
+    const phi = Math.atan(wt), amp = Math.sqrt(R), t = lin(0, 2, 300);
+    Plotly.react('ac-p2', [
+      { x: t, y: t.map(s => Math.cos(2 * PI * s)), mode: 'lines', line: { color: C.muted, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: t, y: t.map(s => amp * Math.cos(2 * PI * s - phi)), mode: 'lines', line: { color: C.occ, width: 2.5 }, hoverinfo: 'skip' }],
+      layout({ xaxis: ax('time t (periods 2π/ω)'), yaxis: ax('E/E₀ and j/(σ₀E₀)', { range: [-1.1, 1.1] }) }), CFG);
+    const sig0 = CU.n * e * e * tau / me;
+    setPill('ac-pill', ['metal', wt < 0.3 ? 'DC-like: current in phase' : wt < 3 ? 'crossover ωτ ≈ 1' : 'inductive: free acceleration']);
+    setRead('ac-read', [['ωτ', sci(wt)], ['σ/σ₀', `${R.toFixed(3)} ${I < 0 ? '−' : '+'} ${Math.abs(I).toFixed(3)} i`], ['|σ|/σ₀', amp.toFixed(3)],
+      ['lag φ = arctan ωτ', (phi * 180 / PI).toFixed(1) + '°'], ['crossover f = 1/2πτ', sci(fc / 1e12) + ' THz'], ['σ₀ (Cu n)', sci(sig0) + ' S/m']]);
+  }
+
+  /* ---------- Model 3: rho(T), Bloch–Grüneisen + Matthiessen ---------- */
+  function J5(y) {                       // ∫0^y x^5 / ((e^x − 1)(1 − e^−x)) dx, Simpson; integrand ~ x^3 near 0
+    const N = 200, h = y / N; let s = 0;
+    for (let i = 0; i <= N; i++) { const x = i * h || 1e-9, g = x ** 5 / ((Math.exp(x) - 1) * (1 - Math.exp(-x))); s += g * (i === 0 || i === N ? 1 : i % 2 ? 4 : 2); }
+    return s * h / 3;
+  }
+  // high-T check: J5(y) -> y^4/4, so rho_ph -> A T/(4 Theta); low T: J5 -> 5! zeta(5) = 124.4 → rho ∝ T^5
+  function renderRT() {
+    const ppm = 10 ** +$('rt-c').value, th = +$('rt-th').value, rhoI = ppm * 1e-4;   // 1 μΩ cm per at.% = 1e-4 μΩ cm per ppm (Kittel)
+    setOut('rt-c', ppm >= 1e4 ? (ppm / 1e4).toFixed(2) + ' at.%' : ppm < 10 ? ppm.toFixed(1) + ' ppm' : Math.round(ppm) + ' ppm');
+    const bg = T => (T / th) ** 5 * J5(th / T), A = 1.70 / bg(295);     // normalise rho_ph(295 K) = 1.70 μΩ cm (Kittel Table 3, residual subtracted)
+    const Ts = lin(0, 3, 160).map(x => 10 ** x), ph = Ts.map(T => A * bg(T)), tot = ph.map(p => p + rhoI);
+    Plotly.react('rt-p1', [
+      { x: Ts, y: tot, mode: 'lines', line: { color: C.fg, width: 2.5 }, hovertemplate: 'T = %{x:.3g} K<br>ρ = %{y:.3g} μΩ cm<extra></extra>' },
+      { x: Ts, y: ph, mode: 'lines', line: { color: C.occ, width: 2, dash: 'dot' }, hoverinfo: 'skip' },
+      { x: [1, 1000], y: [rhoI, rhoI], mode: 'lines', line: { color: C.emp, width: 2, dash: 'dash' }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(th, C.ef)], xaxis: ax('temperature T (K)', { type: 'log', exponentformat: 'power' }),
+        yaxis: ax('resistivity ρ (μΩ cm)', { type: 'log', exponentformat: 'power', range: [-8, 1.2] }) }), CFG);
+    const T2 = Ts.slice(1, -1), ex = T2.map((T, i) => Math.log(ph[i + 2] / ph[i]) / Math.log(Ts[i + 2] / Ts[i]));
+    Plotly.react('rt-p2', [{ x: T2, y: ex, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'T = %{x:.3g} K<br>p = %{y:.2f}<extra></extra>' }],
+      layout({ shapes: [vline(th, C.ef), hline(5, C.line), hline(1, C.line)], xaxis: ax('temperature T (K)', { type: 'log', exponentformat: 'power' }),
+        yaxis: ax('local exponent p', { range: [0, 5.6] }) }), CFG);
+    const r295 = A * bg(295) + rhoI, r4 = A * bg(4) + rhoI, tau4 = me / (CU.n * e * e * r4 * 1e-8);
+    setPill('rt-pill', ['metal', `resistivity ratio ≈ ${sci(r295 / r4, 1)}`]);
+    setRead('rt-read', [['ρ_i (residual)', sci(rhoI) + ' μΩ cm'], ['ρ(295 K)', sci(r295) + ' μΩ cm'], ['ρ(4 K)', sci(r4) + ' μΩ cm'],
+      ['τ(4 K)', sci(tau4) + ' s'], ['ℓ(4 K) = v_Fτ', CU.vF * tau4 > 1e-3 ? sci(CU.vF * tau4 * 1e3) + ' mm' : sci(CU.vF * tau4 * 1e6) + ' μm']]);
+  }
+
+  /* ---------- Model 5: Wiedemann–Franz ---------- */
+  const LS = PI * PI / 3 * (kB / e) ** 2, LCL = 1.5 * (kB / e) ** 2;   // 2.443e-8 and 1.114e-8 W Ω K^-2 (node)
+  const LTAB = [['Ag', 2.31], ['Au', 2.35], ['Cd', 2.42], ['Cu', 2.23], ['Mo', 2.61], ['Pb', 2.47], ['Pt', 2.51], ['Sn', 2.52], ['W', 3.04], ['Zn', 2.31]];   // Kittel Table 5, 0 °C
+  function renderWF() {
+    const T = +$('wf-T').value, ppm = 10 ** +$('wf-c').value, rhoI = ppm * 1e-4, th = 343;
+    setOut('wf-c', ppm >= 1e4 ? (ppm / 1e4).toFixed(2) + ' at.%' : ppm < 10 ? ppm.toFixed(1) + ' ppm' : Math.round(ppm) + ' ppm');
+    const bg = t => (t / th) ** 5 * J5(th / t), A = 1.70 / bg(295), rho = t => (A * bg(t) + rhoI) * 1e-8;   // Ω m, as Model 3
+    const kap = t => LS * t / rho(t), Ts = lin(Math.log10(20), Math.log10(400), 120).map(x => 10 ** x);
+    Plotly.react('wf-p1', [
+      { x: Ts, y: Ts.map(kap), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'T = %{x:.0f} K<br>κ = %{y:.3g} W/(m K)<extra></extra>' },
+      { x: [T], y: [kap(T)], mode: 'markers', marker: { color: C.occ, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' },
+      { x: [300], y: [401], mode: 'markers', marker: { color: C.ef, size: 10, symbol: 'diamond' }, hovertemplate: 'Kittel: 401 W/(m K)<extra></extra>' }],
+      layout({ xaxis: ax('temperature T (K)', { type: 'log' }), yaxis: ax('κ_el = LσT (W m⁻¹ K⁻¹)', { type: 'log', exponentformat: 'power' }) }), CFG);
+    Plotly.react('wf-p2', [{ x: LTAB.map(r => r[0]), y: LTAB.map(r => r[1]), type: 'bar', marker: { color: LTAB.map(r => r[0] === 'Cu' ? C.occ : rgba(C.occ, 0.45)) }, hovertemplate: '%{x}: %{y:.2f}<extra></extra>' }],
+      layout({ shapes: [hline(LS * 1e8, C.ef, 'solid'), hline(LCL * 1e8, C.emp)], xaxis: ax(''), yaxis: ax('L (10⁻⁸ W Ω K⁻²)', { range: [0, 3.3] }) }), CFG);
+    const s = 1 / rho(T);
+    setPill('wf-pill', ['metal', `κ_el/σT = L = ${(LS * 1e8).toFixed(2)} × 10⁻⁸`]);
+    setRead('wf-read', [['σ(T)', sci(s) + ' S/m'], ['κ_el = LσT', sci(kap(T)) + ' W m⁻¹ K⁻¹'], ['classical L / Sommerfeld L', (LCL / LS).toFixed(2)]]);
+  }
+
+  /* ---------- Model 4: Umklapp geometry and freeze-out ---------- */
+  function renderUM() {
+    const z = +$('um-z').value, th = +$('um-th').value;
+    const G = 2 * Math.SQRT2 * PI, kF = Math.cbrt(3 * PI * PI * 2 * z), q0 = Math.max(0, G - 2 * kF);   // units 1/a; bcc: 2 atoms per a^3
+    const qD = Math.cbrt(6 * PI * PI * 2), thU = th * q0 / qD;   // Debye sphere for 2 atoms per a^3; z = 1: q0/kF = 0.280, thU = 20 K for Θ = 91 K
+    const s0 = circ(0, kF), s1 = circ(G, kF);
+    const disc = s => ({ x: s.x, y: s.y, mode: 'lines', fill: 'toself', fillcolor: rgba(C.occ, 0.22), line: { color: C.occ, width: 2 }, hoverinfo: 'skip' });
+    const ann = [label(0, -kF - 0.45, 'Fermi sphere at 0', C.occ), label(G, -kF - 0.45, 'same sphere at G', C.occ), label(G / 2, kF + 0.55, 'zone face G/2', C.ef)];
+    if (q0 > 0) ann.push(arrow(G - kF, 0, kF, 0, C.emp, ''), label(G / 2, 0.35, 'q₀', C.emp), arrow(kF, 0, 0, 0, C.fg, ''), label(kF * 0.55, 0.3, 'k', C.fg),
+      arrow(-kF, 0, 0, 0, C.fg, ''), label(-kF * 0.55, 0.3, 'k′ = k + q₀ − G', C.fg, { xanchor: 'center' }));
+    Plotly.react('um-p1', [disc(s0), disc(s1)],
+      layout({ shapes: [vline(G / 2, C.ef)], xaxis: ax('k along [110] (1/a)', { range: [-kF - 0.6, G + kF + 0.6], zeroline: false }),
+        yaxis: ax('k ⟂ (1/a)', { scaleanchor: 'x', range: [-kF - 0.9, kF + 0.9], zeroline: false }), annotations: ann }), CFG);
+    const Ts = lin(0.5, 1.5 * th, 300);
+    Plotly.react('um-p2', [{ x: Ts, y: Ts.map(T => Math.exp(-thU / T)), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'T = %{x:.1f} K<br>e^(−θU/T) = %{y:.3f}<extra></extra>' }],
+      layout({ shapes: [vline(thU, C.ef), vline(th, C.ef, 'dot')], xaxis: ax('temperature T (K)'), yaxis: ax('Umklapp phonon supply e^(−θ_U/T)', { range: [0, 1.05] }),
+        annotations: q0 > 0 ? [label(thU, 1.0, 'θ_U', C.ef, { xanchor: 'left', xshift: 4 }), label(th, 0.08, 'Θ_D', C.ef, { xanchor: 'right', xshift: -4 })] : [] }), CFG);
+    setPill('um-pill', q0 > 0 ? ['metal', 'Umklapp needs q ≥ q₀'] : ['semi', 'sphere touches zone face']);
+    setRead('um-read', [['k_F a', kF.toFixed(3)], ['G₁₁₀ a / 2 (zone face)', (G / 2).toFixed(3)], ['k_F / (G/2)', (kF / (G / 2)).toFixed(3)],
+      ['q₀ = G − 2k_F', q0 > 0 ? (q0 / kF).toFixed(3) + ' k_F' : '0'], ['θ_U ≈ Θ_D q₀/q_D', thU.toFixed(1) + ' K'], ['e^(−θ_U/T) at 2 K', sci(Math.exp(-thU / 2))]]);
+  }
+
+  /* ---------- Model 5: thermopower and Peltier ---------- */
+  function renderTE() {
+    const car = radio('te-car'), D = +$('te-d').value, T = +$('te-T').value, dT = +$('te-dT').value, kBeV = K.kBeV;
+    const Qs = (c, t) => (c === 'n' ? -1 : 1) * (D + 1.5 * kBeV * t) / t;        // V/K, Kittel eqs. 56, 58 with Pi = QT
+    const Qcu = t => -PI * PI * kBeV * kBeV * t / (2 * CU.EF);                   // Mott, free electrons, V/K; 300 K: −1.57 μV/K
+    const Ts = lin(100, 600, 200);
+    Plotly.react('te-p1', [
+      { x: Ts, y: Ts.map(t => Qs('n', t) * 1e3), mode: 'lines', line: { color: C.emp, width: car === 'n' ? 3 : 1.5 }, hovertemplate: 'n: %{y:.3f} mV/K<extra></extra>' },
+      { x: Ts, y: Ts.map(t => Qs('p', t) * 1e3), mode: 'lines', line: { color: C.occ, width: car === 'p' ? 3 : 1.5 }, hovertemplate: 'p: %{y:.3f} mV/K<extra></extra>' },
+      { x: Ts, y: Ts.map(t => Qcu(t) * 1e3), mode: 'lines', line: { color: C.ef, width: 2 }, hovertemplate: 'Cu: %{y:.5f} mV/K<extra></extra>' },
+      { x: [T], y: [Qs(car, T) * 1e3], mode: 'markers', marker: { color: car === 'n' ? C.emp : C.occ, size: 11, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [hline(0, C.line, 'solid')], xaxis: ax('temperature T (K)'), yaxis: ax('thermopower Q (mV/K)', { range: [-7.5, 7.5] }) }), CFG);
+    const Tc = T - dT / 2, X = lin(0, 1, 101), TX = X.map(x => Tc + dT * x);
+    let acc = 0; const phi = TX.map((t, i) => { if (i) { const t0 = TX[i - 1]; acc -= 0.5 * (Qs(car, t) + Qs(car, t0)) * (t - t0); } return acc * 1e3; });   // φ(x) − φ(0) = −∫Q dT, mV
+    const Vh = phi[phi.length - 1];
+    Plotly.react('te-p2', [
+      { x: X, y: phi, mode: 'lines', line: { color: C.fg, width: 2.5 }, hovertemplate: 'φ = %{y:.2f} mV<extra></extra>' },
+      { x: X, y: TX, yaxis: 'y2', mode: 'lines', line: { color: C.muted, width: 2, dash: 'dash' }, hovertemplate: 'T = %{y:.1f} K<extra></extra>' }],
+      layout({ margin: { l: 56, r: 56, t: 8, b: 44 }, xaxis: ax('position x (cold end 0 → hot end 1)'),
+        yaxis: ax('potential φ (mV)', { range: Vh >= 0 ? [-2, Math.max(5, Vh * 1.15)] : [Math.min(-5, Vh * 1.15), 2] }),
+        yaxis2: ax('T (K)', { overlaying: 'y', side: 'right', showgrid: false, range: [Tc - 30, T + dT / 2 + 30] }),
+        annotations: [label(0.02, 0, dT ? (Vh > 0 ? 'cold end −' : 'cold end +') : '', C.fg, { xanchor: 'left', yshift: 14 }),
+          label(0.98, Vh, dT ? (Vh > 0 ? 'hot end +' : 'hot end −') : '', C.fg, { xanchor: 'right', yshift: 14 })] }), CFG);
+    const Q = Qs(car, T), Pi = Q * T;
+    setPill('te-pill', ['semi', car === 'n' ? 'electrons: Q < 0, Π < 0' : 'holes: Q > 0, Π > 0']);
+    setRead('te-read', [['Π = ∓(Δ + 3k_BT/2)/e', neg((Pi * 1e3).toFixed(1)) + ' mV'], ['Q', neg((Q * 1e6).toFixed(0)) + ' μV/K'], ['Π / T (Kelvin)', neg((Pi / T * 1e6).toFixed(0)) + ' μV/K'],
+      ['V_hot − V_cold', neg(Vh.toFixed(2)) + ' mV'], ['Peltier heat at j = 10⁴ A/m²', neg(sci(Pi * 1e4)) + ' W/m²'], ['Cu free electrons Q', neg((Qcu(T) * 1e6).toFixed(2)) + ' μV/K']]);
+  }
+
+  onRadio('ac-conv', renderAC);
+  onRadio('te-car', renderTE);
+  CM.wire({ fs: renderFS, ac: renderAC, rt: renderRT, um: renderUM, wf: renderWF, te: renderTE });
+});
+</script>
+</body>
+</html>
