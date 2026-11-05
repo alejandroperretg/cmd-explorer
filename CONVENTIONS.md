@@ -1,8 +1,18 @@
 # Conventions for topic pages
 
-**Files.** One page per topic: `pages/<NN>-<slug>.html` (slugs in `PLAN.md`). Start by copying `templates/topic.html`; keep its head, nav and the six sections in order: Overview → Concepts → Interactive models → Homework guides → Exam angle → Sources. Edit only your own page, plus your own card in `index.html` (turn the `<div class="topic planned">` into `<a class="topic" href="pages/…">` and set its pill to `<span class="pill built">ready</span>`). Do not edit `assets/` — if you need a shared helper or style, say so in your report. Inputs and page refs: `sources/INDEX.md`.
+**Files.** One page per topic: `pages/<NN>-<slug>.html` (slugs in `PLAN.md`). Start by copying `templates/topic.html`; keep its head, nav and the six sections in order: Overview → Concepts → Interactive models → Homework guides → Exam angle → Sources. Edit only your own page. Leave `index.html` alone: pages are built in parallel, so the coordinator switches each card to ready after its review. Do not edit `assets/` — if you need a shared helper or style, say so in your report. Inputs and page refs: `sources/INDEX.md`.
 
-**Physics.** Kittel 8th-ed. notation and sign conventions (e.g. $\mathbf a_i$, $\mathbf b_i$ with $\mathbf a_i\cdot\mathbf b_j = 2\pi\delta_{ij}$, $\mathbf G$, $\omega(k)$, $D(\varepsilon)$, $k_B$, $\varepsilon_F$). SI units throughout; write $\hbar$ explicitly (no $\hbar = 1$ in text; if a model uses scaled units, say so in its caption). Use eV or meV for energies where Kittel does, with the conversion shown once. Constants: `CM.K` (CODATA 2018, SI).
+**Sources, in order of trust** (for what the course covers and how it states it): topic list → homework sheets → Miro boards → 2022 exam → lecture notes → Kittel.
+- What each source is for:
+  - topic list and 2022 exam: which topics get examined;
+  - sheets: the material, the difficulty level, and what the exam will focus on;
+  - lecture notes: notation;
+  - Kittel: rigour.
+- The topic list defines the scope. Every subsection it lists for your section gets a Concepts entry, even when no other source covers it.
+- The lecture notes are incomplete (lectures were missed) and contain errors (see `../digest/`). Use them for the lecturer's notation, never as the only basis for a claim.
+- Kittel fills gaps and is the check on physics. When a course source disagrees with Kittel on physics, flag it in an `.assume` box rather than silently picking one.
+
+**Physics.** Notation follows the sheets where they set one (e.g. $\sigma(\omega)=\sigma_0/(1+i\omega\tau)$ on sheet 9.2), otherwise Kittel 8th-ed. notation and sign conventions (e.g. $\mathbf a_i$, $\mathbf b_i$ with $\mathbf a_i\cdot\mathbf b_j = 2\pi\delta_{ij}$, $\mathbf G$, $\omega(k)$, $D(\varepsilon)$, $k_B$, $\varepsilon_F$). SI units throughout; write $\hbar$ explicitly (no $\hbar = 1$ in text; if a model uses scaled units, say so in its caption). Use eV or meV for energies where Kittel does, with the conversion shown once. Constants: `CM.K` (CODATA 2018, SI).
 
 **Math.** KaTeX: `$…$` inline, `$$…$$` display. A literal dollar sign must be `\$`. Text inserted by JS is not auto-rendered: call `CM.math(el)` after setting `innerHTML`. Readouts and slider outputs use plain Unicode (`ε`, `ħ`, `k_F`), not KaTeX.
 
@@ -27,5 +37,7 @@
 - [ ] At 400 px width: no horizontal page scroll (`document.documentElement.scrollWidth <= 400`); long equations scroll inside their own box.
 - [ ] Readable in light and dark (nav "Dark/Light" button), plots re-themed.
 - [ ] Every numeric claim checked, with the method stated as above.
-- [ ] Every sheet problem for the topic (see `PLAN.md`) has a guide; the exam angle is filled.
-- [ ] Page linked from `index.html` (card switched to ready). Do not tick `PLAN.md`; the reviewer does that after checking.
+- [ ] Every topic-list subsection of the section has a Concepts entry.
+- [ ] Every sheet problem for the topic (see `PLAN.md`) has a guide. The exam angle is filled: the exam is mostly exercises with some theory, in the pattern of 2022, so include at least one exam-style exercise with a worked solution.
+- [ ] Do not edit `index.html` or tick `PLAN.md`. Both happen after review.
+- [ ] Testing in the browser pane: other agents share it, so open your own tab (`tabs_create`), pass its `tabId` on every call, and serve on your own port (`node tools/serve.js <port>`).

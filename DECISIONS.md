@@ -17,4 +17,7 @@ Rejected: everything open (spoils the attempt). Assumed without asking the user;
 
 **Source dumps gitignored, served as 403.** `sources/` holds lecturer and student material; `.gitignore` excludes it and `tools/serve.js` refuses it, so nothing that is only found locally can leak into the published site.
 
+**Source hierarchy set by the user:** topic list → sheets → Miro → 2022 exam → lecture notes → Kittel. The topic list defines scope, and the notes are incomplete because lectures were missed. The exam is exercise-oriented with some theory, and is expected to resemble 2022.
+Rejected: the scaffold's original lecture-notes-first index and Kittel-first notation. Kittel remains the check on physics correctness.
+
 **Topic split as briefed (14 pages).** The sources confirm it. Sheet 3 is split across 02 (3.1, 3.2) and 03 (3.3, 3.4), and sheet 9 across 07 (9.1) and 08 (9.2). Direct imaging (syllabus 1.1.3, notes "1.2", sheet 2.3) sits with diffraction in 02 because the sheet and notes group it there.
