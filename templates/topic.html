@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- TEMPLATE: copy to pages/<NN>-<slug>.html, replace every {{...}}, delete these TEMPLATE comments. -->
+<title>{{Topic title}} · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic {{NN}}</span><span>Syllabus §{{1.1}}</span><span>Kittel ch. {{1}}</span><span>Notes pp. {{2–6}}</span><span>Sheets {{1}}</span></div>
+  <h1>{{Topic title}}</h1>
+  <p class="lead">{{Two sentences: what this topic is and why it matters for the rest of the course.}}</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>{{What the topic covers and why. Name the key result(s) a student should leave with.}}</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. {{1}} ({{section names}}), and the lecture notes pp. {{2–6}}.</p>
+</section>
+
+<!-- 2. CONCEPTS: one .card per idea; equations in $...$ or $$...$$ -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>{{Concept name}}</h3>
+      <p>{{Short explanation in plain language.}}</p>
+      $$ {{E(k) = \frac{\hbar^2 k^2}{2m}}} $$
+      <p>{{What each symbol means, with SI units.}}</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS: one .bench per model; ids of all inputs start with the model prefix (here "m1-") -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+  <section class="bench" id="model1">
+    <div class="rail">
+      <span class="eyebrow">Model 1 · {{short setup}}</span>
+      <h3>{{Model title}}</h3>
+      <p>{{What the model shows and what is simplified.}}</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m1-k"><span>Wave vector k</span> <output for="m1-k"></output></label><input type="range" id="m1-k" min="-1" max="1" step="0.01" value="0.3" data-pi="1"></div>
+        <div class="ctl"><label for="m1-a"><span>Amplitude</span> <output for="m1-a"></output></label><input type="range" id="m1-a" min="0" max="2" step="0.01" value="1" data-fmt="2" data-unit=" eV"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>{{A concrete thing to do and what to notice.}}</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot" id="m1-p"></div>
+        <figcaption><b>How to read:</b> {{axes, what each mark means, what to look for.}}</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>{{curve}}</span><span><i class="sw" style="background:var(--ef)"></i>{{marker}}</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES: one .hw per sheet problem, id="hw-<sheet>-<problem>" -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+  <article class="hw" id="hw-{{1}}-{{2}}">
+    <span class="tag">Sheet {{1}} · Problem {{2}} · {{4}} pts</span>
+    <h3>{{Problem title as on the sheet}}</h3>
+    <p class="ask">{{One-line paraphrase, with the sheet's given data reproduced exactly.}}</p>
+    <h4>Method</h4>
+    <p>{{Which idea/formula solves it and why.}}</p>
+    <div class="assume"><b>Assumption:</b> {{anything not stated on the sheet; delete if none.}}</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>{{Step with equation $...$.}}</li>
+      </ol>
+      <div class="result"><b>Result:</b> {{final answer with units and sensible significant figures.}}</div>
+      <div class="check"><b>Sanity check:</b> {{limit, units, order of magnitude, or comparison with a known value.}}</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p>{{What the 2022 exam asked on this topic (question numbers), and what to be able to do in 5 minutes without notes. Write "Not asked in 2022" if so.}}</p>
+  </div>
+</section>
+
+<!-- 6. SOURCES: references by name only; never link to sources/ or the course PDFs -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. {{1}}.</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. {{2–6}}.</li>
+    <li>Problem sheet{{s}} {{1}}, Fall 2026.</li>
+    <li>{{Tutoring board(s): name.}}</li>
+  </ul>
+</section>
+</main>
+
+<script>
+/* Page script. Runs after Plotly, KaTeX and common.js (all deferred) have loaded. */
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, kAx, layout, CFG, vline, lin, setRead, setPill, PI } = CM;
+
+  /* ---------- Model 1: TEMPLATE EXAMPLE, replace ---------- */
+  const KS = lin(-PI, PI, 241);
+  function renderM1() {
+    const k = +$('m1-k').value * PI, A = +$('m1-a').value, E = q => -2 * A * Math.cos(q);
+    Plotly.react('m1-p', [
+      { x: KS, y: KS.map(E), mode: 'lines', line: { color: C.occ, width: 2.5 }, hoverinfo: 'skip' },
+      { x: [k], y: [E(k)], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'E = %{y:.2f} eV<extra></extra>' }],
+      layout({ shapes: [vline(k, C.ef)], xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: [-4.4, 4.4] }) }), CFG);
+    setPill('m1-pill', ['atom', E(k) < 0 ? 'Lower half of the band' : 'Upper half of the band']);
+    setRead('m1-read', [['E(k)', E(k).toFixed(2) + ' eV'], ['Bandwidth 4A', (4 * A).toFixed(2) + ' eV']]);
+  }
+
+  CM.wire({ m1: renderM1 });
+});
+</script>
+</body>
+</html>

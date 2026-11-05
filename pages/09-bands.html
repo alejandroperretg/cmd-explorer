@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Energy Bands · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 09</span><span>Syllabus §2.6</span><span>Kittel ch. 7, 9</span><span>Notes pp. 50–54</span><span>Exam 2022 Q4</span></div>
+  <h1>Energy Bands</h1>
+  <p class="lead">Seven linked tight-binding models, computed in your browser as you move the sliders. They follow the same path as the video: atomic levels split, bands form, the gap decides how a solid conducts, and temperature fills the gap. Models 2–4 show what k means and how a partly full band actually carries current. The last two models go further into k-space, where the edge of the filled states in a metal is the Fermi surface.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>Electrons in a periodic potential: why allowed energies form bands separated by gaps, and how the filling of the highest band decides whether a solid is a metal, semiconductor or insulator. The models below use the tight-binding picture (syllabus 2.6.3). Bloch's theorem (2.6.1) and the nearly-free-electron / empty-lattice picture (2.6.2) are still to be added.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 7 (Energy Bands) and ch. 9 (Fermi Surfaces and Metals), and the lecture notes pp. 50–54.</p>
+</section>
+
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card"><h3>Planned</h3><p>Bloch theorem, empty-lattice bands in the reduced zone, nearly-free-electron gaps at the zone boundary, tight-binding dispersion. See PLAN.md item 09.</p></article>
+  </div>
+</section>
+
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+  <ol class="chain">
+    <li><a href="#atoms">Atoms → bands</a></li>
+    <li><a href="#kwave">What k looks like</a></li>
+    <li><a href="#cond">Why metals conduct</a></li>
+    <li><a href="#wire">Current in a wire</a></li>
+    <li><a href="#ek">E(k) and Fermi–Dirac</a></li>
+    <li><a href="#fs2d">Fermi surface in 2D</a></li>
+    <li><a href="#fs3d">Fermi surface in 3D</a></li>
+  </ol>
+<section class="bench" id="atoms">
+  <div class="rail">
+    <span class="eyebrow">Model 1 · finite chain</span>
+    <h3>Atoms → bands</h3>
+    <p>N atoms in a row, each with two orbitals (at −7 eV and −3.5 eV below the vacuum level). Bringing atoms closer lets electrons hop between neighbours, and each orbital splits into N levels. Every level holds two electrons, spin up and spin down.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s1-n"><span>Atoms N</span> <output for="s1-n"></output></label><input type="range" id="s1-n" min="1" max="64" step="1" value="8" data-fmt="0"></div>
+      <div class="ctl"><label for="s1-d"><span>Atomic spacing</span> <output for="s1-d"></output></label><input type="range" id="s1-d" min="0.65" max="3" step="0.01" value="1.1" data-fmt="2" data-unit=" a₀"></div>
+      <div class="ctl"><label for="s1-e"><span>Electrons per atom</span> <output for="s1-e"></output></label><input type="range" id="s1-e" min="0" max="4" step="1" value="2" data-fmt="0"></div>
+    </div>
+    <div class="state"><span class="pill" id="s1-pill"></span><dl class="readout" id="s1-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Raise N from 1 to 64 and watch the levels fuse into a band.</li>
+      <li>Shrink the spacing slowly. The upper levels turn from separate dashes into one unbroken line once they rise above the hills between atoms.</li>
+      <li>With 2 electrons per atom, shrink the spacing until the gap closes. The semiconductor becomes a metal.</li>
+      <li>Set 1 electron per atom. The lower band is half full, so it conducts at any spacing.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot" id="p1a"></div><figcaption><b>How to read:</b> the blue curve is the potential energy an electron feels along a row of atoms, the video's funnel repeated once per nucleus (up to 8 are drawn). Each horizontal line is an allowed energy level, drawn only where its energy is above the blue curve, i.e. where the electron can be. A line broken into dashes sits below the hills, so those electrons stay mostly near one atom. An unbroken line spans the whole row. The top line at 0 eV is the vacuum level.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--emp);height:2px"></i>potential</span><span><i class="sw" style="background:var(--occ)"></i>full (2 e⁻)</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,var(--occ) 0 3px,transparent 3px 5px)"></i>half (1 e⁻)</span><span><i class="sw" style="background:var(--emp)"></i>empty</span></div></figure>
+    <figure><div class="plot" id="p1b"></div><figcaption><b>How to read:</b> the horizontal axis is how far apart the atoms are; read it right to left. On the far right the atoms are isolated, and each shaded band shrinks to a single atomic level. Moving left squeezes the atoms together. They overlap more, electrons hop more easily, and each band gets wider. The dashed vertical line is your current spacing, and its four dots are the band edges in the left plot. The white space between the two shaded areas is the gap. Below a spacing of about 0.8 the areas overlap and the gap is gone.</figcaption></figure>
+    <div class="idea span2">
+      <strong>Why only two bands?</strong>
+      <span>Every orbital of the atom (1s, 2s, 2p, 3s, ...) turns into its own band, so a real solid has many bands. The deep ones come from inner orbitals and are always completely full, so they never take part in conduction. Only two bands matter: the highest one holding electrons and the next one above it. That is why the model keeps just these two, here called Band A and Band B.</span>
+      <span>The names on the plot depend on how full each band is. A full band with an empty one above it is the <b>valence band</b>, and the empty band above it is the <b>conduction band</b>. A partly full band is also called a conduction band, because electrons can move in it.</span>
+    </div>
+    <div class="idea span2">
+      <strong>Does an electron in a band need 3 eV to escape?</strong>
+      <span>No. The 0 eV line is the energy needed to leave the solid completely, into vacuum. Inside a solid, the neighbouring nuclei pull the hills between atoms down. Once a band sits above those hills (an unbroken line on the left plot), each of its states is spread over the whole row, and the electron already belongs to every atom at once.</span>
+      <span>Electrons in bands below the hills still move between atoms by tunnelling, just more slowly. That tunnelling is why those levels spread into a narrower band too.</span>
+      <span>So "can the electron leave its atom?" is not the real question. The real question is whether the band has empty states left. Models 3 and 4 show why.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bench" id="kwave">
+  <div class="rail">
+    <span class="eyebrow">Model 2 · one band, 40 atoms in a ring</span>
+    <h3>What k looks like</h3>
+    <p>Pick a k and see the electron's wave in real space. Every atom carries a copy of its orbital, multiplied by a phase that turns by k·a from one atom to the next. The copper bumps are those copies, pointing up or down with the phase. The blue area is |ψ|², the chance of finding the electron at each atom.</p>
+    <p>With a packet width of 0 the electron has one exact k and is spread over the whole ring. Widening the packet mixes in nearby k values, which makes a <b>wave packet</b>: a localised electron that travels at the slope of the band. The box under the plots explains how.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="sk-k"><span>Wave vector k</span> <output for="sk-k"></output></label><input type="range" id="sk-k" min="-1" max="1" step="0.05" value="0.25" data-pi="1"></div>
+      <div class="ctl"><label for="sk-dk"><span>Packet width Δk</span> <output for="sk-dk"></output></label><input type="range" id="sk-dk" min="0" max="0.4" step="0.01" value="0.1" data-pi="1"></div>
+      <label class="chk" for="sk-parts"><input type="checkbox" id="sk-parts"> Show the separate waves</label>
+      <div class="btns"><button class="btn" type="button" id="sk-play">Pause</button><button class="btn" type="button" id="sk-reset">Reset</button><span>t = <span class="tnum" id="sk-time">0.0 fs</span></span></div>
+      <p class="note" id="sk-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+    </div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>k = 0: every bump has the same sign. This is the video's bonding state, at the bottom of the band. k = ±π/a: the signs alternate + − + −. That's the antibonding state at the top.</li>
+      <li>Packet width 0.1π/a: at k = 0.5π/a the packet moves fastest, because the band is steepest there. At k = 0 or π/a it doesn't move at all.</li>
+      <li>Packet width 0: the bumps ripple but |ψ|² stays flat. An exact k means no information at all about position.</li>
+      <li>Move k past 0.5π/a and watch the effective mass turn negative: near the top of a band an electron behaves like a hole.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure class="span2"><div class="plot short" id="sk-a"></div><figcaption><b>How to read:</b> the horizontal axis is real position along a ring of 40 atoms (the grey dots). Copper is the wavefunction: one orbital bump per atom, up for + phase and down for −. The dotted line is the smooth wave that sets those signs, and the bumps are its value at each atom. Blue is |ψ|², where you would find the electron. The faint green lines, when shown, are the separate single-k waves that add up to the packet. Only the blue part can be measured. Time runs in femtoseconds.</figcaption></figure>
+    <figure><div class="plot" id="sk-b"></div><figcaption><b>How to read:</b> the band E(k). Copper dots are the k values mixed into the packet; bigger means more weight. A single dot means one exact k. The green line is the slope at your k: the steeper it is, the faster the electron moves.</figcaption></figure>
+    <figure class="dict"><table><thead><tr><th>Math</th><th>Physical meaning</th><th>Right now</th></tr></thead><tbody id="sk-tbody"></tbody></table>
+      <figcaption>Numbers use a = 2.5 Å and t = 1 eV, typical for a real solid.</figcaption></figure>
+    <div class="idea span2">
+      <strong>What is a wave packet, and why do we need one?</strong>
+      <span>A wave with one exact k is a perfectly regular ripple that runs around the whole crystal, the same everywhere. Its wavelength and momentum are exact, but it has no position: the electron is equally likely to be at every atom. Set the packet width to 0 to see this. But a real electron in a wire can be "roughly here", so it can't be a single k.</span>
+      <span>To get an electron that is roughly here, add several waves with slightly different k. Where their crests line up they add up to a bump, and everywhere else they cancel. That bump is the wave packet, the blue area. Tick "Show the separate waves" to see the ingredients behind it. It works like a group of ocean waves: one lump of wave that travels as a unit.</span>
+      <span>Δk says how many different k values are mixed in; these are the copper dots on the band plot. A small Δk means few ingredients and a long packet spread over many atoms. A large Δk means a short, sharp packet, but its k is less definite. You can't have both at once: packet length × Δk ≈ 1. That's the uncertainty principle.</span>
+      <span>The packet moves at the slope of the band (the group velocity), not at the speed of the ripples inside it. Watch the copper ripples slide through the blue lump at a different speed. The lump is where the electron actually is, so its speed is the electron's speed. The moving electrons in Model 4 are packets like this.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bench" id="cond">
+  <div class="rail">
+    <span class="eyebrow">Model 3 · one band, 24 atoms in a ring</span>
+    <h3>Why a partly full band conducts</h3>
+    <p>Each state in a band is a wave spread over the whole crystal. The states differ in wavelength, labelled by the crystal momentum k = 2π / wavelength. At k = 0 the wave stands still (the bottom of the band), and the sign of k says which way it travels. The atoms form a ring so the row has no ends.</p>
+    <p>Each state's velocity is the slope of the band at that k. With no voltage the filled states sit symmetrically around k = 0, so every right-mover is cancelled by a left-mover and no current flows. A voltage pushes every electron by the same small step in k. That works only if there are empty states to step into.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="sc-n"><span>Filled states (2 e⁻ each)</span> <output for="sc-n"></output></label><input type="range" id="sc-n" min="0" max="24" step="1" value="12" data-fmt="0" data-unit=" of 24"></div>
+      <div class="ctl"><label for="sc-f"><span>Voltage push (shift in k)</span> <output for="sc-f"></output></label><input type="range" id="sc-f" min="0" max="0.5" step="0.01" value="0.15" data-pi="1"></div>
+    </div>
+    <div class="state"><span class="pill" id="sc-pill"></span><dl class="readout" id="sc-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Half-full band (12 of 24): set the push to 0. Right- and left-movers balance. Raise it and the filled block slides right: current.</li>
+      <li>Full band (24 of 24): every state is taken, so the push changes nothing and the net current stays 0. A full band only conducts if electrons jump the gap to the next band.</li>
+      <li>Look at "Step to nearest empty state". In a real piece of metal it is about a millionth of an eV, so any voltage is enough.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot" id="pc-a"></div><figcaption><b>How to read:</b> each dot is one state of the band. Height = energy, horizontal position = k. Copper dots hold 2 electrons, blue dots are empty. The dotted green line is the centre of the filled block, where the push has moved it.</figcaption></figure>
+    <figure><div class="plot" id="pc-b"></div><figcaption><b>How to read:</b> the same states, now plotted by velocity (the slope of the left curve). Copper dots above the line move right, below move left. Current is the balance between them, shown as "net current".</figcaption></figure>
+  </div>
+</section>
+
+<section class="bench" id="wire">
+  <div class="rail">
+    <span class="eyebrow">Model 4 · a wire of 12 × 3 atoms</span>
+    <h3>Current in a wire</h3>
+    <p><b>Top:</b> the inside of the wire. The grey + circles are the ions of the lattice. Each one is wrapped in its tightly bound Band A electrons (the haze). Copper dots are the electrons that are free to move.</p>
+    <p><b>Bottom:</b> the same electrons on an energy diagram like Model 1's. The battery tilts every energy downhill toward the + end.</p>
+    <p>Free electrons fly around fast in random directions and keep bumping into the vibrating ions (the small flashes). Between bumps the voltage speeds them up a little toward +, so on average they drift that way. That drift is the current.</p>
+    <div class="ctls">
+      <fieldset class="seg"><legend>Material</legend><div class="opts">
+        <label><input type="radio" name="sw-mat" value="metal" checked><span>Metal</span></label>
+        <label><input type="radio" name="sw-mat" value="semi"><span>Semiconductor</span></label>
+        <label><input type="radio" name="sw-mat" value="ins"><span>Insulator</span></label>
+      </div></fieldset>
+      <div class="ctl"><label for="sw-v"><span>Battery voltage</span> <output for="sw-v"></output></label><input type="range" id="sw-v" min="0" max="1" step="0.01" value="0.5" data-fmt="2" data-unit=" (arb.)"></div>
+      <div class="ctl"><label for="sw-T"><span>Temperature</span> <output for="sw-T"></output></label><input type="range" id="sw-T" min="50" max="900" step="10" value="300" data-fmt="0" data-unit=" K"></div>
+      <div class="btns"><button class="btn" type="button" id="sw-play">Pause</button></div>
+      <p class="note" id="sw-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+    </div>
+    <div class="state">
+      <span class="pill" id="sw-pill"></span>
+      <div class="meter" aria-hidden="true"><i id="sw-bar"></i></div>
+      <dl class="readout" id="sw-read"></dl>
+    </div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Metal: raise the voltage and watch the current bar grow. Then heat the wire. The ions shake harder, the electrons bump more often, and the current drops. That's why a metal's resistance rises with temperature.</li>
+      <li>Metal at 0 V: the electrons still race around, but the current averages to zero. Random motion alone carries no current.</li>
+      <li>Semiconductor at 300 K: this small piece has no free electrons. Heat it: electrons jump the gap, each one leaving a hole, and the current climbs fast, the opposite of the metal.</li>
+      <li>Insulator: the gap is too large. Even at 900 K nothing moves, whatever the voltage.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure class="span2"><div class="cvwrap"><canvas id="sw-cv" aria-label="Animation of electrons moving through a wire and on its band diagram"></canvas></div>
+      <figcaption><b>How to read:</b> both panels share the same horizontal axis, position along the wire, with − on the left and + on the right. An electron that leaves at + comes back in at − through the battery. <b>Top</b> is the wire as seen from above. <b>Bottom</b> is energy versus position. The blue curve is the potential of the ions, the shaded strips are the bands (copper = filled, blue = empty), and each dot is a free electron at its energy. Open circles are holes. Speeds, tilt and the semiconductor's gap are exaggerated so you can see them.</figcaption>
+      <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>free electron</span><span><i class="sw dot" style="background:transparent;border:2px solid var(--occ);width:7px;height:7px"></i>hole</span><span><i class="sw dot" style="background:var(--muted)"></i>ion with bound electrons</span><span><i class="sw" style="background:var(--ef)"></i>Fermi level (metal)</span></div></figure>
+    <figure class="span2"><div class="plot short" id="sw-c"></div><figcaption><b>How to read:</b> the current through this wire at every temperature, for the chosen material and voltage, from the same model. The dot is your temperature. In a metal the current falls as the ions shake more. In a semiconductor it climbs steeply, because heat frees new carriers much faster than collisions slow them down.</figcaption></figure>
+    <div class="idea span2">
+      <strong>How does an electron get past the hills between atoms?</strong>
+      <span>It doesn't climb over them. A metal's Band B lies above the hills, and bands below them are still linked by tunnelling, so their states already stretch along the whole wire. The voltage doesn't lift electrons over anything. It only tilts the energies very slightly (in a real wire about 10⁻⁸ eV per atom), which nudges each electron toward + between collisions. A partly full band has empty states right next to the filled ones (Model 3), so even that tiny nudge is enough.</span>
+      <span>The bound electrons in Band A are not drawn as moving dots, because a full band carries no current: every electron moving right is matched by one moving left. It only conducts once heat empties a few of its states, and those empty states move as holes.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bench" id="ek">
+  <div class="rail">
+    <span class="eyebrow">Model 5 · periodic chain, two atoms per cell</span>
+    <h3>Band structure E(k) and Fermi–Dirac filling</h3>
+    <p>The same kind of E(k) plot as Model 3, now with two bands. This chain alternates two atom types whose energies differ by Δ, which opens a gap E<sub>g</sub> = Δ at the zone edge. Dots show each state's occupation f(E) = 1 / (e<sup>(E−μ)/kT</sup> + 1).</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s2-gap"><span>Band gap E<sub>g</sub></span> <output for="s2-gap"></output></label><input type="range" id="s2-gap" min="0" max="5" step="0.01" value="1.1" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s2-t"><span>Hopping t (bandwidth)</span> <output for="s2-t"></output></label><input type="range" id="s2-t" min="0.2" max="2" step="0.01" value="1" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s2-T"><span>Temperature</span> <output for="s2-T"></output></label><input type="range" id="s2-T" min="0" max="1500" step="5" value="300" data-fmt="0" data-unit=" K"></div>
+      <div class="ctl"><label for="s2-fill"><span>Electrons per cell</span> <output for="s2-fill"></output></label><input type="range" id="s2-fill" min="0" max="4" step="0.01" value="2" data-fmt="2"></div>
+    </div>
+    <div class="state"><span class="pill" id="s2-pill"></span><dl class="readout" id="s2-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>At 300 K and E<sub>g</sub> = 1.1 eV (silicon-like), note the excited electrons, then add 100 K.</li>
+      <li>Set E<sub>g</sub> to 0. The bands touch and it is a metal.</li>
+      <li>Set electrons per cell to 2.02. The extra electrons sit in the conduction band at any temperature, which is what n-type doping does.</li>
+    </ul></div>
+  </div>
+  <div class="plots wide-left">
+    <figure><div class="plot" id="p2a"></div><figcaption><b>How to read:</b> each dot is a state; height = energy, horizontal = k. The lower curve is the valence band, normally full. The upper curve is the conduction band, normally empty. The green strip between them is the gap, where no states exist. Dot colour is the chance the state is filled. At 300 K with a 1.1 eV gap, almost every upper dot stays blue.</figcaption>
+      <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>occupied</span><span><i class="sw dot" style="background:var(--emp)"></i>empty</span><span><i class="sw" style="background:var(--ef)"></i>chemical potential μ</span></div></figure>
+    <figure><div class="plot" id="p2b"></div><figcaption><b>How to read:</b> the same energy axis as the left plot, turned sideways. The blue area is how many states exist at each energy (zero in the gap), and the copper area is how many are filled. The line is the Fermi–Dirac probability f(E): 1 means certainly filled, 0 certainly empty. It drops from 1 to 0 around μ, and the drop softens as temperature rises.</figcaption></figure>
+    <figure class="span2"><div class="plot short" id="p2c"></div><figcaption><b>How to read:</b> how many electrons have jumped the gap into the conduction band (per pair of atoms) at each temperature. The vertical scale is logarithmic, so each step up is 10× more. The dot is your current temperature. The steep rise is the exponential the video describes, roughly e<sup>−E<sub>g</sub>/2kT</sup>: a modest warm-up multiplies the number of carriers many times over.</figcaption></figure>
+  </div>
+</section>
+
+<section class="bench" id="fs2d">
+  <div class="rail">
+    <span class="eyebrow">Model 6 · square lattice</span>
+    <h3>Fermi surface in 2D</h3>
+    <p>E(k) = −2t(cos k<sub>x</sub>a + cos k<sub>y</sub>a) − 4t′ cos k<sub>x</sub>a cos k<sub>y</sub>a, with t = 1 eV. States with E &lt; E<sub>F</sub> are filled. Their boundary, here a line, is the Fermi surface. The dashed line is a cut, and the Fermi points k<sub>F</sub> are where the band crosses E<sub>F</sub> along it.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s3-ef"><span>Fermi level E<sub>F</sub></span> <output for="s3-ef"></output></label><input type="range" id="s3-ef" min="-5.5" max="5.5" step="0.02" value="-1.6" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s3-tp"><span>Next-neighbour hopping t′</span> <output for="s3-tp"></output></label><input type="range" id="s3-tp" min="-0.4" max="0.4" step="0.01" value="0" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s3-ky"><span>Cut at k<sub>y</sub></span> <output for="s3-ky"></output></label><input type="range" id="s3-ky" min="-1" max="1" step="0.01" value="0.2" data-pi="1"></div>
+    </div>
+    <div class="state"><span class="pill atom" id="s3-pill"></span><dl class="readout" id="s3-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Low E<sub>F</sub>: a near-circle, like free electrons.</li>
+      <li>E<sub>F</sub> = 0 with t′ = 0: a perfect square at half filling, and a spike in the density of states (van Hove singularity).</li>
+      <li>High E<sub>F</sub>: the filled region wraps around, leaving hole pockets at the corners.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot" id="p3a"></div><figcaption><b>How to read:</b> in 2D, k has two components, so the states of the band fill a square map (the Brillouin zone) seen from above. Each point is one state, coloured by energy (dark = low). Electrons fill the lowest states first, so the filled region (copper) grows out from the centre as E<sub>F</sub> rises. Its green edge is the Fermi surface: the highest filled states, next to empty ones. As in Model 3, these are the electrons that carry current.</figcaption></figure>
+    <figure><div class="plot" id="p3b"></div><figcaption><b>How to read:</b> walk along the dashed line on the map and plot each state's energy. This gives the same kind of E(k) curve as Models 3 and 5. Copper = filled. The green dots, where the curve crosses E<sub>F</sub>, are the same points as the green dots on the map.</figcaption></figure>
+    <figure><div class="plot" id="p3c"></div><figcaption><b>How to read:</b> the same energies as the map, drawn as a landscape where height = energy. Fill it with water up to the green plane (E<sub>F</sub>): the shoreline is the Fermi surface, and the copper line is the cut. Drag to rotate.</figcaption></figure>
+    <figure><div class="plot" id="p3d"></div><figcaption><b>How to read:</b> how many states exist at each energy, counted over the whole map. The copper area up to E<sub>F</sub> (green line) is the number of electrons. The spike at 0 eV comes from the flat saddle points at the edge midpoints of the map.</figcaption></figure>
+  </div>
+</section>
+
+<section class="bench" id="fs3d">
+  <div class="rail">
+    <span class="eyebrow">Model 7 · simple cubic lattice</span>
+    <h3>Fermi surface in 3D</h3>
+    <p>E(k) = −2t(cos k<sub>x</sub>a + cos k<sub>y</sub>a + (t<sub>z</sub>/t) cos k<sub>z</sub>a), with t = 1 eV. The copper surface is every k where E(k) = E<sub>F</sub>, drawn inside the cubic Brillouin zone. The green plane is the cut shown on the right.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s4-ef"><span>Fermi level E<sub>F</sub></span> <output for="s4-ef"></output></label><input type="range" id="s4-ef" min="-6" max="6" step="0.05" value="-2.4" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s4-tz"><span>Out-of-plane hopping t<sub>z</sub>/t</span> <output for="s4-tz"></output></label><input type="range" id="s4-tz" min="0" max="1" step="0.01" value="1" data-fmt="2"></div>
+      <div class="ctl"><label for="s4-kz"><span>Cut plane at k<sub>z</sub></span> <output for="s4-kz"></output></label><input type="range" id="s4-kz" min="-1" max="1" step="0.01" value="0" data-pi="1"></div>
+    </div>
+    <div class="state"><span class="pill atom" id="s4-pill"></span><dl class="readout" id="s4-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Slide E<sub>F</sub> up from −6: sphere, then it touches the zone faces at −2, then an open network, then hole pockets at the corners.</li>
+      <li>Lower t<sub>z</sub>/t toward 0: the surface becomes a corrugated cylinder, as in layered materials.</li>
+      <li>Move the cut through the necks. Extremal cross-section areas like these are what quantum-oscillation experiments measure.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot tall" id="p4a"></div><figcaption><b>How to read:</b> in a real 3D crystal, k has three components, so the states fill a cube. Filled states form a solid blob inside it, and the copper skin of that blob is the Fermi surface. The green plane slices the cube, and the green line is where it cuts the surface. Drag to rotate, scroll to zoom.</figcaption></figure>
+    <figure><div class="plot tall" id="p4b"></div><figcaption><b>How to read:</b> the slice from the green plane, viewed from above, read exactly like the 2D map in Model 6. Copper = filled states in that slice, green = where the Fermi surface crosses it.</figcaption></figure>
+  </div>
+</section>
+
+<section class="notes">
+  <h3>Model notes</h3>
+  <p>All seven are nearest-neighbour tight-binding models: each electron sits in one orbital per atom and hops to neighbours with amplitude t. Real silicon has many orbitals and an indirect gap, and real copper's Fermi surface is a sphere with necks touching the zone faces of an FCC lattice. The shapes here are the simplest ones that show the same ideas. Wave vectors are in units of 1/a, where a is the lattice constant. Spin is counted as a factor of 2 in every electron number.</p>
+</section>
+</section>
+
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+  <div class="card"><p>No problems on energy bands on sheets 1–9 yet. Guides will be added when a sheet covers §2.6.</p></div>
+</section>
+
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p>2022 Q4 "Electrons in condensed matter": state Bloch's theorem; give the reciprocal lattice vectors; sketch the free-electron (empty-lattice) band structure along [100] in the periodic zone scheme; compute the lowest two energies at k = (0,0,0) and k = (π/2a,0,0); name the approximation for a weak periodic potential (nearly free electrons); sketch how gaps open at the zone boundary and compare.</p>
+  </div>
+</section>
+
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 7 and ch. 9.</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 50–54.</li>
+    <li>Condensed Matter exam 2022 (alumni recollection), Q4.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+const { PI, $, lin, MONO, C, rgba, ax, PIT, kAx, sAx, sKAx, layout, CFG, hline, vline, setRead, setPill } = CM;
+const KB = 8.617333e-5;
+const fd = (E, mu, kT) => { const x = (E - mu) / kT; return x > 35 ? Math.exp(-x) : 1 / (1 + Math.exp(x)); };
+const sci = v => v === 0 ? '0' : (v >= 1e-3 ? v.toFixed(4) : v.toExponential(2));
+function lowerBound(sorted, E) { let lo = 0, hi = sorted.length; while (lo < hi) { const m = (lo + hi) >> 1; if (sorted[m] < E) lo = m + 1; else hi = m; } return lo; }
+function crossings(xs, ys, level) {
+  const out = [];
+  for (let i = 0; i < xs.length - 1; i++) {
+    const a = ys[i] - level, b = ys[i + 1] - level;
+    if (a * b < 0) out.push(xs[i] + (xs[i + 1] - xs[i]) * a / (a - b));
+  }
+  return out;
+}
+function hist(values, e0, e1, nb, q = 0.92) {
+  const h = new Float64Array(nb), de = (e1 - e0) / nb;
+  for (const v of values) { const b = Math.floor((v - e0) / de); if (b >= 0 && b < nb) h[b]++; }
+  const nz = Array.from(h).filter(v => v > 0).sort((a, b) => a - b);
+  const cap = nz.length ? nz[Math.min(nz.length - 1, Math.floor(nz.length * q))] : 1;
+  return { e: Array.from({ length: nb }, (_, i) => e0 + (i + 0.5) * de), d: Array.from(h, v => Math.min(1, v / cap)) };
+}
+
+/* ---------- Model 1: finite chain ---------- */
+const ORB = [{ eps: -7, t: 0.35 }, { eps: -3.5, t: 0.75 }], LAM = 2.2;
+const A1 = 1.6, CS = 0.15, SPC = 2.0;   // screened well strength (eV·Å), core softening (Å), Å per spacing unit
+function chainPot(n, s) {
+  const xs = Array.from({ length: n }, (_, i) => (i - (n - 1) / 2) * s);
+  return x => xs.reduce((v, xi) => v - A1 / Math.sqrt((x - xi) ** 2 + CS * CS), 0);
+}
+const hop = d => Math.exp(-(d - 1) * LAM);
+function render1() {
+  const N = +$('s1-n').value, d = +$('s1-d').value, epa = +$('s1-e').value, f = hop(d);
+  const lv = [];
+  ORB.forEach((o, b) => { for (let j = 1; j <= N; j++) lv.push({ b, E: o.eps - 2 * o.t * f * Math.cos(j * PI / (N + 1)) }); });
+  lv.sort((p, q) => p.E - q.E);
+  let rem = N * epa;
+  const occB = [0, 0];
+  const g = { full: { x: [], y: [] }, half: { x: [], y: [] }, empty: { x: [], y: [] } };
+  const nd = Math.min(N, 8), s = SPC * d, L = (nd - 1) * s / 2 + 2.5;
+  const V = chainPot(nd, s), xg = lin(-L, L, 600), vg = xg.map(V);
+  lv.forEach(({ b, E }) => {
+    const o = Math.min(2, rem); rem -= o; occB[b] += o;
+    const t = o >= 2 ? g.full : o > 0 ? g.half : g.empty;
+    let start = null;   // draw the level only where E is above the potential
+    for (let i = 0; i <= xg.length; i++) {
+      const inside = i < xg.length && vg[i] < E;
+      if (inside && start === null) start = xg[i];
+      if (!inside && start !== null) { t.x.push(start, xg[i - 1], null); t.y.push(E, E, null); start = null; }
+    }
+  });
+  const lw = N > 24 ? 1.2 : 2.5;
+  const seg = (s, color, dash) => ({ x: s.x, y: s.y, mode: 'lines', line: { color, width: lw, dash }, hoverinfo: 'skip' });
+  const edges = ORB.map(o => [o.eps - 2 * o.t * f, o.eps + 2 * o.t * f]);
+  const well = { x: xg, y: vg.map(v => Math.max(-12.5, v)), mode: 'lines', line: { color: C.emp, width: 2.5 }, hoverinfo: 'skip' };
+  const xb = nd > 1 ? (Math.floor(nd / 2) - 0.5 - (nd - 1) / 2) * s : null, vb = nd > 1 ? V(xb) : null;
+  const ann = nd > 1 && vb > -12 ? [{ x: xb, y: vb, text: 'hill between atoms', showarrow: true, arrowhead: 0, ax: 0, ay: -40,
+    arrowcolor: C.muted, font: { size: 11, color: C.muted }, bgcolor: rgba(C.panel, 0.8) }] : [];
+  // name each band by what it holds: the highest full band is the valence band, the band electrons can move in is the conduction band
+  const st = occB.map(o => o === 0 ? 'empty' : o >= 2 * N ? 'full' : 'part');
+  const role = st.map((s, i) => s === 'part' ? 'conduction band, partly full'
+    : s === 'full' ? (i === 0 && st[1] === 'empty' ? 'valence band, full' : 'full')
+    : (i === 1 && st[0] === 'full' ? 'conduction band, empty' : 'empty'));
+  const bandName = i => (N === 1 ? 'Orbital ' : 'Band ') + 'AB'[i];
+  edges.forEach(([, top], i) => ann.push({ xref: 'paper', x: 0.01, xanchor: 'left', y: top, yanchor: 'bottom', showarrow: false,
+    text: `<b>${bandName(i)}</b> · ${N === 1 ? (occB[i] ? occB[i] + ' e⁻' : 'empty') : role[i]}`,
+    font: { size: 11, color: occB[i] ? C.occ : C.emp }, bgcolor: rgba(C.panel, 0.85) }));
+  Plotly.react('p1a', [well, seg(g.empty, C.emp), seg(g.half, C.occ, 'dot'), seg(g.full, C.occ)],
+    layout({ annotations: ann, shapes: [hline(0, C.fg, 'solid')], xaxis: ax('Position along the row (Å)', { range: [-L, L], zeroline: false }),
+      yaxis: ax('Energy (eV)', { range: [-12, 1], zeroline: false }) }), CFG);
+
+  const ds = lin(0.65, 3, 121), tr = [];
+  ORB.forEach(o => {
+    tr.push({ x: ds, y: ds.map(x => o.eps - 2 * o.t * hop(x)), mode: 'lines', line: { color: C.emp, width: 1 }, hoverinfo: 'skip' });
+    tr.push({ x: ds, y: ds.map(x => o.eps + 2 * o.t * hop(x)), mode: 'lines', line: { color: C.emp, width: 1 }, fill: 'tonexty', fillcolor: rgba(C.emp, 0.22), hoverinfo: 'skip' });
+  });
+  tr.push({ x: [d, d, d, d], y: edges.flat(), mode: 'markers', marker: { color: C.ef, size: 7 }, hovertemplate: '%{y:.2f} eV<extra></extra>' });
+  const ann1b = ORB.map((o, i) => ({ x: 2.98, xanchor: 'right', y: o.eps, yanchor: 'bottom', yshift: 4, showarrow: false,
+    text: `<b>Band ${'AB'[i]}</b> · from the ${String(o.eps).replace('-', '−')} eV orbital`, font: { size: 11, color: C.fg } }));
+  if (edges[1][0] - edges[0][1] > 0.4) ann1b.push({ x: d, y: (edges[0][1] + edges[1][0]) / 2, xanchor: 'left', xshift: 8, showarrow: false, text: 'gap', font: { size: 11, color: C.ef } });
+  Plotly.react('p1b', tr, layout({ annotations: ann1b, shapes: [vline(d, C.ef)], xaxis: ax('Atomic spacing (relative to a₀)', { range: [0.65, 3] }), yaxis: ax('Energy (eV)', { range: [-12, 1] }) }), CFG);
+
+  const gap = edges[1][0] - edges[0][1];
+  let cls;
+  if (N === 1) cls = ['atom', 'Single atom: sharp levels, no bands'];
+  else if (epa === 0) cls = ['atom', 'No electrons'];
+  else if (epa === 4) cls = ['ins', 'Both bands full: insulator'];
+  else if (epa !== 2) cls = ['metal', 'Metal: top band only partly full'];
+  else if (gap <= 0) cls = ['metal', 'Metal: the bands overlap'];
+  else if (gap < 3) cls = ['semi', 'Semiconductor: full band, small gap'];
+  else cls = ['ins', 'Insulator: full band, large gap'];
+  setPill('s1-pill', cls);
+  setRead('s1-read', [
+    ['Levels (2 orbitals × N)', 2 * N], ['Electrons', N * epa],
+    ['Lower band width', (4 * ORB[0].t * f).toFixed(2) + ' eV'], ['Upper band width', (4 * ORB[1].t * f).toFixed(2) + ' eV'],
+    [gap > 0 ? 'Band gap' : 'Band overlap', Math.abs(gap).toFixed(2) + ' eV'],
+    ['Hill between atoms', vb === null ? '—' : vb.toFixed(2) + ' eV']]);
+}
+
+/* ---------- Model 2: a wave packet on a ring of NA atoms (t = 1 eV, ħ = 1, time in ħ/eV) ---------- */
+const NA = 40, ATK = Array.from({ length: NA }, (_, n) => n), XGK = lin(-0.5, NA - 0.5, NA * 14), XSM = lin(-0.5, NA - 0.5, 400);
+const SK = { t: 0, modes: [], norm: 1, k0: 0, dk: 0, play: true, visible: true };
+function skPsi(x, t) {
+  let re = 0, im = 0;
+  for (const q of SK.modes) { const ph = q.k * (x - NA / 2) - q.E * t; re += q.w * Math.cos(ph); im += q.w * Math.sin(ph); }
+  return [re / SK.norm, im / SK.norm];
+}
+function drawSK() {
+  const t = SK.t, c = ATK.map(n => skPsi(n, t));
+  const orb = XGK.map(x => { const n = Math.min(NA - 1, Math.max(0, Math.round(x))); return c[n][0] * Math.exp(-((x - n) ** 2) / (2 * 0.13 * 0.13)); });
+  const parts = [];
+  if ($('sk-parts').checked && SK.modes.length > 1) {
+    const ms = SK.modes.slice().sort((p, q) => q.w - p.w).slice(0, 7), wm = ms[0].w;
+    for (const q of ms) parts.push({ x: XSM, y: XSM.map(x => 0.9 * q.w / wm * Math.cos(q.k * (x - NA / 2) - q.E * t)), mode: 'lines', line: { color: rgba(C.ef, 0.45), width: 1 }, hoverinfo: 'skip' });
+  }
+  Plotly.react('sk-a', [...parts,
+    { x: ATK, y: c.map(([r, i]) => r * r + i * i), mode: 'lines', line: { color: C.emp, width: 1, shape: 'spline' }, fill: 'tozeroy', fillcolor: rgba(C.emp, 0.28), hoverinfo: 'skip' },
+    { x: XSM, y: XSM.map(x => skPsi(x, t)[0]), mode: 'lines', line: { color: C.muted, width: 1.2, dash: 'dot' }, hoverinfo: 'skip' },
+    { x: XGK, y: orb, mode: 'lines', line: { color: C.occ, width: 2 }, hoverinfo: 'skip' },
+    { x: ATK, y: ATK.map(() => -1.22), mode: 'markers', marker: { color: C.muted, size: 5 }, hoverinfo: 'skip' }],
+    layout({ margin: { l: 48, r: 10, t: 8, b: 40 }, xaxis: ax('Position along the ring (atom number)', { range: [-0.7, NA - 0.3], zeroline: false }),
+      yaxis: ax('Amplitude', { range: [-1.35, 1.35], zeroline: true, zerolinecolor: C.line }) }), CFG);
+  $('sk-time').textContent = (t * 0.6582).toFixed(1) + ' fs';
+}
+function renderK() {
+  // the ring only allows k = 2πm/NA; snap the slider to the nearest one
+  const k0 = Math.round(+$('sk-k').value * NA / 2) * 2 * PI / NA, dk = +$('sk-dk').value * PI, modes = [];
+  for (let m = -NA / 2; m < NA / 2; m++) {
+    const k = 2 * PI * m / NA, d = wrapK(k - k0);
+    const w = dk === 0 ? (Math.abs(d) < 1e-9 ? 1 : 0) : Math.exp(-d * d / (2 * dk * dk));
+    if (w > 2e-3) modes.push({ k, w, E: -2 * Math.cos(k) });
+  }
+  Object.assign(SK, { k0, dk, modes, norm: modes.reduce((s, q) => s + q.w, 0) });
+  const kd = lin(-PI, PI, 241), sl = 2 * Math.sin(k0), E0 = -2 * Math.cos(k0), wmax = Math.max(...modes.map(q => q.w));
+  Plotly.react('sk-b', [
+    { x: kd, y: kd.map(k => -2 * Math.cos(k)), mode: 'lines', line: { color: C.muted, width: 1.5 }, hoverinfo: 'skip' },
+    { x: [k0 - 0.7, k0 + 0.7], y: [E0 - 0.7 * sl, E0 + 0.7 * sl], mode: 'lines', line: { color: C.ef, width: 2.5 }, hoverinfo: 'skip' },
+    { x: modes.map(q => q.k), y: modes.map(q => q.E), mode: 'markers', marker: { color: C.occ, size: modes.map(q => 4 + 10 * q.w / wmax), line: { width: 1, color: C.panel } },
+      hovertemplate: 'k = %{x:.2f}/a<br>E = %{y:.2f} eV<extra></extra>' }],
+    layout({ xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: [-2.6, 2.6] }) }), CFG);
+
+  // a = 2.5 Å, t = 1 eV: v = 2ta·sin(ka)/ħ = 760 km/s·sin(ka); m* = ħ²/(2ta²cos ka) = 0.61 mₑ/cos(ka)
+  const ak = Math.abs(k0), v = 760 * Math.sin(k0), cs = Math.cos(k0);
+  const rows = [
+    ['k·a', 'how far the phase turns from one atom to the next', `${(ak * 180 / PI).toFixed(0)}° per atom`],
+    ['2π / k', 'wavelength of the wave across the crystal', ak < 1e-9 ? '∞ (all atoms in step)' : `${(2 * PI / ak * 2.5).toFixed(1)} Å = ${(2 * PI / ak).toFixed(1)} atoms`],
+    ['sign of k', 'which way the wave travels', ak < 1e-9 || Math.abs(ak - PI) < 1e-9 ? 'neither (standing wave)' : k0 > 0 ? '→ right' : '← left'],
+    ['E(k)', 'the electron\'s energy', E0.toFixed(2) + ' eV'],
+    ['dE/dk (slope)', 'speed of the electron (of the packet)', Math.abs(v) < 0.5 ? '0 km/s' : `${Math.abs(v).toFixed(0)} km/s ${v > 0 ? '→' : '←'}`],
+    ['d²E/dk² (curvature)', 'effective mass: how hard it is to speed the electron up', Math.abs(cs) < 0.03 ? 'huge (band is straight here)' : `${(0.61 / cs).toFixed(2)} mₑ${cs < 0 ? ' (negative: acts like a hole)' : ''}`],
+    ['|ψ|²', 'where the electron can be found', dk === 0 ? 'whole ring, evenly' : `packet ≈ ${Math.min(NA, 1.665 / dk).toFixed(1)} atoms wide`],
+    ['Δk', 'spread of k values; Δx·Δk ≈ 1 (uncertainty)', dk === 0 ? '0: exact k' : `${(dk / PI).toFixed(2)}π/a`]];
+  $('sk-tbody').innerHTML = rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
+  drawSK();
+}
+
+/* ---------- Model 4: a biased wire, free carriers bouncing off a vibrating lattice (Drude picture) ---------- */
+const NW = 12, NR = 3, BA = { c: -7, w: 0.3 };
+const BB = { metal: { c: -3, w: 1 }, semi: { c: -5.3, w: 0.6 }, ins: { c: -2, w: 1 } };
+const SW = { mat: '', parts: [], flashes: [], t: 0, I: 0, play: true, visible: true, tick: 0 };
+const vCell = x => { const d = x - Math.floor(x) - 0.5, ad = Math.abs(d); return -0.9 * (1 / Math.sqrt(d * d + 0.01) + 1 / Math.sqrt((1 - ad) ** 2 + 0.01)) - 2.5; };
+const swMat = () => document.querySelector('input[name="sw-mat"]:checked').value;
+const gammaT = T => 0.6 + 3.4 * T / 300;   // collisions per second: impurities + lattice vibrations (grows with T)
+// drawn electron-hole pairs: Boltzmann factor of a gap scaled down to 0.35 eV so the change shows between 300 and 900 K
+const nSemi = T => 12 * Math.exp(-0.35 / (2 * KB * T)) / Math.exp(-0.35 / (2 * KB * 900));
+const nCarriers = (mat, T) => mat === 'metal' ? NW * NR : mat === 'semi' ? 2 * nSemi(T) : 0;
+const speed0 = (mat, T) => mat === 'metal' ? 2.6 : 2.6 * Math.sqrt(T / 300);   // metal: Fermi speed, independent of T
+const ACC = 9;   // push from the field at full voltage, atoms/s²
+function newCarrier(hole, at) {
+  const a = Math.random() * 2 * PI, s = speed0(SW.mat, +$('sw-T').value);
+  return { hole, x: at ? at.x : Math.random() * NW, y: at ? at.y : 0.2 + Math.random() * (NR - 0.4), vx: s * Math.cos(a), vy: s * Math.sin(a), e: 0, trail: [] };
+}
+function swEnergies() {   // where each carrier sits on the energy diagram
+  const kT = KB * +$('sw-T').value, bb = BB[SW.mat];
+  for (const p of SW.parts) {
+    if (SW.mat === 'metal') {   // states filled with Fermi–Dirac probability around E_F at the band centre
+      let e; do { e = (Math.random() * 2 - 1) * bb.w; } while (Math.random() > 1 / (1 + Math.exp(e / kT)));
+      p.e = bb.c + e;
+    } else if (p.hole) p.e = BA.c + BA.w - Math.random() * 3 * kT;
+    else p.e = bb.c - bb.w + Math.random() * 3 * kT;
+  }
+}
+function swSync() {   // match the carriers to the material and temperature
+  const mat = swMat(), T = +$('sw-T').value;
+  if (mat !== SW.mat) { SW.mat = mat; SW.parts = []; SW.I = 0; }
+  if (mat === 'metal') { while (SW.parts.length < NW * NR) SW.parts.push(newCarrier(false)); }
+  else {
+    const want = mat === 'semi' ? Math.round(nSemi(T)) : 0;
+    let ne = SW.parts.filter(p => !p.hole).length;
+    while (ne < want) { const e = newCarrier(false); SW.parts.push(e, newCarrier(true, e)); ne++; }   // heat makes electron-hole pairs
+    while (ne > want) { SW.parts.splice(SW.parts.findIndex(p => !p.hole), 1); SW.parts.splice(SW.parts.findIndex(p => p.hole), 1); ne--; }
+  }
+  swEnergies();
+}
+function stepSW(dt) {
+  SW.t += dt;
+  const T = +$('sw-T').value, g = gammaT(T), acc = ACC * +$('sw-v').value, s0 = speed0(SW.mat, T);
+  let sum = 0;
+  for (const p of SW.parts) {
+    const q = p.hole ? -1 : 1;   // holes are pushed toward −
+    p.vx += q * acc * dt;
+    if (Math.random() < g * dt) {   // bump into an ion: random new direction, drift so far is lost
+      const a = Math.random() * 2 * PI; p.vx = s0 * Math.cos(a); p.vy = s0 * Math.sin(a);
+      SW.flashes.push({ x: p.x, y: p.y, age: 0 });
+    }
+    p.x += p.vx * dt; p.y += p.vy * dt;
+    if (p.y < 0.1) { p.y = 0.2 - p.y; p.vy = Math.abs(p.vy); } else if (p.y > NR - 0.1) { p.y = 2 * (NR - 0.1) - p.y; p.vy = -Math.abs(p.vy); }
+    let wrap = false;
+    if (p.x >= NW) { p.x -= NW; wrap = true; } else if (p.x < 0) { p.x += NW; wrap = true; }
+    if (wrap) p.trail = [];
+    p.trail.push([p.x, p.y]); if (p.trail.length > 9) p.trail.shift();
+    sum += q * p.vx;
+  }
+  SW.I += (sum / NW - SW.I) * Math.min(1, dt / 3);   // charge flow through any cross-section, smoothed over ~3 s
+  SW.flashes = SW.flashes.filter(f => (f.age += dt) < 0.3);
+}
+const cv = $('sw-cv'), cx = cv.getContext('2d');
+function sizeCanvas() {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0); if (C) drawCanvas();
+}
+function drawCanvas() {
+  const W = cv.clientWidth, H = cv.clientHeight; if (!W || !SW.mat) return;
+  cx.clearRect(0, 0, W, H);
+  const L = 56, R = W - 16, cell = (R - L) / NW, top0 = 30, topH = Math.min(cell * NR, H * 0.36), eTop = top0 + topH + 40, eBot = H - 14;
+  const X = x => L + cell * x, YR = y => top0 + topH * y / NR;
+  const E0 = -9.5, E1 = -0.5, YE = e => eTop + (eBot - eTop) * (E1 - e) / (E1 - E0);
+  const T = +$('sw-T').value, F = 0.22 * +$('sw-v').value, tl = x => -F * (x - NW / 2), bb = BB[SW.mat];
+  const font = (s, w = 400) => { cx.font = `${w} ${s}px "IBM Plex Sans", system-ui, sans-serif`; };
+  const text = (t, x, y, color, align = 'left', s = 12, w = 400) => { font(s, w); cx.fillStyle = color; cx.textAlign = align; cx.fillText(t, x, y); };
+
+  // real-space panel
+  text('Inside the wire', L, top0 - 12, C.fg, 'left', 12, 600);
+  text('electrons leave at + and return through the battery to −', R, top0 - 12, C.muted, 'right', 11);
+  cx.fillStyle = rgba(C.emp, 0.07); cx.fillRect(X(0), top0, cell * NW, topH);
+  cx.strokeStyle = C.line; cx.lineWidth = 1; cx.strokeRect(X(0), top0, cell * NW, topH);
+  cx.fillStyle = C.fg; cx.fillRect(X(0) - 7, top0 - 2, 5, topH + 4); cx.fillRect(X(NW) + 2, top0 - 2, 5, topH + 4);
+  text('−', X(0) - 20, top0 + topH / 2 + 5, C.fg, 'center', 16, 600); text('+', X(NW) + 4, top0 + topH + 18, C.fg, 'center', 14, 600);
+  const amp = 0.055 * Math.sqrt(T / 300) * cell, rIon = Math.max(5, 0.13 * cell), rHaze = 0.34 * cell;
+  for (let i = 0; i < NW; i++) for (let j = 0; j < NR; j++) {
+    const ph = i * 7.3 + j * 13.1, x = X(i + 0.5) + amp * Math.sin(SW.t * 17 + ph), y = YR(j + 0.5) + amp * Math.cos(SW.t * 13 + ph * 1.7);
+    const gr = cx.createRadialGradient(x, y, rIon * 0.6, x, y, rHaze);
+    gr.addColorStop(0, rgba(C.muted, 0.35)); gr.addColorStop(1, rgba(C.muted, 0));
+    cx.fillStyle = gr; cx.beginPath(); cx.arc(x, y, rHaze, 0, 2 * PI); cx.fill();
+    cx.fillStyle = C.muted; cx.beginPath(); cx.arc(x, y, rIon, 0, 2 * PI); cx.fill();
+    text('+', x, y + 4, C.panel, 'center', Math.max(10, rIon * 1.5), 600);
+  }
+  for (const f of SW.flashes) {
+    const k = f.age / 0.3; cx.strokeStyle = rgba(C.fg, 0.5 * (1 - k)); cx.lineWidth = 1.5;
+    cx.beginPath(); cx.arc(X(f.x), YR(f.y), 3 + 9 * k, 0, 2 * PI); cx.stroke();
+  }
+  for (const p of SW.parts) {
+    if (p.trail.length > 1) {
+      cx.strokeStyle = rgba(C.occ, 0.35); cx.lineWidth = 2; cx.beginPath();
+      p.trail.forEach(([tx, ty], i) => i ? cx.lineTo(X(tx), YR(ty)) : cx.moveTo(X(tx), YR(ty))); cx.stroke();
+    }
+    cx.beginPath(); cx.arc(X(p.x), YR(p.y), 4, 0, 2 * PI);
+    if (p.hole) { cx.strokeStyle = C.occ; cx.lineWidth = 2; cx.stroke(); } else { cx.fillStyle = C.occ; cx.fill(); }
+  }
+
+  // energy panel
+  text('Energy along the wire', L, eTop - 14, C.fg, 'left', 12, 600);
+  cx.save(); cx.beginPath(); cx.rect(L, eTop, R - L, eBot - eTop); cx.clip();
+  const band = (c, lo, hi, color, a) => {
+    cx.fillStyle = rgba(color, a); cx.beginPath();
+    cx.moveTo(X(0), YE(c + lo + tl(0))); cx.lineTo(X(NW), YE(c + lo + tl(NW))); cx.lineTo(X(NW), YE(c + hi + tl(NW))); cx.lineTo(X(0), YE(c + hi + tl(0)));
+    cx.closePath(); cx.fill();
+  };
+  cx.strokeStyle = C.line; cx.lineWidth = 1;
+  for (let e = -9; e <= -1; e += 2) { cx.beginPath(); cx.moveTo(L, YE(e)); cx.lineTo(R, YE(e)); cx.stroke(); }
+  band(BA.c, -BA.w, BA.w, C.occ, 0.3);
+  if (SW.mat === 'metal') { band(bb.c, -bb.w, 0, C.occ, 0.25); band(bb.c, 0, bb.w, C.emp, 0.18); }
+  else band(bb.c, -bb.w, bb.w, C.emp, 0.18);
+  cx.strokeStyle = C.emp; cx.lineWidth = 1.6; cx.beginPath();
+  for (let i = 0; i <= 480; i++) { const x = NW * i / 480, y = YE(Math.max(-10, vCell(x)) + tl(x)); i ? cx.lineTo(X(x), y) : cx.moveTo(X(x), y); }
+  cx.stroke();
+  if (SW.mat === 'metal') {
+    cx.strokeStyle = C.ef; cx.lineWidth = 1.5; cx.setLineDash([6, 4]); cx.beginPath();
+    cx.moveTo(X(0), YE(bb.c + tl(0))); cx.lineTo(X(NW), YE(bb.c + tl(NW))); cx.stroke(); cx.setLineDash([]);
+  }
+  for (const p of SW.parts) {
+    cx.beginPath(); cx.arc(X(p.x), YE(p.e + tl(p.x)), 3.5, 0, 2 * PI);
+    if (p.hole) { cx.strokeStyle = C.occ; cx.lineWidth = 2; cx.stroke(); } else { cx.fillStyle = C.occ; cx.fill(); }
+  }
+  cx.restore();
+  for (let e = -9; e <= -1; e += 2) text(String(e).replace('-', '−'), L - 8, YE(e) + 4, C.muted, 'right', 11);
+  cx.save(); cx.translate(16, (eTop + eBot) / 2); cx.rotate(-PI / 2); text('Energy (eV)', 0, 0, C.fg, 'center', 12); cx.restore();
+  const roleA = SW.mat === 'metal' ? 'full, bound to the ions' : SW.parts.some(p => p.hole) ? 'valence band, full except the holes' : 'valence band, full';
+  const roleB = SW.mat === 'metal' ? 'half full: free electrons' : SW.parts.some(p => !p.hole) ? 'conduction band: heat-excited electrons' : 'conduction band, empty';
+  const lab = (t, x, e, color) => { font(11); const w = cx.measureText(t).width; cx.fillStyle = rgba(C.panel, 0.85); cx.fillRect(x - 3, YE(e) - 13, w + 6, 16); text(t, x, YE(e) - 1, color, 'left', 11); };
+  lab('Band A · ' + roleA, X(0.1), BA.c + BA.w + tl(0.1) + 0.15, C.fg);
+  lab('Band B · ' + roleB, X(0.1), bb.c + bb.w + tl(0.1) + 0.15, C.fg);
+  if (SW.mat === 'metal') lab('E_F', X(NW - 0.6), bb.c + tl(NW - 0.6) + 0.12, C.ef);
+  else lab(`gap ${(bb.c - bb.w - BA.c - BA.w).toFixed(1)} eV (drawn)`, X(NW - 3.2), (bb.c - bb.w + BA.c + BA.w) / 2 + tl(NW - 3.2) + 0.15, C.ef);
+}
+const sup = n => String(n).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'['0123456789'.indexOf(c)] || (c === '-' ? '⁻' : c)).join('');
+function swReadout() {
+  const T = +$('sw-T').value, ps = SW.parts, ne = ps.filter(p => !p.hole).length, nh = ps.length - ne;
+  const vd = ps.length ? SW.I * NW / ps.length : 0;
+  let real;
+  if (SW.mat === 'metal') real = ['Real copper at this T', `ρ ≈ ${(16.8 * Math.max(0.03, 1 + 0.0039 * (T - 293))).toFixed(1)} nΩ·m`];
+  else if (SW.mat === 'semi') {   // intrinsic silicon: n_i ≈ 1e10 cm⁻³ at 300 K, 5e22 atoms per cm³
+    const ni = 1e10 * (T / 300) ** 1.5 * Math.exp(-(1.12 / (2 * KB)) * (1 / T - 1 / 300)), r = 5e22 / ni, ex = Math.floor(Math.log10(r));
+    real = ['Real silicon at this T', r > 1e30 ? 'no free e⁻ in practice' : `1 free e⁻ per ${(r / 10 ** ex).toFixed(0)}·10${sup(ex)} atoms`];
+  } else real = ['Real diamond at this T', 'no free electrons'];
+  setRead('sw-read', [['Current (drawn)', `${Math.abs(SW.I) < 0.05 ? '0.0' : SW.I.toFixed(1)} e⁻/s ${SW.I > 0.05 ? '→' : SW.I < -0.05 ? '←' : ''}`],
+    ['Average drift speed', `${Math.abs(vd).toFixed(2)} atoms/s`], ['Random speed', `${speed0(SW.mat, T).toFixed(1)} atoms/s`],
+    ['Collisions per electron', `${gammaT(T).toFixed(1)} per s`], ['Free electrons / holes', `${ne} / ${nh}`], real,
+    ['Real tilt, 1 V over 1 cm', '≈ 2.5·10⁻⁸ eV per atom']]);
+  $('sw-bar').style.width = Math.min(100, Math.abs(SW.I) / 12 * 100) + '%';
+}
+function renderW() {
+  swSync();
+  const mat = SW.mat, T = +$('sw-T').value, V = +$('sw-v').value, n = SW.parts.length;
+  setPill('sw-pill', mat === 'metal' ? (V > 0 ? ['metal', 'Conducts: electrons drift toward +'] : ['metal', 'No voltage: random motion, no net current'])
+    : mat === 'ins' ? ['ins', 'Insulator: gap too big, nothing can move']
+    : n === 0 ? ['atom', 'Too cold: no free carriers in this piece'] : ['semi', 'Conducts: electrons → and holes ←']);
+  const Ts = lin(50, 900, 86), cur = t => nCarriers(mat, t) * (ACC * V / gammaT(t)) / NW;
+  Plotly.react('sw-c', [
+    { x: Ts, y: Ts.map(cur), mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: '%{x:.0f} K<br>%{y:.2f} e⁻/s<extra></extra>' },
+    { x: [T], y: [cur(T)], mode: 'markers', marker: { color: C.occ, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+    layout({ margin: { l: 56, r: 12, t: 8, b: 40 }, xaxis: ax('Temperature (K)', { range: [40, 910] }), yaxis: ax('Current (e⁻/s, drawn)', { rangemode: 'tozero' }),
+      annotations: mat === 'ins' || V === 0 ? [{ xref: 'paper', yref: 'paper', x: 0.5, y: 0.5, showarrow: false, text: mat === 'ins' ? 'no free carriers at any temperature' : 'no voltage, no current', font: { color: C.muted, size: 12 } }] : [] }), CFG);
+  swReadout(); drawCanvas();
+}
+
+/* ---------- animation for Models 2 and 4 ---------- */
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+SK.play = SW.play = !reduceMotion;
+if (reduceMotion) { $('sw-note').hidden = false; $('sk-note').hidden = false; }
+let animPrev = null, animAcc = 0;
+function animLoop(ts) {
+  const dt = animPrev === null ? 0 : Math.min(0.05, (ts - animPrev) / 1000); animPrev = ts; animAcc += dt;
+  if (SK.play) SK.t += dt * 2.5;
+  if (SW.play && SW.mat) {
+    stepSW(dt);
+    if (SW.visible) drawCanvas();
+    if ((SW.tick += dt) > 0.25) { SW.tick = 0; swReadout(); }
+  }
+  if (animAcc >= 1 / 30) { animAcc = 0; if (SK.play && SK.visible) drawSK(); }   // Plotly redraw for Model 2 at ~30 fps
+  requestAnimationFrame(animLoop);
+}
+function playBtn(id, S, after) {
+  const b = $(id), sync = () => { b.textContent = S.play ? 'Pause' : 'Play'; };
+  sync(); b.addEventListener('click', () => { S.play = !S.play; sync(); if (after) after(); });
+}
+playBtn('sk-play', SK, () => { $('sk-note').hidden = true; }); playBtn('sw-play', SW, () => { $('sw-note').hidden = true; });
+$('sk-reset').addEventListener('click', () => { SK.t = 0; drawSK(); });
+$('sk-parts').addEventListener('change', drawSK);
+document.querySelectorAll('input[name="sw-mat"]').forEach(el => el.addEventListener('change', renderW));
+if ('ResizeObserver' in window) new ResizeObserver(sizeCanvas).observe(cv);
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { (e.target.id === 'kwave' ? SK : SW).visible = e.isIntersecting; }));
+  io.observe($('kwave')); io.observe($('wire'));
+}
+
+/* ---------- Model 3: current in one band (ring of NC atoms, t = 1 eV) ---------- */
+const NC = 24, KR = Array.from({ length: NC }, (_, i) => -PI + (i + 0.5) * 2 * PI / NC);
+const wrapK = k => ((k + PI) % (2 * PI) + 2 * PI) % (2 * PI) - PI;
+function renderC() {
+  const m = +$('sc-n').value, push = +$('sc-f').value * PI;
+  // a field shifts every electron's k by the same amount: the filled block is the m states nearest to k = push
+  const order = KR.map((k, i) => [Math.abs(wrapK(k - push)), i]).sort((a, b) => a[0] - b[0]);
+  const filled = new Array(NC).fill(false); order.slice(0, m).forEach(([, i]) => { filled[i] = true; });
+  const E = KR.map(k => -2 * Math.cos(k)), v = KR.map(k => 2 * Math.sin(k));
+  let right = 0, left = 0, J = 0;
+  KR.forEach((_, i) => { if (filled[i]) { J += 2 * v[i]; if (v[i] > 0) right += 2; else left += 2; } });
+  if (Math.abs(J) < 1e-9) J = 0;
+  const kd = lin(-PI, PI, 241);
+  const dots = ys => ({ x: KR, y: ys, mode: 'markers', marker: { size: 11, color: filled.map(f => f ? C.occ : C.emp), line: { width: 1.5, color: C.panel } },
+    hovertemplate: 'k = %{x:.2f}/a<br>%{y:.2f}<extra></extra>' });
+  const curve = f => ({ x: kd, y: kd.map(f), mode: 'lines', line: { color: C.muted, width: 1.5 }, hoverinfo: 'skip' });
+  Plotly.react('pc-a', [curve(k => -2 * Math.cos(k)), dots(E)],
+    layout({ annotations: [{ x: 0, y: -2.2, yanchor: 'top', showarrow: false, text: '<b>the band</b> (one orbital per atom)', font: { size: 12, color: C.fg } }],
+      shapes: [vline(push, C.ef, 'dot')], xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: [-2.7, 2.5] }) }), CFG);
+  const lab = (y, text) => ({ xref: 'paper', x: 0.02, y, xanchor: 'left', text, showarrow: false, font: { size: 11, color: C.muted } });
+  Plotly.react('pc-b', [curve(k => 2 * Math.sin(k)), dots(v)],
+    layout({ shapes: [hline(0, C.line, 'solid')], annotations: [lab(2.25, '↑ moving right'), lab(-2.25, '↓ moving left')],
+      xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Velocity (slope of the band)', { range: [-2.5, 2.5], showticklabels: false }) }), CFG);
+
+  let cls;
+  if (m === 0) cls = ['atom', 'Empty band: nothing to carry current'];
+  else if (m === NC) cls = ['ins', 'Full band: no current, whatever the push'];
+  else if (J !== 0) cls = ['metal', 'Current flows: more electrons move right'];
+  else cls = ['metal', 'Partly full: ready to conduct, no push yet'];
+  setPill('sc-pill', cls);
+  let step = '—', real = '—';
+  if (m > 0 && m < NC) {
+    const Es = E.slice().sort((a, b) => a - b);   // measured with no push: lowest m states filled
+    step = Math.max(0, Es[m] - Es[m - 1]).toFixed(2) + ' eV';
+    const kF = m / NC * PI;   // dE ≈ slope at k_F × k spacing, for a 1 cm row (~4·10⁷ atoms)
+    real = '≈ ' + Math.max(2 * Math.sin(kF) * 2 * PI / 4e7, 1e-9).toExponential(0) + ' eV';
+  }
+  setRead('sc-read', [['Electrons', `${2 * m} of ${2 * NC}`], ['Moving right', right], ['Moving left', left], ['Net current (arb.)', J.toFixed(2)],
+    ['Step to nearest empty state, this ring', step], ['Same step, 1 cm of metal', real]]);
+}
+
+/* ---------- Model 5: periodic diatomic chain ---------- */
+const NK = 480, KS = Array.from({ length: NK }, (_, i) => -PI + (i + 0.5) * 2 * PI / NK);
+const ecOf = (k, D, t) => Math.sqrt(D * D / 4 + 2 * t * t * (1 + Math.cos(k)));
+function nTot(ec, mu, kT) { let s = 0; for (const e of ec) s += fd(-e, mu, kT) + fd(e, mu, kT); return 2 * s / ec.length; }
+function nCond(ec, mu, kT) { let s = 0; for (const e of ec) s += fd(e, mu, kT); return 2 * s / ec.length; }
+function nHole(ec, mu, kT) { let s = 0; for (const e of ec) s += fd(2 * mu + e, mu, kT); return 2 * s / ec.length; }
+function solveMu(ec, fill, kT, W) {
+  if (Math.abs(fill - 2) < 1e-9) return 0;          // bands are symmetric, so intrinsic μ sits mid-gap
+  if (fill <= 1e-6) return -W - 0.3;
+  if (fill >= 4 - 1e-6) return W + 0.3;
+  let lo = -W - 2 - 40 * kT, hi = W + 2 + 40 * kT;
+  for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; if (nTot(ec, m, kT) < fill) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+}
+function render2() {
+  const D = +$('s2-gap').value, t = +$('s2-t').value, fill = +$('s2-fill').value, T = +$('s2-T').value;
+  const kT = KB * Math.max(T, 1), W = Math.sqrt(D * D / 4 + 4 * t * t);
+  const ec = KS.map(k => ecOf(k, D, t)), mu = solveMu(ec, fill, kT, W);
+  const nc = nCond(ec, mu, kT), ph = nHole(ec, mu, kT);
+  const yr = [-W - 0.7, W + 0.7];
+
+  const kd = lin(-PI, PI, 241), ed = kd.map(k => ecOf(k, D, t));
+  const km = lin(-PI, PI, 49), em = km.map(k => ecOf(k, D, t));
+  const line = s => ({ x: kd, y: ed.map(e => s * e), mode: 'lines', line: { color: C.muted, width: 1.5 }, hoverinfo: 'skip' });
+  const dots = s => {
+    const y = em.map(e => s * e);
+    return { x: km, y, mode: 'markers', marker: { size: 8, color: y.map(E => fd(E, mu, kT)), cmin: 0, cmax: 1,
+      colorscale: [[0, C.emp], [1, C.occ]], line: { width: 1, color: C.panel } },
+      hovertemplate: 'k = %{x:.2f}/a<br>E = %{y:.2f} eV<br>f = %{marker.color:.3g}<extra></extra>' };
+  };
+  const shapes = [hline(mu, C.ef)];
+  if (D > 0) shapes.unshift({ type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: -D / 2, y1: D / 2, fillcolor: rgba(C.ef, 0.07), line: { width: 0 }, layer: 'below' });
+  const bl = (y, yanchor, text) => ({ x: 0, y, yanchor, showarrow: false, text, font: { size: 12, color: C.fg }, bgcolor: rgba(C.panel, 0.85) });
+  const ann2 = [bl(-W - 0.08, 'top', '<b>valence band</b>'), bl(W + 0.08, 'bottom', '<b>conduction band</b>')];
+  if (D > 0.3) ann2.push({ x: -PI * 0.97, xanchor: 'left', y: 0, yshift: 9, showarrow: false, text: 'gap', font: { size: 11, color: C.ef } });
+  Plotly.react('p2a', [line(-1), line(1), dots(-1), dots(1)],
+    layout({ annotations: ann2, shapes, xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: yr }) }), CFG);
+
+  const vals = [];
+  for (let i = 0; i < 4000; i++) { const e = ecOf(-PI + (i + 0.5) * 2 * PI / 4000, D, t); vals.push(e, -e); }
+  const h = hist(vals, yr[0], yr[1], 140);
+  const Ed = lin(yr[0], yr[1], 300);
+  Plotly.react('p2b', [
+    { x: h.d, y: h.e, mode: 'lines', line: { color: C.emp, width: 1, shape: 'hvh' }, fill: 'tozerox', fillcolor: rgba(C.emp, 0.18), hoverinfo: 'skip' },
+    { x: h.d.map((v, i) => v * fd(h.e[i], mu, kT)), y: h.e, mode: 'lines', line: { color: C.occ, width: 1, shape: 'hvh' }, fill: 'tozerox', fillcolor: rgba(C.occ, 0.55), hoverinfo: 'skip' },
+    { x: Ed.map(E => fd(E, mu, kT)), y: Ed, mode: 'lines', line: { color: C.fg, width: 2 }, hovertemplate: 'E = %{y:.2f} eV<br>f = %{x:.3g}<extra></extra>' }],
+    layout({ margin: { l: 44, r: 12, t: 8, b: 44 }, shapes: [hline(mu, C.ef)], xaxis: ax('f(E), DOS', { range: [0, 1.05] }), yaxis: ax('', { range: yr }) }), CFG);
+
+  const ecs = ec.filter((_, i) => i % 2 === 0), Ts = lin(20, 1500, 60);
+  const ns = Ts.map(TT => { const k = KB * TT; return nCond(ecs, solveMu(ecs, fill, k, W), k); });
+  Plotly.react('p2c', [
+    { x: Ts, y: ns.map(v => v > 1e-40 ? v : null), mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: '%{x:.0f} K<br>%{y:.2e} e⁻/cell<extra></extra>' },
+    { x: [T], y: [nc > 1e-40 ? nc : null], mode: 'markers', marker: { color: C.occ, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+    layout({ margin: { l: 64, r: 12, t: 8, b: 40 }, xaxis: ax('Temperature (K)', { range: [0, 1520] }), yaxis: ax('Conduction e⁻ / cell', { type: 'log', exponentformat: 'power' }) }), CFG);
+
+  let cls;
+  if (fill <= 1e-6) cls = ['atom', 'No electrons'];
+  else if (fill >= 4 - 1e-6) cls = ['ins', 'Both bands full: insulator'];
+  else if (Math.abs(fill - 2) < 1e-6) cls = D < 0.02 ? ['metal', 'Metal: bands touch, no gap'] : D < 3 ? ['semi', 'Intrinsic semiconductor'] : ['ins', 'Insulator: gap too large to cross'];
+  else if (Math.abs(fill - 2) <= 0.1 && D >= 0.02) cls = ['semi', fill > 2 ? 'Doped semiconductor (n-type)' : 'Doped semiconductor (p-type)'];
+  else cls = ['metal', 'Metal: partly filled band'];
+  setPill('s2-pill', cls);
+  setRead('s2-read', [['Gap E_g', D.toFixed(2) + ' eV'], ['kT', (kT * 1000).toFixed(1) + ' meV'], ['E_g / kT', (D / kT).toFixed(1)],
+    ['μ', mu.toFixed(3) + ' eV'], ['Conduction e⁻ / cell', sci(nc)], ['Holes / cell', sci(ph)]]);
+}
+
+/* ---------- Model 6: 2D square lattice ---------- */
+const G2 = 121, K2 = lin(-PI, PI, G2), GS = 61, KG = lin(-PI, PI, GS), KC = lin(-PI, PI, 401);
+const e2 = (x, y, tp) => -2 * (Math.cos(x) + Math.cos(y)) - 4 * tp * Math.cos(x) * Math.cos(y);
+let c3 = { tp: null };
+function cache3(tp) {
+  if (c3.tp === tp) return c3;
+  const M = 240, f = new Float64Array(M * M);
+  for (let i = 0; i < M; i++) for (let j = 0; j < M; j++) f[i * M + j] = e2(-PI + (i + 0.5) * 2 * PI / M, -PI + (j + 0.5) * 2 * PI / M, tp);
+  f.sort();
+  const Emin = f[0], Emax = f[f.length - 1];
+  c3 = { tp, sorted: f, Emin, Emax, Z: K2.map(y => K2.map(x => e2(x, y, tp))), Zs: KG.map(y => KG.map(x => e2(x, y, tp))),
+         dos: hist(f, Emin - 0.3, Emax + 0.3, 150, 1) };
+  return c3;
+}
+function render3() {
+  const EF = +$('s3-ef').value, tp = +$('s3-tp').value, ky = +$('s3-ky').value * PI, c = cache3(tp);
+  const n = 2 * lowerBound(c.sorted, EF) / c.sorted.length;
+  const cut = KC.map(x => e2(x, ky, tp)), kf = crossings(KC, cut, EF);
+
+  Plotly.react('p3a', [
+    { type: 'heatmap', x: K2, y: K2, z: c.Z, colorscale: C.scale, showscale: false, hovertemplate: 'kx = %{x:.2f}<br>ky = %{y:.2f}<br>E = %{z:.2f} eV<extra></extra>' },
+    { type: 'contour', x: K2, y: K2, z: c.Z, contours: { type: 'constraint', operation: '>', value: EF }, fillcolor: rgba(C.occ, 0.5), line: { color: C.ef, width: 2.5 }, hoverinfo: 'skip', showscale: false },
+    { x: [-PI, PI], y: [ky, ky], mode: 'lines', line: { color: C.fg, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+    { x: kf, y: kf.map(() => ky), mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'k_F = %{x:.2f}/a<extra></extra>' }],
+    layout({ margin: { l: 50, r: 10, t: 8, b: 44 }, xaxis: kAx('kₓ (1/a)'), yaxis: kAx('k_y (1/a)', { scaleanchor: 'x', constrain: 'domain' }) }), CFG);
+
+  const yr = [c.Emin - 0.4, c.Emax + 0.4];
+  Plotly.react('p3b', [
+    { x: KC, y: cut, mode: 'lines', line: { color: C.muted, width: 2 }, hovertemplate: 'kx = %{x:.2f}<br>E = %{y:.2f} eV<extra></extra>' },
+    { x: KC, y: cut.map(E => E <= EF ? E : null), mode: 'lines', line: { color: C.occ, width: 5 }, hoverinfo: 'skip' },
+    { x: kf, y: kf.map(() => EF), mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'k_F = %{x:.2f}/a<extra></extra>' }],
+    layout({ shapes: [hline(EF, C.ef)], xaxis: kAx('kₓ (1/a) at the cut'), yaxis: ax('Energy (eV)', { range: yr }) }), CFG);
+
+  const kcs = lin(-PI, PI, 121);
+  Plotly.react('p3c', [
+    { type: 'surface', x: KG, y: KG, z: c.Zs, colorscale: C.scale, showscale: false, hoverinfo: 'skip',
+      contours: { z: { show: true, start: EF, end: EF + 1e-4, size: 1, color: C.ef, width: 6 }, x: { highlight: false }, y: { highlight: false }, z_: undefined },
+      lighting: { ambient: 0.75, diffuse: 0.55, specular: 0.05 } },
+    { type: 'surface', x: [-PI, PI], y: [-PI, PI], z: [[EF, EF], [EF, EF]], surfacecolor: [[0, 0], [0, 0]], cmin: 0, cmax: 1,
+      colorscale: [[0, C.ef], [1, C.ef]], opacity: 0.3, showscale: false, hoverinfo: 'skip' },
+    { type: 'scatter3d', x: kcs, y: kcs.map(() => ky), z: kcs.map(x => e2(x, ky, tp)), mode: 'lines', line: { color: C.occ, width: 6 }, hoverinfo: 'skip' }],
+    layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 's3',
+      scene: { xaxis: sKAx('kₓ'), yaxis: sKAx('k_y'), zaxis: sAx('E', { range: yr }), aspectmode: 'manual', aspectratio: { x: 1, y: 1, z: 0.75 },
+               camera: { eye: { x: 1.15, y: -1.15, z: 0.8 } }, bgcolor: 'rgba(0,0,0,0)' } }), CFG);
+
+  const dE = c.dos.e, dD = c.dos.d;
+  Plotly.react('p3d', [
+    { x: dE, y: dD, mode: 'lines', line: { color: C.emp, width: 1.2 }, fill: 'tozeroy', fillcolor: rgba(C.emp, 0.16), hovertemplate: 'E = %{x:.2f} eV<extra></extra>' },
+    { x: dE.filter(e => e <= EF), y: dD.filter((_, i) => dE[i] <= EF), mode: 'lines', line: { color: C.occ, width: 1.2 }, fill: 'tozeroy', fillcolor: rgba(C.occ, 0.5), hoverinfo: 'skip' }],
+    layout({ shapes: [vline(EF, C.ef)], xaxis: ax('Energy (eV)', { range: yr }), yaxis: ax('States per eV (arb.)', { showticklabels: false, range: [0, 1.08] }) }), CFG);
+
+  let cls;
+  if (n <= 0) cls = ['atom', 'Band empty'];
+  else if (n >= 2) cls = ['ins', 'Band full: no Fermi surface'];
+  else cls = ['metal', 'Metal: partly filled band'];
+  setPill('s3-pill', cls);
+  setRead('s3-read', [['Electrons per site', n.toFixed(3) + ' / 2'], ['Filled share of zone', (n / 2 * 100).toFixed(1) + ' %'],
+    ['Fermi points on cut', kf.length], ['Band range', `${c.Emin.toFixed(2)} … ${c.Emax.toFixed(2)} eV`]]);
+}
+
+/* ---------- Model 7: simple cubic ---------- */
+const G3 = 30, K3 = lin(-PI, PI, G3), X3 = [], Y3 = [], Z3 = [];
+for (const x of K3) for (const y of K3) for (const z of K3) { X3.push(x); Y3.push(y); Z3.push(z); }
+const e3 = (x, y, z, tz) => -2 * (Math.cos(x) + Math.cos(y) + tz * Math.cos(z));
+let c4 = { tz: null };
+function cache4(tz) {
+  if (c4.tz === tz) return c4;
+  const M = 48, f = new Float64Array(M * M * M); let p = 0;
+  const km = Array.from({ length: M }, (_, i) => -PI + (i + 0.5) * 2 * PI / M);
+  for (const x of km) for (const y of km) for (const z of km) f[p++] = e3(x, y, z, tz);
+  f.sort();
+  c4 = { tz, sorted: f, V: X3.map((x, i) => e3(x, Y3[i], Z3[i], tz)) };
+  return c4;
+}
+function marching(F, xs, level) {
+  // returns contour segments of F[j][i] = level as x/y arrays with null breaks
+  const X = [], Y = [], n = xs.length;
+  for (let j = 0; j < n - 1; j++) for (let i = 0; i < n - 1; i++) {
+    const x0 = xs[i], x1 = xs[i + 1], y0 = xs[j], y1 = xs[j + 1];
+    const a = F[j][i] - level, b = F[j][i + 1] - level, c = F[j + 1][i + 1] - level, d = F[j + 1][i] - level;
+    const p = [];
+    if (a * b < 0) p.push([x0 + (x1 - x0) * a / (a - b), y0]);
+    if (b * c < 0) p.push([x1, y0 + (y1 - y0) * b / (b - c)]);
+    if (c * d < 0) p.push([x1 + (x0 - x1) * c / (c - d), y1]);
+    if (d * a < 0) p.push([x0, y1 + (y0 - y1) * d / (d - a)]);
+    for (let k = 0; k + 1 < p.length; k += 2) X.push(p[k][0], p[k + 1][0], null), Y.push(p[k][1], p[k + 1][1], null);
+  }
+  return { X, Y };
+}
+function topology(EF, tz) {
+  const lo = -2 * (2 + tz), hi = 2 * (2 + tz);
+  if (EF <= lo) return ['atom', 'Band empty: no Fermi surface'];
+  if (EF >= hi) return ['ins', 'Band full: no Fermi surface'];
+  if (EF < -2 * (2 - tz)) return ['metal', 'Closed electron pocket around Γ'];
+  if (EF < -2 * tz) return ['metal', 'Open along k_z: corrugated cylinder'];
+  if (EF <= 2 * tz) return ['metal', 'Open in all directions: connected network'];
+  if (EF < 2 * (2 - tz)) return ['metal', 'Hole cylinders along the zone edges'];
+  return ['metal', 'Closed hole pocket at the corner R'];
+}
+function render4() {
+  const EF = +$('s4-ef').value, tz = +$('s4-tz').value, kz = +$('s4-kz').value * PI, c = cache4(tz);
+  const n = 2 * lowerBound(c.sorted, EF) / c.sorted.length;
+  const Zc = K2.map(y => K2.map(x => e3(x, y, kz, tz)));
+  const seg = marching(Zc, K2, EF);
+  let below = 0; Zc.forEach(r => r.forEach(v => { if (v < EF) below++; }));
+
+  Plotly.react('p4a', [
+    { type: 'isosurface', x: X3, y: Y3, z: Z3, value: c.V, isomin: EF, isomax: EF, surface: { count: 1 },
+      caps: { x: { show: false }, y: { show: false }, z: { show: false } }, colorscale: [[0, C.occ], [1, C.occ]], showscale: false,
+      opacity: 0.9, hoverinfo: 'skip', lighting: { ambient: 0.55, diffuse: 0.8, specular: 0.25, roughness: 0.6 } },
+    { type: 'surface', x: [-PI, PI], y: [-PI, PI], z: [[kz, kz], [kz, kz]], surfacecolor: [[0, 0], [0, 0]], cmin: 0, cmax: 1,
+      colorscale: [[0, C.ef], [1, C.ef]], opacity: 0.25, showscale: false, hoverinfo: 'skip' },
+    { type: 'scatter3d', x: seg.X, y: seg.Y, z: seg.X.map(v => v === null ? null : kz), mode: 'lines', line: { color: C.ef, width: 7 }, hoverinfo: 'skip', connectgaps: false }],
+    layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 's4',
+      scene: { xaxis: sKAx('kₓ'), yaxis: sKAx('k_y'), zaxis: sKAx('k_z'), aspectmode: 'cube',
+               camera: { eye: { x: 1.55, y: -1.35, z: 0.9 } }, bgcolor: 'rgba(0,0,0,0)' } }), CFG);
+
+  Plotly.react('p4b', [
+    { type: 'heatmap', x: K2, y: K2, z: Zc, colorscale: C.scale, showscale: false, zmin: -2 * (2 + tz), zmax: 2 * (2 + tz),
+      hovertemplate: 'kx = %{x:.2f}<br>ky = %{y:.2f}<br>E = %{z:.2f} eV<extra></extra>' },
+    { type: 'contour', x: K2, y: K2, z: Zc, contours: { type: 'constraint', operation: '>', value: EF }, fillcolor: rgba(C.occ, 0.5), line: { color: C.ef, width: 2.5 }, hoverinfo: 'skip', showscale: false }],
+    layout({ margin: { l: 50, r: 10, t: 8, b: 44 }, xaxis: kAx('kₓ (1/a)'), yaxis: kAx('k_y (1/a)', { scaleanchor: 'x', constrain: 'domain' }) }), CFG);
+
+  setPill('s4-pill', topology(EF, tz));
+  setRead('s4-read', [['Electrons per site', n.toFixed(3) + ' / 2'], ['Filled share of zone', (n / 2 * 100).toFixed(1) + ' %'],
+    ['Filled share of cut', (below / (G2 * G2) * 100).toFixed(1) + ' %'], ['Band range', `±${(2 * (2 + tz)).toFixed(2)} eV`]]);
+}
+
+/* ---------- wiring (shared: CM.wire formats outputs, schedules renders, re-renders on theme change) ---------- */
+const R = { s1: render1, sk: renderK, sc: renderC, sw: renderW, s2: render2, s3: render3, s4: render4 };
+CM.wire(R);
+requestAnimationFrame(animLoop);
+});
+</script>
+</body>
+</html>

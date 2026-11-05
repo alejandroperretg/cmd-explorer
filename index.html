@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script defer src="assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="index.html" aria-current="page">CMD Explorer</a>
+  <a href="#map">Syllabus map</a>
+  <a href="pages/14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Constructor University Bremen</span><span>Fall 2026</span><span>Kittel, 8th ed.</span></div>
+  <h1>Condensed Matter and Devices</h1>
+  <p class="lead">Study pages for the whole syllabus. Each topic has a short explanation, interactive models you can play with, worked guides for the related problem-sheet questions, and what the 2022 exam asked about it.</p>
+</header>
+
+<!-- PAGE AGENTS: when your page is done, turn its card from <div class="topic planned"> into
+     <a class="topic" href="pages/NN-slug.html"> and change its pill to <span class="pill built">ready</span>. Edit only your own card. -->
+<section class="block" id="map">
+  <h2>Syllabus map</h2>
+
+  <div class="part">
+    <h3>1 · Crystals</h3>
+    <div class="cards">
+      <div class="topic planned" id="t01"><span class="num">01 · §1.1 · Sheet 1</span><h3>Crystal structure &amp; symmetry</h3>
+        <ul><li>Primitive lattice, Bravais lattices</li><li>Classification by symmetry</li><li>Simple crystal structures (NaCl, CsCl, hcp, diamond)</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t02"><span class="num">02 · §1.1.3, 1.3 · Sheets 2, 3</span><h3>Reciprocal lattice, diffraction &amp; imaging</h3>
+        <ul><li>Direct imaging: TEM, STM</li><li>Bragg's law, reciprocal lattice, Brillouin zones</li><li>X-ray scattering, structure and form factors</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t03"><span class="num">03 · §1.4 · Sheets 3, 4</span><h3>Crystal binding</h3>
+        <ul><li>Noble-gas crystals, Lennard-Jones</li><li>Ionic crystals, Madelung constant</li><li>Covalent, metallic and hydrogen bonds</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t04"><span class="num">04 · §1.5 · Sheet 5</span><h3>Elasticity</h3>
+        <ul><li>Strain, stress, Hooke's law</li><li>Elastic energy density, cubic stiffness constants</li><li>Bulk modulus</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t05"><span class="num">05 · §1.6 · Sheet 6</span><h3>Phonons</h3>
+        <ul><li>Linear chain, chain with basis</li><li>Phonon density of states</li><li>Phonons and their measurement</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t06"><span class="num">06 · §1.7 · Sheet 7</span><h3>Lattice heat capacity</h3>
+        <ul><li>High-T limit (Dulong–Petit)</li><li>Low-T limit (Debye T³)</li><li>Intermediate T, Einstein and Debye models</li></ul><span class="pill planned">planned</span></div>
+    </div>
+  </div>
+
+  <div class="part">
+    <h3>2 · Electronic properties of materials</h3>
+    <div class="cards">
+      <div class="topic planned" id="t07"><span class="num">07 · §2.1 · Sheets 8, 9.1</span><h3>Free electron gas</h3>
+        <ul><li>Boundary conditions, Fermi sphere</li><li>Total energy and pressure of the electron gas</li><li>Electronic specific heat</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t08"><span class="num">08 · §2.2–2.5, 2.7.7 · Sheet 9.2</span><h3>Transport</h3>
+        <ul><li>Boltzmann equation, relaxation time</li><li>Drude conductivity, Ohm's law, AC conductivity</li><li>Umklapp, Wiedemann–Franz, thermoelectric effects</li></ul><span class="pill planned">planned</span></div>
+      <a class="topic" id="t09" href="pages/09-bands.html"><span class="num">09 · §2.6</span><h3>Energy bands</h3>
+        <ul><li>Bloch theorem</li><li>Nearly free electron model</li><li>Tight-binding model, Fermi surfaces</li></ul><span class="pill built">ready (NFE part planned)</span></a>
+      <div class="topic planned" id="t10"><span class="num">10 · §2.8</span><h3>Magnetic properties</h3>
+        <ul><li>Hamiltonian for an electron in a magnetic field</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t11"><span class="num">11 · §2.9</span><h3>Dielectrics</h3>
+        <ul><li>Polarization, dielectric constant</li></ul><span class="pill planned">planned</span></div>
+    </div>
+  </div>
+
+  <div class="part">
+    <h3>3 · Semiconductor devices</h3>
+    <div class="cards">
+      <div class="topic planned" id="t12"><span class="num">12 · §3.1</span><h3>Semiconductors</h3>
+        <ul><li>Band structure and effective masses</li><li>Holes, effective density of states</li><li>Intrinsic and doped semiconductors, current equations</li></ul><span class="pill planned">planned</span></div>
+      <div class="topic planned" id="t13"><span class="num">13 · §3.2</span><h3>p–n junction &amp; devices</h3>
+        <ul><li>p–n junction</li><li>Solar cell, LED, laser diode</li></ul><span class="pill planned">planned</span></div>
+    </div>
+  </div>
+
+  <div class="part">
+    <h3>Review</h3>
+    <div class="cards">
+      <div class="topic planned" id="t14"><span class="num">14 · all sections</span><h3>Exam prep</h3>
+        <ul><li>2022 exam, question by question</li><li>Links to the relevant topic pages</li></ul><span class="pill planned">planned</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <p>Built from the course syllabus, problem sheets 1–9, the lecture notes and the 2022 exam recollection. Follows Kittel, <i>Introduction to Solid State Physics</i>, 8th ed. Unofficial study material.</p>
+</section>
+</main>
+</body>
+</html>
