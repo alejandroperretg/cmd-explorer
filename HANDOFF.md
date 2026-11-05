@@ -1,0 +1,54 @@
+# Handoff: CMD Explorer
+
+The previous session ran out of usage on 2026-11-05 around 22:30. This file is the full state, so start here.
+
+## Goal (set by the user)
+"Make support material that spans the entirety of the syllabus and homeworks."
+
+The course is Condensed Matter and Devices (V. Wagner, Constructor University, Fall 2026). The material is a private study site in `explorer/`. It has one page per topic, with interactive models, homework guides and exam prep.
+
+## How to work
+- **Coordinate; don't do the work yourself.** Use the `chief-of-staff` skill. Delegate building and reviewing to background subagents (`subagent_type: "claude"`, prompt starting with "First read `C:\Users\aleja\.claude\skills\chief-of-staff\library\<persona>.md` and adopt it as your role."). Run at most 3 agents at once. The user asked to keep usage low.
+- **Run end to end without permission check-ins** (see the user's memory). Ask only about taste.
+- **Rules:** `CONVENTIONS.md`, binding. Steps: `PLAN.md`, the first unchecked item is current. Decisions: `DECISIONS.md`. Sources per page: `sources/INDEX.md`.
+- **Source ranking:** topic list → sheets → Miro → 2022 exam → the user's notes → Kittel. The notes are incomplete; Kittel is used for rigour.
+- **Content inputs:** `../digest/*.md` (per-section digests with Miro sections) and `../digest/TEACHING-BRIEF.md` (exam guide, the student's past confusions).
+- **Builder brief:** `templates/BRIEF.md`. Prompt each page builder with "follow BRIEF.md using NN = …" plus page-specific notes and a private scratch folder.
+- **Browser testing:**
+  - every agent uses its own tab (`tabs_create` + `tabId`) and its own port (`node tools/serve.js <port>`);
+  - `requestAnimationFrame` doesn't run in the hidden pane, so use `CM.renderAll()`;
+  - prefer text checks to screenshots.
+- **After a page passes review:**
+  - `node tools/flip.js . NN …` switches its index card to ready and ticks `PLAN.md`;
+  - then commit (real name; end the message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`);
+  - nothing is ever pushed or published publicly.
+- **Phone preview:**
+  - `node tools/to-artifact.js . NN-slug.html build/cmd-NN.html` builds a self-contained copy, with math as MathML;
+  - publish it as a *private* artifact (Artifact tool; load the artifact-design guidance via `action: "quickstart"` first).
+  - The bands page is already published at https://claude.ai/artifact/Ph9bvTf6N3VvtzFfA8qDNY. Update it in place by passing that `url`, after a `read` of it.
+
+## State at handoff
+- **Done, reviewed and committed:** pages 01, 07, 08, 09. Their models are labelled by topic-list number.
+- **In flight when the session stopped.** Check what landed in `pages/` and `git status`. Anything missing must be redone; agents don't survive the session.
+  1. **Pedagogy design system** (user request). In `assets/site.css`:
+     - `.eq` / `.eq.key` equation panels;
+     - tags `.tag.hw` / `.tag.exam` / `.tag.deriv` / `.tag.lect` where an equation is introduced;
+     - a reading-path box and numbered concept cards with a "Needs:" line;
+     - `.takeaway`, `.trap`, `.check` (self-test `<details>`);
+     - a legend.
+
+     It should also be in `templates/topic.html` and as a "Pedagogy" rule in `CONVENTIONS.md`, then applied to `pages/09-bands.html` without touching the model code. If that's incomplete, finish it. Then rebuild and republish the bands artifact for the user to look at on their phone. The user asked for: "a clear order of reading things", equations "more visible and distinguishable from the text", highlighting "which equations are used for homework … or for exam, or which derivation is exam relevant", and "color coding and other pedagogy techniques".
+  2. **Pages 02** (reciprocal lattice, §1.1.3/1.3, sheets 2 and 3.1–3.2), **05** (phonons, §1.6, sheet 6) and **06** (heat capacity, §1.7, sheet 7). These were being built in the old style.
+- **Next, in order:**
+  1. Finish (1) and (2).
+  2. One review pass for 02/05/06 (physics + code; Code Reviewer persona), then commit.
+  3. Retrofit 01, 02, 05, 06, 07, 08 to the pedagogy system.
+  4. Pages 03 (binding, sheets 3.3–4.3) and 04 (elasticity, sheet 5).
+  5. PLAN item 15: models for every chapter-2 subsection. Gaps: 07 needs 2.1.2 wavefunctions, 2.1.4 total energy and 2.1.5 pressure.
+- **Wait for lectures:** pages 10–13 (magnetism, dielectrics, semiconductors, p–n junctions). Lectures had reached §2.6.2. New notes arrive via GoodNotes auto-backup to Google Drive (`GoodNotes/` folder; see `../NOTES-PIPELINE.md` if it exists).
+- **Last:** page 14, exam prep.
+
+## Linked material outside explorer/
+- `../STUDY-PLAN.md`: the user's study plan.
+- `../drill/`: the formula drill.
+- `../miro/notes/`: the Miro board transcriptions.
