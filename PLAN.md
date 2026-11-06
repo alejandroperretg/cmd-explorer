@@ -15,8 +15,9 @@ Every page must also meet the definition of done in `CONVENTIONS.md`. Inputs per
   Done when: guides for 2.1 (b₁·(b₂×b₃) proof), 2.2 (Cr bcc / Cu fcc Wigner–Seitz and BZ volumes), 2.3 (STM κ and current factor, TEM wavelength at 250 kV), 3.1 (diamond structure factor), 3.2 (hydrogen form factor); models include real ↔ reciprocal lattice and a structure-factor/form-factor plot.
   Result: built and reviewed 2026-11-05 (physics + code PASS).
 
-- [ ] **03 Crystal binding** (`pages/03-crystal-binding.html`; §1.4; Kittel ch. 3)
+- [x] **03 Crystal binding** (`pages/03-crystal-binding.html`; §1.4; Kittel ch. 3)
   Done when: guides for 3.3 (Ar bcc/fcc cohesive-energy ratio), 3.4 (solid H₂), 4.1 (1D NaCl Madelung constant), 4.2 (BaO, Ba⁺O⁻ vs Ba²⁺O²⁻), 4.3 (metallic-bond kinetic energy); models include Lennard-Jones and Madelung-sum convergence.
+  Result: built and reviewed 2026-11-05 (physics + code PASS).
 
 - [ ] **04 Elasticity** (`pages/04-elasticity.html`; §1.5; Kittel ch. 3)
   Done when: guides for 5.1 (E and ν along [100] and [110] in terms of Cᵢⱼ), 5.2 (cubic stability criteria); models include a strain-tensor deformation view and directional Young's modulus with Cu/Al/Si presets.

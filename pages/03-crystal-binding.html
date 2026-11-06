@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crystal binding · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 03</span><span>Syllabus §1.4</span><span>Kittel ch. 3</span><span>Notes pp. 17–18, 23</span><span>Sheets 3, 4</span></div>
+  <h1>Crystal binding</h1>
+  <p class="lead">What holds a crystal together: van der Waals forces in noble-gas solids, Coulomb attraction in ionic crystals, shared electron pairs in covalent crystals, delocalised electrons in metals and hydrogen bridges. Each mechanism gives a binding curve U(R) whose minimum fixes the lattice spacing and the cohesive energy. Its curvature returns as the elastic constants (1.5) and the phonon spring constants (1.6).</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>Read the sections in topic-list order. 1.4.1 and 1.4.2 carry all the calculations (sheets 3.3–4.2). 1.4.3–1.4.5 are mostly qualitative, and 1.4.4 adds the short estimate of sheet 4.3. About 2¼ hours in total, including the exam-style exercise.</p>
+  <ol>
+    <li data-sec="1.4.1"><a href="#c-cohesive">Cohesive energy and the binding curve</a><span class="min">10 min</span></li>
+    <li data-sec="1.4.1"><a href="#c-vdw">Noble gases: van der Waals attraction and Pauli repulsion</a><span class="min">10 min</span></li>
+    <li data-sec="1.4.1"><a href="#c-lj">Lennard-Jones crystal: lattice sums and equilibrium</a><span class="min">20 min</span><span class="then">Then: <a href="#model1">Model 1</a>; <a href="#hw-3-3">Sheet 3.3</a>.</span></li>
+    <li data-sec="1.4.1"><a href="#c-quantum">Quantum corrections for light atoms</a><span class="min">5 min</span><span class="then">Then: <a href="#hw-3-4">Sheet 3.4</a>.</span></li>
+    <li data-sec="1.4.2"><a href="#c-madelung">Ionic crystals: the Madelung energy</a><span class="min">15 min</span><span class="then">Then: <a href="#model2">Model 2</a>; <a href="#hw-4-1">Sheet 4.1 (i)</a>.</span></li>
+    <li data-sec="1.4.2"><a href="#c-ionic-eq">Repulsion, equilibrium and the energy cycle</a><span class="min">15 min</span><span class="then">Then: <a href="#model3">Model 3</a>; <a href="#hw-4-1">Sheet 4.1 (ii)</a>, <a href="#hw-4-2">Sheet 4.2</a>.</span></li>
+    <li data-sec="1.4.3"><a href="#c-covalent">Covalent crystals</a><span class="min">10 min</span></li>
+    <li data-sec="1.4.4"><a href="#c-metal">Metallic crystals</a><span class="min">10 min</span><span class="then">Then: <a href="#model4">Model 4</a>; <a href="#hw-4-3">Sheet 4.3</a>.</span></li>
+    <li data-sec="1.4.5"><a href="#c-hbond">Hydrogen bonding</a><span class="min">5 min</span></li>
+    <li data-sec="Ex"><a href="#exam-x">Exam-style exercise: solid krypton</a><span class="min">25 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag exam">Exam Q4c</span>asked in the 2022 exam</span>
+    <span><span class="tag hw">Sheet 4.2</span>used by a sheet or practice problem</span>
+    <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
+    <span><span class="tag lect">Not yet lectured</span>taught here from Kittel</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>A crystal is stable because its energy is lower than that of the same atoms far apart. The difference is the <b>cohesive energy</b>. Topic 1.4 covers the five ways solids achieve this: van der Waals forces between closed-shell atoms (1.4.1), Coulomb attraction between ions (1.4.2), shared electron pairs (1.4.3), delocalised electrons (1.4.4) and hydrogen bridges (1.4.5). The two quantitative models are the Lennard-Jones crystal and the Madelung sum. All five sheet problems use them.</p>
+  <p>Key results to leave with:</p>
+  <ul>
+    <li>Lennard-Jones fcc crystal: $R_0=1.09\,\sigma$ and $U_0=-8.61\,N\varepsilon$; bcc/fcc ≈ 0.957.</li>
+    <li>Madelung constant $\alpha=\sum_j(\pm)R/r_j$, with $\alpha=2\ln2$ for the 1D chain and 1.7476 for NaCl.</li>
+    <li>With repulsion $A/R^n$: $U(R_0)=-\frac{\alpha q^2}{4\pi\varepsilon_0R_0}\big(1-\frac1n\big)$ per ion pair.</li>
+    <li>Cohesive energy is measured from neutral atoms, so ionisation energies and electron affinities enter.</li>
+  </ul>
+  <div class="dict"><table>
+    <thead><tr><th>Bond type (§)</th><th>Origin</th><th>Example</th><th>Typical binding</th></tr></thead>
+    <tbody>
+      <tr><td>van der Waals (1.4.1)</td><td>Fluctuating dipoles, −1/R⁶; Pauli repulsion</td><td>Ne, Ar, Kr, Xe; solid H₂</td><td>Ar: 0.080 eV/atom</td></tr>
+      <tr><td>Ionic (1.4.2)</td><td>Coulomb attraction of closed-shell ions</td><td>NaCl, KCl, BaO</td><td>NaCl: 6.4 eV per NaCl from atoms</td></tr>
+      <tr><td>Covalent (1.4.3)</td><td>Shared pair with antiparallel spins, directional</td><td>C (diamond), Si, Ge</td><td>Comparable to ionic</td></tr>
+      <tr><td>Metallic (1.4.4)</td><td>Lower kinetic energy of delocalised valence electrons</td><td>Na, Cu</td><td>Weaker than ionic in the alkali metals</td></tr>
+      <tr><td>Hydrogen (1.4.5)</td><td>A proton bridging two electronegative atoms</td><td>Ice, KH₂PO₄, DNA</td><td>≈ 0.1 eV per bond</td></tr>
+    </tbody></table></div>
+  <p class="note">Values from Kittel ch. 3: Table 4 (Ar), Fig. 8 (NaCl: 7.9 − 5.1 + 3.6 = 6.4 eV), and the text on covalent, metallic and hydrogen bonds.</p>
+  <div class="assume"><b>About the sources:</b> notes p17, where this lecture should be, is a single "?". The notes only have a recap line on covalent bonds and metals (p18), the hydrogen bond (p18) and a list of review keywords (p23). Sections 1.4.1–1.4.4 are therefore taught here from Kittel ch. 3, at the level of sheets 3 and 4. The lectures did cover them (p18 recaps them), so they are not tagged "not yet lectured".</div>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (Crystals of Inert Gases, Ionic Crystals, Covalent Crystals, Metals, Hydrogen Bonds), and the lecture notes pp. 17–18 and 23. Lattices and structures (fcc, bcc, NaCl, CsCl, diamond) are on <a href="01-crystal-structure.html">topic 01</a>.</p>
+</section>
+
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <section class="sec" id="s-1-4-1">
+    <h3><span class="step">1.4.1</span>Molecular crystals: noble gases</h3>
+    <p class="hook"><b>Where you meet this.</b> Argon fills double-glazed windows and shields welds, and it is a gas at room temperature for a reason you can now compute: its whole binding is 0.080 eV per atom, about three times $k_BT$ at 300 K. Solid argon only exists below 84 K. <!-- Kittel Table 4: 0.080 eV, melting 83.81 K; 0.080/(k_B·300 K) = 3.1 (node) --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> What cohesive energy is and what a binding curve U(R) tells you. Then why closed-shell atoms such as Ar attract ($-1/R^6$) and repel (Pauli), the Lennard-Jones potential, lattice sums and the equilibrium crystal, and quantum corrections. Not in the notes (p17 is blank), so taught from Kittel ch. 3.</p>
+      <p><b>Why it matters.</b> Sheets 3.3 (Ar bcc vs fcc) and 3.4 (solid H₂) are Lennard-Jones calculations, and the exam-style exercise below is too. The same pair potential is the standard model for elasticity (1.5) and phonons (1.6).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-cohesive">
+      <span class="eyebrow">1.4.1 · Cohesive energy (all bond types)</span>
+      <h4>Cohesive energy and the binding curve</h4>
+      <p>The <b>cohesive energy</b> is the energy needed to take a crystal at $T=0$ apart into separated, neutral atoms at rest:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Cohesive energy (positive for a bound crystal)</span></div>
+      $$\begin{aligned}E_{\text{coh}}&=E(\text{free neutral atoms})\\&\quad-E(\text{crystal}).\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
+      <p>For ionic crystals Kittel also uses the <b>lattice energy</b>, which is measured from separated <i>ions</i>. The two differ by the energy needed to make the ions from neutral atoms (§1.4.2). If the energy comes from pair interactions $\phi(r)$, each pair must be counted once:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Pair-sum energy of N identical atoms</span><a class="tag hw" href="#hw-3-3">Sheet 3.3</a></div>
+      $$\begin{aligned}U&=\tfrac12\sum_i\sum_{j\neq i}\phi(r_{ij})\\&=\tfrac N2\sum_{j}{}'\,\phi(r_{j}).\end{aligned}$$
+      <span class="eq-n">(2)</span></div>
+      <p>The primed sum runs over all atoms $j$ except the reference atom. The ½ corrects for counting every pair twice. As a function of the nearest-neighbour distance $R$, $U(R)$ tells you four things at once:</p>
+      <ul>
+        <li><b>where its minimum sits:</b> the equilibrium spacing $R_0$, and hence the lattice constant;</li>
+        <li><b>its depth:</b> $-E_{\text{coh}}$;</li>
+        <li><b>its curvature at $R_0$:</b> the bulk modulus and the spring constants (1.5, 1.6);</li>
+        <li><b>its asymmetry:</b> thermal expansion, because the curve is steeper on the compressed side.</li>
+      </ul>
+      <p class="trap">Mixing up cohesive and lattice energy. For NaCl the lattice energy (from Na⁺ and Cl⁻ ions) is 7.9 eV. The cohesive energy (from Na and Cl atoms) is only 6.4 eV. Sheet 4.2 asks for the cohesive energy.</p>
+      <details class="check"><summary>NaCl: lattice energy 7.9 eV, Na ionisation energy 5.1 eV, Cl electron affinity 3.6 eV. Cohesive energy per NaCl unit?</summary><p>Start from the ions and bring the electron back: Cl⁻ → Cl costs 3.6 eV, and Na⁺ + e⁻ → Na releases 5.1 eV. So $E_{\text{coh}}=7.9-5.1+3.6=6.4$ eV (Kittel Fig. 8).</p></details>
+      <p class="takeaway">Cohesive energy is measured from neutral atoms, lattice energy from ions. One curve U(R) gives the lattice constant (position of its minimum), the binding (depth) and the stiffness (curvature).</p>
+    </article>
+
+    <article class="card" id="c-vdw">
+      <span class="eyebrow">1.4.1 · Van der Waals and Pauli</span>
+      <h4>Noble gases: attraction and repulsion</h4>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a></p>
+      <p><b>Attraction.</b> A noble-gas atom has no permanent dipole, but its electron cloud fluctuates. Kittel models each atom as a charge on a spring (force constant $C$, frequency $\omega_0=\sqrt{C/m}$). The two oscillators couple through their dipole–dipole energy, $-2e^2x_1x_2/(4\pi\varepsilon_0R^3)$. This splits the two normal-mode frequencies, and to second order their summed zero-point energy $\frac12\hbar(\omega_s+\omega_a)$ drops:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Van der Waals–London attraction (Kittel eq. 9, SI)</span></div>
+      $$\begin{aligned}\Delta U&=-\frac{\hbar\omega_0}{8}\left(\frac{2e^2}{4\pi\varepsilon_0CR^3}\right)^2\\&=-\frac{A}{R^6}.\end{aligned}$$
+      <span class="eq-n">(3)</span></div>
+      <p>The effect is quantum: $\Delta U\to0$ as $\hbar\to0$. It also needs no overlap of the two charge clouds. <b>Repulsion.</b> When the clouds do overlap, the Pauli principle pushes electrons into higher states, so the energy rises steeply. The repulsion is modelled empirically as $B/R^{12}$. Together they give</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Lennard-Jones pair potential</span><a class="tag hw" href="#hw-3-3">Sheet 3.3</a><a class="tag hw" href="#hw-3-4">Sheet 3.4</a></div>
+      $$\phi(r)=4\varepsilon\left[\Big(\frac\sigma r\Big)^{12}-\Big(\frac\sigma r\Big)^{6}\right].$$
+      <span class="eq-n">(4)</span></div>
+      <p>$\phi(\sigma)=0$. The minimum lies at $r=2^{1/6}\sigma=1.122\,\sigma$ with depth $-\varepsilon$. For Ar (Kittel Table 4), $\varepsilon=167\times10^{-16}$ erg $=1.67\times10^{-21}$ J $=10.4$ meV (1 erg = 10⁻⁷ J, 1 eV = 1.602×10⁻¹⁹ J) and $\sigma=3.40$ Å. Both are fitted to the gas phase, not to the solid.</p>
+      <p class="trap">Thinking van der Waals binding needs permanent dipoles. Noble-gas atoms have none. The attraction comes from correlated fluctuations, i.e. an induced dipole in the field of a fluctuating one.</p>
+      <details class="check"><summary>A dipole field falls as 1/R³. Why does the attraction fall as 1/R⁶ rather than 1/R³?</summary><p>The mean dipole is zero, so the first-order dipole–dipole energy averages away. The surviving term is second order in the coupling, $\propto(1/R^3)^2=1/R^6$, as in (3).</p></details>
+      <p class="takeaway">Noble gases bind through fluctuating-dipole attraction ($-1/R^6$) balanced by Pauli repulsion ($+1/R^{12}$): the Lennard-Jones potential (4), with well depth ε at $1.12\sigma$.</p>
+    </article>
+
+    <article class="card" id="c-lj">
+      <span class="eyebrow">1.4.1 · Lattice sums</span>
+      <h4>Lennard-Jones crystal: lattice sums and equilibrium</h4>
+      <p class="needs"><a href="#c-vdw">1.4.1 Van der Waals and Pauli</a>; fcc and bcc neighbours on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p>Insert (4) into (2). Write every distance as $r_j=p_jR$, a multiple $p_j$ of the nearest-neighbour distance $R$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Total energy of the Lennard-Jones crystal (Kittel eq. 11)</span><a class="tag hw" href="#hw-3-3">Sheet 3.3</a></div>
+      $$\begin{aligned}U_{\text{tot}}(R)&=2N\varepsilon\Big[A_{12}\Big(\frac\sigma R\Big)^{12}\\&\qquad\quad-A_6\Big(\frac\sigma R\Big)^{6}\Big],\\ A_n&=\sum_j{}'\,p_j^{-n}.\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
+      <div class="dict"><table>
+        <thead><tr><th>Structure</th><th>z</th><th>A₁₂</th><th>A₆</th></tr></thead>
+        <tbody>
+          <tr><td>fcc</td><td>12</td><td>12.13188</td><td>14.45392</td></tr>
+          <tr><td>hcp</td><td>12</td><td>12.13229</td><td>14.45489</td></tr>
+          <tr><td>bcc</td><td>8</td><td>9.11418</td><td>12.2533</td></tr>
+        </tbody></table></div>
+      <div class="check"><b>Sanity check:</b> these are Kittel's values (eq. 12 and ch. 3 Problem 2). I re-summed them by brute force in node over a cube of ±24 half-lattice-constants. fcc gives 12.13188 and 14.4532, bcc 9.11418 and 12.2525. The small shortfall in A₆ is the missing tail beyond the cube.</div>
+      <p>The sums are close to the number of nearest neighbours $z$, because nearest neighbours dominate. Setting $dU_{\text{tot}}/dR=0$ gives $12A_{12}\sigma^{12}/R^{13}=6A_6\sigma^6/R^7$, so</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Equilibrium and cohesive energy of a Lennard-Jones crystal</span><a class="tag hw" href="#hw-3-3">Sheet 3.3</a><a class="tag hw" href="#hw-3-4">Sheet 3.4</a></div>
+      $$\begin{aligned}\frac{R_0}{\sigma}&=\Big(\frac{2A_{12}}{A_6}\Big)^{1/6},\\ U_0&=-\frac{A_6^2}{2A_{12}}\,N\varepsilon.\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
+      <p>For fcc this gives $R_0=1.090\,\sigma$ and $U_0=-8.61\,N\varepsilon$, which Kittel writes as $-2.15\,(4N\varepsilon)$ (eqs. 14 and 16). For bcc it gives $R_0=1.068\,\sigma$ and $U_0=-8.24\,N\varepsilon$. Both are the same for every element: only ε and σ change the scale. For Ar the prediction is $R_0=3.71$ Å (observed 3.76 Å) and 89.7 meV per atom (observed 80 meV, Kittel Table 4).</p>
+      <p class="trap">Keeping only the 12 nearest neighbours. That sets $A_{12}=A_6=12$ and gives $U_0=-6N\varepsilon$, which is 30% too weak, because the $r^{-6}$ tail of the further shells is not small ($A_6=14.45$, not 12). Use the full lattice sums.</p>
+      <details class="check"><summary>Without computing: which is more stable in the Lennard-Jones model, fcc or bcc, and by roughly how much?</summary><p>fcc, because it has more close neighbours (12 vs 8). From (6), $\frac{U_{\text{bcc}}}{U_{\text{fcc}}}=\frac{12.2533^2/9.11418}{14.45392^2/12.13188}=0.957$, so fcc binds about 4% more strongly. That is sheet 3.3.</p></details>
+      <p class="takeaway">Lattice sums turn the pair potential into a crystal energy (5). Minimising it gives $R_0=1.09\sigma$ and $U_0=-8.61N\varepsilon$ for fcc, the same for every element. fcc beats bcc by a factor 1/0.957.</p>
+    </article>
+
+    <article class="card" id="c-quantum">
+      <span class="eyebrow">1.4.1 · Zero-point motion</span>
+      <h4>Quantum corrections for light atoms</h4>
+      <p class="needs"><a href="#c-lj">1.4.1 Lattice sums</a></p>
+      <div class="tags"><a class="tag hw" href="#hw-3-4">Sheet 3.4</a></div>
+      <p>Equation (6) treats the atoms as classical particles at rest. A real atom confined to a cage of size $L$ by its neighbours has zero-point kinetic energy. Kittel's estimate takes half a de Broglie wavelength across the cage, $\lambda=2L$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Zero-point kinetic energy of a confined atom (order of magnitude)</span></div>
+      $$\begin{aligned}E_{\text{zp}}&\sim\frac{p^2}{2M}=\frac{h^2}{2M\lambda^2}\\&=\frac{h^2}{8ML^2}\;\propto\;\frac1M.\end{aligned}$$
+      <span class="eq-n">(7)</span></div>
+      <p>This energy is gained back by expanding the lattice, so light atoms bind more weakly and sit further apart. Kittel gives the reduction from (6) as 28, 10, 6 and 4 % for Ne, Ar, Kr and Xe. The observed $R_0/\sigma$ is 1.14, 1.11, 1.10 and 1.09, against the classical 1.09. Even the isotope matters: ²⁰Ne has a larger lattice constant (4.4644 Å) than ²²Ne (4.4559 Å). For H₂ ($M=2$ u) the classical value is 2.59 kJ/mol but the observed value is 0.751 kJ/mol, which is sheet 3.4's closing note.</p>
+      <p class="trap">Expecting gas-phase Lennard-Jones parameters to predict a light-molecule solid. They describe the potential correctly. What (6) leaves out is the zero-point motion, and for H₂ and He that motion dominates.</p>
+      <details class="check"><summary>Why is the quantum correction 28% for Ne but only 4% for Xe?</summary><p>By (7), $E_{\text{zp}}\propto1/M$. Xe is about 6.5 times heavier than Ne, and it also has a deeper well (ε is 6.4 times larger), so the relative correction is much smaller.</p></details>
+      <p class="takeaway">Zero-point kinetic energy ∝ 1/M weakens binding and expands the lattice. It is small for Xe and Kr, about 10% for Ar, and huge for H₂, which is why sheet 3.4's two numbers disagree with experiment.</p>
+    </article>
+
+    </div>
+    <p class="cannow"><b>You can now</b> compute the cohesive energy and lattice spacing of any Lennard-Jones solid from ε and σ, compare fcc with bcc, and say why light atoms miss. That is <a href="#hw-3-3">Sheet 3.3</a>, <a href="#hw-3-4">Sheet 3.4</a> and the <a href="#exam-x">krypton exercise</a>.</p>
+  </section>
+
+  <section class="sec" id="s-1-4-2">
+    <h3><span class="step">1.4.2</span>Ionic crystals</h3>
+    <p class="hook"><b>Where you meet this.</b> Table salt melts at 801 °C because pulling one Na⁺Cl⁻ pair out of the crystal costs 7.9 eV, about 760 kJ/mol. Magnesium oxide, with doubly charged ions, melts near 2850 °C and lines steel furnaces. The z² in the Madelung energy is the reason, and it is exactly what sheet 4.2 tests. <!-- NaCl lattice energy Kittel Fig. 8 / Table 7; 7.9 eV × 96.485 = 762 kJ/mol (node); melting points: standard handbook values --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The electrostatic (Madelung) energy of a lattice of ± ions, how to sum it, the short-range repulsion that sets the equilibrium, and the energy cycle back to neutral atoms. Not in the notes, so taught from Kittel ch. 3.</p>
+      <p><b>Why it matters.</b> Sheet 4.1 asks for α of a 1D chain and the energy at equilibrium, and sheet 4.2 compares Ba⁺O⁻ with Ba²⁺O²⁻. Tutor board 07 gets α wrong, so read the box below.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-madelung">
+      <span class="eyebrow">1.4.2 · Madelung energy</span>
+      <h4>Ionic crystals: the Madelung energy</h4>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; NaCl and CsCl structures on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p>The ions have closed shells (Na⁺ like Ne, Cl⁻ like Ar) and are nearly spherical, so each acts like a point charge $\pm q$. Coulomb energy is the main part of the binding; van der Waals adds only 1–2%. For a reference ion, the Coulomb energy with all the others is $-\alpha q^2/(4\pi\varepsilon_0R)$, with</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Madelung constant (Kittel eqs. 21 and 25)</span><a class="tag hw" href="#hw-4-1">Sheet 4.1</a><a class="tag hw" href="#hw-4-2">Sheet 4.2</a></div>
+      $$\begin{aligned}\alpha&=\sum_j{}'\,\frac{(\pm)}{p_j}\\&=\sum_j{}'\,(\pm)\,\frac{R}{r_j}.\end{aligned}$$
+      <span class="eq-n">(8)</span></div>
+      <p>The sign is (+) for ions of opposite charge to the reference ion and (−) for ions of like charge. $R$ is the nearest-neighbour distance. For the 1D chain of alternating ions, a reference ion has two ions at each distance $nR$, of alternating sign:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">1D chain (Kittel ch. 3, Fig. 9)</span><a class="tag hw" href="#hw-4-1">Sheet 4.1 (i)</a></div>
+      $$\begin{aligned}\alpha&=2\Big(1-\frac12+\frac13-\frac14+\dots\Big)\\&=2\ln2=1.386,\end{aligned}$$
+      <span class="eq-n">(9)</span></div>
+      <p>using $\ln(1+x)=x-x^2/2+x^3/3-\dots$ at $x=1$. In 3D, Kittel quotes:</p>
+      <div class="dict"><table>
+        <thead><tr><th>Structure</th><th>α (referred to R)</th></tr></thead>
+        <tbody><tr><td>NaCl</td><td>1.747565</td></tr><tr><td>CsCl</td><td>1.762675</td></tr><tr><td>Zinc blende (ZnS)</td><td>1.6381</td></tr></tbody></table></div>
+      <div class="check"><b>Sanity check:</b> all three were recomputed by Ewald summation in node: 1.747565, 1.762675 and 1.638055.</div>
+      <p><b>Convergence.</b> The terms fall only as $1/r$ while the number of ions in a shell grows as $r^2$. The sum converges only because + and − nearly cancel, and the result depends on the order of summation. Adding whole spherical shells gives values that swing between about −6 and +6. Adding charge-neutral cubes, with ions on a face weighted ½, on an edge ¼ and on a corner ⅛ (Evjen's method), converges fast. <a href="#model2">Model 2</a> shows both.</p>
+      <div class="assume"><b>Tutor board 07 differs from Kittel:</b> it writes $\alpha=\sum r_{NN}/(2|\mathbf R|)$, with the same $q_1q_2$ for every ion. That is wrong in two ways.
+        <ul>
+          <li>The sign must alternate with the charge of ion $j$. Without it the sum diverges.</li>
+          <li>The ½ belongs to the double counting of the total energy, eq. (10) below, not to α. With the ½, sheet 4.1 would give ln 2 instead of 2 ln 2.</li>
+        </ul>
+        The board's own table quotes Kittel's values, which follow from (8). The board also calls ½Σφ the "cohesive energy". For an ionic crystal that sum is the lattice energy (relative to ions), not the cohesive energy that sheet 4.2 asks for (relative to atoms).</div>
+      <p class="trap">Writing α with a ½ or without the alternating sign (tutor board 07). Use (8): no ½, (+) for opposite charges. Then the 1D chain gives 2 ln 2 = 1.386 and NaCl gives 1.7476.</p>
+      <details class="check"><summary>Why must α be positive for a stable ionic crystal?</summary><p>The Coulomb energy per ion is $-\alpha q^2/4\pi\varepsilon_0R$. Only if α > 0 do the attractions to unlike neighbours outweigh the repulsions from like ones, so that bringing the ions together lowers the energy.</p></details>
+      <details class="check"><summary>In the 1D chain, which terms of the sum come from like charges?</summary><p>The even terms $-\frac12,-\frac14,\dots$. The ions at $2R, 4R,\dots$ carry the same charge as the reference ion, so they repel.</p></details>
+      <p class="takeaway">The Coulomb energy per ion pair is $-\alpha q^2/4\pi\varepsilon_0R$, with α from (8): alternating signs and no ½. α = 2 ln 2 for the 1D chain and 1.7476 for NaCl. The sum converges only conditionally, so it must be added in neutral blocks.</p>
+    </article>
+
+    <article class="card" id="c-ionic-eq">
+      <span class="eyebrow">1.4.2 · Equilibrium and energy cycle</span>
+      <h4>Repulsion, equilibrium and the energy cycle</h4>
+      <p class="needs"><a href="#c-madelung">1.4.2 Madelung energy</a></p>
+      <p>Closed-shell ions repel at contact, as noble-gas atoms do. Kittel uses an exponential repulsion $\lambda e^{-r/\rho}$ between nearest neighbours. Sheet 4.1 uses a power law $A/R^n$. For $2N$ ions (N ion pairs), with $z$ nearest neighbours each:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Total energy of an ionic crystal (Kittel eq. 20, SI)</span><a class="tag hw" href="#hw-4-1">Sheet 4.1 (ii)</a></div>
+      $$\begin{aligned}\frac{U_{\text{tot}}}{N}&=z\lambda e^{-R/\rho}-\frac{\alpha q^2}{4\pi\varepsilon_0R}\\ \text{or}\quad\frac{U_{\text{tot}}}{N}&=\frac{zA}{R^n}-\frac{\alpha q^2}{4\pi\varepsilon_0R}.\end{aligned}$$
+      <span class="eq-n">(10)</span></div>
+      <p>The prefactor is $N$, not $2N$, because each pair is counted once. Setting $dU/dR=0$ at $R_0$ for the power law gives $zA/R_0^n=\alpha q^2/(4\pi\varepsilon_0 nR_0)$. Substituting back eliminates $A$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Energy at equilibrium, per ion pair</span><a class="tag hw" href="#hw-4-1">Sheet 4.1 (ii)</a></div>
+      $$U(R_0)=-\frac{\alpha q^2}{4\pi\varepsilon_0R_0}\Big(1-\frac1n\Big).$$
+      <span class="eq-n">(11)</span></div>
+      <p>With Kittel's exponential repulsion the bracket is $(1-\rho/R_0)$ instead (Kittel eq. 24). Repulsion removes only a fraction $1/n$ (or $\rho/R_0\approx0.1$) of the Madelung energy, so neglecting it, as sheet 4.2 does, costs about 10%. A useful number: $e^2/4\pi\varepsilon_0=1.440$ eV·nm. For NaCl ($R_0=0.282$ nm, ρ = 0.321 Å; Kittel Table 7), (11) gives $1.7476\times5.106\,\text{eV}\times(1-0.114)=7.91$ eV, against a measured lattice energy of 7.92 eV (182.6 kcal/mol).</p>
+      <p>To get the cohesive energy, close the cycle back to neutral atoms. For charge $z$ ions $M^{z+}X^{z-}$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Cohesive energy from neutral atoms (Born–Haber cycle)</span><a class="tag hw" href="#hw-4-2">Sheet 4.2</a></div>
+      $$\begin{aligned}E_{\text{coh}}&=E_{\text{latt}}-\textstyle\sum_k I_k\\&\quad+\textstyle\sum_k A_k,\\ E_{\text{latt}}&=\frac{\alpha z^2e^2}{4\pi\varepsilon_0R_0}\\&\quad\times\big(1-1/n\big).\end{aligned}$$
+      <span class="eq-n">(12)</span></div>
+      <p>$E_{\text{latt}}$ is the lattice energy (from ions), and both sums run over $k=1,\dots,z$. $I_k$ are the successive ionisation energies of the metal. $A_k$ are the successive electron affinities, i.e. the energy <i>released</i> when the $k$-th electron is added. The Madelung term grows as $z^2$, which can outweigh the extra ionisation cost (<a href="#model3">Model 3</a>).</p>
+      <p class="trap">The sign of the second electron affinity. For O, $A_2=-9.0$ eV: adding the second electron <i>costs</i> 9.0 eV, so in (12) it subtracts 9.0 eV. Only the crystal's Madelung field makes O²⁻ stable.</p>
+      <details class="check"><summary>Why does (10) have the prefactor N and not 2N for a crystal of 2N ions?</summary><p>Summing the energy of every ion with all the others counts each pair twice. Multiplying the per-ion energy by $2N$ and halving gives $N$.</p></details>
+      <details class="check"><summary>n = 9: what fraction of the Madelung energy survives at equilibrium?</summary><p>$1-1/9=8/9\approx89\%$. Repulsion takes the other 11%.</p></details>
+      <p class="takeaway">At equilibrium the repulsion takes back only 1/n of the Madelung energy, giving (11). The cohesive energy then subtracts ionisation energies and adds electron affinities (12). Mind that the second affinity of O is negative.</p>
+    </article>
+
+    </div>
+    <p class="cannow"><b>You can now</b> compute a Madelung constant by summing in neutral blocks, eliminate the repulsion to get the energy at equilibrium, and run a Born–Haber cycle with the right signs. That is <a href="#hw-4-1">Sheet 4.1</a> and <a href="#hw-4-2">Sheet 4.2</a>.</p>
+  </section>
+
+  <section class="sec" id="s-1-4-3">
+    <h3><span class="step">1.4.3</span>Covalent crystals</h3>
+    <p class="hook"><b>Where you meet this.</b> Every transistor in a chip sits in a silicon crystal held together by the four tetrahedral bonds described here. Diamond has the same bonds, only shorter (C–C 0.154 nm), and is the hardest natural material. <!-- C–C bond length in diamond: standard value 1.54 Å = √3/4 × 3.567 Å --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The electron-pair bond, why it depends on spin, and why it makes crystals open and directional. One recap line in the notes (p18), so taught from Kittel ch. 3.</p>
+      <p><b>Why it matters.</b> No sheet problem uses it, but C, Si and Ge are the semiconductors of chapter 3 (topic 12). The bonding/antibonding split returns as the valence and conduction bands of tight binding (<a href="09-bands.html">topic 09</a>).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-covalent">
+      <span class="eyebrow">1.4.3 · Electron-pair bond</span>
+      <h4>Covalent crystals</h4>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; the diamond structure on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p>A covalent bond is a pair of electrons, one from each atom, with <b>antiparallel spins</b>, concentrated between the two nuclei. The spin matters through the Pauli principle, not through magnetic forces. In H₂ the spin singlet (antiparallel) puts charge between the protons and binds, while the triplet (parallel) keeps it out and repels (Kittel Fig. 12). This spin-dependent Coulomb energy is the <i>exchange interaction</i>. In the simplest picture, two equal orbitals with energy $\varepsilon_0$ and coupling $\gamma$ mix into</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Bonding and antibonding levels (two-orbital model, overlap neglected)</span></div>
+      $$\begin{aligned}\varepsilon_\pm&=\varepsilon_0\mp|\gamma|,\\ \psi_\pm&=\tfrac1{\sqrt2}(\phi_A\pm\phi_B).\end{aligned}$$
+      <span class="eq-n">(13)</span></div>
+      <p>Two electrons with opposite spins fill the bonding level and gain $2|\gamma|$. A third and fourth electron would have to enter the antibonding level, cancelling the gain. That is why filled shells do not bond covalently: Cl₂ (one hole in 3p) has a 2 Å bond, while Ar atoms (full 3p) stay 3.76 Å apart.</p>
+      <p>C, Si and Ge each lack four electrons of a full shell. Carbon is promoted from $2s^22p^2$ to $2s\,2p^3$ (cost ≈ 4 eV, more than regained) and forms four $sp^3$ bonds at the tetrahedral angle 109.5°. The result is the diamond structure, with only 4 neighbours. Its packing fraction is low:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Packing fraction, diamond vs close-packed</span></div>
+      $$\begin{aligned}f_{\text{diamond}}&=\frac{\pi\sqrt3}{16}=0.34,\\ f_{\text{fcc}}&=\frac{\pi}{3\sqrt2}=0.74.\end{aligned}$$
+      <span class="eq-n">(14)</span></div>
+      <p>Bonds can also be partly ionic. Phillips' fractional ionic character (Kittel Table 8) runs from Si 0.00 through GaAs 0.31 and ZnS 0.62 to NaCl 0.94.</p>
+      <p class="trap">Saying covalent bonding is driven by a magnetic spin–spin force. It is electrostatic. The spins matter only because the Pauli principle changes where the charge can sit.</p>
+      <details class="check"><summary>Diamond fills only 34% of space. Why doesn't it collapse into a close-packed structure?</summary><p>The bonds are directional: the $sp^3$ orbitals point to four tetrahedral neighbours. Packing 12 neighbours closer would break these strong bonds, which costs more than it gains.</p></details>
+      <p class="takeaway">Covalent bonds are spin-paired electron pairs filling a bonding level. They are strong and directional, and they produce open structures such as diamond (packing 0.34). Ionic and covalent bonding are two ends of a continuous range.</p>
+    </article>
+
+    </div>
+    <p class="cannow"><b>You can now</b> explain why covalent bonds need antiparallel spins, why they make open structures such as diamond (packing 0.34), and where they sit between ionic and covalent. That sets up the semiconductors of topic 12.</p>
+  </section>
+
+  <section class="sec" id="s-1-4-4">
+    <h3><span class="step">1.4.4</span>Metallic crystals</h3>
+    <p class="hook"><b>Where you meet this.</b> A copper wire bends where a salt crystal would shatter. The electron "glue" of a metal has no preferred direction, so atomic planes can slide past each other without breaking bonds. The same glue is weak in the alkali metals: sodium melts at 98 °C, while NaCl holds until 801 °C. <!-- melting points: standard handbook values; weak alkali binding: Kittel ch. 3 Metals --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Why delocalised valence electrons bind a metal, with the uncertainty-principle estimate of sheet 4.3. The notes have only "metals → easy model: free e⁻ gas" (p18).</p>
+      <p><b>Why it matters.</b> Sheet 4.3 asks for this estimate. It is also the first step towards the free-electron gas (<a href="07-free-electron-gas.html">topic 07</a>, exam 2022 Q2).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-metal">
+      <span class="eyebrow">1.4.4 · Kinetic-energy lowering</span>
+      <h4>Metallic crystals</h4>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a></p>
+      <p>In a metal the valence electrons leave their atoms and spread over the crystal as conduction electrons, usually one or two per atom. According to Kittel, the defining feature of metallic binding is that these electrons have <b>lower energy in the metal</b> than in the free atom. The main reason is that their kinetic energy drops. With $\Delta p\,\Delta x=\hbar/2$ and $E\approx\Delta p^2/2m$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Confinement (kinetic) energy</span><a class="tag hw" href="#hw-4-3">Sheet 4.3</a></div>
+      $$E_{\text{kin}}\approx\frac{(\Delta p)^2}{2m}=\frac{\hbar^2}{8m\,(\Delta x)^2}.$$
+      <span class="eq-n">(15)</span></div>
+      <p>For $\Delta x=a_0$ this is $\frac18\cdot\frac{\hbar^2}{ma_0^2}=\frac{27.2}{8}$ eV $=3.40$ eV. At $\Delta x=9a_0$ it is 81 times smaller. The binding is weak because the large spacings that lower the kinetic energy also take the electron away from its ion. Alkali metals therefore have large lattice constants and small cohesive energies. Metals prefer close-packed structures (fcc, hcp, bcc). Transition metals gain extra binding from their d shells.</p>
+      <p class="trap">Reading (15) as the cohesive energy. It is only the kinetic part. The potential energy rises as the electron leaves its ion, so the true binding is smaller. The factor $\hbar/2$ is also only an order-of-magnitude choice: the real kinetic energy of the H 1s electron is 13.6 eV, not 3.4 eV.</p>
+      <details class="check"><summary>The electron's region doubles in size. What happens to its confinement energy?</summary><p>By (15), $E\propto1/\Delta x^2$, so it drops to a quarter.</p></details>
+      <p class="takeaway">Metals are bound mainly because delocalisation lowers the valence electrons' kinetic energy, $E\sim\hbar^2/8m\Delta x^2$. Going from 1 to 9 Bohr radii gains about 3.4 eV (sheet 4.3). The free-electron gas makes this quantitative.</p>
+    </article>
+
+    </div>
+    <p class="cannow"><b>You can now</b> estimate the kinetic energy a valence electron gives up when it delocalises, and say why that is not the cohesive energy. That is <a href="#hw-4-3">Sheet 4.3</a>, and the free-electron gas of topic 07 takes it from there.</p>
+  </section>
+
+  <section class="sec" id="s-1-4-5">
+    <h3><span class="step">1.4.5</span>Hydrogen bonding</h3>
+    <p class="hook"><b>Where you meet this.</b> Ice floats because hydrogen bonds lock water molecules into an open tetrahedral network, about 8% less dense than the liquid (0.917 g/cm³). The same bonds are why water boils at 100 °C while the heavier H₂S boils at −60 °C. <!-- 1 − 0.917 = 0.083 (node); boiling points: standard handbook values --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> How a hydrogen atom can bridge two atoms although it has only one electron, and how strong that bridge is. This is the part of 1.4 the notes do cover (p18).</p>
+      <p><b>Why it matters.</b> No sheet problem uses it, but the notes list it, and it explains water and ice, some ferroelectric crystals and the pairing of DNA bases.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-hbond">
+      <span class="eyebrow">1.4.5 · Proton bridge</span>
+      <h4>Hydrogen bonding</h4>
+      <p class="needs"><a href="#s-1-4-2">1.4.2 Ionic crystals</a></p>
+      <p>With one electron, neutral H can form a covalent bond with only one atom. Next to a strongly electronegative atom (F, O, N), though, it gives up most of its electron. The bare proton is tiny, so two anions can approach it closely but a third cannot. It therefore bridges exactly two atoms. The classic example (notes p18, Kittel Fig. 13) is the bifluoride ion HF₂⁻, i.e. F⁻·H⁺·F⁻. The bond is largely ionic in character and weak:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Typical hydrogen-bond energy</span></div>
+      $$\begin{aligned}E_{\text{H}}&\approx0.1\ \text{eV}=9.6\ \text{kJ/mol}\\&\approx k_B\times1160\ \text{K}.\end{aligned}$$
+      <span class="eq-n">(16)</span></div>
+      <p>That is stronger than van der Waals (Ar: 0.08 eV per atom, shared among 12 neighbours) but far weaker than covalent or ionic bonds. It is also only a few times $k_BT$ at room temperature (25.9 meV). Hydrogen bonds therefore break and re-form easily, which matters for liquid water and for the unzipping of DNA.</p>
+      <p class="trap">Counting a hydrogen bond as a full covalent bond. H forms one covalent bond. The second link is a weak, mostly electrostatic bridge of about 0.1 eV.</p>
+      <details class="check"><summary>Why can a hydrogen bond join two atoms but not three?</summary><p>The proton is so small that the two anions it bridges already touch it. There is no room for a third close neighbour.</p></details>
+      <p class="takeaway">The hydrogen bond is a proton bridge between two electronegative atoms (F, O, N). It is mostly ionic and about 0.1 eV per bond, only a few $k_BT$ at room temperature.</p>
+    </article>
+    </div>
+    <p class="cannow"><b>You can now</b> explain how a one-electron hydrogen bridges two electronegative atoms, give its strength (about 0.1 eV) and compare it with $k_BT$. No sheet problem uses it, but it is the part of 1.4 the notes cover.</p>
+  </section>
+</section>
+
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="model1">
+    <div class="rail">
+      <span class="eyebrow">1.4.1 · Lennard-Jones crystal · Model 1</span>
+      <h3>Noble-gas crystal: fcc vs bcc</h3>
+      <p>Lennard-Jones atoms on an fcc or a bcc lattice, with gas-phase ε and σ from Kittel Table 4 (H₂ from sheet 3.4). Atoms are classical and at rest, so quantum corrections are left out. Choose how many neighbour shells enter the lattice sums.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Material</legend><div class="opts">
+          <label><input type="radio" name="m1-mat" value="Ne"><span>Ne</span></label>
+          <label><input type="radio" name="m1-mat" value="Ar" checked><span>Ar</span></label>
+          <label><input type="radio" name="m1-mat" value="Kr"><span>Kr</span></label>
+          <label><input type="radio" name="m1-mat" value="Xe"><span>Xe</span></label>
+          <label><input type="radio" name="m1-mat" value="H2"><span>H₂</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m1-R"><span>Nearest-neighbour distance R</span> <output for="m1-R"></output></label><input type="range" id="m1-R" min="0.95" max="1.5" step="0.002" value="1.106" data-fmt="3" data-unit=" σ"></div>
+        <div class="ctl"><label for="m1-sh"><span>Neighbour shells in the sums</span> <output for="m1-sh"></output></label><input type="range" id="m1-sh" min="1" max="7" step="1" value="7" data-fmt="0"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Ar, all shells: the fcc minimum sits at 3.71 Å, close to the observed 3.76 Å. The bcc/fcc ratio reads 0.957, which is sheet 3.3.</li>
+        <li>Shells = 1 (nearest neighbours only): the fcc depth drops from 8.61 ε to 6 ε, and R₀ moves to 1.12 σ, the pair minimum.</li>
+        <li>Switch to Ne, then H₂: the calculated depth increasingly overshoots the observed line (dashed). That gap is the zero-point energy left out of the model.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m1-pa"></div>
+        <figcaption><b>How to read:</b> the Lennard-Jones pair potential φ(r)/ε against r/σ. Dots mark the fcc neighbour shells at the current R (hover for the number of atoms in each shell). The green line is the nearest-neighbour distance R. Look for: at the crystal minimum, the nearest shell sits slightly inside the pair minimum at 1.12σ, because the outer shells pull inward.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--muted)"></i>φ(r)</span><span><i class="sw dot" style="background:var(--occ)"></i>fcc shells</span><span><i class="sw" style="background:var(--ef)"></i>R</span></div>
+      </figure>
+      <figure><div class="plot" id="m1-pb"></div>
+        <figcaption><b>How to read:</b> energy per atom U/N (meV) against the nearest-neighbour distance R (Å), for fcc (copper) and bcc (blue). Open circles mark each minimum. The dashed grey line is the observed −E<sub>coh</sub> (Kittel Table 4; sheet 3.4 note for H₂), and the green line is the current R. Look for: fcc always lies lower, and the classical minimum overshoots the observed binding most for light atoms.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>fcc</span><span><i class="sw" style="background:var(--emp)"></i>bcc</span><span><i class="sw" style="background:var(--muted)"></i>observed</span><span><i class="sw" style="background:var(--ef)"></i>R</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model2">
+    <div class="rail">
+      <span class="eyebrow">1.4.2 · Madelung sum · Model 2</span>
+      <h3>How the Madelung sum converges</h3>
+      <p>The partial sums of α, eq. (8), for a growing region around a reference ion. There are three ways to grow it. Spheres add whole shells of ions. Plain cubes add whole cube layers. Evjen cubes weight ions on a face, edge or corner of the cube by ½, ¼ or ⅛, so every cube is neutral. The green line is the exact value from Ewald summation.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Structure</legend><div class="opts">
+          <label><input type="radio" name="m2-st" value="chain"><span>1D chain</span></label>
+          <label><input type="radio" name="m2-st" value="nacl" checked><span>NaCl</span></label>
+          <label><input type="radio" name="m2-st" value="cscl"><span>CsCl</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m2-L"><span>Size of the region</span> <output for="m2-L"></output></label><input type="range" id="m2-L" min="1" max="16" step="1" value="4" data-fmt="0" data-unit=" R"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>NaCl: the Evjen cubes are within 2×10⁻⁴ of 1.747565 by size 4, while the spheres jump between about −6 and +6 and never settle.</li>
+        <li>1D chain (sheet 4.1): the plain series 2(1 − ½ + ⅓ − …) creeps towards 2 ln 2 = 1.386 with error ≈ 1/n. Halving the last pair (Evjen) cuts the error about 20-fold by n = 10.</li>
+        <li>CsCl: a cube with Cs on its faces converges to 3.12, and one with Cl on its faces to 0.40. Only their average gives 1.7627. The surface layer of charge shifts the potential at the centre, which is why the summation order matters.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m2-pa"></div>
+        <figcaption><b>How to read:</b> the partial sum α against the half-edge of the cube or the radius of the sphere, in units of the nearest-neighbour distance R. Each line is one way of growing the region; the spheres line is a staircase because it jumps at every shell. The green dashed line is the exact α, and the grey line marks the current size. Look for: which lines settle on the green line, and how fast.</figcaption>
+        <div class="keys" id="m2-keys"></div>
+      </figure>
+      <figure><div class="plot" id="m2-pb"></div>
+        <figcaption><b>How to read:</b> the summed region at the current size, seen face-on in units of R. For the chain this is the line of ions; for NaCl the plane z = 0; for CsCl a top view of a Cs layer and the Cl layer above it. Copper dots are ions with the reference ion's charge, blue dots ions of opposite charge, and the green dot is the reference ion. Marker size shows the Evjen weight (1, ½, ¼). Look for: ions on the edge of the box count only partly, which keeps the box neutral.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>same charge as reference</span><span><i class="sw dot" style="background:var(--emp)"></i>opposite charge</span><span><i class="sw dot" style="background:var(--ef)"></i>reference ion</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model3">
+    <div class="rail">
+      <span class="eyebrow">1.4.2 · Charge state of BaO · Model 3</span>
+      <h3>Ba⁺O⁻ or Ba²⁺O²⁻?</h3>
+      <p>The energy per BaO unit, relative to neutral Ba and O atoms, for the NaCl structure (α = 1.747565), using sheet 4.2's data. Far apart, the ions sit at the cost of making them. Up close, the Madelung energy −αz²e²/4πε₀R pulls the curve down. The optional repulsion A/Rⁿ is set so that each curve has its minimum at the observed R₀ = 0.276 nm.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m3-R"><span>Ion spacing R</span> <output for="m3-R"></output></label><input type="range" id="m3-R" min="0.2" max="0.6" step="0.001" value="0.276" data-fmt="3" data-unit=" nm"></div>
+        <div class="ctl"><label for="m3-n"><span>Repulsion exponent n</span> <output for="m3-n"></output></label><input type="range" id="m3-n" min="6" max="12" step="1" value="9" data-fmt="0"></div>
+        <label class="chk" for="m3-rep"><input type="checkbox" id="m3-rep" checked> Include repulsion A/Rⁿ (the sheet neglects it)</label>
+        <fieldset class="seg"><legend>Energy cycle shown</legend><div class="opts">
+          <label><input type="radio" name="m3-z" value="1"><span>Ba⁺O⁻</span></label>
+          <label><input type="radio" name="m3-z" value="2" checked><span>Ba²⁺O²⁻</span></label>
+        </div></fieldset>
+      </div>
+      <div class="state"><span class="pill atom" id="m3-pill"></span><dl class="readout" id="m3-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Uncheck the repulsion and keep R = 0.276 nm: the readout shows the sheet's answers, 5.43 eV and 13.82 eV. Ba²⁺O²⁻ wins.</li>
+        <li>Drag R out to 0.6 nm: at large spacing Ba⁺O⁻ is lower, because the doubly charged pair costs 22.65 eV to make. The Madelung energy, growing as z², only wins at short range.</li>
+        <li>With repulsion on, lowering n from 12 to 6 cuts the binding by 1/n of the Madelung term. The winner does not change.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m3-pa"></div>
+        <figcaption><b>How to read:</b> energy per BaO unit (eV) against ion spacing R (nm). Zero is separated neutral atoms; below zero the crystal is bound, and the depth at R is the cohesive energy. Dashed lines are the large-R limits, i.e. the cost of making the ions (3.69 eV and 22.65 eV). The green line is the current R. Look for: the two curves cross, so which state wins depends on R.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>Ba⁺O⁻</span><span><i class="sw" style="background:var(--occ)"></i>Ba²⁺O²⁻</span><span><i class="sw" style="background:var(--ef)"></i>R</span></div>
+      </figure>
+      <figure><div class="plot" id="m3-pb"></div>
+        <figcaption><b>How to read:</b> the energy cycle for the chosen state at the current R, as a running total in eV, from neutral atoms (0) to the crystal. Blue bars cost energy, copper bars release it, and the green bar is the final energy, minus the cohesive energy. Look for: for Ba²⁺O²⁻ the 9.0 eV cost of the second electron on O, then the much larger Madelung gain.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>costs energy</span><span><i class="sw" style="background:var(--occ)"></i>releases energy</span><span><i class="sw" style="background:var(--ef)"></i>total</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model4">
+    <div class="rail">
+      <span class="eyebrow">1.4.4 · Metallic delocalisation · Model 4</span>
+      <h3>Kinetic energy released by spreading out</h3>
+      <p>Sheet 4.3's estimate: an electron confined to a region Δx has momentum uncertainty Δp = ħ/2Δx and kinetic energy Δp²/2m. Letting it spread from an atom (1 a₀) to a unit cell lowers this energy. This model gives the scaling and the order of magnitude, not a cohesive energy.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m4-x"><span>Final size Δx</span> <output for="m4-x"></output></label><input type="range" id="m4-x" min="1" max="15" step="0.1" value="9" data-fmt="1" data-unit=" a₀"></div>
+        <label class="chk" for="m4-3d"><input type="checkbox" id="m4-3d"> Count all three directions (3 × the 1D energy)</label>
+      </div>
+      <div class="state"><span class="pill atom" id="m4-pill"></span><dl class="readout" id="m4-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Δx = 9 a₀, 1D: the gain is 3.36 eV, the sheet's answer. Almost all of it comes from leaving the atom, since only 0.04 eV remains.</li>
+        <li>Turn on three directions: every number triples, but the fraction released, 1 − 1/81, does not change.</li>
+        <li>Compare the starting point with the green marker: the real kinetic energy of the H 1s electron (13.6 eV, by the virial theorem) is four times the estimate. ħ/2 gives the order of magnitude only.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot" id="m4-p"></div>
+        <figcaption><b>How to read:</b> the confinement energy E = ħ²/8mΔx² (eV, logarithmic axis) against the size Δx in Bohr radii. The copper dot is the atom (1 a₀), the blue dot the delocalised electron at the chosen Δx, and the vertical gap between them is the energy released. The green dot is the exact kinetic energy of the hydrogen 1s electron, for comparison. Look for: the straight line of slope −2 on log axes, i.e. E ∝ 1/Δx².</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--muted)"></i>E(Δx)</span><span><i class="sw dot" style="background:var(--occ)"></i>atom</span><span><i class="sw dot" style="background:var(--emp)"></i>delocalised</span><span><i class="sw dot" style="background:var(--ef)"></i>H 1s ⟨T⟩</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-3-3">
+    <span class="tag">Sheet 3 · Problem 3 · 4 pts</span>
+    <h3>Cohesive energy of bcc and fcc Argon</h3>
+    <p class="ask">Calculate the ratio of cohesive energies of argon in a bcc and an fcc lattice, using the Lennard-Jones potential.</p>
+    <h4>Method</h4>
+    <p>Write the crystal energy with lattice sums (5), minimise with respect to R for each structure to get (6), and take the ratio. ε and σ cancel, so the answer holds for any Lennard-Jones solid. This is Kittel ch. 3 Problem 2, which asks the same question for neon.</p>
+    <div class="assume"><b>Assumption:</b> the lattice sums are not on the sheet. fcc: 12.13188 and 14.45392 (Kittel eq. 12). bcc: 9.11418 and 12.2533 (Kittel ch. 3 Problem 2). Both were re-summed by brute force in node (<a href="#c-lj">1.4.1</a>). Atoms are classical and at rest, and each structure is at its own equilibrium R₀.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$U(R)=2N\varepsilon\big[A_{12}(\sigma/R)^{12}-A_6(\sigma/R)^6\big]$, from (5).</li>
+        <li>$dU/dR=0$: $-12A_{12}\sigma^{12}/R^{13}+6A_6\sigma^6/R^7=0\Rightarrow(\sigma/R_0)^6=A_6/2A_{12}$.</li>
+        <li>Substitute: $U_0=2N\varepsilon\Big[A_{12}\frac{A_6^2}{4A_{12}^2}-A_6\frac{A_6}{2A_{12}}\Big]=-\frac{A_6^2}{2A_{12}}N\varepsilon$.</li>
+        <li>fcc: $\frac{14.45392^2}{2\times12.13188}=8.610$. bcc: $\frac{12.2533^2}{2\times9.11418}=8.237$.</li>
+        <li>$\dfrac{U_0^{\text{bcc}}}{U_0^{\text{fcc}}}=\dfrac{8.237}{8.610}=0.957$.</li>
+        <li>For Ar ($\varepsilon=1.67\times10^{-21}$ J, $\sigma=3.40$ Å): fcc $R_0=1.090\sigma=3.71$ Å, 89.7 meV/atom; bcc $R_0=1.068\sigma=3.63$ Å, 85.8 meV/atom. fcc is lower by 3.9 meV per atom.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $E_{\text{coh}}^{\text{bcc}}/E_{\text{coh}}^{\text{fcc}}=0.957$. fcc is more stable, as observed for solid Ar.</div>
+      <div class="check"><b>Sanity check:</b> node gives 0.95663. Kittel's answer for neon is 0.958, the same ratio rounded from 8.24/8.61, as it must be since ε and σ cancel. hcp/fcc = 1.0001, so the Lennard-Jones model barely tells the two close-packed structures apart. Model 1 shows the ratio for every material.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-3-4">
+    <span class="tag">Sheet 3 · Problem 4 · 4 pts</span>
+    <h3>Solid molecular Hydrogen</h3>
+    <p class="ask">The Lennard-Jones parameters of H₂, from the gas phase, are ε = 50·10⁻²³ J and σ = 0.296·10⁻⁹ m. (i) Find the cohesive energy in kJ per mole of H₂. (ii) Find the cohesive energy assuming an fcc crystal, approximating the molecule as spherical. [Note: the two values differ considerably due to omitted quantum corrections.]</p>
+    <h4>Method</h4>
+    <p>Treat each H₂ molecule as one Lennard-Jones sphere and use (6) for fcc: $E_{\text{coh}}=8.61\,N_A\varepsilon$ per mole. This is Kittel ch. 3 Problem 3, with the same data in CGS units.</p>
+    <div class="assume"><b>Ambiguity in part (i):</b> the sheet does not say how (i) differs from (ii). Kittel's version asks one question, the fcc value, and compares it with the <i>observed</i> 0.751 kJ/mol to show that quantum corrections are large. Two readings fit the sheet:
+      <ul>
+        <li><b>A</b> (used below): (i) is the simplest estimate, 12 nearest neighbours each at the pair minimum, worth ε per bond, which gives $6N_A\varepsilon$. The gap between this and (ii) comes from the outer neighbour shells, not from quantum corrections, so under A the sheet's note must refer to the comparison with experiment.</li>
+        <li><b>B:</b> (i) is meant as the observed value, and the note refers to the gap between calculation and experiment.</li>
+      </ul>
+      Under either reading, the calculation is far above the measurement. Check with your tutor which reading is meant.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$N_A\varepsilon=6.022\times10^{23}\times50\times10^{-23}$ J $=301.1$ J/mol.</li>
+        <li>(i), reading A: 12 neighbours, 6 bonds per molecule, each $-\varepsilon$ at $r=2^{1/6}\sigma=0.332$ nm: $E_{\text{coh}}=6N_A\varepsilon=1.81$ kJ/mol.</li>
+        <li>(ii) fcc with the full lattice sums, from (6): $E_{\text{coh}}=8.61\,N_A\varepsilon=2.59$ kJ/mol. Kittel writes this as $2.15\times4N_A\varepsilon$.</li>
+        <li>Equilibrium spacing: $R_0=1.09\,\sigma=0.323$ nm.</li>
+        <li>Compare with the observed 0.751 kJ/mol (Kittel): the classical fcc value is 3.5 times too large.</li>
+      </ol>
+      <div class="result"><b>Result:</b> (ii) $E_{\text{coh}}\approx2.6$ kJ/mol ($R_0\approx0.32$ nm). Under reading A, (i) gives 1.8 kJ/mol. The observed value is 0.75 kJ/mol. The zero-point energy of the light H₂ molecule, left out here, removes most of the binding.</div>
+      <div class="check"><b>Sanity check:</b> node gives 2.593 kJ/mol. Per molecule, $8.61\,\varepsilon=26.9$ meV $=k_B\times312$ K ($\varepsilon/k_B=36$ K). The well is shallow, so the zero-point energy of the light 2 u molecule (∝ 1/M, card <a href="#c-quantum">1.4.1</a>) removes much of it. As a check of the per-mole conversion, Ar's 0.080 eV per atom equals 7.7 kJ/mol, and Kittel lists 7.74.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-4-1">
+    <span class="tag">Sheet 4 · Problem 1 · 6 pts</span>
+    <h3>Madelung constant and cohesive energy</h3>
+    <p class="ask">(i) Compute the Madelung constant for a 1-dimensional chain of NaCl. (ii) With equilibrium distance R₀ between the ions and a repulsive potential energy term of the form A/Rⁿ, what is the cohesive energy per unit cell in equilibrium, expressed by R₀?</p>
+    <h4>Method</h4>
+    <p>(i) Sum (8) along the chain: alternating signs, two ions at each distance. (ii) Write $U(R)$ from (10), set $dU/dR=0$ to eliminate $A$, and evaluate at $R_0$. This is close to Kittel ch. 3 Problem 5(a).</p>
+    <div class="assume"><b>Assumptions:</b> the repulsion $A/R^n$ acts between nearest neighbours only (as in Kittel Problem 5). Each ion has $z=2$ of them. The result does not depend on how $A$ is distributed, since $A$ is eliminated. The unit cell of the chain has length $2R_0$ and holds one Na⁺ and one Cl⁻. "Cohesive energy" here is relative to separated ions, since the sheet gives no ionisation data. Relative to neutral atoms, subtract $I(\text{Na})-A(\text{Cl})$ as in (12).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Reference ion at 0. Ions at $\pm R,\pm3R,\dots$ have opposite charge (+), and ions at $\pm2R,\pm4R,\dots$ the same charge (−).</li>
+        <li>$\alpha=\sum_j(\pm)R/r_j=2\big(1-\frac12+\frac13-\frac14+\dots\big)=2\ln2=1.386$.</li>
+        <li>N unit cells: $U(R)=N\Big(\dfrac{2A}{R^n}-\dfrac{\alpha q^2}{4\pi\varepsilon_0R}\Big)$, with each pair counted once.</li>
+        <li>$\dfrac{dU}{dR}\Big|_{R_0}=0\Rightarrow\dfrac{2nA}{R_0^{n+1}}=\dfrac{\alpha q^2}{4\pi\varepsilon_0R_0^2}\Rightarrow\dfrac{2A}{R_0^n}=\dfrac{\alpha q^2}{4\pi\varepsilon_0\,nR_0}$.</li>
+        <li>Substitute: $U(R_0)/N=-\dfrac{\alpha q^2}{4\pi\varepsilon_0R_0}\Big(1-\dfrac1n\Big)$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> (i) $\alpha=2\ln2\approx1.386$. (ii) $E_{\text{coh}}=-U(R_0)/N=\dfrac{2\ln2\,e^2}{4\pi\varepsilon_0R_0}\Big(1-\dfrac1n\Big)$ per unit cell (one ion pair), with $q=e$.</div>
+      <div class="check"><b>Sanity check:</b>
+        <ul>
+          <li>Kittel Problem 5(a) gives $-\frac{2Nq^2\ln2}{R_0}(1-\frac1n)$ (CGS) for 2N ions, i.e. N cells, which is the same result.</li>
+          <li>$n\to\infty$ (a hard wall) leaves the pure Madelung energy.</li>
+          <li>Partial sums in node: 1.3763 after 100 terms and 1.3858 after 2000, against 2 ln 2 = 1.3863 (Model 2).</li>
+          <li>For a feel: $R_0=0.282$ nm and $n=9$ give 6.29 eV, below the 3D NaCl value because α is smaller in 1D.</li>
+          <li>Writing α with board 07's extra ½ would give ln 2 = 0.693, half the correct value.</li>
+        </ul></div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-4-2">
+    <span class="tag">Sheet 4 · Problem 2 · 6 pts</span>
+    <h3>Oxidation state in ionic crystals</h3>
+    <p class="ask">Barium oxide has the NaCl structure. Estimate the cohesive energies per molecule of the hypothetical crystals Ba⁺O⁻ and Ba⁺⁺O⁻⁻ with respect to separated neutral atoms.</p>
+    <ul>
+      <li>Observed nearest-neighbour distance $R_0=0.276$ nm.</li>
+      <li>Ionisation potentials of Ba: 5.19 eV (first) and 9.96 eV (second).</li>
+      <li>Electron affinities of O for the first and second added electron: 1.5 eV and −9.0 eV. Each affinity is the energy released in O + e⁻ → O⁻ and O⁻ + e⁻ → O⁻⁻ respectively.</li>
+    </ul>
+    <p>Which valence state do you predict? Assume $R_0$ is the same for both forms, and neglect the repulsive energy.</p>
+    <h4>Method</h4>
+    <p>Use the Born–Haber cycle (12) with $n\to\infty$ (no repulsion). The Madelung energy for charges $\pm ze$ is $z^2$ times the singly charged one. Subtract the ionisation energies and add the affinities. This is Kittel ch. 3 Problem 7, with the same data.</p>
+    <div class="assume"><b>Assumption:</b> α(NaCl) = 1.747565 (Kittel ch. 3, not on the sheet). Board 07's α (with ½ and no signs) must not be used here. Its lattice-energy sum would also leave out the ionisation and affinity terms the sheet asks for.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$\dfrac{e^2}{4\pi\varepsilon_0R_0}=\dfrac{1.440\ \text{eV nm}}{0.276\ \text{nm}}=5.217$ eV.</li>
+        <li>Madelung energy: $z=1$: $1.747565\times5.217=9.12$ eV. $z=2$: $4\times9.12=36.47$ eV.</li>
+        <li>Cost of making Ba⁺O⁻ from atoms: $I_1-A_1=5.19-1.5=3.69$ eV.</li>
+        <li>Cost of making Ba²⁺O²⁻: $(I_1+I_2)-(A_1+A_2)=15.15-(1.5-9.0)=15.15+7.5=22.65$ eV.</li>
+        <li>$E_{\text{coh}}(\text{Ba}^+\text{O}^-)=9.12-3.69=5.43$ eV. $E_{\text{coh}}(\text{Ba}^{2+}\text{O}^{2-})=36.47-22.65=13.82$ eV.</li>
+      </ol>
+      <div class="result"><b>Result:</b> Ba⁺O⁻: ≈ 5.4 eV per molecule. Ba²⁺O²⁻: ≈ 13.8 eV per molecule. The divalent state Ba²⁺O²⁻ is predicted, as observed.</div>
+      <div class="check"><b>Sanity check:</b>
+        <ul>
+          <li>node gives 5.428 and 13.82 eV. Model 3 reproduces both with the repulsion switched off.</li>
+          <li>Going from z = 1 to 2, the extra cost (9.96 + 9.0 = 18.96 eV) is less than the extra Madelung gain (3 × 9.12 = 27.35 eV), so z = 2 must win.</li>
+          <li>Neglecting repulsion overestimates both values by about 1/n ≈ 10%. For NaCl, the same method with repulsion reproduces the measured lattice energy to 0.1% (<a href="#c-ionic-eq">1.4.2</a>).</li>
+        </ul></div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-4-3">
+    <span class="tag">Sheet 4 · Problem 3 · 4 pts</span>
+    <h3>Metallic bonds</h3>
+    <p class="ask">Reducing the kinetic energy of valence electrons stabilises metals. In a simple picture, letting the wave function spread out reduces the momentum uncertainty Δp, via Δp·Δx = ħ/2. If an electron has the kinetic energy that belongs to Δp, how much energy is gained per electron when it is released from atomic dimensions (1 Bohr radius) to unit-cell dimensions (about 9 Bohr radii)?</p>
+    <h4>Method</h4>
+    <p>Use (15), $E=\Delta p^2/2m=\hbar^2/(8m\Delta x^2)$, at $\Delta x=a_0$ and $9a_0$, and take the difference. It helps that $\hbar^2/(ma_0^2)$ is one hartree, 27.21 eV.</p>
+    <div class="assume"><b>Assumption:</b> as the sheet says, one direction only and Δx equal to the size of the region. In 3D, with the same Δx in each direction, every energy triples (Model 4).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$\Delta p=\hbar/(2\Delta x)$, so $E=\dfrac{\hbar^2}{8m\Delta x^2}$.</li>
+        <li>$\Delta x=a_0$: $E_1=\dfrac18\dfrac{\hbar^2}{ma_0^2}=\dfrac{27.21}{8}$ eV $=3.40$ eV.</li>
+        <li>$\Delta x=9a_0$: $E_9=E_1/81=0.042$ eV.</li>
+        <li>Gain $\Delta E=E_1-E_9=E_1\big(1-\frac1{81}\big)=3.36$ eV.</li>
+      </ol>
+      <div class="result"><b>Result:</b> about 3.4 eV per electron. Almost all of $E_1$ is released.</div>
+      <div class="check"><b>Sanity check:</b>
+        <ul>
+          <li>node with CODATA constants: $\hbar^2/(ma_0^2)=27.2114$ eV, $E_1=3.4014$ eV, gain 3.359 eV.</li>
+          <li>The order of magnitude is right. The exact kinetic energy of the H 1s electron is 13.6 eV (virial theorem), so the ħ/2 estimate is low by a factor 4.</li>
+          <li>The gain is not the cohesive energy. Moving away from its ion raises the electron's potential energy, so real metallic binding is smaller (<a href="#c-metal">1.4.4</a>).</li>
+        </ul></div>
+    </details>
+  </article>
+</section>
+
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>Not asked in 2022.</b> The recovered paper has no question on crystal binding. That is weak evidence (one reconstructed exam), and binding takes up two whole problem sheets. The exam pattern is exercises with some theory, so be able to do these in about five minutes each without notes:</p>
+    <ul>
+      <li>derive $R_0/\sigma=(2A_{12}/A_6)^{1/6}$ and $U_0=-N\varepsilon A_6^2/2A_{12}$ from (5);</li>
+      <li>sum the 1D Madelung series to 2 ln 2;</li>
+      <li>eliminate the repulsion constant to get (11);</li>
+      <li>run a Born–Haber cycle (12) with the right signs;</li>
+      <li>explain each of the five bond types in two sentences.</li>
+    </ul>
+  </div>
+  <article class="hw" id="exam-x">
+    <span class="tag">Exam-style exercise · about 10 pts</span>
+    <h3>Solid krypton</h3>
+    <p class="ask">Krypton crystallises in the fcc structure. Its gas-phase Lennard-Jones parameters are ε = 2.25·10⁻²¹ J and σ = 0.365 nm.</p>
+    <ol>
+      <li>Starting from $U=2N\varepsilon[A_{12}(\sigma/R)^{12}-A_6(\sigma/R)^6]$ with $A_{12}=12.13$ and $A_6=14.45$, derive the equilibrium nearest-neighbour distance and the cohesive energy per atom.</li>
+      <li>Evaluate both for Kr, and give the cubic lattice constant.</li>
+      <li>The measured values are 0.401 nm and 0.116 eV per atom. Explain the difference.</li>
+      <li>Estimate the bulk modulus from the curvature of U at $R_0$.</li>
+    </ol>
+    <div class="assume"><b>Data source:</b> ε = 225×10⁻¹⁶ erg and σ = 3.65 Å from Kittel Table 4, converted to SI. The measured values and the 6% quantum correction are also from Kittel.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><span class="tag deriv">Exam-relevant derivation</span> $dU/dR=0\Rightarrow12A_{12}\sigma^{12}R^{-13}=6A_6\sigma^6R^{-7}\Rightarrow R_0=\sigma(2A_{12}/A_6)^{1/6}=1.090\,\sigma$. Substituting, $U_0/N=-\varepsilon A_6^2/(2A_{12})=-8.61\,\varepsilon$.</li>
+        <li>$R_0=1.090\times0.365=0.398$ nm, and the fcc cube edge is $a=\sqrt2R_0=0.563$ nm. $E_{\text{coh}}=8.61\times2.25\times10^{-21}$ J $=1.94\times10^{-20}$ J $=0.121$ eV per atom (11.7 kJ/mol).</li>
+        <li>The calculation treats atoms as classical points at rest. Zero-point motion (∝ 1/M) lowers the binding by about 6% for Kr (Kittel) and pushes the atoms apart: $0.121\times0.94=0.114$ eV, close to the measured 0.116 eV, and $R_0$ grows towards 0.401 nm. The gas-phase fit of ε and σ is a second source of error.</li>
+        <li>For fcc the volume per atom is $v=R^3/\sqrt2$. At the minimum ($U'=0$), $B=v\,\dfrac{d^2u}{dv^2}=\dfrac{\sqrt2}{9R_0}\,\dfrac{d^2u}{dR^2}\Big|_{R_0}$, with $u=U/N$. Evaluating gives $B\approx75\,\varepsilon/\sigma^3=75\times2.25\times10^{-21}/(0.365\times10^{-9})^3=3.5$ GPa.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $R_0=0.398$ nm, $a=0.563$ nm; $E_{\text{coh}}=0.121$ eV per atom (0.114 eV after the 6% quantum correction; measured 0.116 eV); $B\approx3.5$ GPa.</div>
+      <div class="check"><b>Sanity check:</b>
+        <ul>
+          <li>Kittel Fig. 2 gives a = 5.64 Å for Kr at 4 K, against our 5.63 Å.</li>
+          <li>The bulk modulus was computed twice in node: by numerical second derivative (3.48 GPa, i.e. coefficient 75.2) and by the formula 75ε/σ³ (3.47 GPa).</li>
+          <li>The same formula gives 3.2 GPa for Ar. Noble-gas solids are about 7 times softer than NaCl (24 GPa, Kittel Table 7), as their shallow binding curve suggests.</li>
+        </ul></div>
+    </details>
+  </article>
+</section>
+
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 3 (Crystals of Inert Gases, Ionic Crystals, Covalent Crystals, Metals, Hydrogen Bonds; Tables 4, 7, 8; Problems 2, 3, 5, 7).</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 17, 18 (covalent and metal recap, hydrogen bond) and 23 (review keywords).</li>
+    <li>Problem sheets 3 (problems 3, 4) and 4 (problems 1–3), Fall 2026.</li>
+    <li>Tutoring boards: 06 "3-4" (sheets 3.3/3.4), 07 "WS4 Wednesday" (sheet 4; its Madelung definition is corrected above), 11 (pair potential and stiffness).</li>
+  </ul>
+</section>
+</main>
+
+<script>
+/* Page script. Runs after Plotly, KaTeX and common.js (all deferred) have loaded. */
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, layout, CFG, vline, hline, lin, setRead, setPill, rgba } = CM;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const eV = CM.K.e, NA = CM.K.NA;
+
+  /* ---------- Model 1: Lennard-Jones crystal (1.4.1) ---------- */
+  // Kittel Table 4 (ε in 1e-16 erg = 1e-23 J, σ, R0 in Å, Ecoh in eV/atom); H2 from sheet 3.4, observed 0.751 kJ/mol = 7.78 meV (node).
+  const MAT = {
+    Ne: { eps: 50e-23, sig: 2.74, R0: 3.13, Ec: 0.02 }, Ar: { eps: 167e-23, sig: 3.40, R0: 3.76, Ec: 0.080 },
+    Kr: { eps: 225e-23, sig: 3.65, R0: 4.01, Ec: 0.116 }, Xe: { eps: 320e-23, sig: 3.98, R0: 4.35, Ec: 0.17 },
+    H2: { eps: 50e-23, sig: 2.96, R0: null, Ec: 0.751e3 / NA / eV } };
+  const FULL = { fcc: [12.13188, 14.45392], bcc: [9.11418, 12.2533] };   // Kittel eq. 12 and Problem 2; brute-force check in node agrees to 1e-4
+  function shells(type) {   // neighbour shells [p², count] in units of the nn distance, from integer coordinates in units of a/2
+    const m = new Map(), N = 8, nn2 = type === 'fcc' ? 2 : 3;
+    for (let i = -N; i <= N; i++) for (let j = -N; j <= N; j++) for (let k = -N; k <= N; k++) {
+      const ok = type === 'fcc' ? (i + j + k) % 2 === 0 : ((i & 1) === (j & 1) && (j & 1) === (k & 1));
+      const r2 = i * i + j * j + k * k; if (!ok || !r2) continue; m.set(r2, (m.get(r2) || 0) + 1);
+    }
+    return [...m.entries()].sort((a, b) => a[0] - b[0]).slice(0, 6).map(([r2, c]) => [r2 / nn2, c]);
+  }
+  const SH = { fcc: shells('fcc'), bcc: shells('bcc') };   // fcc: 12, 6, 24, 12, 24, 8; bcc: 8, 6, 12, 24, 8, 6
+  function sums(type, s) {
+    if (s >= 7) return FULL[type];
+    let a12 = 0, a6 = 0; SH[type].slice(0, s).forEach(([p2, c]) => { a12 += c * p2 ** -6; a6 += c * p2 ** -3; });
+    return [a12, a6];
+  }
+  function renderM1() {
+    const m = MAT[radio('m1-mat')], x = +$('m1-R').value, s = +$('m1-sh').value;
+    document.querySelector('output[for="m1-sh"]').textContent = s >= 7 ? 'all (Kittel sums)' : s;
+    const epsmeV = m.eps / eV * 1e3, R = x * m.sig;
+    const phi = r => 4 * (r ** -12 - r ** -6);
+    const rs = lin(0.92, 2.6, 300);
+    const shf = SH.fcc.map(([p2, c]) => [Math.sqrt(p2) * x, c]).filter(([r]) => r <= 2.6);
+    Plotly.react('m1-pa', [
+      { x: rs, y: rs.map(phi), mode: 'lines', line: { color: C.muted, width: 2.5 }, hoverinfo: 'skip' },
+      { x: shf.map(d => d[0]), y: shf.map(d => phi(d[0])), mode: 'markers', marker: { color: C.occ, size: shf.map(d => 6 + d[1] / 3), line: { color: C.panel, width: 1 } },
+        text: shf.map(d => d[1] + ' atoms'), hovertemplate: 'r = %{x:.3f} σ<br>%{text}<extra></extra>' }],
+      layout({ shapes: [vline(x, C.ef), hline(0, C.line, 'dot')], xaxis: ax('Distance r (σ)', { range: [0.92, 2.6] }), yaxis: ax('Pair energy φ/ε', { range: [-1.15, 1.6] }) }), CFG);
+    const curve = t => { const [a12, a6] = sums(t, s); return { a12, a6, r0: Math.pow(2 * a12 / a6, 1 / 6), u0: -a6 * a6 / (2 * a12), u: y => 2 * (a12 * y ** -12 - a6 * y ** -6) }; };
+    const F = curve('fcc'), B = curve('bcc');
+    const ys = lin(0.95, 1.6, 260), Rs = ys.map(y => y * m.sig);
+    const tr = (c, col, name) => [
+      { x: Rs, y: ys.map(y => c.u(y) * epsmeV), mode: 'lines', line: { color: col, width: 2.5 }, name, hovertemplate: name + ': %{y:.1f} meV<extra></extra>' },
+      { x: [c.r0 * m.sig], y: [c.u0 * epsmeV], mode: 'markers', marker: { color: C.panel, size: 9, line: { color: col, width: 2 } }, hovertemplate: name + ' minimum<br>R₀ = %{x:.3f} Å<br>%{y:.1f} meV<extra></extra>' }];
+    const shapes = [vline(R, C.ef)]; if (m.Ec) shapes.push(hline(-m.Ec * 1e3, C.muted));
+    const ymin = Math.min(F.u0 * epsmeV, -(m.Ec || 0) * 1e3);
+    Plotly.react('m1-pb', [...tr(F, C.occ, 'fcc'), ...tr(B, C.emp, 'bcc')],
+      layout({ shapes, xaxis: ax('Nearest-neighbour distance R (Å)'), yaxis: ax('Energy per atom U/N (meV)', { range: [ymin * 1.25, -ymin * 0.6] }) }), CFG);
+    const ratio = B.u0 / F.u0, dmeV = (B.u0 - F.u0) * epsmeV;
+    setPill('m1-pill', ['metal', `fcc lower than bcc by ${dmeV.toFixed(2)} meV per atom`]);
+    setRead('m1-read', [
+      ['R₀ fcc', `${(F.r0 * m.sig).toFixed(2)} Å = ${F.r0.toFixed(3)} σ` + (m.R0 ? ` (obs. ${m.R0} Å)` : '')],
+      ['E_coh fcc', `${(-F.u0 * epsmeV).toFixed(1)} meV/atom = ${(-F.u0).toFixed(2)} ε` + (m.Ec ? ` (obs. ${(m.Ec * 1e3).toFixed(m.Ec < 0.05 ? 1 : 0)})` : '')],
+      ['E_coh bcc', `${(-B.u0 * epsmeV).toFixed(1)} meV/atom = ${(-B.u0).toFixed(2)} ε`],
+      ['Ratio bcc/fcc', ratio.toFixed(4)],
+      ['A₁₂, A₆ (fcc)', `${F.a12.toFixed(3)}, ${F.a6.toFixed(3)}`],
+      ['U/N at R (fcc)', `${(F.u(x) * epsmeV).toFixed(1)} meV`]]);
+  }
+  onChange('input[name="m1-mat"]', renderM1);
+
+  /* ---------- Model 2: Madelung sum convergence (1.4.2) ---------- */
+  // Exact values by Ewald summation in node: NaCl 1.747565, CsCl 1.762675 (Kittel); chain 2 ln 2.
+  const EXACT = { chain: 2 * Math.log(2), nacl: 1.747565, cscl: 1.762675 };
+  const LMAX = 16, cache = {};
+  function latt(st) {   // charge function on integer coords, nn distance in index units, cube half-edge index for size L
+    if (st === 'nacl') return { q: (i, j, k) => ((i + j + k) & 1) ? -1 : 1, rn: 1 };
+    return { q: (i, j, k) => { const e = !(i & 1) && !(j & 1) && !(k & 1), o = (i & 1) && (j & 1) && (k & 1); return e ? 1 : o ? -1 : 0; }, rn: Math.sqrt(3) };
+  }
+  function cube(st, M, evjen) {
+    const { q, rn } = latt(st); let s = 0;
+    for (let i = -M; i <= M; i++) for (let j = -M; j <= M; j++) for (let k = -M; k <= M; k++) {
+      const c = q(i, j, k), r2 = i * i + j * j + k * k; if (!c || !r2) continue;
+      let w = 1; if (evjen) { if (Math.abs(i) === M) w *= 0.5; if (Math.abs(j) === M) w *= 0.5; if (Math.abs(k) === M) w *= 0.5; }
+      s -= c * w * rn / Math.sqrt(r2);
+    }
+    return s;
+  }
+  function spheres(st) {
+    const { q, rn } = latt(st), M = Math.ceil(LMAX * rn), pts = [];
+    for (let i = -M; i <= M; i++) for (let j = -M; j <= M; j++) for (let k = -M; k <= M; k++) {
+      const c = q(i, j, k), r2 = i * i + j * j + k * k; if (!c || !r2 || r2 > M * M) continue; pts.push([r2, c]);
+    }
+    pts.sort((a, b) => a[0] - b[0]);
+    const X = [0], Y = [0]; let s = 0;
+    for (let n = 0; n < pts.length; n++) { s -= pts[n][1] * rn / Math.sqrt(pts[n][0]); if (n === pts.length - 1 || pts[n + 1][0] !== pts[n][0]) { X.push(Math.sqrt(pts[n][0]) / rn); Y.push(s); } }
+    const Ls = Array.from({ length: LMAX }, (_, i) => i + 1);   // sample at whole radii, like the cubes
+    return { sph: true, x: Ls, y: Ls.map(L => at({ x: X, y: Y }, L)) };
+  }
+  function series(st) {
+    if (cache[st]) return cache[st];
+    let out;
+    if (st === 'chain') {
+      const P = { x: [], y: [] }, E = { x: [], y: [] }; let s = 0;
+      for (let n = 1; n <= LMAX; n++) { const t = 2 * (n % 2 ? 1 : -1) / n; E.x.push(n); E.y.push(s + t / 2); s += t; P.x.push(n); P.y.push(s); }
+      out = [{ name: 'Plain series', col: 'emp', ...P }, { name: 'Evjen (last pair × ½)', col: 'occ', ...E }];
+    } else if (st === 'nacl') {
+      const Ls = Array.from({ length: LMAX }, (_, i) => i + 1);
+      out = [{ name: 'Spheres', col: 'muted', shape: 'hv', ...spheres(st) },
+        { name: 'Plain cubes', col: 'emp', x: Ls, y: Ls.map(L => cube(st, L, false)) },
+        { name: 'Evjen cubes', col: 'occ', x: Ls, y: Ls.map(L => cube(st, L, true)) }];
+    } else {
+      const Mmax = Math.floor(LMAX * Math.sqrt(3)), ev = [], od = [], av = [];
+      const vals = []; for (let M = 1; M <= Mmax + 1; M++) vals[M] = cube(st, M, true);
+      for (let M = 1; M <= Mmax; M++) { (M % 2 ? od : ev).push([M / Math.sqrt(3), vals[M]]); av.push([(M + 0.5) / Math.sqrt(3), (vals[M] + vals[M + 1]) / 2]); }
+      const xy = a => ({ x: a.map(d => d[0]), y: a.map(d => d[1]) });
+      out = [{ name: 'Spheres', col: 'muted', shape: 'hv', ...spheres(st) },
+        { name: 'Evjen cubes, Cs on faces', col: 'occ', ...xy(ev) }, { name: 'Evjen cubes, Cl on faces', col: 'emp', ...xy(od) },
+        { name: 'Average of the two', col: 'fg', ...xy(av) }];
+    }
+    return (cache[st] = out);
+  }
+  const at = (S, L) => { let v = NaN; for (let i = 0; i < S.x.length; i++) if (S.x[i] <= L + 1e-9) v = S.y[i]; return v; };
+  function renderM2() {
+    const st = radio('m2-st'), L = +$('m2-L').value, S = series(st), ex = EXACT[st];
+    const yr = st === 'chain' ? [0.9, 2.1] : st === 'nacl' ? [0.6, 2.8] : [0, 3.6];
+    Plotly.react('m2-pa', S.map(s => ({ x: s.x, y: s.y, mode: 'lines' + (s.shape ? '' : '+markers'), line: { color: C[s.col], width: s.shape ? 1.5 : 2.5, shape: s.shape || 'linear' },
+      marker: { size: 5, color: C[s.col] }, name: s.name, hovertemplate: s.name + '<br>size %{x:.2f} R: α = %{y:.5f}<extra></extra>' })),
+      layout({ shapes: [hline(ex, C.ef), vline(L, C.muted, 'dot')], xaxis: ax('Region size (units of R)', { range: [0, LMAX + 0.5] }), yaxis: ax('Partial sum α', { range: yr }) }), CFG);
+    $('m2-keys').innerHTML = S.map(s => `<span><i class="sw" style="background:var(--${s.col})"></i>${s.name}</span>`).join('') + '<span><i class="sw" style="background:var(--ef)"></i>exact α</span>';
+    // slice view
+    const pts = { x: [], y: [], c: [], s: [], t: [] }, shapes = [];
+    const add = (X, Y, same, w, txt) => { pts.x.push(X); pts.y.push(Y); pts.c.push(same ? C.occ : C.emp); pts.s.push(4 + 9 * w); pts.t.push(txt); };
+    const box = (h, col) => shapes.push({ type: 'rect', x0: -h, x1: h, y0: -h, y1: h, line: { color: col, width: 1.5, dash: 'dot' } });
+    const Lv = Math.min(L, 8);   // keep the slice readable
+    if (st === 'chain') {
+      for (let n = -L; n <= L; n++) if (n) add(n, 0, !(n & 1), Math.abs(n) === L ? 0.5 : 1, Math.abs(n) === L ? 'weight ½' : 'weight 1');
+      shapes.push({ type: 'rect', x0: -L, x1: L, y0: -0.4, y1: 0.4, line: { color: C.muted, width: 1.5, dash: 'dot' } });
+    } else if (st === 'nacl') {
+      for (let i = -Lv; i <= Lv; i++) for (let j = -Lv; j <= Lv; j++) { if (!i && !j) continue; const w = (Math.abs(i) === Lv ? 0.5 : 1) * (Math.abs(j) === Lv ? 0.5 : 1); add(i, j, !((i + j) & 1), w, 'weight ' + w); }
+      box(Lv, C.muted);
+    } else {
+      const r3 = Math.sqrt(3), M = Math.max(2, 2 * Math.round(Lv * r3 / 2));   // even M: Cs-faced cube; M+1: Cl-faced
+      for (let i = -M - 1; i <= M + 1; i++) for (let j = -M - 1; j <= M + 1; j++) {
+        if (!(i & 1) && !(j & 1) && (i || j)) { const w = (Math.abs(i) === M ? 0.5 : 1) * (Math.abs(j) === M ? 0.5 : 1); if (Math.abs(i) <= M && Math.abs(j) <= M) add(i / r3, j / r3, true, w, 'Cs (z = 0)'); }
+        if ((i & 1) && (j & 1)) add(i / r3, j / r3, false, 0.6, 'Cl (layer above)');
+      }
+      box(M / r3, C.occ); box((M + 1) / r3, C.emp);
+    }
+    const ext = st === 'chain' ? L + 0.6 : (st === 'nacl' ? Lv : (2 * Math.round(Lv * Math.sqrt(3) / 2) + 1.5) / Math.sqrt(3)) + 0.6;
+    Plotly.react('m2-pb', [
+      { x: pts.x, y: pts.y, mode: 'markers', marker: { color: pts.c, size: pts.s, line: { width: 0 } }, text: pts.t, hovertemplate: '%{text}<extra></extra>' },
+      { x: [0], y: [0], mode: 'markers', marker: { color: C.ef, size: 13, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'reference ion<extra></extra>' }],
+      layout({ shapes, xaxis: ax('x (R)', { range: [-ext, ext], zeroline: false }), yaxis: ax('y (R)', { range: st === 'chain' ? [-2, 2] : [-ext, ext], zeroline: false, scaleanchor: st === 'chain' ? undefined : 'x' }) }), CFG);
+    const rows = S.map(s => [s.name, at(s, L).toFixed(5)]);
+    rows.push(['Exact α', ex.toFixed(6)]);
+    setRead('m2-read', rows);
+    const best = S.filter(s => !s.shape).map(s => Math.abs(at(s, L) - ex)).filter(isFinite);
+    const sph = S.find(s => s.shape);
+    setPill('m2-pill', st === 'cscl' ? ['semi', 'Each cube cut converges, but to the wrong value; their average converges to α']
+      : ['metal', `Best block sum within ${Math.min(...best).toExponential(1)} of α` + (sph ? `; spheres off by ${Math.abs(at(sph, L) - ex).toFixed(2)}` : '')]);
+  }
+  onChange('input[name="m2-st"]', renderM2);
+
+  /* ---------- Model 3: BaO charge state (1.4.2, sheet 4.2) ---------- */
+  const KE = 1.43996, ALPHA = 1.747565, R0 = 0.276;          // e²/4πε0 in eV·nm (node, CODATA)
+  const COST = { 1: 5.19 - 1.5, 2: (5.19 + 9.96) - (1.5 - 9.0) };   // 3.69 and 22.65 eV (sheet data)
+  function renderM3() {
+    const R = +$('m3-R').value, n = +$('m3-n').value, rep = $('m3-rep').checked, zc = +radio('m3-z');
+    $('m3-n').disabled = !rep;
+    const parts = (z, r) => { const mad = -ALPHA * z * z * KE / r, B = ALPHA * z * z * KE * Math.pow(R0, n - 1) / n; return { mad, rep: rep ? B / Math.pow(r, n) : 0 }; };
+    const E = (z, r) => { const p = parts(z, r); return COST[z] + p.mad + p.rep; };
+    const rs = lin(0.2, 0.6, 300);
+    const clip = v => Math.max(v, -40);
+    Plotly.react('m3-pa', [1, 2].map(z => ({ x: rs, y: rs.map(r => clip(E(z, r))), mode: 'lines', line: { color: z === 1 ? C.emp : C.occ, width: 2.5 },
+      hovertemplate: (z === 1 ? 'Ba⁺O⁻' : 'Ba²⁺O²⁻') + ': %{y:.2f} eV<extra></extra>' })),
+      layout({ shapes: [vline(R, C.ef), hline(COST[1], C.emp), hline(COST[2], C.occ), hline(0, C.line, 'dot')],
+        xaxis: ax('Ion spacing R (nm)', { range: [0.2, 0.6] }), yaxis: ax('Energy per BaO from neutral atoms (eV)', { range: [-25, 28] }) }), CFG);
+    const p = parts(zc, R), I = zc === 1 ? [['Ionise Ba (I₁)', 5.19], ['O + e⁻ (A₁)', -1.5]] : [['Ionise Ba (I₁ + I₂)', 15.15], ['O + e⁻ (A₁)', -1.5], ['O⁻ + e⁻ (A₂ = −9.0)', 9.0]];
+    const steps = [...I, ['Madelung', p.mad]]; if (rep) steps.push(['Repulsion', p.rep]);
+    Plotly.react('m3-pb', [{ type: 'waterfall', orientation: 'v', x: [...steps.map(s => s[0]), 'Crystal'], y: [...steps.map(s => s[1]), 0],
+      measure: [...steps.map(() => 'relative'), 'total'], connector: { line: { color: C.line } },
+      increasing: { marker: { color: C.emp } }, decreasing: { marker: { color: C.occ } }, totals: { marker: { color: C.ef } },
+      hovertemplate: '%{x}: %{y:+.2f} eV<extra></extra>' }],
+      layout({ margin: { l: 56, r: 12, t: 8, b: 80 }, xaxis: ax('', { tickangle: -30 }), yaxis: ax('Running total (eV)') }), CFG);
+    const e1 = -E(1, R), e2 = -E(2, R);
+    const sheet = z => ALPHA * z * z * KE / R0 - COST[z];   // 5.43 and 13.82 eV (node)
+    setPill('m3-pill', [e2 > e1 ? 'metal' : 'ins', `${e2 > e1 ? 'Ba²⁺O²⁻' : 'Ba⁺O⁻'} binds more strongly at this R`]);
+    setRead('m3-read', [['E_coh Ba⁺O⁻ at R', e1.toFixed(2) + ' eV'], ['E_coh Ba²⁺O²⁻ at R', e2.toFixed(2) + ' eV'],
+      ['Sheet 4.2 (R₀, no repulsion)', `${sheet(1).toFixed(2)} / ${sheet(2).toFixed(2)} eV`], ['e²/4πε₀R', (KE / R).toFixed(3) + ' eV']]);
+  }
+  onChange('#m3-rep, input[name="m3-z"]', renderM3);
+
+  /* ---------- Model 4: metallic delocalisation (1.4.4, sheet 4.3) ---------- */
+  const HA = CM.K.hbar ** 2 / (CM.K.me * CM.K.a0 ** 2) / eV;   // hartree, 27.211 eV
+  function renderM4() {
+    const dx = +$('m4-x').value, f = $('m4-3d').checked ? 3 : 1, Ek = x => f * HA / 8 / (x * x);
+    const xs = lin(0.5, 15, 200);
+    Plotly.react('m4-p', [
+      { x: xs, y: xs.map(Ek), mode: 'lines', line: { color: C.muted, width: 2.5 }, hovertemplate: 'Δx = %{x:.2f} a₀: %{y:.3f} eV<extra></extra>' },
+      { x: [1, dx], y: [Ek(1), Ek(dx)], mode: 'lines', line: { color: C.ef, width: 1.5, dash: 'dot' }, hoverinfo: 'skip' },
+      { x: [1], y: [Ek(1)], mode: 'markers', marker: { color: C.occ, size: 12 }, hovertemplate: 'atom: %{y:.2f} eV<extra></extra>' },
+      { x: [dx], y: [Ek(dx)], mode: 'markers', marker: { color: C.emp, size: 12 }, hovertemplate: 'delocalised: %{y:.3f} eV<extra></extra>' },
+      { x: [1], y: [HA / 2], mode: 'markers', marker: { color: C.ef, size: 11, symbol: 'diamond' }, hovertemplate: 'H 1s ⟨T⟩ = 13.6 eV<extra></extra>' }],
+      layout({ xaxis: ax('Size of the region Δx (Bohr radii a₀)', { range: [0, 15.5] }), yaxis: ax('Kinetic energy (eV)', { type: 'log', range: [-2.5, 1.7] }) }), CFG);
+    const gain = Ek(1) - Ek(dx);
+    setPill('m4-pill', ['metal', `${(100 * gain / Ek(1)).toFixed(1)} % of the confinement energy released`]);
+    setRead('m4-read', [['E at 1 a₀', Ek(1).toFixed(2) + ' eV'], ['E at Δx', Ek(dx).toFixed(3) + ' eV'], ['Energy gained', gain.toFixed(2) + ' eV'], ['Ratio E(1)/E(Δx)', (dx * dx).toFixed(1)]]);
+  }
+  onChange('#m4-3d', renderM4);
+
+  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3, m4: renderM4 });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elasticity · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 04</span><span>Syllabus §1.5</span><span>Kittel ch. 3</span><span>Notes pp. 18–25</span><span>Sheet 5</span></div>
+  <h1>Elasticity</h1>
+  <p class="lead">How a crystal deforms under small forces: strain, stress, and the linear law that ties them together through a 6×6 matrix of elastic constants. Cubic symmetry cuts that matrix down to three numbers, C<sub>11</sub>, C<sub>12</sub> and C<sub>44</sub>. These three give the bulk modulus, the direction-dependent Young's modulus, the stability conditions and, later, the sound speeds that set the Debye temperature.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>Read the Concepts section by section, in topic-list order; each line says which model or guide to try next. 1.5.4 and 1.5.5 are the core for sheet 5 and for any exam exercise on this topic. 1.5.1–1.5.3 set up the notation, and the factor 2 in the Voigt shears (1.5.1) is where most errors start. About 3 hours in total.</p>
+  <ol>
+    <li data-sec="1.5.1"><a href="#s-1-5-1">Elastic strain in a crystal</a><span class="min">20 min</span><span class="then"><a href="#c-strain">Strain</a> → <a href="#c-voigt">dilation and Voigt</a>. Then: <a href="#strain">Model 1</a>, try the rotation slider and compare the exact volume with 1 + tr ε.</span></li>
+    <li data-sec="1.5.2"><a href="#s-1-5-2">Stress</a><span class="min">5 min</span></li>
+    <li data-sec="1.5.3"><a href="#s-1-5-3">Hooke's law</a><span class="min">10 min</span></li>
+    <li data-sec="1.5.4"><a href="#s-1-5-4">Elastic energy density</a><span class="min">40 min</span><span class="then"><a href="#c-energy">Energy density</a> (then <a href="#strain">Model 1</a>, read u and the stress bars) → <a href="#c-cubic">cubic crystals</a> → <a href="#c-stable">stability</a> (then <a href="#stable">Model 3</a> and <a href="#hw-5-2">Sheet 5.2</a>).</span></li>
+    <li data-sec="1.5.5"><a href="#s-1-5-5">Bulk modulus</a><span class="min">30 min</span><span class="then"><a href="#c-bulk">Bulk modulus</a> → <a href="#c-young">Young's modulus and Poisson's ratio</a>. Then: <a href="#young">Model 2</a>; <a href="#hw-5-1">Sheet 5.1</a>.</span></li>
+    <li data-sec="Ex"><a href="#exam-x">Exam-style exercise (Al), worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag exam">Exam Q4c</span>asked in the 2022 exam</span>
+    <span><span class="tag hw">Sheet 8.2</span>used by a sheet or practice problem</span>
+    <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
+    <span><span class="tag lect">Not yet lectured</span>taught here from Kittel</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>Section 1.5 treats a crystal as a continuous elastic body. Its size is much larger than the lattice constant, and the deformations are small enough to be linear. A strain tensor ε describes how the crystal deforms (1.5.1), a stress tensor σ describes the forces per unit area inside it (1.5.2), and Hooke's law σ = C e links the two (1.5.3). Because the elastic energy density u = ½ eᵀC e (1.5.4) exists, C is symmetric, which leaves 21 constants. Cubic symmetry reduces these to C<sub>11</sub>, C<sub>12</sub> and C<sub>44</sub>, and the bulk modulus is B = (C<sub>11</sub> + 2C<sub>12</sub>)/3 (1.5.5).</p>
+  <p>Key results to leave with: the Voigt bookkeeping with its factor 2 in the shears; σ = C e and e = S σ with S = C⁻¹; u = ½ eᵀC e; the cubic C matrix and its three eigenvalues C<sub>11</sub> + 2C<sub>12</sub>, C<sub>11</sub> − C<sub>12</sub> and C<sub>44</sub>; B; the stability conditions (sheet 5.2); and E and ν along [100] and [110] (sheet 5.1). The 2022 exam had no question on elasticity, so the exam angle below gives an exercise in its style.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (second half: "Analysis of Elastic Strains" to "Elastic Waves in Cubic Crystals"), and the lecture notes pp. 18–25. Directions such as [110] are as on <a href="01-crystal-structure.html">page 01</a>. The sound waves that follow from C are on <a href="05-phonons.html">page 05</a>.</p>
+</section>
+
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <section class="sec" id="s-1-5-1">
+    <h3><span class="step">1.5.1</span>Elastic strain in a crystal</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> How a homogeneous deformation maps lattice vectors, why only the symmetric part of ε is strain, the dilation δ = tr ε, and the six Voigt components with their factor 2. Notes pp. 18–19; Kittel "Analysis of Elastic Strains", "Dilation".</p>
+      <p><b>Why it matters.</b> Every later formula is written in the Voigt vector e, so the factor 2 in the shears decides whether sheet 5.1(ii) and the energy density come out right. δ is what the bulk modulus (1.5.5) measures.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-strain">
+      <span class="eyebrow">1.5.1 · Strain</span>
+      <h4>Strain: how a crystal deforms</h4>
+      <p>Under a homogeneous deformation, every lattice vector is mapped by the same 3×3 matrix:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Deformation of a lattice vector</span></div>
+      $$\mathbf R\;\to\;\mathbf R'=\mathbf R+\underline{\underline\varepsilon}\,\mathbf R,\qquad
+      \underline{\underline\varepsilon}=\begin{pmatrix}\varepsilon_{xx}&\varepsilon_{xy}&\varepsilon_{xz}\\ \varepsilon_{yx}&\varepsilon_{yy}&\varepsilon_{yz}\\ \varepsilon_{zx}&\varepsilon_{zy}&\varepsilon_{zz}\end{pmatrix},\qquad |\varepsilon_{\alpha\beta}|\ll1 .$$
+      <span class="eq-n">(1)</span></div>
+      <p>The $\varepsilon_{\alpha\beta}$ are dimensionless. The unit axes become $\mathbf x'=\hat{\mathbf x}+\underline{\underline\varepsilon}\,\hat{\mathbf x}=(1+\varepsilon_{xx},\,\varepsilon_{yx},\,\varepsilon_{zx})^T$ and similarly for $\mathbf y'$ and $\mathbf z'$. The new axes are no longer orthogonal and no longer of unit length. "Homogeneous" means the strained region is much larger than the lattice constant, so the crystal can be treated as a continuum. Kittel also allows a displacement field that varies in space, with $e_{xx}=\partial u_x/\partial x$, but the course uses only homogeneous strain.</p>
+      <p>Any matrix splits into a symmetric and an antisymmetric part. To first order, the antisymmetric part is a rigid rotation: it turns the crystal without changing any length or angle, so it stores no energy. Only the symmetric part is strain. With rotations excluded, $\varepsilon_{\alpha\beta}=\varepsilon_{\beta\alpha}$, which leaves 6 independent components.</p>
+      <div class="assume"><b>Notes slips and conventions:</b> p18 writes $\Delta\mathbf R=\mathbf R-\mathbf R'$. The displacement is $\mathbf R'-\mathbf R=\underline{\underline\varepsilon}\,\mathbf R$. The notes and board 08 let ε act on column vectors, so the first index is the component and the second is the axis. Kittel writes $\mathbf x'=(1+\epsilon_{xx})\hat{\mathbf x}+\epsilon_{xy}\hat{\mathbf y}+\dots$, which transposes the labels. Once ε is symmetric the two agree, so this page uses the course convention.</div>
+      <details class="check"><summary>Is $\varepsilon_{xy}=-\theta$, $\varepsilon_{yx}=+\theta$ (all else 0) a strain?</summary><p>No. It is the antisymmetric part only, a rotation by θ about z. To first order $|\mathbf x'|=|\mathbf y'|=1$ and $\mathbf x'\cdot\mathbf y'=0$; lengths change only at order θ². Model 1's rotation slider shows this: the cube turns, and the stress bars and u stay at zero.</p></details>
+      <p class="takeaway">Strain is the symmetric part of the deformation matrix, which has 6 numbers. The antisymmetric part is a rotation and costs no energy.</p>
+    </article>
+    <article class="card" id="c-voigt">
+      <span class="eyebrow">1.5.1 · Dilation and Voigt</span>
+      <h4>Dilation and the six strain components</h4>
+      <p class="needs"><a href="#c-strain">1.5.1 · Strain</a></p>
+      <p>The unit cube becomes a parallelepiped with volume</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Dilation</span></div>
+      $$V'=\mathbf x'\cdot(\mathbf y'\times\mathbf z')=\det(1+\underline{\underline\varepsilon})=1+\varepsilon_{xx}+\varepsilon_{yy}+\varepsilon_{zz}+O(\varepsilon^2),\qquad
+      \delta\equiv\frac{V'-V}{V}=\varepsilon_{xx}+\varepsilon_{yy}+\varepsilon_{zz}.$$
+      <span class="eq-n">(2)</span></div>
+      <p>The six independent components are collected into a vector (Voigt notation), cycling 1 = xx, 2 = yy, 3 = zz, 4 = yz, 5 = zx, 6 = xy:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Strain components (Voigt)</span><a class="tag hw" href="#hw-5-1">Sheet 5.1</a></div>
+      $$e_1=\varepsilon_{xx},\quad e_2=\varepsilon_{yy},\quad e_3=\varepsilon_{zz},\qquad
+      e_4=\varepsilon_{yz}+\varepsilon_{zy},\quad e_5=\varepsilon_{zx}+\varepsilon_{xz},\quad e_6=\varepsilon_{xy}+\varepsilon_{yx}.$$
+      <span class="eq-n">(3)</span></div>
+      <p>$e_1,e_2,e_3$ are relative length changes of the axes. $e_4,e_5,e_6$ are changes of the angle between two axes, in radians: $e_6=\mathbf x'\cdot\mathbf y'+O(\varepsilon^2)$, the cosine of an angle that was 90°.</p>
+      <p class="trap">Putting the tensor component into the Voigt vector. For symmetric ε, $e_6=2\varepsilon_{xy}$, not $\varepsilon_{xy}$. These are "engineering" shears. Mixing up the two gives factor-2 errors in the energy density and in sheet 5.1(ii). The stress components $\sigma_4,\sigma_5,\sigma_6$ do <i>not</i> carry this factor.</p>
+      <details class="check"><summary>$\varepsilon_{xy}=\varepsilon_{yx}=0.01$, nothing else. What are $e_6$, the angle change, and δ?</summary><p>$e_6=0.02$, so the angle between x′ and y′ closes by 0.02 rad = 1.15°. δ = 0: a pure shear does not change the volume to first order.</p></details>
+      <p class="takeaway">The relative volume change is the trace of ε. The six-vector e uses <i>doubled</i> off-diagonal elements, which are the angle changes.</p>
+    </article>
+    </div>
+  </section>
+  <section class="sec" id="s-1-5-2">
+    <h3><span class="step">1.5.2</span>Stress</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The nine force-per-area components X<sub>x</sub> … Z<sub>z</sub>, why zero torque leaves six, and their Voigt labels σ₁ … σ₆. Notes p. 20; Kittel "Stress Components".</p>
+      <p><b>Why it matters.</b> Sheet 5.1 starts by writing the applied tension as a stress vector σ. Stress times strain is the energy density of 1.5.4.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-stress">
+      <span class="eyebrow">1.5.2 · Stress</span>
+      <h4>Stress components</h4>
+      <p class="needs"><a href="#c-voigt">1.5.1 · Dilation and Voigt</a></p>
+      <p>Stress is force per unit area. $X_y$ is the x component of the force on a unit area whose normal is $\hat{\mathbf y}$, and similarly for the other eight combinations. The zero-torque condition (the cube does not start to spin) forces $X_y=Y_x$, $Y_z=Z_y$ and $Z_x=X_z$, so stress is also symmetric with 6 components:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Stress components (Voigt)</span></div>
+      $$\sigma_1=X_x,\quad\sigma_2=Y_y,\quad\sigma_3=Z_z,\qquad\sigma_4=Y_z=Z_y,\quad\sigma_5=Z_x=X_z,\quad\sigma_6=X_y=Y_x\qquad[\mathrm{N/m^2}].$$
+      <span class="eq-n">(4)</span></div>
+      <div class="assume"><b>Notes slip (p20):</b> the torque line reads "$Y_x=Z_y$"; it should be $Y_z=Z_y$, as the notes' own $\sigma_4$ line has it.</div>
+      <details class="check"><summary>Why is N/m² the same unit as J/m³, and why does that matter here?</summary><p>N/m² = N·m/m³ = J/m³. Stress times a dimensionless strain is an energy per volume, which is exactly the elastic energy density of 1.5.4.</p></details>
+      <p class="takeaway">Six stress components, with no factor 2. $X_y$ means a force along x acting on the face whose normal is y.</p>
+    </article>
+    </div>
+  </section>
+  <section class="sec" id="s-1-5-3">
+    <h3><span class="step">1.5.3</span>Hooke's law</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The linear law σ = C e with the 6×6 stiffness matrix C, and its inverse e = S σ with the compliance S. Notes pp. 21–22; Kittel "Elastic Compliance and Stiffness Constants".</p>
+      <p><b>Why it matters.</b> Sheet 5.1 is e = S σ applied to a tensile test. Two slips sit here: the notes call S the "stiffness" on p25, and S₁₁ is not 1/C₁₁.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-hooke">
+      <span class="eyebrow">1.5.3 · Stiffness and compliance</span>
+      <h4>Hooke's law: stiffness C and compliance S</h4>
+      <p class="needs"><a href="#c-voigt">1.5.1 · Dilation and Voigt</a> and <a href="#c-stress">1.5.2 · Stress</a></p>
+      <p>For small strains, stress is linear in strain, like a spring with $F=kx$. As tensors, $\sigma_{\alpha\beta}=\sum_{\gamma\delta}C_{\alpha\beta\gamma\delta}\,\varepsilon_{\gamma\delta}$, a rank-4 object with 81 entries. With the Voigt vectors, the same law becomes a 6×6 matrix equation:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Hooke's law, matrix form</span><a class="tag hw" href="#hw-5-1">Sheet 5.1</a></div>
+      $$\underline\sigma=\underline{\underline C}\,\underline e,\qquad \underline e=\underline{\underline S}\,\underline\sigma,\qquad \underline{\underline S}=\underline{\underline C}^{-1}.$$
+      <span class="eq-n">(5)</span></div>
+      <p>$C_{ij}$ are the elastic <b>stiffness</b> constants, in N/m² (like k). $S_{ij}$ are the elastic <b>compliance</b> constants, in m²/N (like 1/k). The index pairs follow the Voigt cycle: $C_{xx,xx}=C_{11}$, $C_{xx,zz}=C_{13}$, $C_{yz,yz}=C_{44}$.</p>
+      <p class="trap">Calling S the stiffness. Notes p25 and the board label $S=C^{-1}$ "stiffness constants". p22 and Kittel have it right: C is the stiffness, S is the compliance. A stiff crystal has large C and small S.</p>
+      <p class="trap">Taking $S_{11}=1/C_{11}$. The inverse is of the whole matrix, so $S_{11}$ depends on $C_{12}$ too. For Cu, $1/C_{11}=0.59$ but $S_{11}=1.50$, both in $10^{-11}$ m²/N (eq. (9) below).</p>
+      <details class="check"><summary>Which law gives the strain when the stress is known, as in a tensile test?</summary><p>$\underline e=\underline{\underline S}\,\underline\sigma$. In a tensile test you control the force, so σ is known and has one non-zero component, and S gives all six strains at once. That is why sheet 5.1 is easiest in terms of S.</p></details>
+      <p class="takeaway">σ = C e and e = S σ with S = C⁻¹. C is the stiffness, S the compliance, and S is the inverse of the whole matrix, not entry by entry.</p>
+    </article>
+    </div>
+  </section>
+  <section class="sec" id="s-1-5-4">
+    <h3><span class="step">1.5.4</span>Elastic energy density</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> u = ½ eᵀC e, why it makes C symmetric (21 constants), how cubic symmetry of u cuts C down to C₁₁, C₁₂, C₄₄ (the notes number this part 1.5.5), and why stability means C is positive definite. Notes pp. 22–25; Kittel "Elastic Energy Density", "Elastic Stiffness Constants of Cubic Crystals", Problem 14.</p>
+      <p><b>Why it matters.</b> Sheet 5.2 is this section: positive u for every strain. The cubic C (7) and its inverse (9) are the input to every number on sheet 5, to the bulk modulus, and to the sound speeds of 1.6.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-energy">
+      <span class="eyebrow">1.5.4 · Energy density</span>
+      <h4>Elastic energy density</h4>
+      <p class="needs"><a href="#c-hooke">1.5.3 · Stiffness and compliance</a></p>
+      <p>Straining by $d\underline e$ against the stress costs work $du=\underline\sigma\cdot d\underline e=(\underline{\underline C}\,\underline e)\cdot d\underline e$ per unit volume, just as $dU=kx\,dx$ for a spring. Integrating from zero strain:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Elastic energy density</span><a class="tag hw" href="#hw-5-2">Sheet 5.2</a></div>
+      $$u=\frac UV=\frac12\,\underline e^{T}\underline{\underline C}\,\underline e=\frac12\sum_{i,j=1}^{6}C_{ij}\,e_ie_j\quad[\mathrm{J/m^3}],\qquad \sigma_i=\frac{\partial u}{\partial e_i}.$$
+      <span class="eq-n">(6)</span></div>
+      <p>So $C_{ij}=\partial^2u/\partial e_i\partial e_j$ is the Hessian of u, and it is symmetric. That leaves 6 diagonal and 15 off-diagonal entries, $6\cdot7/2=21$ independent constants out of 36. The engineering shears of 1.5.1 are what make $\underline\sigma\cdot\underline e$ equal the full tensor sum $\sum_{\alpha\beta}\sigma_{\alpha\beta}\varepsilon_{\alpha\beta}$, in which each shear appears twice.</p>
+      <div class="assume"><b>Board 11 arithmetic:</b> it gets "21 d.o.f." from $6(6-1)/2$, which is 15, the off-diagonal count alone. The result 21 is right, and the arithmetic is $6+15=6\cdot7/2$.</div>
+      <details class="check"><summary>Cu is stretched 1 % along x with the sides held fixed ($e_1=0.01$, all other $e_i=0$). Give σ₁, σ₂ and u.</summary><p>$\sigma_1=C_{11}e_1=1.68$ GPa, $\sigma_2=\sigma_3=C_{12}e_1=1.21$ GPa (the side walls must push to stop the crystal narrowing), $u=\tfrac12C_{11}e_1^2=8.4$ MJ/m³. Model 1 reproduces these with e₁ = 0.01.</p></details>
+      <p class="takeaway">u = ½ eᵀC e is a quadratic form, and C is its Hessian. Symmetry of C (21 constants) follows from u existing at all.</p>
+    </article>
+    <article class="card" id="c-cubic">
+      <span class="eyebrow">1.5.4 · Cubic crystals</span>
+      <h4>Cubic crystals: three constants (notes §1.5.5)</h4>
+      <p class="needs"><a href="#c-energy">1.5.4 · Energy density</a>; cubic symmetry operations on <a href="01-crystal-structure.html">page 01</a></p>
+      <p>u must not change under any symmetry operation of the crystal. Two kinds of operation do all the work:</p>
+      <ul>
+        <li><b>120° rotation about a body diagonal</b> [111]: x → y → z → x. It cycles $e_1\to e_2\to e_3$ and $e_4\to e_5\to e_6$, so $C_{11}=C_{22}=C_{33}$, $C_{12}=C_{23}=C_{31}$ and $C_{44}=C_{55}=C_{66}$.</li>
+        <li><b>180° rotation about a cube axis</b>, e.g. about z: x → −x, y → −y. It flips the signs of $e_4$ and $e_5$ and leaves $e_1,e_2,e_3,e_6$ unchanged. Any cross term such as $e_1e_4$ or $e_5e_6$ changes sign under one of these rotations, so its coefficient must vanish. For $e_4e_5$, the 180° rotation about x does the job.</li>
+      </ul>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Cubic stiffness matrix</span><a class="tag hw" href="#hw-5-1">Sheet 5.1</a><a class="tag hw" href="#hw-5-2">Sheet 5.2</a></div>
+      $$\underline{\underline C}_{\rm cubic}=\begin{pmatrix}C_{11}&C_{12}&C_{12}&0&0&0\\C_{12}&C_{11}&C_{12}&0&0&0\\C_{12}&C_{12}&C_{11}&0&0&0\\0&0&0&C_{44}&0&0\\0&0&0&0&C_{44}&0\\0&0&0&0&0&C_{44}\end{pmatrix}$$
+      <span class="eq-n">(7)</span></div>
+      <p>Written out (Kittel eq. 43), the energy density is</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Cubic energy density</span><a class="tag hw" href="#hw-5-2">Sheet 5.2</a></div>
+      $$u=\tfrac12C_{11}(e_1^2+e_2^2+e_3^2)+\tfrac12C_{44}(e_4^2+e_5^2+e_6^2)+C_{12}(e_2e_3+e_3e_1+e_1e_2).$$
+      <span class="eq-n">(8)</span></div>
+      <p class="trap">Notes p24 says that apart from $C_{11}$ and $C_{12}$ "all others vanish". That leaves out $C_{44}=C_{55}=C_{66}$, which the p25 matrix includes. Without $C_{44}$ a cube would offer no resistance to shear, and C would be singular.</p>
+      <p>Inverting (7) is easy because C is block-diagonal, and its 3×3 block has eigenvectors (1,1,1) and (1,−1,0), (1,1,−2). S has the same eigenvectors with reciprocal eigenvalues, which gives the relations from notes p25:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Compliance of a cubic crystal</span><a class="tag hw" href="#hw-5-1">Sheet 5.1</a></div>
+      $$C_{11}-C_{12}=\frac1{S_{11}-S_{12}},\quad C_{11}+2C_{12}=\frac1{S_{11}+2S_{12}},\quad C_{44}=\frac1{S_{44}};\qquad
+      S_{11}=\frac{C_{11}+C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})},\quad S_{12}=\frac{-C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})}.$$
+      <span class="eq-n">(9)</span></div>
+      <div class="dict"><table><thead><tr><th>300 K, in 10¹¹ N/m²</th><th>C₁₁</th><th>C₁₂</th><th>C₄₄</th><th>S₁₁, S₁₂ (10⁻¹¹ m²/N)</th></tr></thead><tbody>
+        <tr><td>Cu</td><td>1.684</td><td>1.214</td><td>0.754</td><td>1.50, −0.63</td></tr>
+        <tr><td>Al</td><td>1.068</td><td>0.607</td><td>0.282</td><td>1.59, −0.58</td></tr>
+        <tr><td>Si</td><td>1.66</td><td>0.639</td><td>0.796</td><td>0.77, −0.21</td></tr>
+        <tr><td>Diamond</td><td>10.76</td><td>1.25</td><td>5.76</td><td>0.095, −0.010</td></tr>
+      </tbody></table></div>
+      <p class="trap">Reading the table in N/m². Notes p25 and the board write the Cu and diamond values with the unit "[N/m²]", without the factor. The table is in units of $10^{11}$ N/m² = 100 GPa (Kittel Tables 11–12), so Cu has $C_{11}=1.68\times10^{11}$ N/m² = 168 GPa.</p>
+      <div class="assume"><b>Notes p24, cycle list:</b> the four 3-fold axes are [111], [1̄11], [11̄1] and [111̄]. The handwritten list repeats [1̄11] (once in each sense) and misses [111̄], and the notes mark it "Prof wasn't sure". Only one 3-fold axis is needed for the argument above.</div>
+      <p><b>Looking ahead.</b> The same three constants set the sound speeds. A longitudinal wave along [100] has $v_L=\sqrt{C_{11}/\rho}$ and a transverse one has $v_T=\sqrt{C_{44}/\rho}$ (Kittel Fig. 20). These are the speeds behind the Debye temperature on <a href="06-heat-capacity.html">page 06</a>.</p>
+      <details class="check"><summary>Why do exactly three combinations appear in (9)?</summary><p>They are the three distinct eigenvalues of $C_{\rm cubic}$: $C_{11}+2C_{12}$ for (1,1,1,0,0,0), $C_{11}-C_{12}$ twice in the volume-conserving normal-strain plane, and $C_{44}$ three times for the shears. Inverting a symmetric matrix inverts each eigenvalue on the same eigenvector.</p></details>
+      <p class="takeaway">Cubic means three constants. The 3-fold axes make the diagonal entries equal, and the 2-fold axes kill the cross terms. Table values are in 10¹¹ N/m².</p>
+    </article>
+    <article class="card" id="c-stable">
+      <span class="eyebrow">1.5.4 · Stability</span>
+      <h4>Stability means C is positive definite</h4>
+      <p class="needs"><a href="#c-energy">1.5.4 · Energy density</a> and <a href="#c-cubic">1.5.4 · Cubic crystals</a></p>
+      <p>A crystal is stable only if every small strain costs energy: $u=\tfrac12\underline e^T\underline{\underline C}\,\underline e>0$ for all $\underline e\neq0$. That is the definition of a positive-definite matrix. If one eigenvalue were negative, u would be a saddle, and the crystal would deform spontaneously along that eigenvector. For a real symmetric matrix, positive definite means that all eigenvalues are positive. For the cubic C (7) they are</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Cubic stability criteria</span><a class="tag hw" href="#hw-5-2">Sheet 5.2</a></div>
+      $$\underbrace{C_{11}+2C_{12}>0}_{(1,1,1,0,0,0):\ \text{volume},\ =3B},\qquad \underbrace{C_{11}-C_{12}>0}_{(1,-1,0,\dots),\,(1,1,-2,\dots):\ \text{tetragonal, }\times2},\qquad \underbrace{C_{44}>0}_{e_4,e_5,e_6:\ \text{shear, }\times3}.$$
+      <span class="eq-n">(10)</span></div>
+      <p>The first two together say $-\tfrac12C_{11}&lt;C_{12}&lt;C_{11}$, which forces $C_{11}>0$. The same result is Kittel ch. 3 Problem 14.</p>
+      <p class="trap">"All $C_{ij}$ positive" is neither necessary nor sufficient. $C_{12}$ may be negative, down to $-C_{11}/2$. And $C_{12}>C_{11}$ with every entry positive is unstable against the volume-conserving tetragonal strain (1, −1, 0, 0, 0, 0).</p>
+      <details class="check"><summary>Get (10) from Sylvester's criterion instead of eigenvalues.</summary><p>The leading principal minors are $C_{11}$, then $C_{11}^2-C_{12}^2=(C_{11}-C_{12})(C_{11}+C_{12})$, then $\det=(C_{11}-C_{12})^2(C_{11}+2C_{12})$, and then the same times $C_{44}$, $C_{44}^2$, $C_{44}^3$. All are positive exactly when (10) holds: given the third minor, $C_{11}+C_{12}>0$ follows from the other two conditions.</p></details>
+      <p class="takeaway">Stable ⇔ C positive definite ⇔ its three distinct eigenvalues, C₁₁ + 2C₁₂, C₁₁ − C₁₂ and C₄₄, are all positive.</p>
+    </article>
+    </div>
+  </section>
+  <section class="sec" id="s-1-5-5">
+    <h3><span class="step">1.5.5</span>Bulk modulus</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The bulk modulus B = (C₁₁ + 2C₁₂)/3 from hydrostatic strain, and, as a second card, the other two moduli of sheet 5.1: Young's modulus and Poisson's ratio along [100], [110] and any direction. Notes p. 25 (board photo); Kittel "Bulk Modulus and Compressibility", Fig. 21, Problem 8.</p>
+      <p><b>Why it matters.</b> B is the one boxed result of the lecture. Sheet 5.1 asks for E and ν along [100] and [110], and the exam-style exercise below uses both. Model 2 shows the anisotropy of E (the Zener ratio).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-bulk">
+      <span class="eyebrow">1.5.5 · Bulk modulus</span>
+      <h4>Bulk modulus of a cubic crystal</h4>
+      <p class="needs"><a href="#c-voigt">1.5.1 · Dilation and Voigt</a> and <a href="#c-cubic">1.5.4 · Cubic crystals</a></p>
+      <p>The bulk modulus is the stiffness against a change of volume, $B=-V\,(\partial p/\partial V)_T$. Equivalently, $u=\tfrac12B\delta^2$ for a uniform dilation δ. Insert hydrostatic strain, $e_1=e_2=e_3=\delta/3$ and $e_4=e_5=e_6=0$, into (8):</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Derivation (board, p25)</span></div>
+      $$u=\tfrac12C_{11}\cdot3\,\frac{\delta^2}{9}+C_{12}\cdot3\,\frac{\delta^2}{9}=\frac{C_{11}+2C_{12}}{6}\,\delta^2\equiv\frac12B\,\delta^2 .$$
+      <span class="eq-n">(11)</span></div>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Bulk modulus of a cubic crystal</span></div>
+      $$B=\tfrac13\,(C_{11}+2C_{12}),\qquad K=\frac1B\ \text{(compressibility)}.$$
+      <span class="eq-n">(12)</span></div>
+      <p>Cu: $B=(1.684+2\cdot1.214)/3=1.37\times10^{11}$ N/m² = 137 GPa. One gigapascal of pressure therefore shrinks Cu by $\Delta V/V=-1/137=-0.73$ %. The syllabus calls this subsection 1.5.5; the notes number it 1.5.5.1, under "Elastic constants in cubic systems".</p>
+      <p class="trap">Putting δ, rather than δ/3, on each axis. A uniform dilation δ stretches each axis by δ/3, because the three relative length changes add up to the relative volume change.</p>
+      <details class="check"><summary>Check (12) a second way, from e = S σ with hydrostatic pressure p.</summary><p>$\sigma_1=\sigma_2=\sigma_3=-p$, so $e_1=-(S_{11}+2S_{12})\,p$ and $\delta=3e_1=-3(S_{11}+2S_{12})p$. By (9), $3(S_{11}+2S_{12})=3/(C_{11}+2C_{12})=1/B$. ✓</p></details>
+      <p class="takeaway">B = (C₁₁ + 2C₁₂)/3: the hydrostatic eigenvalue of C, divided by 3.</p>
+    </article>
+    <article class="card" id="c-young">
+      <span class="eyebrow">1.5.5 · Young's modulus</span>
+      <h4>Young's modulus and Poisson's ratio of a cubic crystal</h4>
+      <p class="needs"><a href="#c-hooke">1.5.3 · Stiffness and compliance</a> and <a href="#c-cubic">1.5.4 · Cubic crystals</a></p>
+      <p><span class="note">Not in the notes. The definitions are on sheet 5 and in Kittel Fig. 21; the results below follow from 1.5.3 and the cubic C of 1.5.4.</span> Pull a rod along a unit direction $\hat{\mathbf n}$ with stress σ and leave the sides free. Young's modulus is $E=\sigma/(\Delta L/L)$, and Poisson's ratio is $\nu=-(\Delta d/d)/(\Delta L/L)$ for a lateral direction $\hat{\mathbf m}\perp\hat{\mathbf n}$. In cube axes the stress tensor is $\sigma_{ij}=\sigma\,n_in_j$. Since σ is known, use $\underline e=\underline{\underline S}\,\underline\sigma$.</p>
+      <p><b>Along [100]:</b> $\underline\sigma=(\sigma,0,0,0,0,0)$ gives $e_1=S_{11}\sigma$ and $e_2=e_3=S_{12}\sigma$. With (9):</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">E and ν along [100]</span><a class="tag hw" href="#hw-5-1">Sheet 5.1(i)</a></div>
+      $$E_{[100]}=\frac1{S_{11}}=\frac{(C_{11}-C_{12})(C_{11}+2C_{12})}{C_{11}+C_{12}},\qquad \nu_{[100]}=-\frac{S_{12}}{S_{11}}=\frac{C_{12}}{C_{11}+C_{12}}.$$
+      <span class="eq-n">(13)</span></div>
+      <p><b>Any direction.</b> The longitudinal strain is $\hat{\mathbf n}^T\underline{\underline\varepsilon}\,\hat{\mathbf n}$. Working this out with the cubic S gives</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Directional Young's modulus</span><a class="tag hw" href="#hw-5-1">Sheet 5.1(ii)</a></div>
+      $$\frac1{E(\hat{\mathbf n})}=S_{11}-2\Big(S_{11}-S_{12}-\tfrac12S_{44}\Big)\big(n_1^2n_2^2+n_2^2n_3^2+n_3^2n_1^2\big).$$
+      <span class="eq-n">(14)</span></div>
+      <p>The bracket of direction cosines is 0 along ⟨100⟩, ¼ along ⟨110⟩ and ⅓ along ⟨111⟩. So $1/E_{[110]}=\tfrac12(S_{11}+S_{12}+\tfrac12S_{44})$. The crystal is elastically isotropic only if the anisotropy factor vanishes, which is the condition that the Zener ratio is 1:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Zener anisotropy ratio</span></div>
+      $$A=\frac{2C_{44}}{C_{11}-C_{12}}=\frac{2(S_{11}-S_{12})}{S_{44}}.$$
+      <span class="eq-n">(15)</span></div>
+      <p>Cu has A = 3.2, so it is three times stiffer along [111] (191 GPa) than along [100] (67 GPa). Al (A = 1.22) is nearly isotropic. Model 2 draws E(n̂) for both.</p>
+      <p class="trap">Expecting one Poisson's ratio. Along [110] the two side faces, (001) and (1̄10), contract differently. For Cu, ν toward [001] is 0.82 and ν toward [1̄10] is −0.14: pulled along [110], Cu gets <i>wider</i> along [1̄10]. The rule ν ≤ ½ holds only for isotropic solids.</p>
+      <details class="check"><summary>Show that an isotropic crystal (A = 1) has E[110] = E[100].</summary><p>A = 1 means $S_{11}-S_{12}=\tfrac12S_{44}$, so the bracket in (14) is multiplied by zero, and $1/E=S_{11}$ in every direction.</p></details>
+      <p class="takeaway">Use S for a tensile test. $E_{[100]}=1/S_{11}$ and $\nu_{[100]}=-S_{12}/S_{11}$. Away from ⟨100⟩, C₄₄ enters through the Zener ratio, and ν depends on which side you measure.</p>
+    </article>
+    </div>
+  </section>
+</section>
+
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+  <ol class="chain">
+    <li><a href="#strain">Strain playground</a></li>
+    <li><a href="#young">Directional Young's modulus</a></li>
+    <li><a href="#stable">Stability map</a></li>
+  </ol>
+
+<section class="bench" id="strain">
+  <div class="rail">
+    <span class="eyebrow">1.5.1 · Model 1 · strain tensor</span>
+    <h3>Strain playground</h3>
+    <p>A unit cube of crystal is deformed by $\mathbf R'=(1+\underline{\underline\varepsilon}+\underline{\underline\Omega})\mathbf R$. The six sliders set the Voigt strains $e_i$, so $\varepsilon_{xy}=e_6/2$. The last slider adds a rigid rotation Ω about z. The stress and energy readouts use the Cu constants with the linear law σ = C e. Strains are drawn at true scale up to 20 %, far beyond the elastic limit of a real crystal (about 0.1–1 %), so that the shapes are visible.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="m1-e1"><span>e₁ = ε<sub>xx</sub></span> <output for="m1-e1"></output></label><input type="range" id="m1-e1" min="-0.2" max="0.2" step="0.001" value="0.1" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-e2"><span>e₂ = ε<sub>yy</sub></span> <output for="m1-e2"></output></label><input type="range" id="m1-e2" min="-0.2" max="0.2" step="0.001" value="-0.042" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-e3"><span>e₃ = ε<sub>zz</sub></span> <output for="m1-e3"></output></label><input type="range" id="m1-e3" min="-0.2" max="0.2" step="0.001" value="-0.042" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-e4"><span>e₄ = 2ε<sub>yz</sub></span> <output for="m1-e4"></output></label><input type="range" id="m1-e4" min="-0.3" max="0.3" step="0.002" value="0" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-e5"><span>e₅ = 2ε<sub>zx</sub></span> <output for="m1-e5"></output></label><input type="range" id="m1-e5" min="-0.3" max="0.3" step="0.002" value="0" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-e6"><span>e₆ = 2ε<sub>xy</sub></span> <output for="m1-e6"></output></label><input type="range" id="m1-e6" min="-0.3" max="0.3" step="0.002" value="0" data-fmt="3"></div>
+      <div class="ctl"><label for="m1-w"><span>Rigid rotation about z, θ</span> <output for="m1-w"></output></label><input type="range" id="m1-w" min="-0.4" max="0.4" step="0.01" value="0" data-fmt="2" data-unit=" rad"></div>
+    </div>
+    <div class="state"><span class="pill" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>The opening state is Cu pulled along [100]: e₁ = 0.1 and e₂ = e₃ = −ν e₁ with ν = 0.42. Only σ₁ is clearly non-zero, and σ₁/e₁ ≈ 67 GPa is E<sub>[100]</sub> from (13).</li>
+      <li>Set e₂ and e₃ to 0. Now σ₂ = σ₃ = C₁₂e₁: holding the sides fixed takes lateral stress.</li>
+      <li>Set all e<sub>i</sub> to 0 and move θ. The cube turns, but σ and u stay at zero. Lengths change only at order θ² (watch |x′| − 1).</li>
+      <li>Set e₁ = e₂ = e₃ = 0.1. The exact volume is 1.331 and the linear formula gives 1.3: the difference is the O(ε²) term in (2).</li>
+      <li>Set only e₆ = 0.2: x′·y′ reads 0.2, the angle change in radians, and the volume barely changes.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot tall" id="m1-p3"></div>
+      <figcaption><b>How to read:</b> the dashed grey cube is the undeformed unit cube with one corner at the origin. The copper cube is the same crystal after the deformation. The green arrows are the deformed axes x′, y′ and z′, the columns of 1 + ε + Ω (the notes' column convention). Drag to rotate the view.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--muted)"></i>undeformed</span><span><i class="sw" style="background:var(--occ)"></i>deformed</span><span><i class="sw" style="background:var(--ef)"></i>x′, y′, z′</span></div></figure>
+    <figure><div class="plot" id="m1-pb"></div>
+      <figcaption><b>How to read:</b> each pair of bars is one Voigt component. Blue is the strain e<sub>i</sub> in percent (right axis), and copper is the stress σ<sub>i</sub> = (C e)<sub>i</sub> for Cu in GPa (left axis). Shears have no copper bar of their own unless e₄, e₅ or e₆ is non-zero, because C<sub>cubic</sub> does not couple normal strain to shear. A rotation moves neither kind of bar.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>strain e<sub>i</sub> (%)</span><span><i class="sw" style="background:var(--occ)"></i>stress σ<sub>i</sub>, Cu (GPa)</span></div></figure>
+  </div>
+</section>
+
+<section class="bench" id="young">
+  <div class="rail">
+    <span class="eyebrow">1.5.5 · Model 2 · Sheet 5.1</span>
+    <h3>Directional Young's modulus</h3>
+    <p>E(n̂) from (14) for a cubic crystal, with the presets taken from Kittel Tables 11–12 (300 K). "A = 1" keeps the Cu values of C₁₁ and C₁₂ and sets C₄₄ = (C₁₁ − C₁₂)/2, which makes the crystal isotropic. The sliders change the constants in units of 10¹¹ N/m² = 100 GPa.</p>
+    <div class="ctls">
+      <fieldset class="seg"><legend>Material</legend><div class="opts">
+        <label><input type="radio" name="m2-mat" value="Cu" checked><span>Cu</span></label>
+        <label><input type="radio" name="m2-mat" value="Al"><span>Al</span></label>
+        <label><input type="radio" name="m2-mat" value="Si"><span>Si</span></label>
+        <label><input type="radio" name="m2-mat" value="iso"><span>A = 1</span></label>
+      </div></fieldset>
+      <div class="ctl"><label for="m2-c11"><span>C₁₁</span> <output for="m2-c11"></output></label><input type="range" id="m2-c11" min="0.5" max="3" step="0.001" value="1.684" data-fmt="3" data-unit=" ×10¹¹ N/m²"></div>
+      <div class="ctl"><label for="m2-c12"><span>C₁₂</span> <output for="m2-c12"></output></label><input type="range" id="m2-c12" min="-0.4" max="2" step="0.001" value="1.214" data-fmt="3" data-unit=" ×10¹¹ N/m²"></div>
+      <div class="ctl"><label for="m2-c44"><span>C₄₄</span> <output for="m2-c44"></output></label><input type="range" id="m2-c44" min="0.05" max="1.5" step="0.001" value="0.754" data-fmt="3" data-unit=" ×10¹¹ N/m²"></div>
+      <div class="ctl"><label for="m2-s"><span>Direction along the path [100] → [110] → [111] → [001]</span> <output for="m2-s"></output></label><input type="range" id="m2-s" min="0" max="135" step="0.25" value="80.25" data-fmt="1" data-unit="°"></div>
+    </div>
+    <div class="state"><span class="pill" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Cu: the surface bulges along the eight ⟨111⟩ directions and is pinched along ⟨100⟩. E ranges from 67 to 191 GPa.</li>
+      <li>Click "A = 1": the surface becomes a sphere and the path plot is flat. Only C₄₄ changed.</li>
+      <li>Change C₄₄ alone. E<sub>[100]</sub> does not move, because (13) contains no C₄₄.</li>
+      <li>Compare the two Poisson ratios along [110] for Cu. The one toward [1̄10] is negative.</li>
+      <li>Al is close to a sphere (A = 1.22) and Si is in between (A = 1.56).</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot tall" id="m2-p3"></div>
+      <figcaption><b>How to read:</b> the distance from the centre to the surface in direction n̂ is E(n̂) in GPa, and the colour repeats that value (dark = soft, light = stiff). The axes are the cube axes of the crystal. The green dot is the direction chosen with the path slider. Drag to rotate.</figcaption></figure>
+    <figure><div class="plot" id="m2-pl"></div>
+      <figcaption><b>How to read:</b> like a band-structure path, the horizontal axis walks through directions: from [100] to [110] in the (001) plane, then through [111] to [001] in the (1̄10) plane. The horizontal position is the angle turned, in degrees. The copper curve is E along that path. The dashed line is E<sub>[100]</sub>, the value every direction would have if A = 1. The green line marks the chosen direction.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>E(n̂)</span><span><i class="sw" style="background:var(--muted)"></i>E[100] (isotropic level)</span><span><i class="sw" style="background:var(--ef)"></i>chosen direction</span></div></figure>
+  </div>
+</section>
+
+<section class="bench" id="stable">
+  <div class="rail">
+    <span class="eyebrow">1.5.4 · Model 3 · Sheet 5.2</span>
+    <h3>Stability map</h3>
+    <p>Positive definiteness of the cubic C depends only on the ratios C₁₂/C₁₁ and C₄₄/C₁₁ (with C₁₁ &gt; 0). The sliders move a test crystal; the grey dots are the 300 K crystals of Kittel Tables 11–12. Clicking a dot loads its ratios. The right plot shows the energy u = ½λt² along each eigenvector of C, so a negative eigenvalue appears as an upside-down parabola.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="m3-r"><span>C₁₂ / C₁₁</span> <output for="m3-r"></output></label><input type="range" id="m3-r" min="-0.8" max="1.3" step="0.005" value="0.721" data-fmt="3"></div>
+      <div class="ctl"><label for="m3-s"><span>C₄₄ / C₁₁</span> <output for="m3-s"></output></label><input type="range" id="m3-s" min="-0.2" max="1" step="0.005" value="0.448" data-fmt="3"></div>
+    </div>
+    <div class="state"><span class="pill" id="m3-pill"></span><dl class="readout" id="m3-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Start at Cu. Push C₁₂/C₁₁ past 1: the tetragonal parabola turns over, because the crystal would lower its energy by stretching along x and shrinking along y.</li>
+      <li>Push C₁₂/C₁₁ below −0.5: now the volume mode fails and B &lt; 0.</li>
+      <li>Push C₄₄ below 0: shear fails.</li>
+      <li>Au, Pb and K sit close to the C₁₂ = C₁₁ edge, where C₁₁ − C₁₂ is small. Diamond, Si and Ge are far inside the stable region.</li>
+      <li>The dashed line is A = 1. Points above it are stiffest along ⟨111⟩, like Cu in Model 2.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot" id="m3-pm"></div>
+      <figcaption><b>How to read:</b> horizontal axis C₁₂/C₁₁, vertical axis C₄₄/C₁₁. The green-tinted strip is the stable region of (10): −½ &lt; C₁₂/C₁₁ &lt; 1 and C₄₄ &gt; 0. Each edge is the place where one eigenvalue reaches zero. Grey dots are real crystals (copper for Cu, Al and Si); the big green dot is the test crystal. The dashed line C₄₄/C₁₁ = (1 − C₁₂/C₁₁)/2 is elastic isotropy, A = 1.</figcaption></figure>
+    <figure><div class="plot" id="m3-pu"></div>
+      <figcaption><b>How to read:</b> u/C₁₁ against the size t of a strain along each eigenvector of C: copper for hydrostatic e ∝ (1,1,1,0,0,0), blue for tetragonal e ∝ (1,−1,0,0,0,0), green for shear e ∝ (0,0,0,1,0,0). Each curve is ½λt², with λ the eigenvalue in units of C₁₁. A bowl means that mode is stable; an upside-down parabola means the crystal would deform spontaneously along it.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>hydrostatic, λ = C₁₁ + 2C₁₂</span><span><i class="sw" style="background:var(--emp)"></i>tetragonal, λ = C₁₁ − C₁₂ (×2)</span><span><i class="sw" style="background:var(--ef)"></i>shear, λ = C₄₄ (×3)</span></div></figure>
+  </div>
+</section>
+</section>
+
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+  <article class="hw" id="hw-5-1">
+    <span class="tag">Sheet 5 · Problem 1 · 6 pts</span>
+    <h3>Young's modulus and Poisson's ratio</h3>
+    <p class="ask">A crystal with intrinsic cubic symmetry, in the shape of a cube, is under tension. Give Young's modulus E and Poisson's ratio ν in terms of the elastic stiffness constants C<sub>ij</sub>, (i) for tension along x, i.e. [100]; (ii) for tension along a face diagonal, e.g. [110]: the macroscopic surface is (110), with side faces (1 1̄ 0) and (001). Definitions given: F/A₀ = E·ΔL/L and Δd/d₀ = −ν·Δl/l₀.</p>
+    <h4>Method</h4>
+    <p>Tension fixes the stress, so write σ in cube axes and get every strain from e = S σ (<a href="#c-hooke">1.5.3</a>). Then convert S to C with (9). For (ii), rotate the uniaxial stress into cube axes with direction cosines, $\sigma_{ij}=\sigma\,n_in_j$ (board 11), and keep the factor 2 between $e_6$ and $\varepsilon_{xy}$ (<a href="#c-voigt">1.5.1</a>).</p>
+    <div class="assume"><b>Reading of the statement:</b> "tension" is taken as uniaxial stress with free side faces, as in the sheet's cylinder sketch. "Poisson's ratio" in (ii) is computed for both side-face normals, [1̄10] and [001], since the two differ for a cubic crystal.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(i)</b> $\underline\sigma=(\sigma,0,0,0,0,0)$. Then $e_1=S_{11}\sigma$, $e_2=e_3=S_{12}\sigma$ and $e_4=e_5=e_6=0$. Hence $E=\sigma/e_1=1/S_{11}$ and $\nu=-e_2/e_1=-S_{12}/S_{11}$.</li>
+        <li>With (9), $S_{11}=\dfrac{C_{11}+C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})}$ and $S_{12}=\dfrac{-C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})}$, so
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(i) result</span></div>$$E_{[100]}=\frac{(C_{11}-C_{12})(C_{11}+2C_{12})}{C_{11}+C_{12}},\qquad \nu_{[100]}=\frac{C_{12}}{C_{11}+C_{12}}.$$</div>
+          By cubic symmetry both side faces give the same ν.</li>
+        <li><b>(ii)</b> $\hat{\mathbf n}=(1,1,0)/\sqrt2$, so $\sigma_{xx}=\sigma_{yy}=\sigma_{xy}=\sigma/2$, i.e. $\underline\sigma=(\tfrac\sigma2,\tfrac\sigma2,0,0,0,\tfrac\sigma2)$. Then $e_1=e_2=\tfrac\sigma2(S_{11}+S_{12})$, $e_3=S_{12}\sigma$, $e_6=\tfrac\sigma2S_{44}$, so the tensor shear is $\varepsilon_{xy}=e_6/2=\tfrac\sigma4S_{44}$.</li>
+        <li>Longitudinal strain: $\hat{\mathbf n}^T\underline{\underline\varepsilon}\,\hat{\mathbf n}=\tfrac12(\varepsilon_{xx}+\varepsilon_{yy})+\varepsilon_{xy}=\tfrac\sigma2\big(S_{11}+S_{12}+\tfrac12S_{44}\big)$. So $1/E_{[110]}=\tfrac12(S_{11}+S_{12}+\tfrac12S_{44})$. Using $S_{11}+S_{12}=C_{11}/[(C_{11}-C_{12})(C_{11}+2C_{12})]$ and $S_{44}=1/C_{44}$:
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(ii): Young’s modulus along [110]</span></div>$$E_{[110]}=\frac{4C_{44}\,(C_{11}-C_{12})(C_{11}+2C_{12})}{2C_{11}C_{44}+(C_{11}-C_{12})(C_{11}+2C_{12})}.$$</div></li>
+        <li>Transverse strain along [001]: $\varepsilon_{zz}=S_{12}\sigma$, so $\nu_{[110]\to[001]}=-S_{12}E_{[110]}$. Along $\hat{\mathbf m}=(1,-1,0)/\sqrt2$: $\hat{\mathbf m}^T\underline{\underline\varepsilon}\,\hat{\mathbf m}=\tfrac12(\varepsilon_{xx}+\varepsilon_{yy})-\varepsilon_{xy}=\tfrac\sigma2(S_{11}+S_{12}-\tfrac12S_{44})$. With $D\equiv(C_{11}-C_{12})(C_{11}+2C_{12})$:
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(ii): the two Poisson ratios</span></div>$$\nu_{[110]\to[001]}=\frac{4C_{12}C_{44}}{2C_{11}C_{44}+D},\qquad \nu_{[110]\to[1\bar10]}=\frac{D-2C_{11}C_{44}}{D+2C_{11}C_{44}}.$$</div></li>
+      </ol>
+      <div class="result"><b>Result:</b> (i) E = (C₁₁ − C₁₂)(C₁₁ + 2C₁₂)/(C₁₁ + C₁₂), ν = C₁₂/(C₁₁ + C₁₂). (ii) E = 4C₄₄D/(2C₁₁C₄₄ + D), with two Poisson ratios: 4C₁₂C₄₄/(2C₁₁C₄₄ + D) toward [001] and (D − 2C₁₁C₄₄)/(D + 2C₁₁C₄₄) toward [1̄10], where D = (C₁₁ − C₁₂)(C₁₁ + 2C₁₂). Cu: E<sub>[100]</sub> = 66.7 GPa, ν = 0.419; E<sub>[110]</sub> = 130.3 GPa, ν = 0.819 (to [001]) and −0.136 (to [1̄10]).</div>
+      <div class="check"><b>Sanity check:</b> for isotropy, C₄₄ = (C₁₁ − C₁₂)/2, so 2C₁₁C₄₄ = C₁₁(C₁₁ − C₁₂). Then E<sub>[110]</sub> reduces to E<sub>[100]</sub>, and both ν<sub>[110]</sub> reduce to C₁₂/(C₁₁ + C₁₂), as they must. The Cu numbers were checked in node by rotating the full rank-4 compliance tensor and computing n̂ᵀε n̂ and m̂ᵀε m̂ directly. They agree with these closed forms to all digits shown, and with Model 2's readout.</div>
+      <p><b>Points usually lost:</b> using $\varepsilon_{xy}=e_6$ (gives the wrong S₄₄ weight); writing $S_{11}=1/C_{11}$; giving one ν in (ii).</p>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-5-2">
+    <span class="tag">Sheet 5 · Problem 2 · 4 pts</span>
+    <h3>Stability criteria</h3>
+    <p class="ask">A crystal with cubic symmetry is stable if every combination of strain components gives a positive elastic energy density. What restrictions does that impose on the C<sub>ij</sub>? (Hint: conditions for a real symmetric quadratic form to be positive definite.)</p>
+    <h4>Method</h4>
+    <p>$u=\tfrac12\underline e^T\underline{\underline C}\,\underline e>0$ for all $\underline e\ne0$ is positive definiteness of C (<a href="#c-stable">1.5.4 · Stability</a>). Diagonalise the cubic C (7), or use Sylvester's criterion.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>C is block-diagonal: a 3×3 block $N=(C_{11}-C_{12})\mathbb 1+C_{12}J$ acting on $(e_1,e_2,e_3)$, where J is the all-ones matrix, and the block $C_{44}\mathbb 1_3$ acting on $(e_4,e_5,e_6)$. Equivalently, (8) has no terms that mix normal strains with shears.</li>
+        <li>J has eigenvalue 3 on (1,1,1) and 0 on the plane orthogonal to it. So N has eigenvalue $C_{11}+2C_{12}$ on (1,1,1) and $C_{11}-C_{12}$ (twice) on (1,−1,0) and (1,1,−2).</li>
+        <li>Positive definite ⇔ all eigenvalues positive:
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.2 result</span></div>$$C_{44}>0,\qquad C_{11}-C_{12}>0,\qquad C_{11}+2C_{12}>0 .$$</div>
+          Equivalently, $C_{44}>0$ and $-\tfrac12C_{11}&lt;C_{12}&lt;C_{11}$ (which implies $C_{11}>0$).</li>
+        <li>Physical meaning: $C_{11}+2C_{12}=3B$ (no collapse under pressure); $C_{11}-C_{12}$ is the stiffness against volume-conserving tetragonal stretching; $C_{44}$ is the stiffness against shear.</li>
+      </ol>
+      <div class="result"><b>Result:</b> C₄₄ &gt; 0, C₁₁ &gt; C₁₂ and C₁₁ + 2C₁₂ &gt; 0. The answer to Kittel ch. 3 Problem 14 (the same question) is often written as C₄₄ &gt; 0, C₁₁ &gt; |C₁₂|, C₁₁ + 2C₁₂ &gt; 0. This is the same set: for C₁₂ &lt; 0, C₁₁ + 2C₁₂ &gt; 0 already gives C₁₁ &gt; −C₁₂.</div>
+      <div class="check"><b>Sanity check:</b> Sylvester's leading minors (self-test in 1.5.4 · Stability) give the same three conditions. Numerically, for Cu the eigenvalues are 4.112, 0.470 (×2) and 0.754 (×3) ×10¹¹ N/m², all positive. In node, a random-vector test of eᵀC e on 10⁵ strains finds no negative value for Cu, while with C₁₂ = 1.05 C₁₁ about 0.2 % of the strains give u &lt; 0. Model 3 shows the same boundary.</div>
+      <p><b>Points usually lost:</b> stating only "C₁₁, C₁₂, C₄₄ &gt; 0"; forgetting the hydrostatic condition; not saying why (the eigenvectors).</p>
+    </details>
+  </article>
+</section>
+
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>Not asked in 2022.</b> The recovered paper has no question on strain, stress or elastic constants. That is one reconstructed exam, so it is weak evidence that the topic will not be tested. If elasticity appears, expect a sheet-5-style exercise: cubic C, a modulus, a pressure or a tension, and a stability check.</p>
+    <p>Things to do in 5 minutes without notes: write the cubic C (7) with its zeros and C₄₄; give the Voigt e with the factor 2; derive B = (C₁₁ + 2C₁₂)/3 from hydrostatic strain; state the three stability conditions and their eigenvectors; give E and ν along [100] via S; convert table values from 10¹¹ N/m².</p>
+    <p><b>Where each part is taught:</b> (a) → (5), (7) and <a href="#c-cubic">1.5.4</a>; (b) → (11)–(12) in <a href="#s-1-5-5">1.5.5</a>; (c) → (13), (9); (d) → (10); (e) → (14)–(15).</p>
+  </div>
+  <article class="hw" id="exam-x">
+    <span class="tag">Exam-style exercise · about 12 pts · not from the course</span>
+    <h3>Elastic response of an aluminium single crystal</h3>
+    <p class="ask">Al is fcc with a = 4.05 Å. At 300 K, C₁₁ = 1.068, C₁₂ = 0.607 and C₄₄ = 0.282, in 10¹¹ N/m². (a) Write Hooke's law for a cubic crystal in Voigt form and explain why three constants suffice. (b) Find the bulk modulus and compressibility. By how much do the volume and the lattice constant change under a hydrostatic pressure of 1 GPa? (c) Find E and ν for tension along [100]. A rod is loaded with 100 MPa along [100]: give the axial strain, the lateral strain and the stored energy density. (d) Is Al stable? Give the eigenvalues of C. (e) Is Al elastically isotropic? Compare E along [100] and [111].</p>
+    <div class="assume"><b>Data:</b> the elastic constants are Kittel Table 11 (300 K). The lattice constant is the one used on <a href="09-bands.html">page 09</a>. The exercise is in the pattern of the 2022 paper (short parts, statements plus numbers), but it is not a past question.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a)</b> σ = C e with e = (ε<sub>xx</sub>, ε<sub>yy</sub>, ε<sub>zz</sub>, 2ε<sub>yz</sub>, 2ε<sub>zx</sub>, 2ε<sub>xy</sub>) and C as in (7). In general C is symmetric because u = ½ eᵀC e exists, which leaves 21 constants. The 3-fold axes ⟨111⟩ permute x, y, z, so C₁₁ = C₂₂ = C₃₃, C₁₂ = C₁₃ = C₂₃ and C₄₄ = C₅₅ = C₆₆. The 2-fold cube axes flip the signs of pairs of shears, so all normal–shear and shear–shear cross terms vanish.</li>
+        <li><b>(b)</b> $B=\tfrac13(1.068+2\cdot0.607)\times10^{11}=0.761\times10^{11}$ N/m² = 76.1 GPa, and $K=1/B=1.31\times10^{-11}$ Pa⁻¹. Under p = 1 GPa: $\Delta V/V=-p/B=-1.31$ %, and each axis shrinks by a third of that, $\Delta a/a=-0.438$ %, so $\Delta a=-0.0177$ Å (a: 4.050 → 4.032 Å).</li>
+        <li><b>(c)</b> $D=(1.068-0.607)(1.068+1.214)=0.461\cdot2.282=1.052$. $E_{[100]}=D/(C_{11}+C_{12})=1.052/1.675=0.628\times10^{11}$ N/m² = 62.8 GPa, and $\nu=0.607/1.675=0.362$. At 100 MPa: axial strain $\sigma/E=1.59\times10^{-3}$, lateral strain $-\nu\cdot1.59\times10^{-3}=-5.77\times10^{-4}$, energy density $u=\sigma^2/2E=(10^8)^2/(2\cdot6.28\times10^{10})=8.0\times10^4$ J/m³.</li>
+        <li><b>(d)</b> Eigenvalues: C₁₁ + 2C₁₂ = 2.282 (once), C₁₁ − C₁₂ = 0.461 (twice), C₄₄ = 0.282 (three times), in 10¹¹ N/m². All are positive, so C is positive definite and Al is stable.</li>
+        <li><b>(e)</b> $A=2C_{44}/(C_{11}-C_{12})=0.564/0.461=1.22$: close to, but not exactly, isotropic. From (14) with the ⟨111⟩ bracket ⅓: $E_{[111]}=75.3$ GPa, against $E_{[100]}=62.8$ GPa, a 20 % difference (Cu: 191 against 67 GPa).</li>
+      </ol>
+      <div class="result"><b>Result:</b> (b) B = 76.1 GPa, K = 1.31 × 10⁻¹¹ Pa⁻¹, ΔV/V = −1.31 %, Δa = −0.018 Å. (c) E = 62.8 GPa, ν = 0.362; strains 1.59 × 10⁻³ and −5.8 × 10⁻⁴; u = 8.0 × 10⁴ J/m³. (d) stable, eigenvalues 2.28, 0.461, 0.282 × 10¹¹ N/m². (e) A = 1.22, E[111] = 75.3 GPa.</div>
+      <div class="check"><b>Sanity check:</b> (b) the per-axis strain was recomputed independently from e₁ = −p(S₁₁ + 2S₁₂) = −4.38 × 10⁻³, the same as δ/3. (c) and (e) were checked in node by inverting the 6×6 C numerically and by rotating the rank-4 compliance tensor (same E<sub>[100]</sub>, ν and E<sub>[111]</sub>). Model 2 with the Al preset shows the same values. Order of magnitude: B of a metal is tens to hundreds of GPa, and an elastic strain of 0.16 % at 100 MPa is typical.</div>
+      <p><b>Points usually lost:</b> reading C in N/m² without the 10¹¹; using δ instead of δ/3 per axis; quoting C₁₁ as Young's modulus (C₁₁ = 107 GPa is the stiffness with the sides clamped, E = 63 GPa with them free).</p>
+    </details>
+  </article>
+</section>
+
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 3: "Analysis of Elastic Strains", "Dilation", "Stress Components", "Elastic Compliance and Stiffness Constants", "Elastic Energy Density", "Elastic Stiffness Constants of Cubic Crystals" (eq. 43), "Bulk Modulus and Compressibility", Fig. 20 (wave stiffnesses), Fig. 21 (Young's modulus and Poisson's ratio), Tables 11–12 (elastic constants), Problems 8 and 14.</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 18–25, including the board photos on pp. 24–25.</li>
+    <li>Problem sheet 5, Fall 2026.</li>
+    <li>Tutoring boards: 08 "Stress, Strain, Stiffness"; 11 "Stress Strain Pset 5 and 6".</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, sAx, layout, CFG, lin, setRead, setPill, rgba, vline, hline } = CM;
+  // Kittel Tables 11–12, 300 K, in 1e11 N/m² (checked against the PDF table).
+  const MAT = { Cu: [1.684, 1.214, 0.754], Al: [1.068, 0.607, 0.282], Si: [1.66, 0.639, 0.796] };
+  const f = (v, d = 2) => (v < 0 ? '−' : '') + Math.abs(v).toFixed(d);
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', fn));
+
+  /* ---------- Model 1: strain playground ---------- */
+  const CORN = [0, 1, 2, 3, 4, 5, 6, 7].map(i => [i & 1, (i >> 1) & 1, (i >> 2) & 1]);   // index = x + 2y + 4z
+  const EDGES = [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+  const mv = (F, r) => [0, 1, 2].map(i => F[i][0] * r[0] + F[i][1] * r[1] + F[i][2] * r[2]);
+  const det3 = F => F[0][0] * (F[1][1] * F[2][2] - F[1][2] * F[2][1]) - F[0][1] * (F[1][0] * F[2][2] - F[1][2] * F[2][0]) + F[0][2] * (F[1][0] * F[2][1] - F[1][1] * F[2][0]);
+  function edges(pts) {
+    const X = [], Y = [], Z = [];
+    EDGES.forEach(([a, b]) => { X.push(pts[a][0], pts[b][0], null); Y.push(pts[a][1], pts[b][1], null); Z.push(pts[a][2], pts[b][2], null); });
+    return { x: X, y: Y, z: Z };
+  }
+  function renderM1() {
+    const e = [1, 2, 3, 4, 5, 6].map(i => +$('m1-e' + i).value), th = +$('m1-w').value;
+    const [e1, e2, e3, e4, e5, e6] = e;
+    // F = 1 + eps + Omega; eps symmetric with eps_xy = e6/2 etc.; Omega = rotation about z (column convention of the notes).
+    const F = [[1 + e1, e6 / 2 - th, e5 / 2], [e6 / 2 + th, 1 + e2, e4 / 2], [e5 / 2, e4 / 2, 1 + e3]];
+    const P = CORN.map(r => mv(F, r));
+    const cols = [0, 1, 2].map(j => [F[0][j], F[1][j], F[2][j]]);
+    const [c11, c12, c44] = MAT.Cu;
+    const sig = [c11 * e1 + c12 * (e2 + e3), c11 * e2 + c12 * (e3 + e1), c11 * e3 + c12 * (e1 + e2), c44 * e4, c44 * e5, c44 * e6].map(v => v * 100); // GPa
+    const u = (0.5 * c11 * (e1 * e1 + e2 * e2 + e3 * e3) + 0.5 * c44 * (e4 * e4 + e5 * e5 + e6 * e6) + c12 * (e2 * e3 + e3 * e1 + e1 * e2)) * 1e11 / 1e6; // MJ/m³, Kittel eq. 43
+    const V = det3(F), Vlin = 1 + e1 + e2 + e3;
+    const xy = cols[0].reduce((s, v, i) => s + v * cols[1][i], 0), lx = Math.hypot(...cols[0]) - 1;
+    const ref = edges(CORN), def = edges(P);
+    const arrows = { x: [], y: [], z: [] }, lab = { x: [], y: [], z: [], text: ['x′', 'y′', 'z′'] };
+    cols.forEach(c => { arrows.x.push(0, c[0], null); arrows.y.push(0, c[1], null); arrows.z.push(0, c[2], null); lab.x.push(c[0] * 1.1); lab.y.push(c[1] * 1.1); lab.z.push(c[2] * 1.1); });
+    const R = [-0.35, 1.45];
+    Plotly.react('m1-p3', [
+      Object.assign({ type: 'scatter3d', mode: 'lines', line: { color: C.muted, width: 2, dash: 'dash' }, hoverinfo: 'skip' }, ref),
+      Object.assign({ type: 'scatter3d', mode: 'lines', line: { color: C.occ, width: 6 }, hoverinfo: 'skip' }, def),
+      Object.assign({ type: 'scatter3d', mode: 'lines', line: { color: C.ef, width: 7 }, hoverinfo: 'skip' }, arrows),
+      Object.assign({ type: 'scatter3d', mode: 'text', textfont: { color: C.ef, size: 14 }, hoverinfo: 'skip' }, lab)],
+      layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm1',
+        scene: { xaxis: sAx('x', { range: R }), yaxis: sAx('y', { range: R }), zaxis: sAx('z', { range: R }), aspectmode: 'cube',
+                 camera: { eye: { x: 1.5, y: -1.6, z: 0.95 } }, bgcolor: 'rgba(0,0,0,0)' } }), CFG);
+    const lbl = ['1 xx', '2 yy', '3 zz', '4 yz', '5 zx', '6 xy'];
+    const sR = Math.max(2, 1.15 * Math.max(...sig.map(Math.abs))), eR = Math.max(1, 115 * Math.max(...e.map(Math.abs)));   // symmetric, so both zero lines align
+    Plotly.react('m1-pb', [
+      { type: 'bar', x: lbl, y: sig, name: 'σ (GPa)', marker: { color: C.occ }, offsetgroup: 1, hovertemplate: 'σ = %{y:.2f} GPa<extra></extra>' },
+      { type: 'bar', x: lbl, y: e.map(v => v * 100), name: 'e (%)', marker: { color: C.emp }, yaxis: 'y2', offsetgroup: 2, hovertemplate: 'e = %{y:.1f} %<extra></extra>' }],
+      layout({ barmode: 'group', margin: { l: 56, r: 50, t: 8, b: 44 },
+        xaxis: ax('Voigt component i'), yaxis: ax('Stress σᵢ, Cu (GPa)', { range: [-sR, sR] }),
+        yaxis2: ax('Strain eᵢ (%)', { overlaying: 'y', side: 'right', range: [-eR, eR], showgrid: false }) }), CFG);
+    const tol = 1e-9, shear0 = Math.abs(e4) + Math.abs(e5) + Math.abs(e6) < tol;
+    let pill;
+    if (e.every(v => Math.abs(v) < tol)) pill = th ? 'Rigid rotation: no strain, no stress' : 'Undeformed';
+    else if (shear0 && Math.abs(e1 - e2) < tol && Math.abs(e2 - e3) < tol) pill = 'Hydrostatic strain: only the volume changes';
+    else if (Math.abs(e1 + e2 + e3) < tol) pill = 'Volume-conserving to first order (tr ε = 0)';
+    else pill = 'General strain';
+    setPill('m1-pill', ['', pill]);
+    setRead('m1-read', [
+      ['V′/V exact = det(1+ε+Ω)', V.toFixed(4)], ['1 + tr ε (linear)', Vlin.toFixed(4)],
+      ['x′·y′ (≈ e₆)', f(xy, 4)], ['|x′| − 1 (≈ e₁)', f(lx, 4)],
+      ['σ₁, σ₂, σ₃ (Cu)', sig.slice(0, 3).map(v => f(v, 2)).join(', ') + ' GPa'],
+      ['u = ½ eᵀC e (Cu)', u.toFixed(2) + ' MJ/m³']]);
+  }
+
+  /* ---------- Model 2: directional Young's modulus ---------- */
+  const comp = (c11, c12, c44) => { const D = (c11 - c12) * (c11 + 2 * c12); return { S11: (c11 + c12) / D, S12: -c12 / D, S44: 1 / c44, D }; };
+  const Edir = (S, n) => 100 / (S.S11 - 2 * (S.S11 - S.S12 - S.S44 / 2) * (n[0] ** 2 * n[1] ** 2 + n[1] ** 2 * n[2] ** 2 + n[2] ** 2 * n[0] ** 2)); // GPa, eq. (14)
+  const TH111 = Math.acos(1 / Math.sqrt(3)) * 180 / Math.PI;   // 54.74°: [111] from [001]
+  const S110 = 45, S111 = 45 + (90 - TH111), SEND = 135;      // path stops (degrees turned)
+  function dirAt(s) {   // path [100] → [110] in (001), then [110] → [111] → [001] in (1̄10)
+    const d = Math.PI / 180;
+    if (s <= 45) return [Math.cos(s * d), Math.sin(s * d), 0];
+    const t = (135 - s) * d;   // polar angle from [001]
+    return [Math.sin(t) / Math.SQRT2, Math.sin(t) / Math.SQRT2, Math.cos(t)];
+  }
+  const dirName = n => '(' + n.map(v => f(v, 2)).join(', ') + ')';
+  const NT = 37, NP = 73, TT = lin(0, Math.PI, NT), PP = lin(0, 2 * Math.PI, NP), SS = lin(0, SEND, 271);
+  function renderM2() {
+    const c11 = +$('m2-c11').value, c12 = +$('m2-c12').value, c44 = +$('m2-c44').value, s = +$('m2-s').value;
+    const n = dirAt(s), stable = c11 - c12 > 0 && c11 + 2 * c12 > 0 && c44 > 0;
+    const A = 2 * c44 / (c11 - c12), B = 100 * (c11 + 2 * c12) / 3;
+    if (!stable) {
+      Plotly.react('m2-p3', [], layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, scene: { bgcolor: 'rgba(0,0,0,0)', xaxis: sAx('x'), yaxis: sAx('y'), zaxis: sAx('z') } }), CFG);
+      Plotly.react('m2-pl', [], layout({ xaxis: ax('Direction'), yaxis: ax('E (GPa)') }), CFG);
+      setPill('m2-pill', ['', 'Unstable: C is not positive definite, so E is undefined']);
+      setRead('m2-read', [['C₁₁ − C₁₂', f(c11 - c12, 3)], ['C₁₁ + 2C₁₂', f(c11 + 2 * c12, 3)], ['C₄₄', f(c44, 3)]]);
+      return;
+    }
+    const S = comp(c11, c12, c44);
+    const X = [], Y = [], Z = [], Wc = [];
+    TT.forEach(t => { const xr = [], yr = [], zr = [], wr = [];
+      PP.forEach(p => { const m = [Math.sin(t) * Math.cos(p), Math.sin(t) * Math.sin(p), Math.cos(t)], E = Edir(S, m);
+        xr.push(E * m[0]); yr.push(E * m[1]); zr.push(E * m[2]); wr.push(E); });
+      X.push(xr); Y.push(yr); Z.push(zr); Wc.push(wr); });
+    const En = Edir(S, n), Emax = Math.max(...Wc.flat()), L = Emax * 1.1;
+    Plotly.react('m2-p3', [
+      { type: 'surface', x: X, y: Y, z: Z, surfacecolor: Wc, colorscale: C.scale, showscale: false, opacity: 0.95,
+        hovertemplate: 'E = %{surfacecolor:.0f} GPa<extra></extra>', lighting: { ambient: 0.6, diffuse: 0.7, specular: 0.2, roughness: 0.7 } },
+      { type: 'scatter3d', mode: 'lines', x: [0, En * n[0]], y: [0, En * n[1]], z: [0, En * n[2]], line: { color: C.ef, width: 6 }, hoverinfo: 'skip' },
+      { type: 'scatter3d', mode: 'markers', x: [En * n[0]], y: [En * n[1]], z: [En * n[2]], marker: { color: C.ef, size: 6 }, hovertemplate: 'E = ' + En.toFixed(1) + ' GPa<extra></extra>' }],
+      layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm2',
+        scene: { xaxis: sAx('E·nₓ (GPa)', { range: [-L, L] }), yaxis: sAx('E·n_y (GPa)', { range: [-L, L] }), zaxis: sAx('E·n_z (GPa)', { range: [-L, L] }),
+                 aspectmode: 'cube', camera: { eye: { x: 1.45, y: 1.25, z: 0.95 } }, bgcolor: 'rgba(0,0,0,0)' } }), CFG);
+    const Ep = SS.map(v => Edir(S, dirAt(v)));
+    const E100 = 100 / S.S11, E110 = Edir(S, dirAt(S110)), E111 = Edir(S, dirAt(S111));
+    Plotly.react('m2-pl', [
+      { x: SS, y: Ep, mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'E = %{y:.1f} GPa<extra></extra>' },
+      { x: [0, S110, S111, SEND], y: [E100, E110, E111, E100], mode: 'markers', marker: { color: C.occ, size: 8, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' },
+      { x: [s], y: [En], mode: 'markers', marker: { color: C.ef, size: 11, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'E = %{y:.1f} GPa<extra></extra>' }],
+      layout({ shapes: [vline(s, C.ef), hline(E100, C.muted, 'dot')],
+        xaxis: ax('Direction', { tickvals: [0, S110, S111, SEND], ticktext: ['[100]', '[110]', '[111]', '[001]'], range: [0, SEND], zeroline: false }),
+        yaxis: ax('Young\'s modulus E (GPa)', { rangemode: 'tozero' }) }), CFG);
+    const nu001 = -S.S12 * E110 / 100, nu1m10 = -(S.S11 + S.S12 - S.S44 / 2) * E110 / 200;   // sheet 5.1(ii)
+    setPill('m2-pill', ['', Math.abs(A - 1) < 0.005 ? 'Isotropic (A = 1): E is the same in every direction'
+      : A > 1 ? 'A > 1: stiffest along ⟨111⟩, softest along ⟨100⟩' : 'A < 1: stiffest along ⟨100⟩, softest along ⟨111⟩']);
+    setRead('m2-read', [
+      ['E[100], E[110], E[111]', [E100, E110, E111].map(v => v.toFixed(1)).join(', ') + ' GPa'],
+      ['E(n̂), n̂ = ' + dirName(n), En.toFixed(1) + ' GPa'],
+      ['ν[100]', (c12 / (c11 + c12)).toFixed(3)],
+      ['ν[110] → [001], → [1̄10]', f(nu001, 3) + ', ' + f(nu1m10, 3)],
+      ['Zener A = 2C₄₄/(C₁₁−C₁₂)', A.toFixed(2)], ['Bulk modulus B', B.toFixed(1) + ' GPa']]);
+  }
+  function setM2(name) {
+    const v = name === 'iso' ? [MAT.Cu[0], MAT.Cu[1], (MAT.Cu[0] - MAT.Cu[1]) / 2] : MAT[name];
+    ['c11', 'c12', 'c44'].forEach((k, i) => { const el = $('m2-' + k); el.value = v[i]; const o = document.querySelector(`output[for="m2-${k}"]`); if (o) o.textContent = CM.fmtSlider(el); });
+    renderM2();
+  }
+  onChange('input[name="m2-mat"]', e => setM2(e.target.value));
+  ['m2-c11', 'm2-c12', 'm2-c44'].forEach(id => $(id).addEventListener('input', () => document.querySelectorAll('input[name="m2-mat"]').forEach(r => { r.checked = false; })));
+
+  /* ---------- Model 3: stability map ---------- */
+  // Kittel Tables 11–12, 300 K (K at 295 K): [C11, C12, C44] in 1e11 N/m².
+  const KT = { W: [5.233, 2.045, 1.607], Ta: [2.609, 1.574, 0.818], Cu: [1.684, 1.214, 0.754], Ag: [1.240, 0.937, 0.461], Au: [1.923, 1.631, 0.420],
+    Al: [1.068, 0.607, 0.282], K: [0.0370, 0.0314, 0.0188], Pb: [0.495, 0.423, 0.149], Ni: [2.508, 1.500, 1.235], Pd: [2.271, 1.761, 0.717],
+    Diamond: [10.76, 1.25, 5.76], Na: [0.073, 0.062, 0.042], Li: [0.135, 0.114, 0.088], Ge: [1.285, 0.483, 0.680], Si: [1.66, 0.639, 0.796],
+    GaSb: [0.885, 0.404, 0.433], InSb: [0.672, 0.367, 0.302], MgO: [2.86, 0.87, 1.48], NaCl: [0.487, 0.124, 0.126] };
+  const names = Object.keys(KT), hi = ['Cu', 'Al', 'Si'];
+  const TS = lin(-1, 1, 81);
+  function renderM3() {
+    const r = +$('m3-r').value, s = +$('m3-s').value;
+    const lam = [1 + 2 * r, 1 - r, s];   // eigenvalues / C11
+    const pts = names.map(k => [KT[k][1] / KT[k][0], KT[k][2] / KT[k][0]]);
+    const XR = [-0.8, 1.3], YR = [-0.2, 1.0];
+    Plotly.react('m3-pm', [
+      { x: [XR[0], XR[1]], y: [(1 - XR[0]) / 2, (1 - XR[1]) / 2], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: pts.map(p => p[0]), y: pts.map(p => p[1]), text: names, customdata: names, mode: 'markers+text', textposition: 'top center',
+        textfont: { size: 10, color: C.muted }, marker: { size: 7, color: names.map(k => hi.includes(k) ? C.occ : C.muted) },
+        hovertemplate: '%{text}: C₁₂/C₁₁ = %{x:.3f}, C₄₄/C₁₁ = %{y:.3f}<extra></extra>' },
+      { x: [r], y: [s], mode: 'markers', marker: { color: C.ef, size: 14, line: { color: C.panel, width: 2 } }, hoverinfo: 'skip' }],
+      layout({ xaxis: ax('C₁₂ / C₁₁', { range: XR, zeroline: false }), yaxis: ax('C₄₄ / C₁₁', { range: YR, zeroline: false }),
+        shapes: [{ type: 'rect', x0: -0.5, x1: 1, y0: 0, y1: YR[1], line: { width: 0 }, fillcolor: rgba(C.ef, 0.12), layer: 'below' },
+          { type: 'line', x0: -0.5, x1: -0.5, y0: YR[0], y1: YR[1], line: { color: C.ef, width: 1.5 } },
+          { type: 'line', x0: 1, x1: 1, y0: YR[0], y1: YR[1], line: { color: C.ef, width: 1.5 } },
+          { type: 'line', x0: XR[0], x1: XR[1], y0: 0, y1: 0, line: { color: C.ef, width: 1.5 } }],
+        annotations: [
+          { x: -0.5, y: -0.17, text: 'C₁₁+2C₁₂ = 0', showarrow: false, xanchor: 'left', font: { size: 10, color: C.muted } },
+          { x: 1, y: -0.17, text: 'C₁₁ = C₁₂', showarrow: false, xanchor: 'right', font: { size: 10, color: C.muted } },
+          { x: XR[0], y: 0, text: 'C₄₄ = 0', showarrow: false, xanchor: 'left', yanchor: 'bottom', font: { size: 10, color: C.muted } }] }), CFG);
+    const cols = [C.occ, C.emp, C.ef];
+    Plotly.react('m3-pu', lam.map((l, i) => ({ x: TS, y: TS.map(t => 0.5 * l * t * t), mode: 'lines', line: { color: cols[i], width: 2.5 },
+      hovertemplate: 'u/C₁₁ = %{y:.3f}<extra></extra>' })),
+      layout({ shapes: [hline(0, C.muted, 'dot')], xaxis: ax('Strain amplitude t along the eigenvector'), yaxis: ax('Energy density u / C₁₁', { range: [-0.6, 1.4] }) }), CFG);
+    const fail = [];
+    if (lam[0] <= 0) fail.push('volume (B ≤ 0)');
+    if (lam[1] <= 0) fail.push('tetragonal (C₁₁ ≤ C₁₂)');
+    if (lam[2] <= 0) fail.push('shear (C₄₄ ≤ 0)');
+    setPill('m3-pill', fail.length ? ['', 'Unstable along: ' + fail.join(', ')] : ['metal', 'Stable: C is positive definite']);
+    setRead('m3-read', [
+      ['λ hydrostatic = (C₁₁+2C₁₂)/C₁₁', f(lam[0], 3)], ['λ tetragonal = (C₁₁−C₁₂)/C₁₁, ×2', f(lam[1], 3)], ['λ shear = C₄₄/C₁₁, ×3', f(lam[2], 3)],
+      ['B / C₁₁', f(lam[0] / 3, 3)], ['Zener A', lam[1] > 0 ? f(2 * s / lam[1], 2) : '—']]);
+  }
+
+  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3 });
+  $('m3-pm').on('plotly_click', ev => {
+    const k = ev.points[0] && ev.points[0].customdata; if (!k || !KT[k]) return;
+    const v = [KT[k][1] / KT[k][0], KT[k][2] / KT[k][0]];
+    ['r', 's'].forEach((id, i) => { const el = $('m3-' + id); el.value = v[i]; const o = document.querySelector(`output[for="m3-${id}"]`); if (o) o.textContent = CM.fmtSlider(el); });
+    renderM3();
+  });
+});
+</script>
+</body>
+</html>
