@@ -19,8 +19,9 @@ Every page must also meet the definition of done in `CONVENTIONS.md`. Inputs per
   Done when: guides for 3.3 (Ar bcc/fcc cohesive-energy ratio), 3.4 (solid H₂), 4.1 (1D NaCl Madelung constant), 4.2 (BaO, Ba⁺O⁻ vs Ba²⁺O²⁻), 4.3 (metallic-bond kinetic energy); models include Lennard-Jones and Madelung-sum convergence.
   Result: built and reviewed 2026-11-05 (physics + code PASS).
 
-- [ ] **04 Elasticity** (`pages/04-elasticity.html`; §1.5; Kittel ch. 3)
+- [x] **04 Elasticity** (`pages/04-elasticity.html`; §1.5; Kittel ch. 3)
   Done when: guides for 5.1 (E and ν along [100] and [110] in terms of Cᵢⱼ), 5.2 (cubic stability criteria); models include a strain-tensor deformation view and directional Young's modulus with Cu/Al/Si presets.
+  Result: built and reviewed 2026-11-05 (physics + code PASS).
 
 - [x] **05 Phonons** (`pages/05-phonons.html`; §1.6; Kittel ch. 4)
   Done when: guides for 6.1 (l-th neighbour dispersion), 6.2 (1D density of states); models include monatomic and diatomic chain dispersion with an animated chain and D(ω).

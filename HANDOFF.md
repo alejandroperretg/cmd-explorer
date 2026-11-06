@@ -52,6 +52,11 @@ The course is Condensed Matter and Devices (V. Wagner, Constructor University, F
   4. Pages 03 (binding, sheets 3.3–4.3) and 04 (elasticity, sheet 5).
   5. PLAN item 15: models for every chapter-2 subsection. Gaps: 07 needs 2.1.2 wavefunctions, 2.1.4 total energy and 2.1.5 pressure.
 - **Wait for lectures:** pages 10–13 (magnetism, dielectrics, semiconductors, p–n junctions). Lectures had reached §2.6.2. New notes arrive via GoodNotes auto-backup to Google Drive (`GoodNotes/` folder; see `../NOTES-PIPELINE.md` if it exists).
+- **Style rollout (approved by the user on 2026-11-06):**
+  - Follow `templates/RETROFIT.md`.
+  - Page 04 was started first.
+  - Then pages 01+02, 05+06 and 07+08, two pages per agent, after the stress-test agent finishes (it edits `assets/common.js` and may fix model bugs on 01, 02 and 05–09).
+  - Then re-run `CM.stress()` / `tools/stress.js` on every page before republishing any phone version.
 - **Coverage audit** (user request; PLAN item 16):
   - The expectation list `audit/expectations.md` was started on 2026-11-06. It is built from the topic list, the notes and the sheets, without looking at the pages.
   - Once all the pages exist, a *separate* agent checks the pages against it and writes `audit/report.md`, with a pass, partial or missing verdict and evidence for each item.
