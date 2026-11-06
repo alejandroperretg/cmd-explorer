@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phonons · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+<style>
+  .chaincv canvas { display: block; width: 100%; height: 230px; }
+  @media (max-width: 640px) { .chaincv canvas { height: 200px; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 05</span><span>Syllabus §1.6</span><span>Kittel ch. 4, ch. 5</span><span>Notes pp. 26–33</span><span>Sheet 6</span></div>
+  <h1>Phonons</h1>
+  <p class="lead">The atoms of a crystal are coupled by springs, so they move in collective waves with a definite frequency for each wave vector, ω(k). Those waves, quantised as phonons, carry sound and heat, set the lattice heat capacity (topic 06) and scatter electrons (topic 08). This is also the cleanest place to see what a wave vector k means on a lattice.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>A static lattice cannot explain the $T^3$ heat capacity of insulators, thermal expansion, the heat conduction of insulators, the temperature dependence of a metal's resistance, the infrared response of ionic crystals or sound. All of these need the atoms to move. With the electrons following the ions instantly (adiabatic approximation) and small displacements (harmonic approximation), Newton's equations for a chain of masses and springs are linear and are solved by plane waves $u_j\propto e^{i(kja-\omega t)}$.</p>
+  <p>Key results to leave with: the monatomic dispersion $\omega=\sqrt{4f/m}\,|\sin(ka/2)|$ and why $k$ only matters modulo $2\pi/a$; the acoustic and optical branches of a two-atom chain, with the gap at $\pi/a$, solved here in full (the notes stop at the determinant); the density of states $g(\omega)\propto 1/|d\omega/dk|$ and its singularity where the band is flat; and phonons as quanta $\hbar\omega(n+\tfrac12)$ with crystal momentum $\hbar k$, measured by neutrons across the whole zone and by light only near $k=0$.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 4 (Vibrations of Crystals with Monatomic Basis; Two Atoms per Primitive Basis; Quantization of Elastic Waves; Phonon Momentum; Inelastic Scattering by Phonons) and ch. 5 (Density of States in One Dimension), and the lecture notes pp. 26–33. The lecture writes $f, m, k$ for Kittel's $C, M, K$; this page follows the lecture and the sheet.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>Setting up: adiabatic and harmonic approximations</h3>
+      <p>Electrons are thousands of times lighter than ions and adjust to any ion arrangement almost instantly, so they stay in their ground state as the ions move. The energy is then a function of the ion positions alone, $U(\{\mathbf r(\mathbf R,j)\})$, with $\mathbf R$ the lattice point and $j$ the basis atom. The force on an ion is $\mathbf F=-\partial U/\partial\mathbf r$.</p>
+      <p>Write each position as its lattice site plus a small displacement, $\mathbf r=\mathbf R+\mathbf v_j+\mathbf u(\mathbf R,j)$ with $\langle u^2\rangle\ll r_{NN}^2$. Expand $U$ to second order: the linear term vanishes at equilibrium, so $U$ is a quadratic form in the $u$'s, the forces are linear (Hooke) and the problem is a set of coupled harmonic oscillators. Its normal modes are the lattice waves.</p>
+    </article>
+
+    <article class="card">
+      <h3>1.6.1 Simple linear chain</h3>
+      <p>Atoms of mass $m$, spacing $a$, nearest-neighbour springs $f$, displacement $u_j$ of atom $j$:</p>
+      $$U=\sum_j\tfrac12 f\,(u_j-u_{j+1})^2,\qquad m\ddot u_j=-\frac{\partial U}{\partial u_j}=f\,(u_{j+1}+u_{j-1}-2u_j).$$
+      <p>Insert $u_j=u_0\,e^{i(kja-\omega t)}$ and cancel $u_0e^{i(kja-\omega t)}$: $-m\omega^2=f(e^{ika}+e^{-ika}-2)=-2f(1-\cos ka)=-4f\sin^2\tfrac{ka}{2}$, so</p>
+      $$\omega(k)=\sqrt{\frac{4f}{m}}\,\Big|\sin\frac{ka}{2}\Big|,\qquad \omega_m=\sqrt{4f/m}.$$
+      <ul>
+        <li><b>Long waves</b>, $ka\ll1$: $\omega\approx a\sqrt{f/m}\,|k|$. Sound with speed $v_s=a\sqrt{f/m}$, independent of frequency, as in a continuum.</li>
+        <li><b>Group velocity</b> $v_g=d\omega/dk=v_s\cos(ka/2)$ for $k>0$: the speed of a packet and of energy. It falls to zero at $k=\pi/a$.</li>
+        <li><b>Zone boundary</b> $k=\pm\pi/a$: $u_j\propto(-1)^j$, neighbours exactly opposed. A standing wave, the lattice version of Bragg reflection with $\lambda=2a$.</li>
+      </ul>
+      <div class="assume"><b>Notes, p27:</b> the chain potential is written with $(u_l+u_{l+1})^2$. It must be a difference, $(u_l-u_{l+1})^2$: a rigid shift of the whole chain costs no energy, and the force on the next line only follows from the minus sign.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.6.1 What k means: k and k + 2π/a are the same wave</h3>
+      <p>The displacement only exists at the atoms, $x=ja$. Replace $k$ by $k'=k+2\pi n/a$:</p>
+      $$u_j'=u_0\,e^{i(k'ja-\omega t)}=u_0\,e^{i(kja-\omega t)}\,e^{i2\pi nj}=u_j ,$$
+      <p>because $e^{i2\pi nj}=1$ for every integer $j$. Every atom does exactly the same thing, at the same frequency (ω(k) is periodic with $2\pi/a$). The two continuous sine curves you could draw through the atoms differ, but the space between atoms has no displacement, so the difference is not physical. This is aliasing, as with a strobe light or a sampled signal (Kittel ch. 4 Fig. 5).</p>
+      <p>What $k$ really specifies is the <b>phase step from one atom to the next</b>, $u_{j+1}/u_j=e^{ika}$. A phase is only defined modulo $2\pi$, so $ka$ only matters modulo $2\pi$, and one interval of length $2\pi/a$ holds every distinct mode. The conventional choice is $-\pi/a\lt k\le\pi/a$, the first Brillouin zone. $2\pi/a$ is the reciprocal lattice vector $G$ of the chain, so the rule reads: <b>$k$ and $k+G$ label the same mode</b>.</p>
+      <ul>
+        <li>Counting: on a ring of $N$ atoms, $e^{ikNa}=1$ gives $k=2\pi s/Na$; distinct modes need distinct $e^{ika}$, so there are exactly $N$, one per atom (degrees of freedom are conserved). The same periodic-boundary counting as for electrons on <a href="07-free-electron-gas.html#concepts">topic 07</a>.</li>
+        <li>Velocities: $v_g=d\omega/dk$ is the same at $k$ and $k+G$ (the derivative of a periodic function is periodic). The phase velocity $\omega/k$ is not, which shows it has no physical meaning on a lattice.</li>
+        <li>Why it matters later: the same rule makes electron Bloch states periodic in $k$ (<a href="09-bands.html#kwave">topic 09, "What k looks like"</a>) and lets phonon collisions change total $k$ by $G$ (Umklapp, <a href="08-transport.html">topic 08</a>).</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>1.6.2 Linear chain with basis: setting it up</h3>
+      <p>Two masses $m_1$ and $m_2$ alternate, joined by equal springs $f$. $a$ is the repeat distance (between atoms of the <i>same</i> kind) and $j$ the cell index. Call the displacements $u_j$ (mass $m_1$) and $v_j$ (mass $m_2$, to the right of $u_j$). Atom $u_j$ touches $v_j$ and $v_{j-1}$; atom $v_j$ touches $u_j$ and $u_{j+1}$:</p>
+      $$m_1\ddot u_j=f\,(v_j+v_{j-1}-2u_j),\qquad m_2\ddot v_j=f\,(u_{j+1}+u_j-2v_j).$$
+      <p>Try a wave with a different amplitude on each sublattice, $u_j=u\,e^{i(kja-\omega t)}$, $v_j=v\,e^{i(kja-\omega t)}$. Then $v_{j-1}=v_j\,e^{-ika}$ and $u_{j+1}=u_j\,e^{+ika}$, and</p>
+      $$\begin{pmatrix}2f-m_1\omega^2 & -f\,(1+e^{-ika})\\[2pt] -f\,(1+e^{ika}) & 2f-m_2\omega^2\end{pmatrix}\begin{pmatrix}u\\ v\end{pmatrix}=0 .$$
+      <p>This is Kittel's eq. (20). A non-zero $(u,v)$ needs a zero determinant. The off-diagonal product is $f^2(1+e^{-ika})(1+e^{ika})=f^2(2+2\cos ka)$, so</p>
+      $$m_1m_2\,\omega^4-2f(m_1+m_2)\,\omega^2+2f^2(1-\cos ka)=0 ,$$
+      <p>Kittel's eq. (22), a quadratic in $\omega^2$.</p>
+      <p><b>The lecture's route</b> (mass weighting) gives the same answer. With $w_1=\sqrt{m_1}\,u$, $w_2=\sqrt{m_2}\,v$ the equations read $\omega^2\mathbf w=\underline D\,\mathbf w$ with the dynamical matrix</p>
+      $$\underline D=\begin{pmatrix}\dfrac{2f}{m_1} & -\dfrac{f(1+e^{-ika})}{\sqrt{m_1m_2}}\\[8pt] -\dfrac{f(1+e^{ika})}{\sqrt{m_1m_2}} & \dfrac{2f}{m_2}\end{pmatrix},\qquad \det(\underline D-\omega^2\mathbb 1)=0 ,$$
+      <p>where $\mathbb 1$ is the identity matrix $I$. $\underline D$ is Hermitian, so its eigenvalues $\omega^2$ are real.</p>
+      <div class="assume"><b>Notes, p31, two slips:</b> (1) both off-diagonal entries carry $e^{ika}$. Because $u_1$ couples to $u_2(x-a)$, the (1,2) entry must carry $e^{-ika}$ and the (2,1) entry $e^{+ika}$. With equal exponents $\underline D$ is not Hermitian and the determinant contains the complex number $(1+e^{ika})^2$. (2) In the determinant line the off-diagonal entries have lost the factor $f$ (the diagonal has it). Which neighbour you call "same cell" flips both exponents, but only the convention-free product $|1+e^{ika}|^2=4\cos^2(ka/2)$ enters the result.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.6.2 Linear chain with basis: the solution</h3>
+      <p>Divide eq. (22) by $m_1m_2$, write $1-\cos ka=2\sin^2(ka/2)$ and solve the quadratic in $\omega^2$:</p>
+      $$\omega_\pm^2(k)=f\Big(\frac1{m_1}+\frac1{m_2}\Big)\pm f\sqrt{\Big(\frac1{m_1}+\frac1{m_2}\Big)^2-\frac{4\sin^2(ka/2)}{m_1m_2}} .$$
+      <p>The minus sign is the <b>acoustic</b> branch, the plus sign the <b>optical</b> branch. Take $m_1>m_2$ and $1/\mu=1/m_1+1/m_2$:</p>
+      <ul>
+        <li>$k\to0$: acoustic $\omega_-^2\approx\dfrac{f}{2(m_1+m_2)}k^2a^2$, sound at $v_s=a\sqrt{f/2(m_1+m_2)}$ (Kittel eq. 24). Optical $\omega_+=\sqrt{2f/\mu}$, the maximum (eq. 23).</li>
+        <li>$k=\pm\pi/a$: the square root becomes $|1/m_2-1/m_1|$, so $\omega_-=\sqrt{2f/m_1}$ and $\omega_+=\sqrt{2f/m_2}$ (eq. 25).</li>
+        <li><b>Gap:</b> no wave solution has $\sqrt{2f/m_1}\lt\omega\lt\sqrt{2f/m_2}$. It closes when $m_1=m_2$.</li>
+      </ul>
+      <p><b>Eigenvectors</b> from the first row: $u/v=f(1+e^{-ika})/(2f-m_1\omega^2)$.</p>
+      <ul>
+        <li>Acoustic, $k\to0$: $u/v\to1$. Both atoms move together, like sound.</li>
+        <li>Optical, $k=0$: $u/v=-m_2/m_1$. The atoms move against each other and the centre of mass $m_1u+m_2v$ stays put. In an ionic crystal this is an oscillating dipole, which couples to light; hence "optical" (eq. 26).</li>
+        <li>$k=\pi/a$: $1+e^{-i\pi}=0$ decouples the sublattices. In the acoustic mode only the heavy atoms move; in the optical mode only the light ones (Kittel problem 4.3).</li>
+      </ul>
+      <p><b>Check with equal masses.</b> $m_1=m_2=m$ gives $\omega_\pm^2=\frac{2f}{m}(1\pm|\cos\frac{ka}{2}|)$, i.e. $\omega_-=\sqrt{4f/m}\,|\sin\frac{ka}{4}|$ and $\omega_+=\sqrt{4f/m}\,|\cos\frac{ka}{4}|$. That is the monatomic chain of spacing $a/2$, whose zone runs to $2\pi/a$, with its outer half shifted by $2\pi/a$ into $[-\pi/a,\pi/a]$. Choosing a cell twice too large folds the band; a real mass difference then opens the gap at the fold. Model 2 shows both.</p>
+      <p><b>In 3D</b>, with $p$ atoms per primitive cell and $N$ cells: $3p$ branches, 3 acoustic (one longitudinal, two transverse) and $3p-3$ optical, each with $N$ values of $k$. Total $3pN$ modes, one per degree of freedom.</p>
+    </article>
+
+    <article class="card">
+      <h3>1.6.4 Density of states</h3>
+      <p>The density of states counts modes per unit frequency. Summing over branches $s$ and integrating over the first Brillouin zone,</p>
+      $$g(\omega)=\sum_s\int_{1.\mathrm{BZ}}\frac{d^3k}{(2\pi)^3}\,\delta\big(\omega-\omega_s(\mathbf k)\big),$$
+      <p>per unit volume (Kittel's $D(\omega)=V g(\omega)$ is for the whole crystal). The weight $d^3k/(2\pi)^3$ is one allowed $k$ per $(2\pi)^3/V$ from periodic boundary conditions. In 1D the integral collapses onto the roots $k_i$ of $\omega(k_i)=\omega$ (sheet 6.2's hint):</p>
+      $$g(\omega)=\frac1{2\pi}\sum_i\frac{1}{|d\omega/dk|_{k_i}} .$$
+      <p>A frequency band $d\omega$ cuts the dispersion where it is steep in a narrow $dk$ (few modes) and where it is flat in a wide $dk$ (many modes). Wherever $v_g=0$ the DOS diverges: a <b>van Hove singularity</b>. For the monatomic chain this happens at $\omega_m$:</p>
+      $$g(\omega)=\frac{2}{\pi a}\frac{1}{\sqrt{\omega_m^2-\omega^2}}\quad(0\le\omega\lt\omega_m),\qquad \int_0^{\omega_m}g\,d\omega=\frac1a .$$
+      <p>One mode per atom per branch, as the counting demands. The DOS is what heat capacity integrates over (Debye and Einstein models, topic 06). The derivation is homework guide 6.2.</p>
+    </article>
+
+    <article class="card">
+      <h3>1.6.5 Phonons</h3>
+      <p>Each normal mode $(\mathbf k,s)$ is an independent harmonic oscillator, so quantum mechanics allows only the energies</p>
+      $$E_{\mathbf k,s}=\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big),\qquad E=\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big),\quad n=0,1,2,\dots$$
+      <p>A <b>phonon</b> is one quantum of a mode; $n_{\mathbf k,s}$ is the number of phonons in it, and $\frac12\hbar\omega$ is the zero-point energy. In equilibrium the mean occupation is the Planck (Bose–Einstein) value $\langle n\rangle=1/(e^{\hbar\omega/k_BT}-1)$. Example: the top mode of the Na chain below has $\hbar\omega=14.9$ meV; at 300 K ($k_BT=25.9$ meV) $\langle n\rangle=1.28$, at 10 K only $3\times10^{-8}$. At low $T$ only the soft acoustic modes near $k=0$ are excited, which gives the $T^3$ law.</p>
+      <p><b>Crystal momentum.</b> In collisions a phonon acts as if it had momentum $\hbar\mathbf k$, but it is a pattern of relative displacements and carries no real momentum (except the uniform $\mathbf k=0$ translation). Since $\mathbf k$ and $\mathbf k+\mathbf G$ label the same mode, $\hbar\mathbf k$ is only defined up to $\hbar\mathbf G$, and in a scattering process it is conserved only modulo $\hbar\mathbf G$: the lattice as a whole takes up $\hbar\mathbf G$.</p>
+      <div class="assume"><b>Tutor board wording:</b> the board calls $n_{\mathbf k,l}$ the number of "available" phonons. It is the number of phonons <i>present</i> in the mode (the occupation number). The board's branch index $l$ is the notes' $s$.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.6.6 Measurement of phonons</h3>
+      <p><b>Inelastic neutron scattering</b> maps the whole $\omega(\mathbf k)$. A neutron enters with $\mathbf k$, leaves with $\mathbf k'$, and creates (+) or absorbs (−) a phonon $\mathbf K$ (Kittel eqs. 33–34):</p>
+      $$\mathbf k+\mathbf G=\mathbf k'\pm\mathbf K,\qquad \frac{\hbar^2k^2}{2M_n}=\frac{\hbar^2k'^2}{2M_n}\pm\hbar\omega(\mathbf K).$$
+      <p>Measuring the energy lost and the direction gives one point $(\mathbf K,\omega)$ on the dispersion, with $\mathbf G$ chosen so that $\mathbf K$ lies in the first zone. Neutrons suit the job because a thermal neutron (25 meV) has $k=3.5\times10^{10}$ m⁻¹ ($\lambda=0.18$ nm), comparable with the zone size $\pi/a\sim10^{10}$ m⁻¹, and an energy comparable with phonon energies (10–60 meV).</p>
+      <p><b>Light</b> (Raman scattering, infrared absorption) sees only $\mathbf k\approx0$. A photon of the same 25 meV has $k=1.3\times10^5$ m⁻¹, and even visible light at 2 eV has $k=1.0\times10^7$ m⁻¹, about $10^{-3}$ of the zone. At $k\approx0$ acoustic modes have $\omega\approx0$, so light probes the optical modes. Example: NaCl absorbs infrared at its transverse optical frequency $\omega_T=3.1\times10^{13}$ s⁻¹ ($\hbar\omega_T=20$ meV, $\lambda=61\ \mu$m).</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="alias">
+    <div class="rail">
+      <span class="eyebrow">1.6.1 · Simple linear chain</span>
+      <h3>What k means: k and k + n·2π/a move the atoms identically</h3>
+      <p>A monatomic chain carrying one wave. The copper curve is $\cos(kx-\omega t)$ for your $k$; the blue dashed curve uses $k+n\cdot2\pi/a$. Both pass through every atom, at every instant. Displacements are drawn sideways so they are visible; the algebra is the same for longitudinal motion. Scaled units: $\omega$ in $\omega_m=\sqrt{4f/m}$, velocities in $v_s=a\sqrt{f/m}$.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="al-k"><span>Wave vector k</span> <output for="al-k"></output></label><input type="range" id="al-k" min="-3" max="3" step="0.01" value="1.3" data-pi="1"></div>
+        <div class="ctl"><label for="al-n"><span>Shift by n · 2π/a, n =</span> <output for="al-n"></output></label><input type="range" id="al-n" min="-2" max="2" step="1" value="-1" data-fmt="0"></div>
+        <div class="btns"><button class="btn" type="button" id="al-play">Pause</button></div>
+        <p class="note" id="al-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+      </div>
+      <div class="state"><span class="pill atom" id="al-pill"></span><dl class="readout" id="al-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is k = 1.30π/a, outside the first zone. The shifted wave k − 2π/a = −0.70π/a is almost twice as long, yet the atoms cannot tell them apart.</li>
+        <li>Watch the two curves while playing: they travel in opposite directions, but the atoms do the same thing. Phase velocity depends on which k you pick; the group velocity in the readout does not.</li>
+        <li>Set k = 1.00π/a: neighbours are exactly opposed, the dots stand still between swings (a standing wave), and v_g = 0.</li>
+        <li>Set k = 2.00π/a: the phase step per atom is 2π, the same as k = 0. Every atom moves together and ω = 0, a rigid shift of the chain.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="chaincv"><canvas id="al-cv" aria-label="Animated chain of atoms with two sine waves passing through all of them"></canvas></div>
+        <figcaption><b>How to read:</b> the horizontal axis is position along the chain, the vertical axis the (exaggerated) displacement. Dots are atoms, grey ticks their rest positions. The copper curve is the wave at k, the blue dashed curve the wave at k + n·2π/a. Look at the dots: they sit on both curves at every instant.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--fg)"></i>atom</span><span><i class="sw" style="background:var(--occ)"></i>wave at k</span><span><i class="sw" style="background:var(--emp)"></i>wave at k + n·2π/a</span></div>
+      </figure>
+      <figure><div class="plot short" id="al-p"></div>
+        <figcaption><b>How to read:</b> frequency ω/ω_m against k in units of 1/a (tick π means π/a), over three zones. The shaded band is the first Brillouin zone. The copper dot is your k, the blue dot the shifted one, the green ring the equivalent k inside the first zone. All three sit at the same height: the same frequency, because they are the same mode.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--fg)"></i>ω(k), periodic</span><span><i class="sw dot" style="background:var(--occ)"></i>k</span><span><i class="sw dot" style="background:var(--emp)"></i>k + n·2π/a</span><span><i class="sw dot" style="background:var(--ef)"></i>first-zone k′</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="diatomic">
+    <div class="rail">
+      <span class="eyebrow">1.6.2 · Chain with basis</span>
+      <h3>Acoustic and optical branches</h3>
+      <p>The two-atom chain solved exactly (Kittel eqs. 20–22), with the chosen mode animated. Opening state: a 1D toy of NaCl along [111], Cl (m₁ = 35.45 u) and Na (m₂ = 22.99 u), with $f$ set so that the optical frequency at $k=0$ equals NaCl's measured $\omega_T=3.1\times10^{13}$ s⁻¹.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Branch</legend><div class="opts">
+          <label><input type="radio" name="di-br" value="ac"><span>Acoustic</span></label>
+          <label><input type="radio" name="di-br" value="op" checked><span>Optical</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="di-k"><span>Wave vector k</span> <output for="di-k"></output></label><input type="range" id="di-k" min="-1" max="1" step="0.01" value="0.3" data-pi="1"></div>
+        <div class="ctl"><label for="di-m1"><span>Mass m₁ (copper)</span> <output for="di-m1"></output></label><input type="range" id="di-m1" min="1" max="140" step="0.01" value="35.45" data-fmt="2" data-unit=" u"></div>
+        <div class="ctl"><label for="di-m2"><span>Mass m₂ (blue)</span> <output for="di-m2"></output></label><input type="range" id="di-m2" min="1" max="140" step="0.01" value="22.99" data-fmt="2" data-unit=" u"></div>
+        <div class="ctl"><label for="di-f"><span>Spring constant f</span> <output for="di-f"></output></label><input type="range" id="di-f" min="1" max="30" step="0.01" value="11.13" data-fmt="2" data-unit=" N/m"></div>
+        <div class="btns"><button class="btn" type="button" id="di-play">Pause</button></div>
+        <p class="note" id="di-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+      </div>
+      <div class="state"><span class="pill atom" id="di-pill"></span><dl class="readout" id="di-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Optical at k → 0: Cl and Na swing against each other with amplitudes in the ratio m₂ : m₁, so the centre of mass stays still. Switch to acoustic: both move together.</li>
+        <li>Drag k to ±π/a: in the acoustic mode only the heavy (copper) atoms move, in the optical mode only the light ones. The gap sits between √(2f/m₁) and √(2f/m₂).</li>
+        <li>Set m₂ = m₁: the gap closes and both branches lie on the grey dashed curve, a monatomic chain of spacing a/2 folded back into this zone. Then move m₂ slightly: the gap opens at the fold.</li>
+        <li>Make one mass very large: the optical branch goes flat (an Einstein-like oscillator of the light atom) and the DOS becomes a narrow spike.</li>
+      </ul></div>
+    </div>
+    <div class="plots wide-left">
+      <figure class="span2"><div class="chaincv"><canvas id="di-cv" aria-label="Animated two-atom chain showing the chosen normal mode"></canvas></div>
+        <figcaption><b>How to read:</b> position along the chain horizontally, displacement (exaggerated, drawn sideways) vertically. Copper atoms have mass m₁, blue atoms m₂, with dot size growing with mass; grey lines are the springs. The motion is the real part of the eigenvector times $e^{i(jka-\omega t)}$, played slowed down.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>m₁</span><span><i class="sw dot" style="background:var(--emp)"></i>m₂</span></div>
+      </figure>
+      <figure><div class="plot" id="di-p1"></div>
+        <figcaption><b>How to read:</b> angular frequency in 10¹³ s⁻¹ against k across the first zone (tick π means π/a). Copper is the acoustic branch, blue the optical branch, and the green dot is the animated mode. The green band is the gap, where no wave exists. The grey dashed curve is a monatomic chain of spacing a/2 and mass (m₁+m₂)/2, folded into this zone.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>acoustic ω₋</span><span><i class="sw" style="background:var(--emp)"></i>optical ω₊</span><span><i class="sw" style="background:var(--muted)"></i>folded monatomic</span><span><i class="sw dot" style="background:var(--ef)"></i>selected mode</span></div>
+      </figure>
+      <figure><div class="plot" id="di-p2"></div>
+        <figcaption><b>How to read:</b> the density of states drawn sideways, so it shares the frequency axis of the left plot. Bar length is the number of modes per unit cell per 10¹³ s⁻¹, counted from 4000 k values per branch; the bars add up to 2 modes per cell. Peaks sit where a branch is flat: at the zone boundary and at the top of the optical branch.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>acoustic</span><span><i class="sw" style="background:var(--emp)"></i>optical</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="dos">
+    <div class="rail">
+      <span class="eyebrow">1.6.4 · Density of states (sheets 6.1, 6.2)</span>
+      <h3>From ω(k) to g(ω): how many modes in a band dω?</h3>
+      <p>A ring of N atoms has N allowed k values (dots). A band of width dω (green) catches those where the curve passes through it: few where ω(k) is steep, many where it is flat. Counting them per dω gives the DOS. The second-neighbour spring f₂ is sheet 6.1's generalisation. Scaled units: ω in $\omega_1=\sqrt{4f_1/m}$, g in $1/(a\,\omega_1)$.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="ds-w"><span>Band centre ω₀ / ω₁</span> <output for="ds-w"></output></label><input type="range" id="ds-w" min="0.02" max="1.15" step="0.005" value="0.7" data-fmt="3"></div>
+        <div class="ctl"><label for="ds-dw"><span>Band width dω / ω₁</span> <output for="ds-dw"></output></label><input type="range" id="ds-dw" min="0.01" max="0.1" step="0.005" value="0.05" data-fmt="3"></div>
+        <div class="ctl"><label for="ds-n"><span>Atoms on the ring N</span> <output for="ds-n"></output></label><input type="range" id="ds-n" min="8" max="400" step="2" value="240" data-fmt="0"></div>
+        <div class="ctl"><label for="ds-f2"><span>Second-neighbour spring f₂ / f₁</span> <output for="ds-f2"></output></label><input type="range" id="ds-f2" min="-0.2" max="0.6" step="0.01" value="0" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="ds-pill"></span><dl class="readout" id="ds-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is sheet 6.2's chain with N = 240: two roots ±k₀, and the counted g matches the closed form 2/(π√(1 − ω₀²)) to within the counting noise (the band holds 10 points, so one more or less is 10 %).</li>
+        <li>Move ω₀ up towards 1: the band catches more and more points near the flat top and g blows up. That is the van Hove singularity at ω_m.</li>
+        <li>Raise N: the bar chart fills in to the smooth curve. The DOS is a counting result that becomes smooth for a large crystal.</li>
+        <li>Set f₂/f₁ above 0.25: the maximum moves inside the zone, k = π/a becomes a local minimum, and a second singularity appears. At f₂/f₁ = 0.6 and ω₀ = 1.05 the band cuts the curve four times.</li>
+      </ul></div>
+    </div>
+    <div class="plots wide-left">
+      <figure><div class="plot tall" id="ds-p1"></div>
+        <figcaption><b>How to read:</b> ω/ω₁ against k (tick π means π/a). Grey dots are the N allowed k values on the ring. The green band is ω₀ ± dω/2; where the curve passes through it, the curve and its k-points turn green, and the shaded columns underneath are the dk intervals that the band catches.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>ω(k)</span><span><i class="sw dot" style="background:var(--muted)"></i>allowed k</span><span><i class="sw" style="background:var(--ef)"></i>band dω and its modes</span></div>
+      </figure>
+      <figure><div class="plot tall" id="ds-p2"></div>
+        <figcaption><b>How to read:</b> g(ω)·aω₁ drawn sideways, on the same ω axis. Copper bars count the ring's modes in bins of width dω; the blue curve is the exact DOS of an infinite chain. The green line marks ω₀. The bar at ω₀ is the count on the left divided by N·dω.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>counted, N atoms</span><span><i class="sw" style="background:var(--emp)"></i>exact g(ω)</span><span><i class="sw" style="background:var(--ef)"></i>ω₀</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="neutron">
+    <div class="rail">
+      <span class="eyebrow">1.6.5–1.6.6 · Crystal momentum and neutron scattering</span>
+      <h3>Which phonons can a neutron create?</h3>
+      <p>A neutron hits a chain of sodium atoms along [001] (spacing d = 0.211 nm, ν_max = 3.6 THz from Kittel ch. 4 Fig. 11) and scatters forward or back. Energy and crystal momentum must both balance: the neutron curve (blue) has to meet the phonon dispersion (copper). The dispersion repeats in every zone, so the neutron can hand $\hbar G$ to the lattice and create a phonon whose first-zone $K$ is far from its momentum transfer $q$.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="ns-e"><span>Neutron energy E_i</span> <output for="ns-e"></output></label><input type="range" id="ns-e" min="3" max="60" step="0.5" value="25" data-fmt="1" data-unit=" meV"></div>
+        <label class="chk" for="ns-abs"><input type="checkbox" id="ns-abs"> Also show phonon absorption (neutron gains energy)</label>
+      </div>
+      <div class="state"><span class="pill atom" id="ns-pill"></span><dl class="readout" id="ns-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is a thermal neutron at 25 meV. Its curve meets the dispersion twice: inside the first zone, and again two zones out at q ≈ 4.3π/d. That second phonon has K = 0.31π/d; the lattice took up G = 2·2π/d. The readout does this reduction, K = q − G, for every event.</li>
+        <li>Lower E_i to a few meV: the neutron curve gets small and only crosses near q = 0. Slow neutrons reach only long-wavelength phonons.</li>
+        <li>Compare the photon line (dotted, at q ≈ 0): a photon of the same energy has 10⁵ times less momentum and can only reach K ≈ 0. That is why Raman and infrared see only k ≈ 0 modes.</li>
+        <li>Tick absorption: the parabola below the axis meets the mirrored dispersion. Such events need a phonon already present, so they get rare at low T.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot tall" id="ns-p"></div>
+        <figcaption><b>How to read:</b> energy transferred to the crystal, ħω in meV (positive = phonon created), against momentum transfer q = k_i − k_f in units of π/d. The copper arches are the phonon energies ħω(q), repeated in every zone; the shaded band is the first zone. The blue parabola is every (q, ħω) a neutron of energy E_i can reach; it peaks at E_i, which may lie above the plot. Green dots are the allowed events. The dotted line at q ≈ 0 is the same for a photon.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>phonon ħω(q)</span><span><i class="sw" style="background:var(--emp)"></i>neutron kinematics</span><span><i class="sw" style="background:var(--fg)"></i>photon</span><span><i class="sw dot" style="background:var(--ef)"></i>allowed event</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-6-1">
+    <span class="tag">Sheet 6 · Problem 1 · 4 pts</span>
+    <h3>l-th nearest-neighbor interaction</h3>
+    <p class="ask">A simple linear chain has springs $f_l$ between $l$-th nearest neighbours, so the total potential is $U=\sum_n\sum_{l>0}0.5\,f_l\,[u(na)-u((n+l)a)]^2$. Show that the dispersion relation becomes $\omega(k)=2\cdot\big[\sum_{l>0}f_l\sin^2(lka/2)/m\big]^{1/2}$.</p>
+    <h4>Method</h4>
+    <p>Exactly the lecture's route for the nearest-neighbour chain (1.6.1): force $=-\partial U/\partial u_n$, then the plane-wave ansatz. The only new step is finding every term of the double sum that contains $u_n$: for each $l$ there are two, the spring to the right neighbour $n+l$ and the spring from the left neighbour $n-l$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Write $u_n=u(na)$. For a fixed $l$, $u_n$ appears in the term with index $n$ (pair $n,n+l$) and in the term with index $n-l$ (pair $n-l,n$): $\;\tfrac12f_l(u_n-u_{n+l})^2+\tfrac12f_l(u_{n-l}-u_n)^2$.</li>
+        <li>Differentiate: $F_n=-\dfrac{\partial U}{\partial u_n}=-\sum_{l>0}f_l\big[(u_n-u_{n+l})+(u_n-u_{n-l})\big]=\sum_{l>0}f_l\,(u_{n+l}+u_{n-l}-2u_n)$.</li>
+        <li>Equation of motion $m\ddot u_n=F_n$ with $u_n=u_0\,e^{i(kna-\omega t)}$, so $u_{n\pm l}=u_n\,e^{\pm ilka}$ and $\ddot u_n=-\omega^2u_n$: $\;-m\omega^2=\sum_{l>0}f_l\,(e^{ilka}+e^{-ilka}-2)$.</li>
+        <li>Use $e^{i\theta}+e^{-i\theta}-2=2\cos\theta-2=-4\sin^2(\theta/2)$ with $\theta=lka$: $\;m\omega^2=4\sum_{l>0}f_l\sin^2(lka/2)$.</li>
+        <li>Take the positive root.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $\omega(k)=2\Big[\dfrac1m\sum_{l>0}f_l\sin^2\dfrac{lka}{2}\Big]^{1/2}$, identical to Kittel's eq. (16a), $\omega^2=\frac2M\sum_{p>0}C_p(1-\cos pKa)$.</div>
+      <div class="check"><b>Sanity check:</b> only $f_1$: $\omega=\sqrt{4f_1/m}\,|\sin(ka/2)|$, the lecture result. Long waves: $\omega^2\approx\frac{k^2a^2}{m}\sum_l l^2f_l$, still linear in $k$, with $v_s^2=\frac{a^2}{m}\sum_l l^2f_l$. The result is still periodic in $2\pi/a$ (each $\sin^2(lka/2)$ is), so the first zone is unchanged. Numerically (node), diagonalising a 12-atom ring with $f_1=1$, $f_2=0.4$, $f_3=-0.1$ reproduces all 12 values of $\omega^2$ to $10^{-14}$. Model 3 with $f_2\neq0$ plots this formula.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-6-2">
+    <span class="tag">Sheet 6 · Problem 2 · 4 pts</span>
+    <h3>Density of states</h3>
+    <p class="ask">For a (simple) linear chain with period $a$, atoms of mass $m$ and nearest-neighbour force constant $f$, calculate the 1D density of states $g(\omega)$. Hints: (1) in 1D the 1.BZ integration over $\delta(\omega-\omega(k))$ reduces to individual points; (2) use the lecture's dispersion $\omega(k)=\sqrt{4f/m}\cdot|\sin(\tfrac12ka)|$.</p>
+    <h4>Method</h4>
+    <p>Write $g$ as the zone integral of $\delta(\omega-\omega(k))$ with weight $dk/2\pi$ (one allowed $k$ per $2\pi/L$, periodic boundary conditions). Use $\delta(h(k))=\sum_i\delta(k-k_i)/|h'(k_i)|$ over the roots $k_i$, then express $d\omega/dk$ through $\omega$ itself.</p>
+    <div class="assume"><b>Assumption:</b> $g(\omega)$ is per unit length (the lecture's per-volume convention in 1D) and for one polarisation, counting $\omega\ge0$. Multiply by $L=Na$ for Kittel's whole-crystal $D(\omega)$, or by $a$ for modes per atom.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$g(\omega)=\displaystyle\int_{-\pi/a}^{\pi/a}\frac{dk}{2\pi}\,\delta\big(\omega-\omega(k)\big)$, with $\omega(k)=\omega_m|\sin(ka/2)|$ and $\omega_m=\sqrt{4f/m}$.</li>
+        <li>For $0\le\omega\lt\omega_m$ the first zone holds two roots, $k=\pm k_0$ with $k_0=\frac2a\arcsin(\omega/\omega_m)$. For $\omega\gt\omega_m$ there is none, so $g=0$.</li>
+        <li>Slope at the roots: $|d\omega/dk|=\frac{a\omega_m}{2}\cos\frac{k_0a}{2}=\frac a2\sqrt{\omega_m^2-\omega^2}$, using $\cos(\arcsin x)=\sqrt{1-x^2}$.</li>
+        <li>Each root contributes $\dfrac1{2\pi}\dfrac{1}{|d\omega/dk|}=\dfrac{1}{\pi a\sqrt{\omega_m^2-\omega^2}}$, and there are two.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $g(\omega)=\dfrac{2}{\pi a}\dfrac{1}{\sqrt{\omega_m^2-\omega^2}}=\dfrac{2}{\pi a}\Big(\dfrac{4f}{m}-\omega^2\Big)^{-1/2}$ for $0\le\omega\lt\sqrt{4f/m}$, and 0 above. For the whole chain, $D(\omega)=Lg=\dfrac{2N}{\pi}(\omega_m^2-\omega^2)^{-1/2}$. It diverges (integrably) at $\omega_m$, where $v_g=0$.</div>
+      <div class="check"><b>Sanity check:</b> normalisation $\int_0^{\omega_m}g\,d\omega=\frac{2}{\pi a}\cdot\frac\pi2=\frac1a$: one mode per atom. Low frequency: $g(0)=\frac{2}{\pi a\omega_m}=\frac1{\pi v_s}$ with $v_s=a\omega_m/2$, the DOS of a 1D continuum with sound speed $v_s$ (two directions, each $\frac{1}{2\pi v_s}$). $D(\omega)$ matches Kittel ch. 5 problem 1. A node histogram of $\omega(k)$ over $2\times10^5$ k-points agrees with the bin-averaged formula to 4 digits. Model 3 does the same count live.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>Not asked in 2022.</b> The recovered paper (reconstructed from memory, possibly incomplete) has no question on lattice vibrations. The topic list includes 1.6 in full, though, and sheet 6 sets the level: short derivations on a 1D chain. In 5 minutes without notes you should be able to:</p>
+    <ul>
+      <li>derive the monatomic dispersion from the chain potential and state its sound speed and zone-boundary behaviour;</li>
+      <li>explain in one sentence why $k$ is restricted to the first zone (the atoms only sample the wave at $x=ja$, so $k$ and $k+2\pi/a$ are the same motion);</li>
+      <li>set up the two-atom chain, get $\omega_\pm$ at $k=0$ and $\pi/a$, sketch both branches with the gap, and describe the acoustic and optical eigenvectors;</li>
+      <li>derive the 1D DOS (sheet 6.2) and say where it diverges;</li>
+      <li>state why neutrons map the whole zone and light only $k\approx0$.</li>
+    </ul>
+    <details>
+      <summary>Quick theory checks (with answers)</summary>
+      <ol>
+        <li><b>Why restrict k to [−π/a, π/a]?</b> The displacements at the atoms for $k$ and $k+2\pi/a$ are identical, so a larger range double-counts modes. A chain of $N$ atoms has exactly $N$ modes per branch.</li>
+        <li><b>Group velocity at the zone edge, and its meaning?</b> Zero. The mode is a standing wave, $u_j\propto(-1)^j$: Bragg reflection of the lattice wave.</li>
+        <li><b>Is ħk the momentum of a phonon?</b> No. It is crystal momentum, conserved in collisions only modulo $\hbar G$.</li>
+        <li><b>How many branches for a crystal with 2 atoms per primitive cell?</b> 6: 3 acoustic (LA, 2 TA) and 3 optical (LO, 2 TO).</li>
+      </ol>
+    </details>
+  </div>
+  <article class="hw" id="exam-nacl">
+    <span class="tag">Exam-style exercise · 2022 pattern</span>
+    <h3>A diatomic chain for NaCl</h3>
+    <p class="ask">Model NaCl along [111] as a 1D chain of alternating Cl ($m_1=35.45$ u) and Na ($m_2=22.99$ u) with equal nearest-neighbour springs $f$ and repeat distance $a=0.325$ nm. The optical frequency at $k=0$ is $\omega_T=3.1\times10^{13}$ s⁻¹. (a) Find $f$. (b) Find both frequencies at $k=\pi/a$ and the width of the gap. (c) Find the sound velocity of the acoustic branch. (d) Give the amplitude ratio of Cl to Na in the optical mode at $k=0$, and say why this mode absorbs infrared light. (1 u $=1.6605\times10^{-27}$ kg.)</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li><b>(a)</b> $\omega_+(0)=\sqrt{2f/\mu}$ with $\mu=m_1m_2/(m_1+m_2)=13.95$ u $=2.316\times10^{-26}$ kg. So $f=\mu\omega_T^2/2=11.1$ N/m.</li>
+        <li><b>(b)</b> At $k=\pi/a$: acoustic $\sqrt{2f/m_1}=1.94\times10^{13}$ s⁻¹ (3.10 THz), optical $\sqrt{2f/m_2}=2.41\times10^{13}$ s⁻¹ (3.84 THz). The gap is $4.7\times10^{12}$ s⁻¹ wide.</li>
+        <li><b>(c)</b> $v_s=a\sqrt{f/2(m_1+m_2)}$ with $m_1+m_2=9.704\times10^{-26}$ kg: $v_s=2.46$ km/s.</li>
+        <li><b>(d)</b> $u/v=-m_2/m_1=-0.649$. Cl moves 0.65 times as far as Na, in the opposite direction, so the centre of mass is at rest. The opposite charges of Cl⁻ and Na⁺ then form an oscillating dipole, which the electric field of light at $\omega_T$ can drive. A photon at that frequency has $k\approx10^5$ m⁻¹, so it couples only to the $k\approx0$ mode.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $f\approx11$ N/m; $\omega(\pi/a)=1.94$ and $2.41\times10^{13}$ s⁻¹ (gap $4.7\times10^{12}$ s⁻¹); $v_s\approx2.5$ km/s; $u_{Cl}/u_{Na}=-0.65$.</div>
+      <div class="assume"><b>Assumption:</b> a 1D nearest-neighbour toy, calibrated to one number. $\omega_T$ is from Kittel ch. 14 Table 3 and $a=5.63\,\text{Å}/\sqrt3$ is the spacing of identical (111) planes, with Kittel's cubic lattice constant 5.63 Å. Real NaCl has long-range Coulomb forces, so the other numbers are practice values, not predictions.</div>
+      <div class="check"><b>Sanity check:</b> the zone-boundary ratio $2.414/1.944=1.242=\sqrt{m_1/m_2}$; $v_s$ from the numerical slope of $\omega_-(k)$ near $k=0$ agrees (2461 m/s, node). Model 2 opens in exactly this state, so the numbers can be read off its readout.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 4 (eqs. 1–26 and 30–34; Figs. 5, 7, 10, 11; problem 3), ch. 5 (Density of States in One Dimension, eq. 15; problem 1), ch. 6 Table 1 (Na electron density, used for its lattice constant), ch. 14 Table 3 (NaCl $\omega_T$).</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 26–33.</li>
+    <li>Problem sheet 6, Fall 2026.</li>
+    <li>Tutoring boards: "Saturday Phonons"; "Saturday Specific Heat".</li>
+    <li>Condensed Matter Physics exam 2022, as recovered by alumni (no phonon question).</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, kAx, layout, CFG, vline, hline, lin, setRead, setPill, rgba, K, PI } = CM;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const fx = (x, d = 3) => { const s = x.toExponential(d - 1).split('e'); return s[0] + '×10' + (+s[1]).toString().replace('-', '⁻').replace(/[0-9]/g, c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]); };
+  const piT = (x, u = 'a') => (Math.abs(x / PI) < 0.005 ? '0' : (x / PI).toFixed(2) + 'π') + '/' + u;   // x = k·a (rad)
+  const FONT = '"IBM Plex Sans", system-ui, sans-serif';
+  const piTicks = n => { const v = [], t = []; for (let i = -n; i <= n; i++) { v.push(i * PI); t.push(i === 0 ? '0' : (i === 1 ? 'π' : i === -1 ? '−π' : (i < 0 ? '−' : '') + Math.abs(i) + 'π')); } return { tickvals: v, ticktext: t }; };
+
+  // Canvas helper: keeps the backing store at device resolution and redraws on resize.
+  function canvas(id, draw) {
+    const cv = $(id), cx = cv.getContext('2d');
+    const size = () => { const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+      cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d)); cx.setTransform(d, 0, 0, d, 0, 0); draw(); };
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(cv);
+    size();
+  }
+  function label(cx, t, x, y, color, align = 'left', s = 12, w = 500) { cx.font = `${w} ${s}px ${FONT}`; cx.fillStyle = color; cx.textAlign = align; cx.fillText(t, x, y); }
+
+  /* ---------- Model 1: aliasing on the monatomic chain (scaled units) ---------- */
+  const AL = { t: 0 }, NAT = 14;
+  const wAl = ka => Math.abs(Math.sin(ka / 2));                  // ω/ω_m
+  const red = ka => ka - 2 * PI * Math.round(ka / (2 * PI));     // first-zone equivalent
+  function drawAL() {
+    const cv = $('al-cv'), cx = cv.getContext('2d'), W = cv.clientWidth, H = cv.clientHeight; if (!W) return;
+    cx.clearRect(0, 0, W, H);
+    const ka = +$('al-k').value * PI, n = +$('al-n').value, ka2 = ka + 2 * PI * n;
+    const wt = 2 * PI * 0.5 * wAl(ka) * AL.t;                    // animation: 0.5 Hz at ω_m (slowed down)
+    const L = 22, R = W - 22, sp = (R - L) / (NAT - 1), y0 = H / 2 + 12, A = Math.min(H * 0.3, 52), X = j => L + j * sp;
+    cx.strokeStyle = C.line; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(8, y0); cx.lineTo(W - 8, y0); cx.stroke();
+    for (let j = 0; j < NAT; j++) { cx.beginPath(); cx.moveTo(X(j), y0 - 5); cx.lineTo(X(j), y0 + 5); cx.strokeStyle = C.muted; cx.stroke(); }
+    const curve = (k, color, dash, w) => {
+      cx.strokeStyle = color; cx.lineWidth = w; cx.setLineDash(dash); cx.beginPath();
+      for (let i = 0; i <= 700; i++) { const j = -0.4 + (NAT - 0.2) * i / 700, y = y0 - A * Math.cos(k * j - wt); i ? cx.lineTo(X(j), y) : cx.moveTo(X(j), y); }
+      cx.stroke(); cx.setLineDash([]);
+    };
+    curve(ka, C.occ, [], 2);
+    if (n !== 0) curve(ka2, C.emp, [6, 4], 2);
+    for (let j = 0; j < NAT; j++) { cx.fillStyle = C.fg; cx.beginPath(); cx.arc(X(j), y0 - A * Math.cos(ka * j - wt), 6, 0, 2 * PI); cx.fill(); }
+    label(cx, 'k = ' + piT(ka), L, 18, C.occ);
+    if (n !== 0) label(cx, 'k + ' + (n > 0 ? n : '(' + n + ')') + '·2π/a = ' + piT(ka2), R, 18, C.emp, 'right');
+    // spacing ruler
+    cx.strokeStyle = C.muted; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(X(0), H - 10); cx.lineTo(X(1), H - 10); cx.stroke();
+    label(cx, 'a', (X(0) + X(1)) / 2, H - 14, C.muted, 'center', 11, 400);
+  }
+  function renderAL() {
+    const ka = +$('al-k').value * PI, n = +$('al-n').value, ka2 = ka + 2 * PI * n, kr = red(ka), w = wAl(ka);
+    const xs = lin(-3 * PI, 3 * PI, 721);
+    const dot = (x, color, size, ring) => ({ x: [x], y: [w], mode: 'markers', marker: ring ? { size, color: 'rgba(0,0,0,0)', line: { color, width: 3 } } : { size, color, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'k = %{x:.2f}/a<br>ω/ω_m = %{y:.3f}<extra></extra>' });
+    Plotly.react('al-p', [
+      { x: xs, y: xs.map(wAl), mode: 'lines', line: { color: C.fg, width: 2 }, hoverinfo: 'skip' },
+      { x: [Math.min(ka, ka2, kr), Math.max(ka, ka2, kr)], y: [w, w], mode: 'lines', line: { color: C.muted, width: 1, dash: 'dot' }, hoverinfo: 'skip' },
+      dot(kr, C.ef, 17, true), dot(ka2, C.emp, 10), dot(ka, C.occ, 10)],
+      layout({ shapes: [{ type: 'rect', xref: 'x', yref: 'paper', x0: -PI, x1: PI, y0: 0, y1: 1, fillcolor: rgba(C.emp, 0.1), line: { width: 0 }, layer: 'below' }, vline(-PI, C.muted, 'dot'), vline(PI, C.muted, 'dot')],
+        xaxis: ax('Wave vector k (units of 1/a)', Object.assign({ range: [-3 * PI, 3 * PI], zeroline: false }, piTicks(3))), yaxis: ax('ω / ω_m', { range: [0, 1.12] }) }), CFG);
+    const edge = Math.abs(Math.abs(kr) - PI) < 0.011, out = Math.abs(ka) > PI + 0.011;
+    setPill('al-pill', ['atom', edge ? 'Zone boundary: standing wave' : out ? 'Outside the 1st zone: same motion as k′ = ' + piT(kr) : 'Inside the 1st zone']);
+    const vg = Math.cos(ka / 2) * Math.sign(Math.sin(ka / 2) || 1), vph = k => (Math.abs(k) < 1e-9 ? '—' : (w / (k / 2)).toFixed(2));
+    const lam = k => (Math.abs(k) < 1e-9 ? '∞' : (2 * PI / Math.abs(k)).toFixed(2) + ' a');
+    setRead('al-read', [['k + n·2π/a', piT(ka2)], ['First-zone k′', piT(kr)], ['Phase step per atom, mod 2π', (Math.abs(kr) < 0.005 ? '0' : (kr / PI).toFixed(2) + 'π')],
+      ['λ = 2π/|k|, at k / shifted', lam(ka) + ' / ' + lam(ka2)], ['ω / ω_m', w.toFixed(3)],
+      ['v_g / v_s (same for both)', (edge ? 0 : vg).toFixed(2)], ['(ω/k) / v_s, at k / shifted', vph(ka) + ' / ' + vph(ka2)]]);
+    drawAL();
+  }
+
+  /* ---------- Model 2: diatomic chain (SI) ---------- */
+  const DI = { t: 0 }, NCELL = 9;
+  const w2pm = (ka, m1, m2, f) => { const S = 1 / m1 + 1 / m2, r = Math.sqrt(Math.max(0, S * S - 4 * Math.sin(ka / 2) ** 2 / (m1 * m2))); return [f * (S - r), f * (S + r)]; };
+  function eigvec(ka, m1, m2, f, w2) {   // null vector of Kittel eq. (20), complex [re, im]; normalised to max amplitude 1
+    const A11 = 2 * f - m1 * w2, A22 = 2 * f - m2 * w2;
+    const A12 = [-f * (1 + Math.cos(ka)), f * Math.sin(ka)], A21 = [-f * (1 + Math.cos(ka)), -f * Math.sin(ka)];   // −f(1+e^{∓ika})
+    const n1 = A12[0] ** 2 + A12[1] ** 2 + A11 * A11, n2 = A22 * A22 + A21[0] ** 2 + A21[1] ** 2, tol = 1e-10 * f * f;
+    let u, v;
+    if (n1 >= n2 && n1 > tol) { u = [-A12[0], -A12[1]]; v = [A11, 0]; }
+    else if (n2 > tol) { u = [A22, 0]; v = [-A21[0], -A21[1]]; }
+    else { u = [1, 0]; v = [0, 0]; }
+    const s = Math.max(Math.hypot(...u), Math.hypot(...v)); return [u.map(x => x / s), v.map(x => x / s)];
+  }
+  function diState() {
+    const m1 = +$('di-m1').value * K.u, m2 = +$('di-m2').value * K.u, f = +$('di-f').value, ka = +$('di-k').value * PI, br = radio('di-br');
+    const [wa, wo] = w2pm(ka, m1, m2, f), w2 = br === 'ac' ? wa : wo, w = Math.sqrt(w2), [u, v] = eigvec(ka, m1, m2, f, w2);
+    return { m1, m2, f, ka, br, w, u, v, wmax: Math.sqrt(2 * f * (1 / m1 + 1 / m2)) };
+  }
+  function drawDI() {
+    const cv = $('di-cv'), cx = cv.getContext('2d'), W = cv.clientWidth, H = cv.clientHeight; if (!W) return;
+    cx.clearRect(0, 0, W, H);
+    const s = diState(), ph = 2 * PI * 0.6 * (s.w / s.wmax) * DI.t;    // slowed down: 0.6 Hz at the top of the optical branch
+    const L = 24, R = W - 24, cell = (R - L) / NCELL, y0 = H / 2 + 10, A = Math.min(H * 0.3, 50);
+    const mx = Math.max(s.m1, s.m2), rad = m => 4 + 6 * Math.cbrt(m / mx);
+    const pts = [];
+    for (let j = 0; j < NCELL; j++) {
+      const c = Math.cos(j * s.ka - ph), sn = Math.sin(j * s.ka - ph);          // Re[(re + i im) e^{iθ}] = re cos θ − im sin θ
+      pts.push([L + j * cell, y0 - A * (s.u[0] * c - s.u[1] * sn), C.occ, rad(s.m1)]);
+      pts.push([L + (j + 0.5) * cell, y0 - A * (s.v[0] * c - s.v[1] * sn), C.emp, rad(s.m2)]);
+    }
+    cx.strokeStyle = C.line; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(8, y0); cx.lineTo(W - 8, y0); cx.stroke();
+    cx.strokeStyle = C.muted; cx.lineWidth = 1.5; cx.beginPath(); pts.forEach(([x, y], i) => i ? cx.lineTo(x, y) : cx.moveTo(x, y)); cx.stroke();
+    pts.forEach(([x, y, col, r]) => { cx.fillStyle = col; cx.beginPath(); cx.arc(x, y, r, 0, 2 * PI); cx.fill(); });
+    label(cx, (s.br === 'ac' ? 'Acoustic' : 'Optical') + ' mode, k = ' + piT(s.ka), L, 18, C.fg);
+    cx.strokeStyle = C.muted; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(L, H - 10); cx.lineTo(L + cell, H - 10); cx.stroke();
+    label(cx, 'a', L + cell / 2, H - 14, C.muted, 'center', 11, 400);
+  }
+  function renderDI() {
+    const s = diState(), { m1, m2, f, ka } = s, E = 1e13, ks = lin(-PI, PI, 241);
+    const br = ks.map(k => w2pm(k, m1, m2, f).map(Math.sqrt));
+    const mb = (m1 + m2) / 2, wm = Math.sqrt(4 * f / mb);                    // folded monatomic chain, spacing a/2
+    const lo = Math.sqrt(2 * f / Math.max(m1, m2)), hi = Math.sqrt(2 * f / Math.min(m1, m2)), top = 1.06 * s.wmax / E;
+    const yA = ax('ω (10¹³ s⁻¹)', { range: [0, top] });
+    Plotly.react('di-p1', [
+      { x: ks, y: ks.map(k => wm * Math.abs(Math.sin(k / 4)) / E), mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: ks, y: ks.map(k => wm * Math.abs(Math.cos(k / 4)) / E), mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: ks, y: br.map(b => b[0] / E), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'ω₋ = %{y:.3f}×10¹³ s⁻¹<extra>acoustic</extra>' },
+      { x: ks, y: br.map(b => b[1] / E), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'ω₊ = %{y:.3f}×10¹³ s⁻¹<extra>optical</extra>' },
+      { x: [ka], y: [s.w / E], mode: 'markers', marker: { color: C.ef, size: 11, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: hi - lo > 1e-3 * hi ? [{ type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: lo / E, y1: hi / E, fillcolor: rgba(C.ef, 0.14), line: { width: 0 }, layer: 'below' }] : [],
+        xaxis: kAx('Wave vector k (1/a)'), yaxis: yA }), CFG);
+    // DOS by counting 4000 k per branch, sideways
+    const NK = 4000, NB = 70, bw = top / NB, hA = Array(NB).fill(0), hO = Array(NB).fill(0);
+    for (let i = 0; i < NK; i++) { const k = -PI + 2 * PI * (i + 0.5) / NK, [a2, o2] = w2pm(k, m1, m2, f);
+      hA[Math.min(NB - 1, Math.floor(Math.sqrt(a2) / E / bw))]++; hO[Math.min(NB - 1, Math.floor(Math.sqrt(o2) / E / bw))]++; }
+    const yc = hA.map((_, i) => (i + 0.5) * bw), g = h => h.map(c => c / (NK * bw));   // modes per cell per 10¹³ s⁻¹
+    const gmax = Math.max(...g(hA), ...g(hO));
+    Plotly.react('di-p2', [
+      { type: 'bar', orientation: 'h', x: g(hA), y: yc, width: bw, marker: { color: rgba(C.occ, 0.75) }, hovertemplate: '%{x:.2f}<extra>acoustic</extra>' },
+      { type: 'bar', orientation: 'h', x: g(hO), y: yc, width: bw, marker: { color: rgba(C.emp, 0.75) }, hovertemplate: '%{x:.2f}<extra>optical</extra>' }],
+      layout({ barmode: 'overlay', bargap: 0, shapes: [hline(s.w / E, C.ef, 'dot')], xaxis: ax('Modes per cell per 10¹³ s⁻¹', { range: [0, Math.min(gmax, 8 / (s.wmax / E)) * 1.05] }), yaxis: yA }), CFG);
+    const au = Math.hypot(...s.u), av = Math.hypot(...s.v), dph = Math.atan2(s.u[0] * s.v[1] - s.u[1] * s.v[0], s.u[0] * s.v[0] + s.u[1] * s.v[1]) * 180 / PI;
+    const rest = Math.min(au, av) < 0.02;
+    setPill('di-pill', ['atom', rest ? 'Zone boundary: one sublattice at rest' : (s.br === 'ac' ? 'Acoustic' : 'Optical') + (Math.abs(dph) < 90 ? ': the two atoms move roughly together' : ': the two atoms move against each other')]);
+    setRead('di-read', [['ω, selected mode', (s.w / E).toFixed(3) + '×10¹³ s⁻¹'], ['ν = ω/2π', (s.w / 2 / PI / 1e12).toFixed(2) + ' THz'], ['ħω', (K.hbar * s.w / K.e * 1e3).toFixed(1) + ' meV'],
+      ['Optical at k = 0, √(2f/μ)', (s.wmax / E).toFixed(3) + '×10¹³ s⁻¹'], ['Gap √(2f/m_heavy) … √(2f/m_light)', (lo / E).toFixed(3) + ' … ' + (hi / E).toFixed(3)],
+      ['Amplitudes |u₁| : |u₂|', au.toFixed(2) + ' : ' + av.toFixed(2)], ['Phase of atom 2 relative to atom 1', rest ? '—' : dph.toFixed(0) + '°']]);
+    drawDI();
+  }
+
+  /* ---------- Model 3: DOS by counting (scaled: ω in ω₁ = √(4f₁/m), k in 1/a) ---------- */
+  const wDs = (k, r) => Math.sqrt(Math.max(0, Math.sin(k / 2) ** 2 + r * Math.sin(k) ** 2));   // sheet 6.1 with f₁, f₂
+  const MG = 20000, DK = 2 * PI / MG;
+  const grid = r => Array.from({ length: MG + 1 }, (_, i) => wDs(-PI + i * DK, r));
+  function gExact(w0, G) {   // g·aω₁ = Σ_roots 1/(2π |dω/dk|); roots and slopes from the precomputed fine grid G
+    let g = 0; const roots = [];
+    for (let i = 0; i < MG; i++) {
+      const h0 = G[i] - w0, h1 = G[i + 1] - w0;
+      if (h0 * h1 < 0) { const d = Math.abs(G[i + 1] - G[i]) / DK; roots.push([-PI + (i + h0 / (h0 - h1)) * DK, d]); g += 1 / (2 * PI * Math.max(d, 1e-9)); }
+    }
+    return { g, roots };
+  }
+  function renderDS() {
+    const w0 = +$('ds-w').value, dw = +$('ds-dw').value, N = +$('ds-n').value, r = +$('ds-f2').value;
+    const ks = lin(-PI, PI, 801), wk = ks.map(k => wDs(k, r)), wtop = Math.max(...wk), Y = [0, Math.max(1.2, wtop * 1.08)];
+    const inb = w => Math.abs(w - w0) <= dw / 2;
+    const kp = Array.from({ length: N }, (_, s) => -PI + 2 * PI * s / N), wp = kp.map(k => wDs(k, r)), cnt = wp.filter(inb).length;
+    const shapes = [{ type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: w0 - dw / 2, y1: w0 + dw / 2, fillcolor: rgba(C.ef, 0.16), line: { width: 0 }, layer: 'below' }];
+    let s0 = null;
+    ks.forEach((k, i) => { const on = inb(wk[i]); if (on && s0 === null) s0 = k; if ((!on || i === ks.length - 1) && s0 !== null) { shapes.push({ type: 'rect', xref: 'x', yref: 'y', x0: s0, x1: k, y0: 0, y1: w0 - dw / 2, fillcolor: rgba(C.ef, 0.12), line: { width: 0 }, layer: 'below' }); s0 = null; } });
+    Plotly.react('ds-p1', [
+      { x: ks, y: wk, mode: 'lines', line: { color: C.occ, width: 2 }, hoverinfo: 'skip' },
+      { x: ks, y: wk.map(w => (inb(w) ? w : null)), mode: 'lines', line: { color: C.ef, width: 5 }, hoverinfo: 'skip', connectgaps: false },
+      { x: kp, y: wp, mode: 'markers', marker: { size: wp.map(w => (inb(w) ? 7 : N > 150 ? 3 : 5)), color: wp.map(w => (inb(w) ? C.ef : rgba(C.muted, N > 150 ? 0.45 : 0.8))) }, hovertemplate: 'k = %{x:.3f}/a<br>ω/ω₁ = %{y:.3f}<extra></extra>' }],
+      layout({ shapes, xaxis: kAx('Wave vector k (1/a)'), yaxis: ax('ω / ω₁', { range: Y }) }), CFG);
+    // counted histogram (bins of width dω, one bin centred on ω₀) and exact curve
+    const b0 = w0 - dw / 2 - Math.ceil((w0 - dw / 2) / dw) * dw, nb = Math.ceil((Y[1] - b0) / dw), hist = Array(nb).fill(0);
+    wp.forEach(w => { const i = Math.floor((w - b0) / dw); if (i >= 0 && i < nb) hist[i]++; });
+    const yb = hist.map((_, i) => b0 + (i + 0.5) * dw), gb = hist.map(c => c / (N * dw));
+    const G = grid(r), wy = lin(0.002, Math.min(Y[1], wtop * 1.1), 400), gy = wy.map(w => (w >= wtop ? 0 : gExact(w, G).g));
+    const ex = gExact(w0, G), gcap = Math.max(4, ...gb) * 1.05;
+    Plotly.react('ds-p2', [
+      { type: 'bar', orientation: 'h', x: gb, y: yb, width: dw, marker: { color: rgba(C.occ, 0.55), line: { color: C.occ, width: 1 } }, hovertemplate: 'g·aω₁ = %{x:.2f}<extra>counted</extra>' },
+      { x: gy, y: wy, mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: 'g·aω₁ = %{x:.2f}<extra>exact</extra>' }],
+      layout({ bargap: 0, shapes: [hline(w0, C.ef, 'dot')], xaxis: ax('g(ω) · aω₁', { range: [0, Math.min(gcap, 12)] }), yaxis: ax('ω / ω₁', { range: Y }) }), CFG);
+    const closed = r === 0 ? (w0 < 1 ? (2 / (PI * Math.sqrt(1 - w0 * w0))).toFixed(3) : '0') : '—';
+    setPill('ds-pill', ['atom', r === 0 ? 'Nearest neighbours only (sheet 6.2)' : r > 0.25 ? 'Maximum inside the zone: two van Hove peaks' : 'With second neighbours (sheet 6.1)']);
+    setRead('ds-read', [['Allowed k-points in the band', cnt + ' of ' + N], ['Counted g ≈ count/(N·dω)', (cnt / (N * dw)).toFixed(3)],
+      ['Exact g(ω₀) = Σ 1/(2π|dω/dk|)', ex.g.toFixed(3)], ['Closed form 2/(π√(1−ω₀²))', closed],
+      ['Roots of ω(k) = ω₀ in the 1st zone', ex.roots.length ? ex.roots.map(q => piT(q[0])).join(', ') : 'none'],
+      ['|dω/dk| at the roots (aω₁)', ex.roots.length ? ex.roots.map(q => q[1].toFixed(3)).join(', ') : '—'], ['Modes counted in all bins', hist.reduce((a, b) => a + b, 0) + ' = N']]);
+  }
+
+  /* ---------- Model 4: neutron kinematics on the Na [001] chain ---------- */
+  const NA_D = 0.2113e-9;          // m; d = a/2, a = (2/n)^(1/3) with n = 2.65e28 m⁻³ (Kittel ch. 6 Table 1)
+  const NA_HW = 14.89;             // meV, ħ·2π·3.6 THz (Kittel ch. 4 Fig. 11, [001] at H); check.js
+  const MN = 1.67492749804e-27;    // neutron mass, kg (CODATA 2018)
+  const EQ = K.hbar ** 2 / (2 * MN) * (PI / NA_D) ** 2 / K.e * 1e3;   // meV for q = 1 (π/d): 4.58 meV
+  const hwq = q => NA_HW * Math.abs(Math.sin(PI * q / 2));            // q in π/d
+  function renderNS() {
+    const Ei = +$('ns-e').value, abs = $('ns-abs').checked, ki = Math.sqrt(Ei / EQ);   // ki in π/d
+    const qx = [-1.5, 2 * ki + 1.5], qs = lin(qx[0], qx[1], 1500), P = q => EQ * (2 * ki * q - q * q);
+    const ev = [];
+    const scan = sgn => { for (let i = 0; i < qs.length - 1; i++) {
+      const a = qs[i], b = qs[i + 1], ha = P(a) - sgn * hwq(a), hb = P(b) - sgn * hwq(b);
+      if (ha * hb < 0) { const q = a - ha * (b - a) / (hb - ha); if (Math.abs(q) > 0.02 && sgn * P(q) > 0) ev.push([q, P(q), sgn]); } } };
+    scan(1); if (abs) scan(-1);
+    const lines = [{ x: qs, y: qs.map(hwq), mode: 'lines', line: { color: C.occ, width: 2 }, hoverinfo: 'skip' }];
+    if (abs) lines.push({ x: qs, y: qs.map(q => -hwq(q)), mode: 'lines', line: { color: C.occ, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' });
+    const kph = Ei * 1e-3 * K.e / (K.hbar * K.c) * NA_D / PI;                 // photon k in π/d
+    lines.push({ x: qs, y: qs.map(P), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'q = %{x:.2f}π/d<br>ħω = %{y:.1f} meV<extra>neutron</extra>' },
+      { x: [0, 20 / Ei * kph], y: [0, 20], mode: 'lines', line: { color: C.fg, width: 2, dash: 'dot' }, hoverinfo: 'skip' },
+      { x: ev.map(e => e[0]), y: ev.map(e => e[1]), mode: 'markers', marker: { color: C.ef, size: 11, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'q = %{x:.2f}π/d<br>ħω = %{y:.1f} meV<extra></extra>' });
+    Plotly.react('ns-p', lines, layout({ shapes: [{ type: 'rect', xref: 'x', yref: 'paper', x0: -1, x1: 1, y0: 0, y1: 1, fillcolor: rgba(C.emp, 0.1), line: { width: 0 }, layer: 'below' }, hline(0, C.muted, 'solid')],
+      xaxis: ax('Momentum transfer q = k_i − k_f (units of π/d)', { range: qx, dtick: 1, zeroline: false }), yaxis: ax('Energy to the crystal ħω (meV)', { range: [abs ? -18 : -3, 18], zeroline: false }) }), CFG);
+    const nc = ev.filter(e => e[2] > 0).length;
+    setPill('ns-pill', ['atom', nc + ' phonon' + (nc === 1 ? '' : 's') + ' can be created' + (abs ? ', ' + (ev.length - nc) + ' absorbed' : '')]);
+    const rows = [['Neutron k_i', fx(ki * PI / NA_D, 3) + ' m⁻¹'], ['k_i in units of π/d', ki.toFixed(2)],
+      ['Neutron wavelength', (2 * NA_D / ki * 1e9).toFixed(3) + ' nm'], ['Photon k, same energy', fx(kph * PI / NA_D, 2) + ' m⁻¹']];
+    ev.slice(0, 6).forEach(([q, E, sg]) => { const n = Math.round(q / 2), Kr = q - 2 * n;
+      rows.push([(sg > 0 ? 'Created' : 'Absorbed') + ', G = ' + n + '·2π/d', Math.abs(E).toFixed(1) + ' meV, K = ' + Kr.toFixed(2) + 'π/d']); });
+    setRead('ns-read', rows);
+  }
+
+  CM.wire({ al: renderAL, di: renderDI, ds: renderDS, ns: renderNS });
+  onChange('input[name="di-br"]', renderDI);
+  onChange('#ns-abs', renderNS);
+  canvas('al-cv', drawAL); canvas('di-cv', drawDI);
+  CM.playButton($('al-play'), CM.loop(dt => { AL.t += dt; drawAL(); }, { el: $('alias') }), $('al-note'));
+  CM.playButton($('di-play'), CM.loop(dt => { DI.t += dt; drawDI(); }, { el: $('diatomic') }), $('di-note'));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reciprocal lattice, diffraction and imaging · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 02</span><span>Syllabus §1.1.3, §1.3</span><span>Kittel ch. 2 (+ ch. 1, 18)</span><span>Notes pp. 7–15, 23</span><span>Sheets 2, 3.1–3.2</span></div>
+  <h1>Reciprocal lattice, diffraction and imaging</h1>
+  <p class="lead">A crystal is a periodic arrangement, and a wave that hits it only scatters strongly in directions set by the Fourier transform of that arrangement: the reciprocal lattice. The same lattice of wave vectors defines the Brillouin zone, which later organises phonons and electron bands.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>Two ways to see atoms. <b>Direct imaging</b> (1.1.3) uses electrons: a TEM needs a de Broglie wavelength far below the atomic spacing, and an STM uses the exponential distance dependence of a tunnelling current. <b>Diffraction</b> (1.3) gives up the picture and measures its Fourier transform instead. Each scattered beam is labelled by a reciprocal lattice vector $\mathbf G$, and its strength by the structure factor of the basis.</p>
+  <p>Key results to leave with:</p>
+  <ul>
+    <li>Bragg's law $2d\sin\theta = n\lambda$, and its vector form, the Laue condition $\Delta\mathbf k=\mathbf G$.</li>
+    <li>$\mathbf b_i\cdot\mathbf a_j = 2\pi\delta_{ij}$ and $V_{BZ}=(2\pi)^3/V_c$.</li>
+    <li>The reciprocal of fcc is bcc, and the reciprocal of bcc is fcc.</li>
+    <li>Brillouin-zone faces are exactly the wave vectors that Bragg-reflect.</li>
+    <li>$S_{\mathbf G}=\sum_j f_j e^{-i\mathbf G\cdot\mathbf r_j}$ decides which reflections vanish.</li>
+    <li>The form factor $f$ is the Fourier transform of one atom's electron cloud.</li>
+  </ul>
+  <p>Lattices and primitive vectors are on <a href="01-crystal-structure.html">topic 01</a>; this page starts from them. Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 2 (Bragg law, Fourier analysis, reciprocal lattice, diffraction conditions, Laue equations, Brillouin zones, Fourier analysis of the basis), ch. 1 "Direct Imaging of Atomic Structure", and the lecture notes pp. 7–15.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>1.1.3 Direct imaging of atomic structure</h3>
+      <p><b>TEM.</b> Electrons accelerated through a voltage $U$ have the de Broglie wavelength</p>
+      $$\lambda=\frac hp,\qquad p=\sqrt{2m_e eU}\quad\text{(non-relativistic)},\qquad p=\sqrt{2m_e eU\Big(1+\frac{eU}{2m_ec^2}\Big)}\quad\text{(relativistic)}.$$
+      <p>At 250 kV this gives about 2 pm, a hundred times smaller than the spacing of atoms. Magnetic lenses image the electrons that pass through a thin sample. In practice lens aberrations, not λ, limit the resolution, but it still reaches atomic columns.</p>
+      <p><b>STM.</b> A sharp metal tip is held a few atomic diameters above a conducting surface. Electrons tunnel through the vacuum gap $d$, and the current falls off as</p>
+      $$I\propto e^{-2\kappa d},\qquad \kappa=\frac{\sqrt{2m_e\phi}}{\hbar},$$
+      <p>where $\phi$ is the work function (the barrier height, in J) and $m_e$ the electron mass. With $\phi\approx 3$ eV the current changes by a factor of about 6 per 0.1 nm, so the foremost atom of the tip carries almost all of it. A feedback loop moves the tip to keep $I$ constant, and the tip height traced over the surface is the image.</p>
+      <div class="assume"><b>Course sources differ:</b> the notes write $I\propto e^{-\alpha x}$ and the sheet $e^{-2\kappa d}$, so $\alpha=2\kappa$. The notes list "TEM, SEM" as the two imaging options, but an SEM does not reach atomic resolution; sheet 2.3 and Kittel pair TEM with STM.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.3.1 Bragg's law</h3>
+      <p>Diffraction is a wave effect, so the wavelength has to be comparable to the spacing of atoms. Treat the crystal as a stack of parallel atomic planes with spacing $d$. Each plane reflects a little of the beam like a weak mirror. Reflections from neighbouring planes add up in phase only when their path difference $2d\sin\theta$ is a whole number of wavelengths:</p>
+      $$2d\sin\theta=n\lambda,\qquad n=1,2,3,\dots$$
+      <p>Here θ is the <i>glancing</i> angle between the beam and the planes. The beam is deflected by 2θ, and a θ–2θ diffractometer plots intensity against 2θ. A solution needs $\lambda\le 2d$, which is why X-rays (photons, $\lambda=hc/E$) of about 0.1 nm, or electrons and neutrons of similar wavelength, are used. Visible light cannot diffract from a crystal lattice.</p>
+      <p>Bragg's law says <i>where</i> reflections can appear. It says nothing about their strength, which comes from the basis (1.3.5).</p>
+    </article>
+
+    <article class="card">
+      <h3>1.3.2 Reciprocal lattice</h3>
+      <p>Anything periodic in the crystal, such as the electron density, can be written as a Fourier series. Only plane waves $e^{i\mathbf G\cdot\mathbf r}$ that take the same value at every lattice point qualify:</p>
+      $$n(\mathbf r)=\sum_{\mathbf G}n_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r},\qquad e^{i\mathbf G\cdot\mathbf R}=1\ \Leftrightarrow\ \mathbf G\cdot\mathbf R=2\pi\cdot\text{integer for every lattice vector }\mathbf R.$$
+      <p>These $\mathbf G$ form a lattice of their own, $\mathbf G=v_1\mathbf b_1+v_2\mathbf b_2+v_3\mathbf b_3$ with integer $v_i$, spanned by</p>
+      $$\mathbf b_1=2\pi\frac{\mathbf a_2\times\mathbf a_3}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\quad \mathbf b_2=2\pi\frac{\mathbf a_3\times\mathbf a_1}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\quad \mathbf b_3=2\pi\frac{\mathbf a_1\times\mathbf a_2}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\qquad \mathbf b_i\cdot\mathbf a_j=2\pi\delta_{ij}.$$
+      <p>$\mathbf b_i$ has units of 1/m. Each $\mathbf G$ is normal to a family of lattice planes, and the spacing of those planes is $d=2\pi/|\mathbf G|$ for the shortest $\mathbf G$ in that direction. Scaling the crystal by a factor λ scales the reciprocal lattice by 1/λ. The cell volume of the reciprocal lattice is $V_{BZ}=(2\pi)^3/V_c$ (sheet 2.1).</p>
+      <div class="dict"><table>
+        <thead><tr><th>Lattice (cube a)</th><th>Reciprocal lattice</th><th>Shortest G</th><th>1st Brillouin zone</th></tr></thead>
+        <tbody>
+          <tr><td>sc</td><td>sc, cube 2π/a</td><td>6 × (2π/a)(1,0,0)</td><td>cube</td></tr>
+          <tr><td>bcc</td><td>fcc, cube 4π/a</td><td>12 × (2π/a)(1,1,0)</td><td>rhombic dodecahedron</td></tr>
+          <tr><td>fcc</td><td>bcc, cube 4π/a</td><td>8 × (2π/a)(1,1,1)</td><td>truncated octahedron</td></tr>
+        </tbody>
+      </table></div>
+      <div class="assume"><b>Trap: $|\mathbf b_i|=2\pi/|\mathbf a_i|$ is wrong in general.</b> Some tutoring boards box this formula. It holds only when $\mathbf a_i$ is perpendicular to the other two primitive vectors (sc, tetragonal, orthorhombic). Take fcc, with $\mathbf a_1=\tfrac a2(0,1,1)$, $\mathbf a_2=\tfrac a2(1,0,1)$, $\mathbf a_3=\tfrac a2(1,1,0)$ (Kittel):
+        <ul>
+          <li>$|\mathbf a_1|=a/\sqrt2$, so the shortcut predicts $|\mathbf b_1|=\sqrt2\cdot 2\pi/a=1.414\cdot2\pi/a$.</li>
+          <li>The formula above gives $\mathbf b_1=\tfrac{2\pi}a(-1,1,1)$, so $|\mathbf b_1|=\sqrt3\cdot2\pi/a=1.732\cdot2\pi/a$.</li>
+          <li>The shortcut is 18 % too short (the true value is $\sqrt{3/2}=1.22$ times larger). bcc fails by the same factor: the shortcut gives $1.155\cdot2\pi/a$, the true value is $1.414\cdot2\pi/a$.</li>
+        </ul>
+        The correct general statement is $|\mathbf b_1|=2\pi/d$, where $d$ is the spacing of the planes spanned by $\mathbf a_2$ and $\mathbf a_3$. For fcc these are the (111) planes, $d=a/\sqrt3$. Model 3 shows both numbers side by side.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.3.2 Brillouin zones <span class="note">(notes "1.3.4")</span></h3>
+      <p>The <b>first Brillouin zone</b> is the Wigner–Seitz cell of the reciprocal lattice. Draw the vectors from the origin to its nearest reciprocal lattice points and cut each one in half with a perpendicular plane; the smallest region enclosed by those planes is the zone. A wave vector $\mathbf k$ lies on the bisector plane of $\mathbf G$ when</p>
+      $$\mathbf k\cdot\big(\tfrac12\mathbf G\big)=\big(\tfrac12\mathbf G\big)^2 .$$
+      <p>This is the elastic diffraction condition of 1.3.3. So the zone faces are <b>exactly the wave vectors that are Bragg-reflected</b>. A wave with $\mathbf k$ on a face is reflected into $\mathbf k-\mathbf G$ and becomes a standing wave. That standing wave gives zero group velocity for phonons (topic 05) and the band gap for electrons (<a href="09-bands.html">topic 09</a>). Higher zones are the regions reached by crossing one, two, … more bisector planes; each has the same volume as the first.</p>
+    </article>
+
+    <article class="card">
+      <h3>1.3.3 X-ray scattering and the Laue condition</h3>
+      <p>Each volume element of the crystal scatters the incoming wave $e^{i\mathbf k\cdot\mathbf r}$ with an amplitude proportional to the local electron density. The wave leaves towards the detector with wave vector $\mathbf k'$. The path to and from a point $\mathbf r$ adds the phase factor $e^{-i\Delta\mathbf k\cdot\mathbf r}$ with $\Delta\mathbf k=\mathbf k'-\mathbf k$. Summing over the crystal (Kittel's sign):</p>
+      $$F=\int n(\mathbf r)\,e^{-i\Delta\mathbf k\cdot\mathbf r}\,dV=\sum_{\mathbf G}n_{\mathbf G}\int e^{i(\mathbf G-\Delta\mathbf k)\cdot\mathbf r}\,dV .$$
+      <p>For a large crystal the integral is negligible unless $\Delta\mathbf k=\mathbf G$ (Laue condition). Equivalently, writing $\mathbf r=\mathbf R+\boldsymbol\rho$ splits $F$ into a lattice sum $\sum_{\mathbf R}e^{-i\Delta\mathbf k\cdot\mathbf R}$ times one cell integral, and the lattice sum only adds up when every phase is 1. Measured intensity is $|F|^2$.</p>
+      <p><b>Elastic scattering</b>, $|\mathbf k'|=|\mathbf k|$, then gives Kittel's two steps:</p>
+      $$\mathbf k'=\mathbf k+\mathbf G\ \Rightarrow\ (\mathbf k+\mathbf G)^2=k^2\ \Rightarrow\ 2\mathbf k\cdot\mathbf G+G^2=0\ \xrightarrow{\ \mathbf G\to-\mathbf G\ }\ 2\mathbf k\cdot\mathbf G=G^2 .$$
+      <p>The last step is allowed because $-\mathbf G$ is also a reciprocal lattice vector. With $|\mathbf G|=2\pi n/d$ and $\mathbf k\cdot\hat{\mathbf G}=k\sin\theta$ this becomes $2d\sin\theta=n\lambda$, which is Bragg's law. The same condition, dotted with each $\mathbf a_i$, gives the Laue equations $\mathbf a_i\cdot\Delta\mathbf k=2\pi v_i$.</p>
+      <p><b>Ewald construction.</b> Draw $\mathbf k$ ending on the reciprocal-lattice origin, and a sphere of radius $k$ around its tail. Every reciprocal lattice point on the sphere gives a diffracted beam $\mathbf k'$, pointing from the centre to that point. This sphere is the "where is the detector" picture: the detector sits along $\mathbf k'$ (Model 2). A white beam, with a range of $k$, makes many spheres and therefore many spots at once (Laue method).</p>
+      <div class="assume"><b>Notes vs Kittel:</b> the notes (p. 14) state that $\mathbf K=\mathbf k'-\mathbf k$ must equal $\mathbf G$, but then substitute $\mathbf k'=-\mathbf G+\mathbf k$. The final condition is the same; this page follows Kittel's order above. The notes also flip the sign of the exponent between pp. 13 and 14. That flip changes nothing in $|F|^2$, but structure-factor phases need a fixed sign, and this page uses Kittel's $e^{-i\Delta\mathbf k\cdot\mathbf r}$ throughout. Symbols: the notes and sheet 3.2 call the scattering vector $\mathbf K$, Kittel calls it $\Delta\mathbf k$, and the tutoring boards call it $\mathbf q$.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.3.5 Analysis with basis: structure and form factors</h3>
+      <p>Write the cell's electron density as a sum over its atoms $j$ at positions $\mathbf r_j$. At $\Delta\mathbf k=\mathbf G$ the amplitude is $F=N\,S_{\mathbf G}$ ($N$ cells), with the <b>structure factor</b></p>
+      $$S_{\mathbf G}=\sum_j f_j\,e^{-i\mathbf G\cdot\mathbf r_j}=\sum_j f_j\,e^{-i2\pi(v_1x_j+v_2y_j+v_3z_j)},\qquad \mathbf r_j=x_j\mathbf a_1+y_j\mathbf a_2+z_j\mathbf a_3 ,$$
+      <p>and the <b>atomic form factor</b>, the Fourier transform of one atom's electron density $n_j$:</p>
+      $$f_j=\int n_j(\boldsymbol\rho)\,e^{-i\mathbf G\cdot\boldsymbol\rho}\,dV=\int_0^\infty 4\pi\rho^2\,n_j(\rho)\,\frac{\sin G\rho}{G\rho}\,d\rho\quad\text{(spherical atom)}.$$
+      <p>$f_j(0)=Z$, the number of electrons, and $f_j$ falls off once $G$ exceeds about one over the atom's radius. A compact atom gives a wide transform. A missing reflection does <i>not</i> mean a missing $\mathbf G$: it means $S_{\mathbf G}=0$.</p>
+      <p>Extinction rules, with $(hkl)$ indexed on the conventional cube:</p>
+      <ul>
+        <li><b>bcc</b>, basis 000, ½½½: $S=f\,[1+e^{-i\pi(h+k+l)}]$, so the reflection is absent when $h+k+l$ is odd.</li>
+        <li><b>fcc</b>, basis 000, 0½½, ½0½, ½½0: the reflection is present only when $h,k,l$ are all even or all odd.</li>
+        <li><b>diamond</b>: the fcc rule, and also absent when all indices are even with $h+k+l\equiv2\pmod 4$ (sheet 3.1).</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <!-- Model 1: imaging -->
+  <section class="bench" id="model1">
+    <div class="rail">
+      <span class="eyebrow">1.1.3 · Direct imaging · Model 1</span>
+      <h3>STM current and TEM wavelength</h3>
+      <p>Left: how fast the tunnelling current grows as the tip approaches, for the work function you set. Right: the electron wavelength in a TEM against accelerating voltage, from the non-relativistic and the relativistic momentum. The sheet 2.3 values are preset.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m1-phi"><span>Work function φ</span> <output for="m1-phi"></output></label><input type="range" id="m1-phi" min="1" max="6" step="0.1" value="3" data-fmt="1" data-unit=" eV"></div>
+        <div class="ctl"><label for="m1-dd"><span>Tip moves closer by Δd</span> <output for="m1-dd"></output></label><input type="range" id="m1-dd" min="0" max="0.5" step="0.01" value="0.2" data-fmt="2" data-unit=" nm"></div>
+        <div class="ctl"><label for="m1-U"><span>TEM voltage U</span> <output for="m1-U"></output></label><input type="range" id="m1-U" min="10" max="400" step="5" value="250" data-fmt="0" data-unit=" kV"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>At φ = 3 eV, Δd = 0.2 nm the current rises about 35-fold (sheet 2.3b). Set Δd = 0.1 nm: about 6-fold. That steepness is why one tip atom dominates.</li>
+        <li>Raise φ to 5 eV: κ grows as √φ, so the same Δd gives an even larger factor.</li>
+        <li>Slide U from 10 to 400 kV and watch the two λ curves separate. At 250 kV the relativistic value is about 10 % shorter (sheet 2.3c).</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m1-a"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is the tip–sample gap d in nm; the vertical axis is the current relative to its value at d = 0.8 nm, on a log scale, so an exponential is a straight line. Copper is your φ, grey dashed is the sheet's 3 eV. The blue dot is the starting gap (0.8 nm, chosen for the plot; only differences in d matter), the green dot is after moving Δd closer. The readout gives the ratio between them.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>I(d), your φ</span><span><i class="sw" style="background:var(--muted)"></i>φ = 3 eV</span><span><i class="sw dot" style="background:var(--ef)"></i>after Δd</span></div>
+      </figure>
+      <figure><div class="plot" id="m1-b"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is the accelerating voltage U in kV; the vertical axis is the de Broglie wavelength in pm, log scale. Blue uses p = √(2m eU), copper includes the relativistic correction. The dots mark your U. Both are already about 100× smaller than the spacing of atoms (a few hundred pm), and the gap between the curves is the relativistic correction.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>non-relativistic</span><span><i class="sw" style="background:var(--occ)"></i>relativistic</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 2: Bragg / Ewald -->
+  <section class="bench" id="model2">
+    <div class="rail">
+      <span class="eyebrow">1.3.1 · Bragg's law · Model 2</span>
+      <h3>Bragg reflection on the Ewald circle</h3>
+      <p>The k<sub>z</sub> = 0 plane of the reciprocal lattice of simple cubic polonium (a = 334 pm). The incident wave vector k ends at the origin. A reflection appears whenever another reciprocal lattice point lies on the circle of radius k around its tail. The model then checks Bragg's law for it. Rotate the crystal with the incidence angle.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m2-w"><span>Incidence angle ω to the (100) planes</span> <output for="m2-w"></output></label><input type="range" id="m2-w" min="0" max="60" step="0.01" value="13.33" data-fmt="2" data-unit="°"></div>
+        <div class="ctl"><label for="m2-l"><span>Wavelength λ</span> <output for="m2-l"></output></label><input type="range" id="m2-l" min="100" max="400" step="0.01" value="154.06" data-fmt="2" data-unit=" pm"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The model opens on the (10) reflection: ω = 13.33° and sin θ = λ/2a. Move ω by 0.1° and the spot is lost: a single crystal in a monochromatic beam reflects only at sharp angles.</li>
+        <li>Sweep ω slowly. Spots flash at 25.97° for (11): its Bragg angle is 19.04°, but its planes are tilted 45° from (100). At 27.47° you get (20), the second order of (10). Each spot obeys 2d sin θ = λ for its own d.</li>
+        <li>Look at the green dashed line, the bisector of G. It always passes through the circle's centre, so −k ends on the bisector plane of G. The Bragg condition and the Brillouin-zone faces are the same planes.</li>
+        <li>Raise λ to 400 pm: the circle shrinks, and only short G (widely spaced planes) can still reflect, because λ ≤ 2d.</li>
+      </ul></div>
+    </div>
+    <div class="plots one">
+      <figure><div class="plot tall" id="m2-p"></div>
+        <figcaption><b>How to read:</b> axes are k<sub>x</sub> and k<sub>y</sub> in units of 2π/a. Grey dots are reciprocal lattice points G = (2π/a)(h, k); the green dot is the origin and the grey square is the first Brillouin zone. The blue arrow is the incident k, ending at the origin; the blue circle has radius |k| around its tail. Copper dots are points that lie on the circle (to 0.05 %); the copper arrow is the diffracted beam k′ = k + G, pointing towards the detector, and the green arrow is that G. The green dashed line is the perpendicular bisector of G.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>k, Ewald circle</span><span><i class="sw" style="background:var(--occ)"></i>k′, points on the circle</span><span><i class="sw" style="background:var(--ef)"></i>G, bisector</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 3: real <-> reciprocal -->
+  <section class="bench" id="model3">
+    <div class="rail">
+      <span class="eyebrow">1.3.2 · Reciprocal lattice · Model 3</span>
+      <h3>Real lattice ↔ reciprocal lattice</h3>
+      <p>Left: a cubic lattice, its nearest lattice points, its primitive vectors and its Wigner–Seitz cell. Right: the reciprocal lattice computed from those vectors, with the first Brillouin zone. Both are drawn in absolute units (Å and Å⁻¹) with fixed axes, so changing a shows the inverse scaling. Choosing a lattice loads the sheet 2.2 metal (Po for sc). Drag either plot to rotate it.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Lattice</legend><div class="opts">
+          <label><input type="radio" name="m3-lat" value="sc"><span>sc (Po)</span></label>
+          <label><input type="radio" name="m3-lat" value="bcc"><span>bcc (Cr)</span></label>
+          <label><input type="radio" name="m3-lat" value="fcc" checked><span>fcc (Cu)</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m3-a"><span>Cube edge a</span> <output for="m3-a"></output></label><input type="range" id="m3-a" min="250" max="550" step="0.5" value="361.5" data-fmt="1" data-unit=" pm"></div>
+        <label class="chk" for="m3-ws"><input type="checkbox" id="m3-ws" checked> Wigner–Seitz cell / Brillouin zone</label>
+      </div>
+      <div class="state"><span class="pill atom" id="m3-pill"></span><dl class="readout" id="m3-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>fcc: the right plot has 8 points at (2π/a)(±1,±1,±1) and 6 at (2π/a)(±2,0,0). That is a bcc lattice. Their bisectors cut the truncated octahedron, with 8 hexagons and 6 squares.</li>
+        <li>Switch to bcc and compare: the shapes swap sides. The real-space Wigner–Seitz cell of bcc is the same truncated octahedron.</li>
+        <li>Read |b₁| against "2π/|a₁|" in the readout. They agree only for sc (exam trap).</li>
+        <li>Drag a: the real lattice grows while the reciprocal lattice shrinks, and V_c · V_BZ stays (2π)³.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot tall" id="m3-r"></div>
+        <figcaption><b>How to read:</b> Cartesian x, y, z in Å. Blue dots are the lattice points with |R| ≤ a; the green dot is the origin. Green arrows are a₁, a₂, a₃ (Kittel's choice). The shaded body is the Wigner–Seitz cell: the points closer to the origin than to any other lattice point.</figcaption>
+      </figure>
+      <figure><div class="plot tall" id="m3-k"></div>
+        <figcaption><b>How to read:</b> Cartesian k<sub>x</sub>, k<sub>y</sub>, k<sub>z</sub> in Å⁻¹. Copper dots are reciprocal lattice points with |G| ≤ 2·(2π/a); copper arrows are b₁, b₂, b₃. The shaded body is the first Brillouin zone. Look for which points' bisectors form its faces.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--emp)"></i>lattice point R</span><span><i class="sw dot" style="background:var(--occ)"></i>reciprocal point G</span><span><i class="sw" style="background:var(--ef)"></i>a<sub>i</sub>, cells</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 4: phase sum -->
+  <section class="bench" id="model4">
+    <div class="rail">
+      <span class="eyebrow">1.3.3 · X-ray scattering · Model 4</span>
+      <h3>Adding up the scattered phases</h3>
+      <p>A chain of N cells of length a, each holding two atoms: atom 1 at the cell origin and atom 2 a fraction u further along, scattering f₂/f₁ times as strongly. Each atom contributes a unit phasor $e^{-iqx_j}$ scaled by its f. The intensity is the squared length of their sum. Exact for this 1D crystal; no form-factor fall-off.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m4-q"><span>Scattering vector q</span> <output for="m4-q"></output></label><input type="range" id="m4-q" min="0" max="3" step="0.005" value="1.05" data-fmt="3" data-unit=" · 2π/a"></div>
+        <div class="ctl"><label for="m4-n"><span>Number of cells N</span> <output for="m4-n"></output></label><input type="range" id="m4-n" min="2" max="40" step="1" value="12" data-fmt="0"></div>
+        <div class="ctl"><label for="m4-u"><span>Basis offset u</span> <output for="m4-u"></output></label><input type="range" id="m4-u" min="0" max="0.5" step="0.01" value="0.25" data-fmt="2" data-unit=" a"></div>
+        <div class="ctl"><label for="m4-f"><span>Strength ratio f₂/f₁</span> <output for="m4-f"></output></label><input type="range" id="m4-f" min="0" max="1" step="0.05" value="0.6" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m4-pill"></span><dl class="readout" id="m4-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Drag q to 1.000: the phasors line up into a straight line, which is the Laue condition q = G. At 1.05 they curl up and nearly cancel.</li>
+        <li>Increase N: the peaks get taller (∝ N²) and narrower (first zero at q = G ± 1/N). A big crystal gives sharp spots.</li>
+        <li>Set u = 0.50 and f₂/f₁ = 1: the odd peaks vanish. The chain is now simply periodic with a/2, and the structure factor kills every G that the new lattice lacks.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m4-a"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is q in units of 2π/a, so reciprocal lattice vectors G sit at the integers (grey dotted lines). Copper is the intensity |Σ f_j e^{−iqx_j}|², divided by its maximum N²(f₁+f₂)². Blue dashed is the basis factor |f₁ + f₂e^{−i2πqu}|²/(f₁+f₂)²: the peak heights follow it. The green line is your q.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>intensity</span><span><i class="sw" style="background:var(--emp)"></i>basis factor |S|²</span><span><i class="sw" style="background:var(--ef)"></i>your q</span></div>
+      </figure>
+      <figure><div class="plot" id="m4-b"></div>
+        <figcaption><b>How to read:</b> the complex plane, at your q. Each copper segment is one atom's phasor f_j e^{−iqx_j}, placed head to tail in order along the chain (atom 1 is the full-length step, atom 2 the shorter one). The green arrow from the origin to the last point is the total amplitude. Straight path = constructive; a closed loop = cancellation.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Model 5: structure factor powder pattern -->
+  <section class="bench" id="model5">
+    <div class="rail">
+      <span class="eyebrow">1.3.5 · Analysis with basis · Model 5</span>
+      <h3>Structure factor and the missing reflections</h3>
+      <p>Every structure is written as a simple cubic lattice plus a basis in the conventional cube (1, 2, 4 or 8 atoms), as in sheet 3.1. The plot is a powder pattern: one stick per family {hkl} at its Bragg angle, with height multiplicity × |S/f|². Form factor, thermal and geometric (Lorentz-polarisation) factors are left out, so only positions and extinctions are realistic.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Structure</legend><div class="opts">
+          <label><input type="radio" name="m5-str" value="sc"><span>sc (Po)</span></label>
+          <label><input type="radio" name="m5-str" value="bcc"><span>bcc (Cr)</span></label>
+          <label><input type="radio" name="m5-str" value="fcc"><span>fcc (Cu)</span></label>
+          <label><input type="radio" name="m5-str" value="dia" checked><span>diamond (Si)</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m5-l"><span>X-ray wavelength λ</span> <output for="m5-l"></output></label><input type="range" id="m5-l" min="70" max="250" step="0.01" value="154.06" data-fmt="2" data-unit=" pm"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m5-pill"></span><dl class="readout" id="m5-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Diamond (Si): (111) and (220) are present, (200) and (222) are missing although they are allowed in fcc. Here |S| is 4√2 f for all-odd and 8f for all-even with h+k+l = 4n.</li>
+        <li>Switch to fcc and then bcc: (100) is absent in both; (110) appears only in bcc, (111) only in fcc.</li>
+        <li>Lower λ: more families fit (λ ≤ 2d), and every stick moves to smaller angle.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure class="span2"><div class="plot" id="m5-p"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is the scattering angle 2θ in degrees; the vertical axis is multiplicity × |S/f|², scaled to the strongest stick. Copper sticks are allowed reflections, labelled hkl. Blue rings on the axis are families that satisfy Bragg's law at this λ but have S = 0: the lattice planes exist, the basis cancels them. The table lists the first families with their spacing d = a/√(h²+k²+l²).</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>allowed</span><span><i class="sw dot" style="background:var(--emp)"></i>extinct (S = 0)</span></div>
+      </figure>
+      <figure class="span2 dict"><table><thead><tr><th>hkl</th><th>h²+k²+l²</th><th>d (pm)</th><th>2θ (°)</th><th>|S|/f</th><th>mult.</th></tr></thead><tbody id="m5-tb"></tbody></table></figure>
+    </div>
+  </section>
+
+  <!-- Model 6: form factor -->
+  <section class="bench" id="model6">
+    <div class="rail">
+      <span class="eyebrow">1.3.5 · Analysis with basis · Model 6</span>
+      <h3>Form factor of a 1s electron cloud</h3>
+      <p>The hydrogen ground-state density $n=e^{-2r/a}/\pi a^3$, with radius a (a = a₀ for hydrogen; a = a₀/Z for one electron bound to charge Ze). Left: where the electron is. Right: its form factor, the analytic sheet 3.2 result against a numerical Fourier transform done in the page.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m6-a"><span>Orbital radius a</span> <output for="m6-a"></output></label><input type="range" id="m6-a" min="0.3" max="2" step="0.01" value="1" data-fmt="2" data-unit=" a₀"></div>
+        <div class="ctl"><label for="m6-K"><span>Scattering vector K</span> <output for="m6-K"></output></label><input type="range" id="m6-K" min="0" max="10" step="0.01" value="3.01" data-fmt="2" data-unit=" Å⁻¹"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m6-pill"></span><dl class="readout" id="m6-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The preset K = 3.01 Å⁻¹ is |G₁₁₁| of copper. A hydrogen-sized cloud already scatters only 37 % as strongly there as at K = 0.</li>
+        <li>Shrink a to 0.3 a₀ (a tightly bound electron): the cloud contracts and f stays near 1 much further out. A compact density gives a wide transform.</li>
+        <li>Check the dots against the line: the numerical integral of 4πr²n sin(Kr)/(Kr) reproduces 16/(4 + K²a²)².</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m6-n"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is the distance r from the nucleus in Å; the vertical axis is the radial probability 4πr²n(r) in Å⁻¹ (area 1). It peaks at r = a. The grey dashed curve is hydrogen (a = a₀ = 0.529 Å) for reference.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>your a</span><span><i class="sw" style="background:var(--muted)"></i>hydrogen</span></div>
+      </figure>
+      <figure><div class="plot" id="m6-f"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is K in Å⁻¹; the vertical axis is the form factor f (1 = one point electron). Copper line is 16/(4 + K²a²)²; blue dots are the numerical transform of the left curve. The green line and dot mark your K; the dotted line marks f = ½.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>analytic</span><span><i class="sw dot" style="background:var(--emp)"></i>numerical</span><span><i class="sw" style="background:var(--ef)"></i>your K</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-2-1">
+    <span class="tag">Sheet 2 · Problem 1 · 3 pts</span>
+    <h3>Reciprocal lattice vectors</h3>
+    <p class="ask">Prove that the reciprocal primitive vectors satisfy $\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=(2\pi)^3/\big(\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)\big)$. Hint: write $\mathbf b_1$ (but not $\mathbf b_2$ or $\mathbf b_3$) in terms of the $\mathbf a_i$.</p>
+    <h4>Method</h4>
+    <p>Follow the hint: replace only $\mathbf b_1$ by its definition. That leaves a dot product of two cross products, $(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3)$. The identity $(\mathbf A\times\mathbf B)\cdot(\mathbf C\times\mathbf D)=(\mathbf A\cdot\mathbf C)(\mathbf B\cdot\mathbf D)-(\mathbf A\cdot\mathbf D)(\mathbf B\cdot\mathbf C)$ reduces it to products $\mathbf a_i\cdot\mathbf b_j=2\pi\delta_{ij}$.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Let $V=\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)$ (signed cell volume). Then $\mathbf b_1=\dfrac{2\pi}{V}\,\mathbf a_2\times\mathbf a_3$, so
+          $$\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=\frac{2\pi}{V}\,(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3).$$</li>
+        <li>Apply the identity with $\mathbf A=\mathbf a_2$, $\mathbf B=\mathbf a_3$, $\mathbf C=\mathbf b_2$, $\mathbf D=\mathbf b_3$:
+          $$(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3)=(\mathbf a_2\cdot\mathbf b_2)(\mathbf a_3\cdot\mathbf b_3)-(\mathbf a_2\cdot\mathbf b_3)(\mathbf a_3\cdot\mathbf b_2)=(2\pi)(2\pi)-0\cdot0 .$$</li>
+        <li>Hence $\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=\dfrac{2\pi}{V}(2\pi)^2=\dfrac{(2\pi)^3}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)}$. ∎</li>
+        <li>Alternative route (Kittel ch. 2 Problem 3; tutoring board): write all three $\mathbf b_i$ in terms of the $\mathbf a_i$ and use $(\mathbf c\times\mathbf a)\times(\mathbf a\times\mathbf b)=\big(\mathbf c\cdot(\mathbf a\times\mathbf b)\big)\,\mathbf a$. This gives $\mathbf b_2\times\mathbf b_3=\frac{(2\pi)^2}{V^2}(\mathbf a_3\times\mathbf a_1)\times(\mathbf a_1\times\mathbf a_2)=\frac{(2\pi)^2}{V}\mathbf a_1$, and then $\mathbf b_1\cdot\frac{(2\pi)^2}{V}\mathbf a_1=\frac{(2\pi)^3}{V}$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $V_{BZ}=\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=(2\pi)^3/V_c$. The Brillouin zone volume is $(2\pi)^3$ divided by the primitive cell volume.</div>
+      <div class="check"><b>Sanity check:</b> sc: $\mathbf b_i=\frac{2\pi}a\hat{\mathbf x}_i$ gives $(2\pi/a)^3=(2\pi)^3/a^3$ ✓. Units: m⁻³ ✓. For bcc and fcc the product $V_c V_{BZ}/(2\pi)^3$ evaluates to 1.000 in node (Model 3 readout).</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-2-2">
+    <span class="tag">Sheet 2 · Problem 2 · 6 pts</span>
+    <h3>Brillouin zone</h3>
+    <p class="ask">(a) Volume of the Wigner–Seitz cells of Cr (bcc, a = 288.5 pm) and Cu (fcc, a = 361.5 pm). (b) Their reciprocal lattice vectors, and the Brillouin zones. (c) The "Inverse Volumina" of the Brillouin zones (unit 1/m³).</p>
+    <h4>Method</h4>
+    <p>A Wigner–Seitz cell is a primitive cell, so its volume is $V_c$: the cube volume divided by the lattice points per cube (2 for bcc, 4 for fcc). Get $\mathbf b_i$ from the cross-product formula with Kittel's primitive vectors. The BZ is the Wigner–Seitz cell of the result, and its volume follows from sheet 2.1. Do not use $|\mathbf b_i|=2\pi/|\mathbf a_i|$: these axes are not orthogonal.</p>
+    <div class="assume"><b>Assumption:</b> "Inverse Volumina" is read as the BZ volume in k-space, $V_{BZ}=(2\pi)^3/V_c$. The stated unit 1/m³ fits this; $1/V_c$ (number of atoms per m³) would also have that unit and is given as a side value.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a)</b> Cr: $V_c=a^3/2=(288.5\times10^{-12}\,\mathrm m)^3/2=1.201\times10^{-29}$ m³. Cu: $V_c=a^3/4=(361.5\times10^{-12}\,\mathrm m)^3/4=1.181\times10^{-29}$ m³.</li>
+        <li><b>(b) Cr, bcc.</b> $\mathbf a_1=\tfrac a2(-1,1,1)$, $\mathbf a_2=\tfrac a2(1,-1,1)$, $\mathbf a_3=\tfrac a2(1,1,-1)$. Then $\mathbf a_2\times\mathbf a_3=\tfrac{a^2}2(0,1,1)$ and $V_c=a^3/2$, so
+          $$\mathbf b_1=\tfrac{2\pi}a(0,1,1),\quad \mathbf b_2=\tfrac{2\pi}a(1,0,1),\quad \mathbf b_3=\tfrac{2\pi}a(1,1,0),\qquad \tfrac{2\pi}a=2.178\times10^{10}\ \mathrm{m^{-1}}.$$
+          These are fcc primitive vectors for a cube of edge 4π/a, so the reciprocal lattice is fcc. $|\mathbf b_i|=\sqrt2\cdot2\pi/a=3.080\times10^{10}$ m⁻¹. The shortcut $2\pi/|\mathbf a_i|=2.515\times10^{10}$ m⁻¹ would be wrong.</li>
+        <li>The BZ of Cr is bounded by the bisectors of the 12 shortest $\mathbf G=\tfrac{2\pi}a(\pm1,\pm1,0)$ (all permutations), at a distance $|\mathbf G|/2=1.540\times10^{10}$ m⁻¹ from Γ. It is a <b>rhombic dodecahedron</b>, with 12 rhombic faces. Its corners lie at $\tfrac{2\pi}a(1,0,0)$ (point H, $2.178\times10^{10}$ m⁻¹) and at $\tfrac{\pi}a(1,1,1)$ (point P).</li>
+        <li><b>(b) Cu, fcc.</b> $\mathbf a_1=\tfrac a2(0,1,1)$, $\mathbf a_2=\tfrac a2(1,0,1)$, $\mathbf a_3=\tfrac a2(1,1,0)$. Then $\mathbf a_2\times\mathbf a_3=\tfrac{a^2}4(-1,1,1)$ and $V_c=a^3/4$, so
+          $$\mathbf b_1=\tfrac{2\pi}a(-1,1,1),\quad \mathbf b_2=\tfrac{2\pi}a(1,-1,1),\quad \mathbf b_3=\tfrac{2\pi}a(1,1,-1),\qquad \tfrac{2\pi}a=1.738\times10^{10}\ \mathrm{m^{-1}}.$$
+          These are bcc primitive vectors for a cube of edge 4π/a, so the reciprocal lattice is bcc. $|\mathbf b_i|=\sqrt3\cdot2\pi/a=3.010\times10^{10}$ m⁻¹; the shortcut $2\pi/|\mathbf a_i|=2.458\times10^{10}$ m⁻¹ is 18 % short.</li>
+        <li>The BZ of Cu has two kinds of face:
+          <ul>
+            <li>8 hexagons bisect $\mathbf G=\tfrac{2\pi}a(\pm1,\pm1,\pm1)$, at $\sqrt3\pi/a=1.505\times10^{10}$ m⁻¹ (point L).</li>
+            <li>6 squares bisect $\tfrac{2\pi}a(\pm2,0,0)$, at $2\pi/a=1.738\times10^{10}$ m⁻¹ (point X).</li>
+          </ul>
+          It is a <b>truncated octahedron</b> with 14 faces. The hexagon planes alone would close into an octahedron, and the squares cut off its corners.</li>
+        <li><b>(c)</b> $V_{BZ}=(2\pi)^3/V_c$: Cr $248.05/1.201\times10^{-29}=2.066\times10^{31}$ m⁻³; Cu $248.05/1.181\times10^{-29}=2.100\times10^{31}$ m⁻³.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $V_{WS}$: Cr $1.201\times10^{-29}$ m³, Cu $1.181\times10^{-29}$ m³. Reciprocal lattices: Cr → fcc, $|\mathbf b|=3.080\times10^{10}$ m⁻¹, BZ rhombic dodecahedron; Cu → bcc, $|\mathbf b|=3.010\times10^{10}$ m⁻¹, BZ truncated octahedron. $V_{BZ}$: Cr $2.066\times10^{31}$ m⁻³, Cu $2.100\times10^{31}$ m⁻³.</div>
+      <div class="check"><b>Sanity check:</b>
+        <ul>
+          <li>$1/V_c$ for Cu is $8.47\times10^{28}$ m⁻³, Kittel's atom density of copper ✓.</li>
+          <li>The smaller cell (Cu) has the larger zone ✓.</li>
+          <li>Polyhedron volumes, from the vertex sets used in Model 3, checked in node:
+            <ul>
+              <li>truncated octahedron with vertices at the permutations of $\tfrac{2\pi}a(0,\pm\tfrac12,\pm1)$: $4(2\pi/a)^3=(2\pi)^3/(a^3/4)$ ✓;</li>
+              <li>rhombic dodecahedron with vertices $\tfrac{2\pi}a(\pm1,0,0)$ and $\tfrac{\pi}a(\pm1,\pm1,\pm1)$: $2(2\pi/a)^3=(2\pi)^3/(a^3/2)$ ✓.</li>
+            </ul></li>
+          <li>$\mathbf a_i\cdot\mathbf b_j/2\pi$ evaluates to the identity matrix in node for both sets ✓.</li>
+        </ul></div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-2-3">
+    <span class="tag">Sheet 2 · Problem 3 · 4 pts</span>
+    <h3>Atomic resolution</h3>
+    <p class="ask">(a) Working principles of STM and TEM, and how each reaches atomic resolution. (b) $I\propto\exp(-2\kappa d)$, $\kappa=(2m\phi)^{0.5}/\hbar$, with $d$ the tip–sample distance, $m$ the electron mass and $\phi$ the work function (~3 eV): (i) estimate κ; (ii) by what factor does the current increase if the tip moves 0.2 nm closer? (c) TEM electrons accelerated through 250 kV: (i) their de Broglie wavelength; (ii) compare with the resolution of visible light (λ ~ 500 nm).</p>
+    <h4>Method</h4>
+    <p>(a) is the 1.1.3 card above. (b) Convert φ to joules and evaluate κ. Only the exponential depends on d, so the ratio is $e^{2\kappa\Delta d}$. (c) $\lambda=h/p$ with the kinetic energy $eU$. The notes use the non-relativistic $p=\sqrt{2m_eeU}$. At 250 keV the electron moves at 0.74 c, so give the relativistic value too.</p>
+    <div class="assume"><b>Assumption:</b> φ = 3 eV exactly, free-electron mass $m_e$, and the prefactor of $I$ does not change over 0.2 nm. The electrons start at rest. For the light microscope, the Abbe limit $d_{min}\approx\lambda/(2\,\mathrm{NA})$ with numerical aperture NA ≤ 1 (standard optics, not on the sheet).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>(a) STM:</b>
+          <ul>
+            <li>A bias voltage between a sharp tip and a conducting surface drives a tunnelling current across a vacuum gap a few atoms wide.</li>
+            <li>A piezo scanner moves the tip across the surface, and feedback adjusts its height to hold $I$ constant. The recorded height map is the image.</li>
+            <li>Atomic resolution comes from the exponential: about 6× per 0.1 nm (below), so almost all the current flows through the single foremost atom of the tip. Height changes of a few pm are visible.</li>
+          </ul>
+          <b>TEM:</b>
+          <ul>
+            <li>Electrons are accelerated to hundreds of keV and focused by condenser lenses onto a sample thin enough to transmit them.</li>
+            <li>An objective lens and projector lenses form a magnified image, or the diffraction pattern, on a detector.</li>
+            <li>Atomic resolution needs a wavelength well below the atomic spacing, and the electrons have pm wavelengths (c). Lens aberrations, not λ, set the practical limit.</li>
+          </ul></li>
+        <li><b>(b)(i)</b> $\phi=3\times1.602\times10^{-19}$ J $=4.81\times10^{-19}$ J.
+          $$\kappa=\frac{\sqrt{2\cdot9.109\times10^{-31}\cdot4.81\times10^{-19}}}{1.0546\times10^{-34}}\ \mathrm{m^{-1}}=8.87\times10^{9}\ \mathrm{m^{-1}}=8.87\ \mathrm{nm^{-1}}.$$</li>
+        <li><b>(b)(ii)</b> $I(d-\Delta d)/I(d)=e^{2\kappa\Delta d}=e^{2\cdot8.87\cdot0.2}=e^{3.55}=34.8$.</li>
+        <li><b>(c)(i)</b> $eU=250$ keV $=4.005\times10^{-14}$ J.
+          <ul>
+            <li>Non-relativistic: $\lambda=h/\sqrt{2m_eeU}=2.45$ pm.</li>
+            <li>The correction factor is $eU/2m_ec^2=0.245$, which is not small. Relativistic: $\lambda=h/\sqrt{2m_eeU(1+eU/2m_ec^2)}=2.20$ pm, 10 % shorter.</li>
+          </ul></li>
+        <li><b>(c)(ii)</b> 500 nm / 2.20 pm ≈ $2.3\times10^5$. A light microscope resolves at best about λ/2 ≈ 250 nm, roughly a thousand atomic spacings, so atoms are out of reach. Electrons are not limited by wavelength at all; their limit comes from the lenses.</li>
+      </ol>
+      <div class="result"><b>Result:</b> κ ≈ 8.9 nm⁻¹; the current increases about 35-fold. λ = 2.45 pm (non-relativistic) or 2.20 pm (relativistic), about 2 × 10⁵ times shorter than visible light.</div>
+      <div class="check"><b>Sanity check:</b> $\hbar^2\kappa^2/2m_e$ evaluates back to 3.000 eV (node). The electron rule λ(Å) ≈ 12/√E(eV) (Kittel ch. 2 Fig. 1: 1.2 Å at 100 eV) gives 0.024 Å = 2.4 pm at 250 keV, matching the non-relativistic value. Model 1 shows the same numbers live.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-3-1">
+    <span class="tag">Sheet 3 · Problem 1 · 4 pts</span>
+    <h3>Structure factor of diamond</h3>
+    <p class="ask">Described as a simple cubic Bravais lattice, diamond has eight atoms as basis. (i) Find the structure factor S of this basis. (ii) Find the zeros of S and show that the allowed diffraction conditions satisfy $\nu_1+\nu_2+\nu_3=4n$ with $n$ an integer and all $\nu_i$ even, or all $\nu_i$ odd ($\nu_i$ = Bragg plane indices).</p>
+    <h4>Method</h4>
+    <p>Diamond is fcc plus the same fcc shifted by ¼ of the body diagonal. On the sc cube with $\mathbf G=\frac{2\pi}a(\nu_1,\nu_2,\nu_3)$, the 8 positions are the 4 fcc sites and the same 4 plus (¼,¼,¼). The sum over the 8 sites therefore factorises into an fcc bracket times a two-site bracket. Find the zeros of each.</p>
+    <div class="assume"><b>Assumption:</b> all eight atoms are the same element with the same form factor f (carbon), and the $\nu_i$ are indices on the conventional cube (Kittel ch. 2 Problem 5, which this problem reproduces).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Basis, in units of a: $(0,0,0),(0,\tfrac12,\tfrac12),(\tfrac12,0,\tfrac12),(\tfrac12,\tfrac12,0)$ and the same four plus $(\tfrac14,\tfrac14,\tfrac14)$.</li>
+        <li><b>(i)</b> $S=f\sum_j e^{-i2\pi(\nu_1x_j+\nu_2y_j+\nu_3z_j)}$ factorises:
+          $$S=f\,\big[1+e^{-i\pi(\nu_2+\nu_3)}+e^{-i\pi(\nu_1+\nu_3)}+e^{-i\pi(\nu_1+\nu_2)}\big]\,\big[1+e^{-i\pi(\nu_1+\nu_2+\nu_3)/2}\big].$$</li>
+        <li><b>fcc bracket.</b> Each term is ±1.
+          <ul>
+            <li>All $\nu_i$ even or all odd: every pair sum is even and the bracket is 4.</li>
+            <li>Mixed parity: exactly two of the three pair sums are odd, and the bracket is $1+1-1-1=0$.</li>
+          </ul></li>
+        <li><b>Shift bracket.</b> With $s=\nu_1+\nu_2+\nu_3$, the bracket $1+e^{-i\pi s/2}$ takes these values:
+          <div class="dict"><table>
+            <thead><tr><th>s mod 4</th><th>bracket</th><th>size</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>2</td><td>2</td></tr>
+              <tr><td>1</td><td>1 − i</td><td>√2</td></tr>
+              <tr><td>2</td><td>0</td><td>0</td></tr>
+              <tr><td>3</td><td>1 + i</td><td>√2</td></tr>
+            </tbody>
+          </table></div></li>
+        <li><b>(ii) Zeros:</b> (1) mixed parity, from the fcc bracket; (2) all even with $s=4n+2$, from the shift bracket. Everything else is allowed:
+          <ul>
+            <li>all odd: $|S|=4\sqrt2 f$;</li>
+            <li>all even with $\nu_1+\nu_2+\nu_3=4n$: $|S|=8f$.</li>
+          </ul>
+          This is the stated condition. All-odd indices always have an odd sum, so the "$=4n$" applies to the all-even case.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $S=4f\,[1+e^{-i\pi(\nu_1+\nu_2+\nu_3)/2}]$ when the indices are unmixed, otherwise 0. Allowed: all odd (e.g. 111, 311), or all even with sum $4n$ (220, 400). Forbidden: mixed parity (100, 110, 210), and all even with sum $4n+2$ (200, 222, 420).</div>
+      <div class="check"><b>Sanity check:</b> a direct 8-term sum in node for all $h\ge k\ge l$ up to 444 gives $|S|/f=5.66=4\sqrt2$ for 111, 311, 331, 333; 8.00 for 220, 400, 422, 440, 444; and 0 (below $10^{-14}$) for all others. At $\nu=0$ the formula gives $|S|=8f$, one f per atom ✓. The (200) reflection of Si is indeed missing in Model 5.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-3-2">
+    <span class="tag">Sheet 3 · Problem 2 · 4 pts</span>
+    <h3>Form factor of atomic hydrogen</h3>
+    <p class="ask">The electron density of hydrogen is $n(r)=|\psi(r)|^2$ with the ground state $\psi(r)=\exp(-r/a_0)/\sqrt{\pi a_0^3}$ and Bohr radius $a_0$. Show that the form factor is $f_K=16/(4+K^2a_0^2)^2$, with $K$ the magnitude of the scattering vector.</p>
+    <h4>Method</h4>
+    <p>$f_K=\int n(r)\,e^{-i\mathbf K\cdot\mathbf r}\,dV$. Use spherical coordinates with $\mathbf K$ along the polar axis, so $\mathbf K\cdot\mathbf r=Kr\cos\theta$. The angular integral gives $4\pi\,\sin(Kr)/(Kr)$, and the radial integral is a standard Laplace transform.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Angular part: $\int_0^{2\pi}\!d\varphi\int_0^\pi e^{-iKr\cos\theta}\sin\theta\,d\theta=2\pi\int_{-1}^{1}e^{-iKrx}dx=4\pi\,\dfrac{\sin Kr}{Kr}$.</li>
+        <li>So $f_K=\displaystyle\int_0^\infty 4\pi r^2\,\frac{e^{-2r/a_0}}{\pi a_0^3}\,\frac{\sin Kr}{Kr}\,dr=\frac{4}{Ka_0^3}\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr$, with $\beta=2/a_0$.</li>
+        <li>$\displaystyle\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr=\mathrm{Im}\int_0^\infty r\,e^{-(\beta-iK)r}dr=\mathrm{Im}\frac{1}{(\beta-iK)^2}=\mathrm{Im}\frac{(\beta+iK)^2}{(\beta^2+K^2)^2}=\frac{2\beta K}{(\beta^2+K^2)^2}$.</li>
+        <li>Insert $\beta=2/a_0$: $f_K=\dfrac{4}{Ka_0^3}\cdot\dfrac{4K/a_0}{(4/a_0^2+K^2)^2}=\dfrac{16/a_0^4}{(4+K^2a_0^2)^2/a_0^4}=\dfrac{16}{(4+K^2a_0^2)^2}$. ∎</li>
+      </ol>
+      <div class="result"><b>Result:</b> $f_K=16/(4+K^2a_0^2)^2$. It equals 1 at $K=0$, falls to ½ at $Ka_0=1.29$, and decays as $16/(Ka_0)^4$ for large $K$.</div>
+      <div class="check"><b>Sanity check:</b> $f(0)=\int n\,dV=1$, one electron ✓. A numerical integral in node gives 0.64000, 0.25000, 0.040000 and 0.0034602 at $Ka_0$ = 1, 2, 4, 8, equal to the formula to 5 digits. Model 6 repeats this numerical check in the page.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p>The 2022 paper had no question on imaging, Bragg or structure factors. It used this topic inside other questions:</p>
+    <ul>
+      <li><b>Q4b</b> ("What are its reciprocal lattice vectors?") in the Bloch-electron question. With the fcc lattice assumed there, the answer is the bcc set $\mathbf b_1=\frac{2\pi}a(-1,1,1)$, … The full Q4 answer is on <a href="09-bands.html#exam-q4">topic 09</a>.</li>
+      <li><b>Q4c–d</b> need the zone boundary along [100]: X = (2π/a, 0, 0) for fcc.</li>
+      <li><b>Q2c</b> asks for the k-space volume per allowed k-point, $(2\pi/L)^3$; see <a href="07-free-electron-gas.html">topic 07</a>.</li>
+    </ul>
+    <p>Sheets 2 and 3 are the best guide to the exercise level. Be able to do these in 5 minutes without notes:</p>
+    <ul>
+      <li>compute $\mathbf b_i$ for sc, bcc and fcc, and name the reciprocal lattice;</li>
+      <li>state why $|\mathbf b_i|\neq2\pi/|\mathbf a_i|$ for fcc;</li>
+      <li>give $V_{BZ}=(2\pi)^3/V_c$;</li>
+      <li>derive $2\mathbf k\cdot\mathbf G=G^2$ from $\Delta\mathbf k=\mathbf G$;</li>
+      <li>write $S_{\mathbf G}$ for a basis and read off the extinctions.</li>
+    </ul>
+  </div>
+  <article class="hw" id="exam-ex">
+    <span class="tag">Exam-style exercise · practice (not from the course)</span>
+    <h3>Copper: reciprocal lattice and first reflections</h3>
+    <p class="ask">Copper is fcc with a = 361.5 pm. (a) Give the reciprocal primitive vectors and name the reciprocal lattice. (b) A student writes $|\mathbf b_i|=2\pi/|\mathbf a_i|$. Is that right here? (c) Volume of the first Brillouin zone. (d) Which of (100), (110), (111), (200) appear in X-ray diffraction? (e) At what angle 2θ is the first reflection seen with Cu Kα radiation?</p>
+    <div class="assume"><b>Data not on any sheet:</b> Cu Kα₁ wavelength λ = 154.06 pm, the standard laboratory X-ray line.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li><b>(a)</b> With $\mathbf a_1=\tfrac a2(0,1,1)$ etc.: $\mathbf b_1=\tfrac{2\pi}a(-1,1,1)$, $\mathbf b_2=\tfrac{2\pi}a(1,-1,1)$, $\mathbf b_3=\tfrac{2\pi}a(1,1,-1)$, with $2\pi/a=1.738\times10^{10}$ m⁻¹. The reciprocal lattice is <b>bcc</b>, cube edge 4π/a.</li>
+        <li><b>(b)</b> No. $|\mathbf a_i|=a/\sqrt2$ would give $2.458\times10^{10}$ m⁻¹, but $|\mathbf b_i|=\sqrt3\cdot2\pi/a=3.010\times10^{10}$ m⁻¹. The shortcut assumes each $\mathbf a_i$ is perpendicular to the other two, and fcc vectors meet at 60°.</li>
+        <li><b>(c)</b> $V_{BZ}=(2\pi)^3/(a^3/4)=2.100\times10^{31}$ m⁻³, a truncated octahedron.</li>
+        <li><b>(d)</b> fcc rule, all even or all odd: (111) and (200) appear; (100) and (110) are extinct ($S=0$).</li>
+        <li><b>(e)</b> The first allowed family is (111), with $d=a/\sqrt3=208.7$ pm. $\sin\theta=\lambda/2d=154.06/417.4=0.369$, so θ = 21.66° and <b>2θ = 43.3°</b>.</li>
+      </ol>
+      <div class="result"><b>Result:</b> bcc reciprocal lattice, $|\mathbf b|=3.01\times10^{10}$ m⁻¹, $V_{BZ}=2.10\times10^{31}$ m⁻³, (111) and (200) present, first peak at 2θ = 43.3°.</div>
+      <div class="check"><b>Sanity check:</b> all values recomputed in node. 2θ(111) = 43.32° and 2θ(200) = 50.45° are also the first two sticks of Model 5 (fcc, 154.06 pm).</div>
+    </details>
+  </article>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 2 (incl. Problems 3, 5, 6); ch. 1 "Direct Imaging of Atomic Structure"; ch. 18 "Electron Microscopy", "Scanning Tunneling Microscopy".</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 7–15, 23.</li>
+    <li>Problem sheets 2 (problems 1–3) and 3 (problems 1–2), Fall 2026.</li>
+    <li>Tutoring boards: 02 "Practice Set", 03 "PSet 1", 04 "Session 3", 05 "Session 4", 06 "3-4".</li>
+    <li>Condensed Matter exam 2022 (alumni recollection), Q4b.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, sAx, layout, CFG, vline, hline, lin, setRead, setPill, rgba, PI, K } = CM;
+  const S = Math.sqrt;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const norm = v => S(dot(v, v));
+  const deg = x => x * 180 / PI;
+  const sig = (x, n = 3) => x.toPrecision(n).replace(/e\+?(-?)(\d+)/, (m, s, e) => ' × 10' + (s ? '⁻' : '') + [...e].map(d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).join(''));
+
+  /* ---------- Model 1: STM current and TEM wavelength ---------- */
+  // Checked in node: phi = 3 eV -> kappa = 8.874 nm^-1, e^(2 kappa 0.2 nm) = 34.79; 250 kV -> 2.453 pm (non-rel), 2.199 pm (rel), v/c = 0.741.
+  const kappa = phi => S(2 * K.me * phi * K.e) / K.hbar;                         // 1/m
+  const lamNR = U => K.h / S(2 * K.me * K.e * U);                                 // U in V
+  const lamR = U => K.h / S(2 * K.me * K.e * U * (1 + K.e * U / (2 * K.me * K.c ** 2)));
+  const D = lin(0.2, 1.2, 101), UU = lin(10, 400, 79), D0 = 0.8;
+  function renderM1() {
+    const phi = +$('m1-phi').value, dd = +$('m1-dd').value, U = +$('m1-U').value * 1e3;
+    const kp = kappa(phi) * 1e-9, k3 = kappa(3) * 1e-9;                            // 1/nm
+    const rel = (k, d) => Math.exp(-2 * k * (d - D0)), d1 = D0 - dd, ratio = Math.exp(2 * kp * dd);
+    Plotly.react('m1-a', [
+      { x: D, y: D.map(d => rel(k3, d)), mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: D, y: D.map(d => rel(kp, d)), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'd = %{x:.2f} nm<br>I/I(0.8 nm) = %{y:.3g}<extra></extra>' },
+      { x: [D0], y: [1], mode: 'markers', marker: { color: C.emp, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' },
+      { x: [d1], y: [rel(kp, d1)], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: '×%{y:.3g}<extra></extra>' }],
+      layout({ xaxis: ax('Tip–sample gap d (nm)', { range: [0.2, 1.2] }), yaxis: ax('Current I / I(0.8 nm)', { type: 'log', exponentformat: 'power' }) }), CFG);
+    const lnr = lamNR(U) * 1e12, lr = lamR(U) * 1e12;
+    Plotly.react('m1-b', [
+      { x: UU, y: UU.map(u => lamNR(u * 1e3) * 1e12), mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: '%{x} kV: %{y:.3f} pm<extra>non-rel.</extra>' },
+      { x: UU, y: UU.map(u => lamR(u * 1e3) * 1e12), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: '%{x} kV: %{y:.3f} pm<extra>rel.</extra>' },
+      { x: [U / 1e3, U / 1e3], y: [lnr, lr], mode: 'markers', marker: { color: [C.emp, C.occ], size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ xaxis: ax('Accelerating voltage U (kV)', { range: [0, 410] }), yaxis: ax('Wavelength λ (pm)', { type: 'log' }) }), CFG);
+    const E = K.e * U, g = 1 + E / (K.me * K.c ** 2);
+    setPill('m1-pill', ['metal', `STM current ×${ratio.toPrecision(3)} for ${dd.toFixed(2)} nm`]);
+    setRead('m1-read', [['κ = √(2mφ)/ħ', kp.toFixed(2) + ' nm⁻¹'], ['I ratio e^{2κΔd}', ratio.toPrecision(3)], ['Factor per 0.1 nm', Math.exp(2 * kp * 0.1).toFixed(2)],
+      ['λ non-relativistic', lnr.toFixed(3) + ' pm'], ['λ relativistic', lr.toFixed(3) + ' pm (' + ((1 - lr / lnr) * 100).toFixed(1) + ' % shorter)'],
+      ['v/c', S(1 - 1 / (g * g)).toFixed(3)], ['500 nm / λ', sig(500e3 / lr, 2)]]);
+  }
+
+  /* ---------- Model 2: Ewald circle, 2D square reciprocal lattice of sc Po ---------- */
+  // Po a = 334 pm (Kittel Table 3, as on topic 01). Checked in node with 154.06 pm: (10) 13.33°, (11) 19.04°, (20) 27.47°.
+  const A2 = 334;
+  const gcd = (a, b) => b ? gcd(b, a % b) : Math.abs(a);
+  const mi = n => String(n).replace("-", "−");
+  function renderM2() {
+    const w = +$('m2-w').value * PI / 180, lam = +$('m2-l').value, kk = A2 / lam;   // k in units of 2π/a
+    const k = [kk * Math.sin(w), -kk * Math.cos(w)], Cn = [-k[0], -k[1]];
+    const R = Math.max(2.6, 2 * kk + 0.4), n = Math.ceil(R);
+    const pts = [], hits = []; let best = null;
+    for (let h = -n; h <= n; h++) for (let l = -n; l <= n; l++) {
+      if (Math.abs(h) > R || Math.abs(l) > R) continue;
+      pts.push([h, l]);
+      if (!h && !l) continue;
+      const kp = [k[0] + h, k[1] + l], mis = Math.abs(Math.hypot(kp[0], kp[1]) - kk) / kk;
+      if (mis < 0.0005) hits.push({ h, l, mis, kp });
+      if (!best || mis < best.mis) best = { h, l, mis, kp };
+    }
+    hits.sort((a, b) => a.mis - b.mis);
+    const th = lin(0, 2 * PI, 241);
+    const T = [
+      { x: pts.map(p => p[0]), y: pts.map(p => p[1]), mode: 'markers', marker: { color: rgba(C.muted, 0.7), size: 6 }, hovertemplate: 'G = (%{x}, %{y})·2π/a<extra></extra>' },
+      { x: th.map(t => Cn[0] + kk * Math.cos(t)), y: th.map(t => Cn[1] + kk * Math.sin(t)), mode: 'lines', line: { color: C.emp, width: 1.5 }, hoverinfo: 'skip' },
+      { x: hits.map(p => p.h), y: hits.map(p => p.l), mode: 'markers', marker: { color: C.occ, size: 12, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'reflection (%{x}, %{y})<extra></extra>' },
+      { x: [0], y: [0], mode: 'markers', marker: { color: C.ef, size: 10 }, hoverinfo: 'skip' }];
+    const shapes = [{ type: 'rect', x0: -0.5, x1: 0.5, y0: -0.5, y1: 0.5, line: { color: C.muted, width: 1.5 } }];
+    const arr = (x0, y0, x1, y1, color) => ({ x: x1, y: y1, ax: x0, ay: y0, xref: 'x', yref: 'y', axref: 'x', ayref: 'y', showarrow: true, arrowhead: 2, arrowsize: 1.1, arrowwidth: 2.2, arrowcolor: color, text: '' });
+    const ann = [arr(Cn[0], Cn[1], 0, 0, C.emp)];
+    const rows = [['k = 2π/λ', (kk).toFixed(3) + ' · 2π/a = ' + (2 * PI / lam * 1e3).toFixed(1) + ' nm⁻¹']];
+    if (hits.length) {
+      const H = hits[0], G = [H.h, H.l], Gl = Math.hypot(H.h, H.l);
+      ann.push(arr(Cn[0], Cn[1], H.h, H.l, C.occ), arr(0, 0, H.h, H.l, C.ef));
+      const u = [-G[1] / Gl, G[0] / Gl], m = [G[0] / 2, G[1] / 2], L = 2 * R;
+      shapes.push({ type: 'line', x0: m[0] - L * u[0], y0: m[1] - L * u[1], x1: m[0] + L * u[0], y1: m[1] + L * u[1], line: { color: C.ef, width: 1.5, dash: 'dash' } });
+      const d = A2 / Gl, sinT = Math.abs(dot([k[0], k[1], 0], [G[0], G[1], 0])) / (kk * Gl), ord = gcd(H.h, H.l);
+      const two = deg(Math.acos(dot([k[0], k[1], 0], [H.kp[0], H.kp[1], 0]) / (kk * Math.hypot(...H.kp))));
+      setPill('m2-pill', ['semi', `Reflection (${mi(H.h)} ${mi(H.l)})` + (hits.length > 1 ? ` + ${hits.length - 1} more` : '')]);
+      rows.push(['d = 2π/|G|', d.toFixed(1) + ' pm' + (ord > 1 ? ` (order ${ord} of (${mi(H.h / ord)} ${mi(H.l / ord)}))` : '')],
+        ['Glancing angle θ (geometry)', deg(Math.asin(Math.min(1, sinT))).toFixed(2) + '°'], ['Bragg: asin(λ/2d)', deg(Math.asin(lam / (2 * d))).toFixed(2) + '°'],
+        ['Deflection 2θ (k to k′)', two.toFixed(2) + '°'], ['2d sin θ', (2 * d * sinT).toFixed(2) + ' pm (λ = ' + lam.toFixed(2) + ' pm)']);
+    } else {
+      setPill('m2-pill', ['atom', 'No reflection at this angle']);
+      rows.push(['Nearest G', `(${mi(best.h)} ${mi(best.l)}) misses the circle by ${(best.mis * 100).toFixed(1)} %`],
+        ['Its Bragg angle', lam / (2 * A2 / Math.hypot(best.h, best.l)) <= 1 ? deg(Math.asin(lam * Math.hypot(best.h, best.l) / (2 * A2))).toFixed(2) + '°' : 'none (λ > 2d)']);
+    }
+    setRead('m2-read', rows);
+    Plotly.react('m2-p', T, layout({ shapes, annotations: ann, margin: { l: 50, r: 12, t: 8, b: 44 },
+      xaxis: ax('k_x (2π/a)', { range: [-R, R], zeroline: false }), yaxis: ax('k_y (2π/a)', { range: [-R, R], zeroline: false, scaleanchor: 'x', scaleratio: 1 }) }), CFG);
+  }
+
+  /* ---------- Model 3: real <-> reciprocal lattice with WS cell and BZ ---------- */
+  // Kittel ch. 2 primitive vectors; b_i computed from the cross-product formula (checked in node: a_i·b_j = 2π δ_ij).
+  // Polyhedra: truncated octahedron = perms of s(0,±1,±2), volume 32 s³; rhombic dodecahedron = s(±2,0,0) perms + s(±1,±1,±1), volume 16 s³.
+  const PRIM = { sc: [[1, 0, 0], [0, 1, 0], [0, 0, 1]], bcc: [[-.5, .5, .5], [.5, -.5, .5], [.5, .5, -.5]], fcc: [[0, .5, .5], [.5, 0, .5], [.5, .5, 0]] };
+  const MAT = { sc: 334, bcc: 288.5, fcc: 361.5 };
+  const INFO = { sc: { rec: 'sc', ws: ['cube', .5], bz: ['cube', .5], bzName: 'cube' },
+                 bcc: { rec: 'fcc', ws: ['TO', .25], bz: ['RD', .5], bzName: 'rhombic dodecahedron' },
+                 fcc: { rec: 'bcc', ws: ['RD', .25], bz: ['TO', .5], bzName: 'truncated octahedron' } };
+  function polyVerts([type, s]) {
+    const V = [];
+    if (type === 'cube') { for (const x of [-1, 1]) for (const y of [-1, 1]) for (const z of [-1, 1]) V.push([x, y, z]); }
+    if (type === 'RD') { [[2, 0, 0], [0, 2, 0], [0, 0, 2]].forEach(v => V.push(v, v.map(c => -c))); for (const x of [-1, 1]) for (const y of [-1, 1]) for (const z of [-1, 1]) V.push([x, y, z]); }
+    if (type === 'TO') {
+      const P = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
+      P.forEach(p => { for (const s1 of [-1, 1]) for (const s2 of [-1, 1]) { const v = [0, 0, 0]; v[p[1]] = s1; v[p[2]] = 2 * s2; V.push(v); } });
+    }
+    return V.map(v => v.map(c => c * s));
+  }
+  function polyTraces(V, scale, color) {
+    const P = V.map(v => v.map(c => c * scale));
+    let dmin = Infinity; P.forEach((p, i) => P.forEach((q, j) => { if (j > i) dmin = Math.min(dmin, norm(p.map((c, k) => c - q[k]))); }));
+    const X = [], Y = [], Z = [];
+    P.forEach((p, i) => P.forEach((q, j) => { if (j > i && norm(p.map((c, k) => c - q[k])) < dmin * 1.001) { X.push(p[0], q[0], null); Y.push(p[1], q[1], null); Z.push(p[2], q[2], null); } }));
+    return [{ type: 'mesh3d', x: P.map(p => p[0]), y: P.map(p => p[1]), z: P.map(p => p[2]), alphahull: 0, color, opacity: 0.16, flatshading: true, hoverinfo: 'skip' },
+            { type: 'scatter3d', mode: 'lines', x: X, y: Y, z: Z, line: { color, width: 3 }, hoverinfo: 'skip' }];
+  }
+  function arrows3(tips, color, head) {
+    const X = [], Y = [], Z = [];
+    tips.forEach(t => { X.push(0, t[0], null); Y.push(0, t[1], null); Z.push(0, t[2], null); });
+    return [{ type: 'scatter3d', mode: 'lines', x: X, y: Y, z: Z, line: { color, width: 6 }, hoverinfo: 'skip' },
+      { type: 'cone', x: tips.map(t => t[0]), y: tips.map(t => t[1]), z: tips.map(t => t[2]), u: tips.map(t => t[0] / norm(t)), v: tips.map(t => t[1] / norm(t)), w: tips.map(t => t[2] / norm(t)),
+        anchor: 'tip', sizemode: 'absolute', sizeref: head, colorscale: [[0, color], [1, color]], showscale: false, hoverinfo: 'skip' }];
+  }
+  const lab3 = (tips, txt, color) => ({ type: 'scatter3d', mode: 'text', x: tips.map(t => t[0] * 1.2), y: tips.map(t => t[1] * 1.2), z: tips.map(t => t[2] * 1.2), text: txt, textfont: { color, size: 13, family: CM.MONO }, hoverinfo: 'skip' });
+  function latticePts(B, rmax) {
+    const P = [];
+    for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) for (let k = -3; k <= 3; k++) {
+      const p = [0, 1, 2].map(c => i * B[0][c] + j * B[1][c] + k * B[2][c]);
+      if (norm(p) <= rmax * 1.001) P.push(p);
+    }
+    return P;
+  }
+  const scene = (t, r) => ({ xaxis: sAx(t[0], { range: [-r, r] }), yaxis: sAx(t[1], { range: [-r, r] }), zaxis: sAx(t[2], { range: [-r, r] }), aspectmode: 'cube', camera: { eye: { x: 1.5, y: 1.2, z: 0.8 } }, bgcolor: 'rgba(0,0,0,0)' });
+  const mk3 = (P, color, size, ht) => ({ type: 'scatter3d', mode: 'markers', x: P.map(p => p[0]), y: P.map(p => p[1]), z: P.map(p => p[2]), marker: { color, size, line: { width: 0 } }, hovertemplate: ht });
+  let m3last = null;
+  function renderM3() {
+    const lat = radio('m3-lat');
+    if (lat !== m3last) { m3last = lat; const s = $('m3-a'); s.value = MAT[lat]; s.dispatchEvent(new Event('input')); }
+    const aA = +$('m3-a').value / 100, I = INFO[lat], ws = $('m3-ws').checked;     // a in Å
+    const A = PRIM[lat].map(v => v.map(c => c * aA)), Vc = dot(A[0], cross(A[1], A[2]));
+    const B = [cross(A[1], A[2]), cross(A[2], A[0]), cross(A[0], A[1])].map(v => v.map(c => 2 * PI * c / Vc));
+    const Vb = dot(B[0], cross(B[1], B[2])), g = 2 * PI / aA;
+    const R = latticePts(A, aA), G = latticePts(B, 2 * g);
+    const TR = [mk3(R.filter(p => norm(p) > 1e-9), rgba(C.emp, 0.85), 5, '(%{x:.2f}, %{y:.2f}, %{z:.2f}) Å<extra></extra>'), mk3([[0, 0, 0]], C.ef, 7, 'origin<extra></extra>'),
+      ...arrows3(A, C.ef, 0.5), lab3(A, ['a₁', 'a₂', 'a₃'], C.ef)];
+    const TK = [mk3(G.filter(p => norm(p) > 1e-9), rgba(C.occ, 0.9), 5, '(%{x:.2f}, %{y:.2f}, %{z:.2f}) Å⁻¹<extra></extra>'), mk3([[0, 0, 0]], C.ef, 7, 'Γ<extra></extra>'),
+      ...arrows3(B, C.occ, 0.45), lab3(B, ['b₁', 'b₂', 'b₃'], C.occ)];
+    if (ws) { TR.push(...polyTraces(polyVerts(I.ws), aA, C.ef)); TK.push(...polyTraces(polyVerts(I.bz), g, C.ef)); }
+    Plotly.react('m3-r', TR, layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm3r', scene: scene(['x (Å)', 'y (Å)', 'z (Å)'], 6.5) }), CFG);
+    Plotly.react('m3-k', TK, layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, uirevision: 'm3k', scene: scene(['kx (Å⁻¹)', 'ky (Å⁻¹)', 'kz (Å⁻¹)'], 5.5) }), CFG);
+    const la = norm(A[0]), lb = norm(B[0]), short = 2 * PI / la, ok = Math.abs(short - lb) < 1e-9;
+    let dev = 0; A.forEach((a, i) => B.forEach((b, j) => { dev = Math.max(dev, Math.abs(dot(a, b) / (2 * PI) - (i === j ? 1 : 0))); }));
+    const angB = deg(Math.acos(dot(B[0], B[1]) / (lb * lb)));
+    setPill('m3-pill', ok ? ['semi', '|b₁| = 2π/|a₁|: axes orthogonal'] : ['metal', `|b₁| = ${(lb / short).toFixed(3)} × 2π/|a₁|: shortcut fails`]);
+    setRead('m3-read', [['Reciprocal lattice', `${I.rec}, 1st BZ: ${I.bzName}`], ['V_c = a₁·(a₂×a₃)', Vc.toFixed(2) + ' Å³'], ['V_BZ = b₁·(b₂×b₃)', Vb.toFixed(3) + ' Å⁻³'],
+      ['V_c · V_BZ / (2π)³', (Vc * Vb / (8 * PI ** 3)).toFixed(4)], ['|a₁|', la.toFixed(3) + ' Å'], ['|b₁|', lb.toFixed(3) + ' Å⁻¹'],
+      ['2π/|a₁| (shortcut)', short.toFixed(3) + ' Å⁻¹' + (ok ? ' ✓' : ' ✗')], ['max |a_i·b_j/2π − δ_ij|', dev < 1e-12 ? '< 10⁻¹²' : dev.toExponential(1)], ['Angle (b₁, b₂)', angB.toFixed(2) + '°']]);
+  }
+
+  /* ---------- Model 4: phasor sum on a 1D chain with a 2-atom basis ---------- */
+  // Intensity = |Σ_n e^{-i2πqn}|² · |1 + f e^{-i2πqu}|², normalised by N²(1+f)² (f₁ = 1).
+  const QS = lin(0, 3, 1501);
+  function amp(q, N, u, f) {
+    let re = 0, im = 0;
+    for (let n = 0; n < N; n++) { const p1 = -2 * PI * q * n, p2 = -2 * PI * q * (n + u); re += Math.cos(p1) + f * Math.cos(p2); im += Math.sin(p1) + f * Math.sin(p2); }
+    return [re, im];
+  }
+  function renderM4() {
+    const q = +$('m4-q').value, N = +$('m4-n').value, u = +$('m4-u').value, f = +$('m4-f').value, M = N * N * (1 + f) ** 2;
+    const I = QS.map(x => { const [r, i] = amp(x, N, u, f); return (r * r + i * i) / M; });
+    const Sb = QS.map(x => ((1 + f * Math.cos(2 * PI * x * u)) ** 2 + (f * Math.sin(2 * PI * x * u)) ** 2) / (1 + f) ** 2);
+    const [ar, ai] = amp(q, N, u, f), Iq = (ar * ar + ai * ai) / M;
+    Plotly.react('m4-a', [
+      { x: QS, y: Sb, mode: 'lines', line: { color: C.emp, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: QS, y: I, mode: 'lines', line: { color: C.occ, width: 2 }, hovertemplate: 'q = %{x:.3f}: %{y:.3f}<extra></extra>' },
+      { x: [q], y: [Iq], mode: 'markers', marker: { color: C.ef, size: 9, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [1, 2, 3].map(g => vline(g, C.muted, 'dot')).concat([vline(q, C.ef, 'solid')]), xaxis: ax('q (2π/a)', { range: [0, 3] }), yaxis: ax('Intensity / maximum', { range: [0, 1.05] }) }), CFG);
+    const X = [0], Y = [0]; let re = 0, im = 0;
+    for (let n = 0; n < N; n++) for (const [x, w] of [[n, 1], [n + u, f]]) { if (!w) continue; re += w * Math.cos(-2 * PI * q * x); im += w * Math.sin(-2 * PI * q * x); X.push(re); Y.push(im); }
+    const ext = Math.max(1.5, ...X.map(Math.abs), ...Y.map(Math.abs)) * 1.1;
+    Plotly.react('m4-b', [{ x: X, y: Y, mode: 'lines+markers', line: { color: C.occ, width: 2 }, marker: { color: C.occ, size: 4 }, hoverinfo: 'skip' }],
+      layout({ annotations: [{ x: re, y: im, ax: 0, ay: 0, xref: 'x', yref: 'y', axref: 'x', ayref: 'y', showarrow: true, arrowhead: 2, arrowwidth: 2.2, arrowcolor: C.ef, text: '' }],
+        xaxis: ax('Re A', { range: [-ext, ext] }), yaxis: ax('Im A', { range: [-ext, ext], scaleanchor: 'x', scaleratio: 1 }) }), CFG);
+    const m = Math.round(q), Sm = Math.hypot(1 + f * Math.cos(2 * PI * m * u), f * Math.sin(2 * PI * m * u)) / (1 + f);
+    const onPeak = Math.abs(q - m) < 0.25 / N;
+    setPill('m4-pill', onPeak ? (Sm < 0.02 ? ['metal', `q = G = ${m}: but the basis cancels it`] : ['semi', `Laue condition: q ≈ G = ${m} · 2π/a`]) : ['atom', 'Off the Laue condition']);
+    setRead('m4-read', [['|A|² / N²(f₁+f₂)²', Iq.toFixed(4)], ['|A|', Math.hypot(ar, ai).toFixed(2) + ' of ' + (N * (1 + f)).toFixed(2)],
+      ['Nearest G', m + ' · 2π/a'], ['|S(G)|/(f₁+f₂)', m ? Sm.toFixed(3) : '1 (q = 0)'], ['Peak half-width (first zero)', '±' + (1 / N).toFixed(3) + ' · 2π/a']]);
+  }
+
+  /* ---------- Model 5: structure factor, powder pattern ---------- */
+  // Bases in the conventional cube; checked in node: diamond |S|/f = 4√2 (all odd), 8 (all even, sum 4n), 0 otherwise.
+  // Materials: Po 334 pm, Cr 288.5 pm, Cu 361.5 pm (sheet 2.2), Si 543.0 pm (Kittel, as on topic 01). Cu 111 at 2θ = 43.32° for 154.06 pm (node).
+  const FCC = [[0, 0, 0], [0, .5, .5], [.5, 0, .5], [.5, .5, 0]];
+  const STR = { sc: { b: [[0, 0, 0]], a: 334, m: 'Po' }, bcc: { b: [[0, 0, 0], [.5, .5, .5]], a: 288.5, m: 'Cr' }, fcc: { b: FCC, a: 361.5, m: 'Cu' },
+    dia: { b: FCC.concat(FCC.map(p => p.map(c => c + .25))), a: 543.0, m: 'Si' } };
+  const RULE = { sc: 'all reflections allowed', bcc: 'h+k+l even', fcc: 'h,k,l all even or all odd', dia: 'fcc rule, and not (all even with h+k+l = 4n+2)' };
+  const FAM = [];
+  // N ≤ 250 covers 2θ up to 180° for every preset down to λ = 70 pm (Si: (2a/λ)² = 241).
+  for (let h = 0; h <= 15; h++) for (let k = 0; k <= h; k++) for (let l = 0; l <= k; l++) if (h + k + l && h * h + k * k + l * l <= 250) FAM.push([h, k, l]);
+  FAM.sort((x, y) => dot(x, x) - dot(y, y) || y[0] - x[0]);
+  function mult(f) {
+    const set = new Set(), P = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
+    P.forEach(p => { for (const s0 of [-1, 1]) for (const s1 of [-1, 1]) for (const s2 of [-1, 1]) set.add([s0 * f[p[0]], s1 * f[p[1]], s2 * f[p[2]]].join(',')); });
+    return set.size;
+  }
+  function renderM5() {
+    const st = STR[radio('m5-str')], lam = +$('m5-l').value;
+    const rows = FAM.map(f => {
+      let re = 0, im = 0; st.b.forEach(p => { const ph = -2 * PI * dot(f, p); re += Math.cos(ph); im += Math.sin(ph); });
+      const Sabs = Math.hypot(re, im), d = st.a / norm(f), s = lam / (2 * d);
+      return { f, N: dot(f, f), d, tt: s <= 1 ? 2 * deg(Math.asin(s)) : null, S: Sabs < 1e-6 ? 0 : Sabs, m: mult(f) };
+    });
+    const vis = rows.filter(r => r.tt !== null), on = vis.filter(r => r.S > 0), off = vis.filter(r => r.S === 0);
+    const Imax = Math.max(1e-9, ...on.map(r => r.m * r.S * r.S));
+    const X = [], Y = []; on.forEach(r => { X.push(r.tt, r.tt, null); Y.push(0, r.m * r.S * r.S / Imax, null); });
+    const lbl = r => r.f.join('');
+    Plotly.react('m5-p', [
+      { x: X, y: Y, mode: 'lines', line: { color: C.occ, width: 3 }, hoverinfo: 'skip' },
+      { x: on.slice(0, 10).map(r => r.tt), y: on.slice(0, 10).map(r => r.m * r.S * r.S / Imax + 0.06), mode: 'text', text: on.slice(0, 10).map(lbl), textfont: { family: CM.MONO, size: 11, color: C.fg }, hovertemplate: '2θ = %{x:.2f}°<extra>%{text}</extra>' },
+      { x: off.map(r => r.tt), y: off.map(() => 0), mode: 'markers', marker: { symbol: 'circle-open', color: C.emp, size: 9, line: { width: 2 } }, text: off.map(lbl), hovertemplate: '%{text} extinct, 2θ = %{x:.2f}°<extra></extra>' }],
+      layout({ xaxis: ax('Scattering angle 2θ (°)', { range: [0, 180] }), yaxis: ax('mult. × |S/f|² (rel.)', { range: [-0.05, 1.2] }) }), CFG);
+    $('m5-tb').innerHTML = rows.slice(0, 10).map(r => `<tr><td>${lbl(r)}</td><td>${r.N}</td><td>${r.d.toFixed(1)}</td><td>${r.tt === null ? '— (λ > 2d)' : r.tt.toFixed(2)}</td><td>${r.S ? r.S.toFixed(2) : '0 (extinct)'}</td><td>${r.m}</td></tr>`).join('');
+    const first = on[0];
+    setPill('m5-pill', ['semi', `${st.m}: ${on.length} allowed, ${off.length} extinct below 180°`]);
+    setRead('m5-read', [['Atoms per cube', String(st.b.length)], ['a', st.a + ' pm'], ['Allowed when', RULE[radio('m5-str')]], ['|S(000)|/f', String(st.b.length)],
+      ['First reflection', first ? `${lbl(first)} at 2θ = ${first.tt.toFixed(2)}°` : 'none (λ too long)']]);
+  }
+
+  /* ---------- Model 6: hydrogen-like form factor ---------- */
+  // f = 16/(4+K²a²)²; numerical check: Simpson on 4πr² n sin(Kr)/(Kr), r ∈ [0, 30a] (node: agrees to 5 digits at Ka0 = 1, 2, 4, 8). f = ½ at Ka = 1.287.
+  const a0A = K.a0 * 1e10, RR = lin(0, 4, 201), KK = lin(0, 10, 201), KN = lin(0, 10, 21);
+  const fA = (Kv, a) => 16 / (4 + Kv * Kv * a * a) ** 2;
+  function fNum(Kv, a) {
+    const n = 2000, L = 30 * a, h = L / n; let s = 0;
+    for (let i = 0; i <= n; i++) { const r = i * h, x = Kv * r, g = 4 * r * r * Math.exp(-2 * r / a) / (a ** 3) * (x ? Math.sin(x) / x : 1); s += g * (i === 0 || i === n ? 1 : i % 2 ? 4 : 2); }
+    return s * h / 3;
+  }
+  function renderM6() {
+    const a = +$('m6-a').value * a0A, Kv = +$('m6-K').value;
+    const rad = (r, aa) => 4 * r * r * Math.exp(-2 * r / aa) / aa ** 3;
+    Plotly.react('m6-n', [
+      { x: RR, y: RR.map(r => rad(r, a0A)), mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: RR, y: RR.map(r => rad(r, a)), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'r = %{x:.2f} Å<extra></extra>' }],
+      layout({ shapes: [vline(a, C.occ, 'dot')], xaxis: ax('r (Å)', { range: [0, 4] }), yaxis: ax('4πr² n(r) (Å⁻¹)', { rangemode: 'tozero' }) }), CFG);
+    const fk = fA(Kv, a), fn = fNum(Kv, a);
+    Plotly.react('m6-f', [
+      { x: KK, y: KK.map(k => fA(k, a)), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'K = %{x:.2f} Å⁻¹: f = %{y:.3f}<extra></extra>' },
+      { x: KN, y: KN.map(k => fNum(k, a)), mode: 'markers', marker: { color: C.emp, size: 7 }, hovertemplate: 'numerical %{y:.4f}<extra></extra>' },
+      { x: [Kv], y: [fk], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(Kv, C.ef, 'solid'), hline(0.5, C.muted, 'dot')], xaxis: ax('Scattering vector K (Å⁻¹)', { range: [0, 10] }), yaxis: ax('Form factor f', { range: [0, 1.05] }) }), CFG);
+    const sTh = Kv * 1.5406 / (4 * PI);
+    setPill('m6-pill', ['atom', `f = ${fk.toFixed(3)} at K = ${Kv.toFixed(2)} Å⁻¹`]);
+    setRead('m6-read', [['Radius a', a.toFixed(3) + ' Å'], ['K·a', (Kv * a).toFixed(3)], ['f analytic', fk.toFixed(4)], ['f numerical', fn.toFixed(4)],
+      ['f = ½ at K', (1.287 / a).toFixed(2) + ' Å⁻¹'], ['θ for Cu Kα (K = 4π sinθ/λ)', sTh <= 1 ? deg(Math.asin(sTh)).toFixed(2) + '°' : 'beyond reach (K > 4π/λ)']]);
+  }
+
+  onChange('input[name="m3-lat"]', renderM3);
+  onChange('#m3-ws', renderM3);
+  onChange('input[name="m5-str"]', renderM5);
+  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3, m4: renderM4, m5: renderM5, m6: renderM6 });
+});
+</script>
+</body>
+</html>

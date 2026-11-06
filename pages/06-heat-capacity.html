@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Heat Capacity · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 06</span><span>Syllabus §1.7</span><span>Kittel ch. 5</span><span>Notes pp. 33–38</span><span>Sheet 7</span></div>
+  <h1>Lattice Heat Capacity</h1>
+  <p class="lead">Each phonon mode is a quantum harmonic oscillator, so the crystal's partition function factorises and the heat capacity is a sum of one-oscillator terms. That sum gives the classical Dulong–Petit value at high temperature, a $T^3$ law at low temperature, and the Debye and Einstein models in between. The Debye temperature $\Theta_D$ defined here returns in transport (topic 08) and in the electron–phonon cross-over (topic 07).</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Homework</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<!-- 1. OVERVIEW -->
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>The lecture takes the statistical-mechanics route. Write the energy of the harmonic crystal as a sum over modes $(\mathbf k,s)$, sum the geometric series in each mode's partition function, and take $u=-\frac1V\partial_\beta\ln Z$ and $c_v=\partial u/\partial T$. The result (★) below is exact for a harmonic lattice. Everything else in the section is a limit of it (high $T$, low $T$) or an approximation to the dispersion $\omega_s(\mathbf k)$ (Debye, Einstein, combined).</p>
+  <p>Key results to leave with: (★) and where the Bose factor comes from; Dulong–Petit with its $1/T^2$ corrections; the $T^3$ law and why it becomes $T^d$ in $d$ dimensions (sheet 7.1); the Debye formula and how to pull $\Theta_D$ out of measured data (sheet 7.2); and why Einstein's flat mode freezes out exponentially. The electronic heat capacity and the sheet 9.1 cross-over are on <a href="07-free-electron-gas.html#smear">topic 07</a> and are not repeated here.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 5 (Phonon Heat Capacity: Planck Distribution, Normal Mode Enumeration, Density of States in Three Dimensions, Debye Model, Debye $T^3$ Law, Einstein Model), and the lecture notes pp. 33–38.</p>
+</section>
+
+<!-- 2. CONCEPTS -->
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+  <div class="cards">
+    <article class="card">
+      <h3>1.7.1 Lattice specific heat from the partition function</h3>
+      <p>A crystal of $N$ unit cells with $n$ atoms each has $3nN$ normal modes: $N$ wavevectors in the first BZ times $3n$ branches (3 acoustic, $3n-3$ optical). In the harmonic approximation each mode is an independent oscillator. A microstate is the list of occupation numbers $\{n_s(\mathbf k)\}$ ($3nN$ non-negative integers), with $E=E_{eq}+\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\big(n_s(\mathbf k)+\tfrac12\big)$. Because $E$ is a sum, $Z$ is a product, and each factor is a geometric series starting at $n_s=0$:</p>
+      $$Z=e^{-\beta E_{eq}}\prod_{\mathbf k,s}\sum_{n=0}^{\infty}e^{-\beta\hbar\omega_s(\mathbf k)(n+\frac12)}=e^{-\beta E_{eq}}\prod_{\mathbf k,s}\frac{e^{-\beta\hbar\omega_s/2}}{1-e^{-\beta\hbar\omega_s}} .$$
+      <p>Then $u=-\frac1V\partial_\beta\ln Z$ gives the energy density as static lattice, plus Bose occupation, plus zero-point motion:</p>
+      $$u=u_{eq}+\frac1V\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\Big(\frac{1}{e^{\beta\hbar\omega_s(\mathbf k)}-1}+\frac12\Big).$$
+      <p>With $\partial_T=-k_B\beta^2\partial_\beta$, and with $u_{eq}$ and the zero-point term independent of $T$:</p>
+      $$c_v=\frac{\partial u}{\partial T}\Big|_V=\frac{k_B}{V}\sum_{\mathbf k,s}\frac{x^2e^x}{(e^x-1)^2},\qquad x=\frac{\hbar\omega_s(\mathbf k)}{k_BT}.\qquad(\star)$$
+      <p>$c_v$ is in J K⁻¹ m⁻³. Each mode contributes $k_B\,w(x)$, where $w(x)=x^2e^x/(e^x-1)^2$ rises from 0 (frozen, $\hbar\omega\gg k_BT$) to 1 (classical, $\hbar\omega\ll k_BT$). Model 1 shows this weight over a real spectrum. This is the same equipartition breakdown as in any quantum oscillator system: a level spacing much larger than $k_BT$ cannot absorb heat.</p>
+    </article>
+
+    <article class="card">
+      <h3>Per volume, per crystal, per mole, per gram</h3>
+      <p>Four normalisations appear in the sources, and mixing them up is the most common numerical slip:</p>
+      <ul>
+        <li><b>Lecture:</b> $c_v$ is per <b>volume</b> (the $\frac1V$ in (★)), in J K⁻¹ m⁻³.</li>
+        <li><b>Kittel:</b> $C_V$ is for the <b>whole crystal</b> of $N$ atoms, in J K⁻¹. So $C_V=V\,c_v$.</li>
+        <li><b>Tables and sheet 9.1:</b> per <b>mole</b> of atoms, $N=N_A$, so $Nk_B=R=8.314$ J mol⁻¹ K⁻¹.</li>
+        <li><b>Sheet 7.2 graph:</b> per <b>gram</b>, in cal g⁻¹ K⁻¹. Divide the molar value by the molar mass (12.011 g mol⁻¹ for C) and by 4.184 J/cal.</li>
+      </ul>
+      <p>On this page $c_v$ (lower case) is the lecture's density and $C$ (upper case) is a total or molar value. Models plot $C/(3Nk_B)$, which is the same in every normalisation. Dulong–Petit is $3R=24.94$ J mol⁻¹ K⁻¹, or 0.496 cal g⁻¹ K⁻¹ for carbon.</p>
+      <div class="assume"><b>Notation clashes:</b> lecture $\Theta_D$, $\bar c$ versus Kittel $\theta$, $v$. Kittel ch. 5 writes $\tau=k_BT$, which is not the relaxation time of topic 08. In the notes, $n$ is both the number of basis atoms and the atom density; this page writes the atom density as $n_{at}=nN/V$. The notes' $N$ counts cells on p33–34 but atoms in the Debye construction on p36.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.7.1.1 High-temperature limit</h3>
+      <p>For $k_BT\gg\hbar\omega_s$ for every mode, i.e. $x\ll1$, expand the mode weight:</p>
+      $$\frac{x^2e^x}{(e^x-1)^2}=1-\frac{x^2}{12}+\frac{x^4}{240}-\dots\;\Rightarrow\; c_v=\frac{3nN}{V}k_B-\frac{k_B}{12V}\sum_{\mathbf k,s}\Big(\frac{\hbar\omega_s}{k_BT}\Big)^2+\dots$$
+      <p>The leading term is Dulong–Petit, $c_v=3n_{at}k_B$: every mode carries $k_B$, as equipartition gives for two quadratic degrees of freedom. The quantum correction is $\mathcal O(1/T^2)$, set by the mean square frequency. For the Debye spectrum, $\langle\omega^2\rangle=\frac35\omega_D^2$, which gives $C/3Nk_B=1-\frac1{20}(\Theta_D/T)^2$. For Einstein it is $1-\frac1{12}(\Theta_E/T)^2$.</p>
+      <p>"High" means compared with $\Theta_D$. Cu ($\Theta_D=343$ K) is at 94 % of $3R$ at 300 K. Diamond ($\Theta_D=2230$ K) is at only 17 %, so at room temperature it is far from classical.</p>
+      <div class="check"><b>Check:</b> the series against the exact $w(x)$ at $x=0.5$: 0.979427 vs 0.979424. The Debye correction at $T=\Theta_D$ predicts 0.950; the exact value is 0.952 (node). The 300 K values come from the full Debye function with Kittel's Θ_D.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.7.1.2 Low-temperature limit: the $T^3$ law</h3>
+      <p>For $k_BT$ well below every optical frequency and below the zone-boundary acoustic frequencies, only long-wavelength acoustic modes are thawed. They are linear, $\omega_s=c_s(\hat{\mathbf k})k$. Replace the sum by $V\!\int\!d^3k/(2\pi)^3$ with $d^3k=k^2dk\,d\Omega$ and substitute $x=\hbar c_sk/k_BT$. The upper limit can go to $\infty$, because the integrand has died by then:</p>
+      $$u-u_0=\frac{(k_BT)^4}{\hbar^3}\Big(\frac13\sum_{s=1}^{3}\oint\frac{1}{c_s^3}\frac{d\Omega}{4\pi}\Big)\frac{3}{2\pi^2}\int_0^\infty\frac{x^3\,dx}{e^x-1},\qquad\int_0^\infty\frac{x^3dx}{e^x-1}=\frac{\pi^4}{15}.$$
+      <p>The bracket defines the averaged sound speed $1/\bar c^3$. Differentiating:</p>
+      $$c_v^{low}=\frac{2\pi^2}{5}\,k_B\Big(\frac{k_BT}{\hbar\bar c}\Big)^3\quad\Longleftrightarrow\quad C=\frac{12\pi^4}{5}Nk_B\Big(\frac{T}{\Theta_D}\Big)^3=1944\,\frac{\text{J}}{\text{mol K}}\Big(\frac{T}{\Theta_D}\Big)^3 .$$
+      <p>The right-hand form is Kittel's. It is the lecture's result times $V$, once $\Theta_D$ is defined as on the next card. <b>Counting picture</b> (Kittel Fig. 10): modes with $\hbar\omega\lesssim k_BT$ fill a sphere of radius $k_T=k_BT/\hbar\bar c$, a fraction $(T/\Theta_D)^3$ of all $3N$ modes, each with energy $\sim k_BT$. So $U\sim3Nk_BT(T/\Theta_D)^3$ and $C\propto T^3$. In $d$ dimensions the sphere becomes a $d$-ball, so $C\propto T^d$ (Model 3, sheet 7.1).</p>
+      <p>In real crystals the clean $T^3$ regime needs roughly $T\lesssim\Theta_D/50$ (Kittel), because the dispersion bends away from $ck$ well before the zone boundary. Inside the Debye model itself, $T^3$ is accurate to 0.002 % at $T=\Theta_D/20$ and to 3 % at $\Theta_D/10$.</p>
+      <div class="check"><b>Check:</b> with $k_D=(6\pi^2n_{at})^{1/3}$ and $k_B\Theta_D=\hbar\bar ck_D$, the ratio $V\frac{2\pi^2}{5}k_B(k_BT/\hbar\bar c)^3\big/\frac{12\pi^4}{5}Nk_B(T/\Theta_D)^3$ evaluates to 1.000000 (node). $\int x^4e^x/(e^x-1)^2dx=4\pi^4/15=25.976$ numerically. Debye/T³ ratios: 0.99998 at $T/\Theta_D=0.05$, 0.973 at 0.1.</div>
+    </article>
+
+    <article class="card">
+      <h3>1.7.1.3 Intermediate T: the Debye model</h3>
+      <p>(★) is exact but needs $\omega_s(\mathbf k)$ over the whole BZ. Debye makes two replacements: (a) three acoustic branches $\omega=\bar c\,k$ for all $k$; (b) the BZ becomes a sphere of the same volume, i.e. the same number of $k$-points:</p>
+      $$\frac{4\pi}{3}k_D^3=\frac{(2\pi)^3}{V}N\;\Rightarrow\;k_D=\big(6\pi^2n_{at}\big)^{1/3},\qquad \hbar\omega_D=\hbar\bar ck_D=k_B\Theta_D .$$
+      <p>Redoing the low-T integral with the upper limit $x_D=\Theta_D/T$ kept finite:</p>
+      $$c_v^{Debye}=9\,n_{at}k_B\Big(\frac{T}{\Theta_D}\Big)^3\int_0^{\Theta_D/T}\frac{x^4e^x}{(e^x-1)^2}\,dx .$$
+      <p>For $\Theta_D/T\to\infty$ the integral is $4\pi^4/15$ (the $T^3$ law). For $\Theta_D/T\to0$ it is $\frac13(\Theta_D/T)^3$, giving $3n_{at}k_B$ (Dulong–Petit). Both limits are therefore right, and in between it is a one-parameter curve. $\Theta_D$ plays the role for phonons that $\varepsilon_F/k_B$ plays for electrons: it separates "quantum" from "classical". The Debye sphere is not the BZ; it only has the same volume. For $n>1$ basis atoms, count all $nN$ atoms in $k_D$, or use the combined model below.</p>
+    </article>
+
+    <article class="card">
+      <h3>1.7.1.3 Einstein model and the combined model</h3>
+      <p><b>Einstein:</b> every atom vibrates at one frequency $\omega_E$ in three directions, independent of $\mathbf k$. Then (★) has $3N$ identical terms:</p>
+      $$c_v^{Einstein}=3n_{at}k_B\,\frac{(\Theta_E/T)^2\,e^{\Theta_E/T}}{\big(e^{\Theta_E/T}-1\big)^2},\qquad k_B\Theta_E=\hbar\omega_E .$$
+      <p>For $T\gg\Theta_E$ this gives Dulong–Petit. For $T\ll\Theta_E$ it gives $c_v\approx3n_{at}k_B(\Theta_E/T)^2e^{-\Theta_E/T}$, an exponential freeze-out. Experiment shows $T^3$ instead, because a real crystal always has acoustic modes of arbitrarily low frequency near $k=0$, and those stay thawed at any $T>0$. The Einstein model describes an <b>optical</b> branch well, since optical branches are nearly flat.</p>
+      <p><b>Combined (lecture p38):</b> for $n$ atoms per cell, the 3 acoustic branches go to Debye (sphere built from the $N$ cells) and the $3(n-1)$ optical branches to Einstein:</p>
+      $$\frac{C}{3nNk_B}=\frac{1}{n}\Big[D\big(T/\Theta_D\big)+(n-1)\,E\big(T/\Theta_E\big)\Big],$$
+      <p>where $D$ and $E$ are the Debye and Einstein curves normalised to 1 at high $T$ (Model 2).</p>
+    </article>
+
+    <article class="card">
+      <h3>Phonon density of states</h3>
+      <p>The summand in (★) depends on $\mathbf k$ only through $\omega$, so the sum can be grouped by frequency:</p>
+      $$c_v=\int_0^\infty k_B\,w\!\Big(\frac{\hbar\omega}{k_BT}\Big)\,g(\omega)\,d\omega,\qquad g(\omega)=\sum_s\int_{BZ}\frac{d^3k}{(2\pi)^3}\,\delta\big(\omega-\omega_s(\mathbf k)\big)=\sum_s\oint_{\omega_s=\omega}\frac{dS_k}{(2\pi)^3\,|\nabla_{\mathbf k}\omega_s|}.$$
+      <p>$g$ is per volume and per unit $\omega$, and $\int g\,d\omega=3n_{at}$ (Kittel's $D(\omega)=Vg$). Debye: $g=\frac{3}{2\pi^2}\frac{\omega^2}{\bar c^3}$ up to $\omega_D$. Einstein: $g=3n_{at}\,\delta(\omega-\omega_E)$. A real $g$ (e.g. Al, sketched on p38) follows $\omega^2$ only at low $\omega$, then has van Hove peaks where $\nabla_{\mathbf k}\omega=0$. The dispersion relations themselves are on <a href="05-phonons.html">topic 05</a>.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. INTERACTIVE MODELS -->
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="freeze">
+    <div class="rail">
+      <span class="eyebrow">1.7.1 · Modes as oscillators</span>
+      <h3>Freezing out the phonon spectrum</h3>
+      <p>Equation (★) evaluated with a Debye spectrum. Every mode adds $k_B\,w(\hbar\omega/k_BT)$, and the heat capacity is the weighted share of the $3N$ modes. Θ_D values from Kittel ch. 5.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Crystal (Θ_D)</legend><div class="opts">
+          <label><input type="radio" name="fo-mat" value="Ar"><span>Ar 92 K</span></label>
+          <label><input type="radio" name="fo-mat" value="Cu"><span>Cu 343 K</span></label>
+          <label><input type="radio" name="fo-mat" value="Al"><span>Al 428 K</span></label>
+          <label><input type="radio" name="fo-mat" value="C" checked><span>Diamond 2230 K</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="fo-t"><span>Temperature (log scale)</span> <output for="fo-t"></output></label><input type="range" id="fo-t" min="0" max="3.6" step="0.001" value="2.477" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="fo-pill"></span><dl class="readout" id="fo-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is diamond at 300 K. Only 0.24 % of its modes have ħω &lt; k_BT, yet C is 17 % of 3Nk_B, because modes up to about 3k_BT still carry half their classical share (w(3) = 0.50).</li>
+        <li>Switch to Cu at the same temperature: the k_BT line sits near the top of the spectrum and C is 94 % of Dulong–Petit.</li>
+        <li>Lower T to about 10 K on Cu: only the bottom tip of the ω² spectrum is lit. That tip grows as T³, which is the T³ law.</li>
+        <li>Push diamond above 2000 K: the whole spectrum turns copper and C/3Nk_B approaches 1 − (Θ_D/T)²/20.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="fo-p1"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is phonon energy ħω in meV, the vertical axis the Debye density of states normalised to 3N modes, so the blue curve 3(ω/ω_D)² has area 1. The copper area is each mode weighted by w(ħω/k_BT): its area is C/3Nk_B. The green dashed line marks ħω = k_BT. Modes well to the right of it are frozen.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--emp)"></i>g(ω), all modes</span><span><i class="sw" style="background:var(--occ)"></i>g·w, thawed share</span><span><i class="sw" style="background:var(--ef)"></i>k_BT</span></div>
+      </figure>
+      <figure><div class="plot" id="fo-p2"></div>
+        <figcaption><b>How to read:</b> one oscillator, plotted against x = ħω/k_BT. Copper is its heat capacity w(x) in units of k_B; blue is its mean thermal energy ⟨n⟩ħω in units of k_BT. Both tend to 1 (classical) as x → 0. Green dashed is the high-T series 1 − x²/12. The grey band covers x from 0 to Θ_D/T, where this crystal's modes lie.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>w(x) = C_mode/k_B</span><span><i class="sw" style="background:var(--emp)"></i>⟨n⟩ħω/k_BT</span><span><i class="sw" style="background:var(--ef)"></i>1 − x²/12</span><span><i class="sw" style="background:var(--muted)"></i>modes present</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="compare">
+    <div class="rail">
+      <span class="eyebrow">1.7.1.1 &amp; 1.7.1.3 · Limits and models</span>
+      <h3>Einstein, Debye and Dulong–Petit</h3>
+      <p>Normalised heat capacity C/(3nNk_B) of the Debye, Einstein and combined models against T/Θ_D. The combined model puts the 3 acoustic branches into Debye and the 3(n − 1) optical ones into Einstein (lecture p38). The opening ratio Θ_E/Θ_D = 0.58 is diamond's: Θ_E ≈ 1300 K read from the sheet 7.2 figure, Θ_D = 2230 K.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="cm-t"><span>Temperature T/Θ_D</span> <output for="cm-t"></output></label><input type="range" id="cm-t" min="0.02" max="1.5" step="0.005" value="0.135" data-fmt="3"></div>
+        <div class="ctl"><label for="cm-e"><span>Einstein Θ_E/Θ_D</span> <output for="cm-e"></output></label><input type="range" id="cm-e" min="0.3" max="1.2" step="0.005" value="0.58" data-fmt="3"></div>
+        <div class="ctl"><label for="cm-n"><span>Atoms per cell n (combined model)</span> <output for="cm-n"></output></label><input type="range" id="cm-n" min="1" max="4" step="1" value="1" data-fmt="0"></div>
+        <label class="chk" for="cm-ser"><input type="checkbox" id="cm-ser" checked> Show high-T series (1.7.1.1)</label>
+      </div>
+      <div class="state"><span class="pill atom" id="cm-pill"></span><dl class="readout" id="cm-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Set Θ_E/Θ_D = 0.775 (= √(3/5)): the two 1/T² series coincide, and the curves agree to 1 % above T/Θ_D ≈ 0.4. On the log plot they still differ by orders of magnitude at low T.</li>
+        <li>Move T/Θ_D to its minimum, 0.02: Debye follows the green T³ line, Einstein is 3×10⁶ times smaller. Exponential beats power law. At T/Θ_D = 0.1 with the diamond ratio, Einstein is actually above Debye, because one soft mode at 0.58 Θ_D thaws earlier than the Debye spectrum.</li>
+        <li>Set n = 2 (diamond has two atoms per primitive cell): half the modes are now Einstein-like and the combined curve sits between the two.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="cm-p1"></div>
+        <figcaption><b>How to read:</b> linear axes, T/Θ_D against C/(3nNk_B). Copper is Debye, blue is Einstein, the dark curve is the combined model (only for n &gt; 1). The grey line at 1 is Dulong–Petit; the green dashed and dotted curves are the Debye 1 − (Θ_D/T)²/20 and Einstein 1 − (Θ_E/T)²/12 series. Dots mark the chosen temperature.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Debye</span><span><i class="sw" style="background:var(--emp)"></i>Einstein</span><span><i class="sw" style="background:var(--fg)"></i>combined</span><span><i class="sw" style="background:var(--muted)"></i>Dulong–Petit</span><span><i class="sw" style="background:var(--ef)"></i>high-T series</span></div>
+      </figure>
+      <figure><div class="plot" id="cm-p2"></div>
+        <figcaption><b>How to read:</b> the same curves on log–log axes. The green dashed line is the Debye T³ law (4π⁴/5)(T/Θ_D)³. Debye merges into it below T/Θ_D ≈ 0.08; Einstein falls off a cliff. The vertical dashed line is your temperature.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Debye</span><span><i class="sw" style="background:var(--emp)"></i>Einstein</span><span><i class="sw" style="background:var(--fg)"></i>combined</span><span><i class="sw" style="background:var(--ef)"></i>T³ law</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="dims">
+    <div class="rail">
+      <span class="eyebrow">1.7.1.2 · Low-T power law in d dimensions</span>
+      <h3>T³ in a bulk crystal, T² in a layer lattice</h3>
+      <p>The Debye model in d dimensions: d acoustic branches with k in a d-dimensional ball, so g(ω) ∝ ω^(d−1). The low-T heat capacity becomes C ∝ T^d. Sheet 7.1 is d = 2. Reduced units T/Θ_D.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Dimension d</legend><div class="opts">
+          <label><input type="radio" name="dd-d" value="1"><span>1D chain</span></label>
+          <label><input type="radio" name="dd-d" value="2" checked><span>2D layers</span></label>
+          <label><input type="radio" name="dd-d" value="3"><span>3D bulk</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="dd-t"><span>Temperature (log scale)</span> <output for="dd-t"></output></label><input type="range" id="dd-t" min="-2.5" max="0.3" step="0.01" value="-1.5" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="dd-pill"></span><dl class="readout" id="dd-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening state is a layer lattice at T/Θ_D ≈ 0.03: the local slope reads 2.00. That is sheet 7.1's answer, read off a log–log plot.</li>
+        <li>Switch to 3D at the same T: the slope reads 3.00. Raise T until the slope drops below 2.9; this happens near T/Θ_D ≈ 0.09.</li>
+        <li>Above T/Θ_D ≈ 1 all three slopes fall below 0.1 and head to 0: Dulong–Petit in any dimension.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="dd-p1"></div>
+        <figcaption><b>How to read:</b> log–log axes, T/Θ_D against C/(d N k_B). The copper curve is the chosen dimension, the grey curves are the other two. The green dashed line is its low-T asymptote d·(d+1)!·ζ(d+1)·(T/Θ_D)^d. A straight stretch of slope d is the T^d law. The dot is your temperature.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>chosen d</span><span><i class="sw" style="background:var(--muted)"></i>other d</span><span><i class="sw" style="background:var(--ef)"></i>T^d asymptote</span></div>
+      </figure>
+      <figure><div class="plot short" id="dd-p2"></div>
+        <figcaption><b>How to read:</b> the Debye density of states in d dimensions, g(ω) against ω/ω_D, normalised to area 1: d(ω/ω_D)^(d−1). Copper is the chosen d. Fewer low-frequency modes (larger d) means a steeper rise of C at low T.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>chosen d</span><span><i class="sw" style="background:var(--muted)"></i>other d</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="diamond">
+    <div class="rail">
+      <span class="eyebrow">1.7.1.3 · Sheet 7.2 · Θ_D from data</span>
+      <h3>Fitting the Debye temperature of diamond</h3>
+      <p>The data points were digitised from the graph on sheet 7.2 (data of Touloukian and Buyco). I calibrated pixels on its axis frame and ticks; the precision is about ±2 % in c and ±1 % in T. They are compared with the Debye formula for your Θ_D. The lower plot inverts every point separately: the Θ_D that the Debye formula would need to pass exactly through it.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Fit range</legend><div class="opts">
+          <label><input type="radio" name="dm-r" value="low"><span>T ≤ 30 K</span></label>
+          <label><input type="radio" name="dm-r" value="mid" checked><span>130–300 K</span></label>
+          <label><input type="radio" name="dm-r" value="all"><span>All</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="dm-th"><span>Debye temperature Θ_D</span> <output for="dm-th"></output></label><input type="range" id="dm-th" min="1000" max="3000" step="10" value="1800" data-fmt="0" data-unit=" K"></div>
+        <div class="ctl"><label for="dm-e"><span>Einstein temperature Θ_E</span> <output for="dm-e"></output></label><input type="range" id="dm-e" min="800" max="2000" step="10" value="1300" data-fmt="0" data-unit=" K"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="dm-pill"></span><dl class="readout" id="dm-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>The opening Θ_D = 1800 K runs through the 130–300 K data to about 1 %. Switch the range to "T ≤ 30 K": the best fit drops to about 1750 K, and the misfit grows because those points do not follow a clean T³.</li>
+        <li>Set Θ_D to the literature 2250 K: the curve now passes a factor of about 2 <i>below</i> the low-T points. Reading the graph that badly would mean a 50-pixel error.</li>
+        <li>The lower plot shows the real story: Θ_D(T) is not constant. It drifts between about 1700 and 2150 K, so "the" Θ_D depends on where you fit.</li>
+        <li>Move Θ_E: 1300 K reproduces the figure's dotted Einstein curve. Note how badly it misses everything below 150 K.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="dm-p1"></div>
+        <figcaption><b>How to read:</b> log–log axes as on the sheet, temperature in K against specific heat in cal g⁻¹ K⁻¹. Copper diamonds are the digitised data. The blue curve is Debye for your Θ_D, the green dashed curve Debye for 2250 K, the dotted grey curve Einstein for your Θ_E, and the grey line Dulong–Petit (0.496). The shaded band is the fit range.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>data</span><span><i class="sw" style="background:var(--emp)"></i>Debye, your Θ_D</span><span><i class="sw" style="background:var(--ef)"></i>Debye 2250 K</span><span><i class="sw" style="background:var(--muted)"></i>Einstein, Dulong–Petit</span></div>
+      </figure>
+      <figure><div class="plot" id="dm-p2"></div>
+        <figcaption><b>How to read:</b> temperature in K (log axis) against the Debye temperature in K that makes the Debye formula pass exactly through each data point. A perfect Debye solid would give a flat row of dots. The blue line is your Θ_D, the green dashed line the literature 2250 K, and the shaded band the fit range.</figcaption>
+        <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>Θ_D from each point</span><span><i class="sw" style="background:var(--emp)"></i>your Θ_D</span><span><i class="sw" style="background:var(--ef)"></i>2250 K</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<!-- 4. HOMEWORK GUIDES -->
+<section class="block" id="homework">
+  <h2>Homework guides</h2>
+
+  <article class="hw" id="hw-7-1">
+    <span class="tag">Sheet 7 · Problem 1 · 3 pts</span>
+    <h3>Heat capacity of layer lattice</h3>
+    <p class="ask">An insulator is built from layers of atoms with rigid coupling between the layers, so the atoms can only move within the plane of their layer. Show that the phonon heat capacity in the Debye approximation at low temperatures is proportional to $T^2$.</p>
+    <h4>Method</h4>
+    <p>Redo the 1.7.1.2 calculation in two dimensions. Start from (★), now per layer area $A$. In-plane motion leaves two acoustic branches (one longitudinal, one transverse) with in-plane wavevectors. At low $T$ use $\omega_s=c_sk$, $\sum_{\mathbf k}\to A\int d^2k/(2\pi)^2$ and $d^2k=k\,dk\,d\varphi$. The extra power of $k$ that the 3D case had is gone, so $u\propto T^3$ and $c\propto T^2$.</p>
+    <div class="assume"><b>Assumption:</b> I read the problem as Kittel ch. 5 problem 4(a), of which it is a copy: each layer is a 2D elastic sheet, out-of-plane displacement is suppressed, and the rigid coupling adds no modes along the stacking direction. Insulator means no electronic term. Sound speeds are taken as isotropic in the plane; anisotropy only changes the average $\bar c$.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Thermal energy per area (the zero-point term does not depend on $T$ and drops out of $c$): $\displaystyle u-u_0=\sum_{s=1}^{2}\int\frac{d^2k}{(2\pi)^2}\frac{\hbar c_sk}{e^{\hbar c_sk/k_BT}-1}$.</li>
+        <li>Polar coordinates: $\int d^2k=\int_0^{2\pi}d\varphi\int k\,dk$, so $\displaystyle u-u_0=\sum_s\frac{1}{2\pi}\int_0^{k_D}\frac{\hbar c_s k^2\,dk}{e^{\hbar c_sk/k_BT}-1}$.</li>
+        <li>Substitute $x=\hbar c_sk/k_BT$. At low $T$ the upper limit $x_D=\Theta_D/T\to\infty$: $\displaystyle u-u_0=\sum_s\frac{(k_BT)^3}{2\pi\,\hbar^2c_s^2}\int_0^\infty\frac{x^2dx}{e^x-1}=\sum_s\frac{(k_BT)^3}{2\pi\,\hbar^2c_s^2}\cdot2\zeta(3)$, with $\zeta(3)=1.202$.</li>
+        <li>Define the 2D average $\frac{2}{\bar c^2}=\sum_s\frac1{c_s^2}$: $\displaystyle u-u_0=\frac{2\zeta(3)}{\pi}\frac{(k_BT)^3}{(\hbar\bar c)^2}$.</li>
+        <li>Differentiate: $\displaystyle c=\frac{\partial u}{\partial T}=\frac{6\zeta(3)}{\pi}\,k_B\Big(\frac{k_BT}{\hbar\bar c}\Big)^2\propto T^2$, in J K⁻¹ m⁻², the 2D analogue of the lecture's per-volume $c_v$.</li>
+        <li>Debye form, for the whole layer of $N$ atoms: the Debye disc $\pi k_D^2=(2\pi)^2N/A$ gives $k_D^2=4\pi N/A$. With $k_B\Theta_D=\hbar\bar ck_D$, $C=Ac=24\zeta(3)\,Nk_B\,(T/\Theta_D)^2\approx28.8\,Nk_B(T/\Theta_D)^2$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $c=\dfrac{6\zeta(3)}{\pi}k_B\Big(\dfrac{k_BT}{\hbar\bar c}\Big)^2$ per area, or $C=24\zeta(3)Nk_B(T/\Theta_D)^2$ for $N$ atoms: $C\propto T^2$. Equivalently, the 2D Debye density of states per area, $g(\omega)=\omega/(\pi\bar c^2)$, is linear in $\omega$, so the energy $\int\hbar\omega\langle n\rangle g\,d\omega$ scales as $T^3$.</div>
+      <div class="check"><b>Sanity check:</b> the same steps in 3D ($d^3k=4\pi k^2dk$, 3 branches, $\int x^3/(e^x-1)=\pi^4/15$) reproduce the lecture's $\frac{2\pi^2}{5}k_B(k_BT/\hbar\bar c)^3$. Numerically (node), the closed form agrees with the full 2D Debye integral to $10^{-9}$ at $T/\Theta_D=0.005$, and the log–log slope is 2.000 (Model 3). Units: $k_BT/\hbar\bar c$ is an inverse length, so $c$ is in J K⁻¹ m⁻² ✓.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-7-2">
+    <span class="tag">Sheet 7 · Problem 2 · 4 pts</span>
+    <h3>Debye temperature $T_D$</h3>
+    <p class="ask">(i) From the specific-heat data of diamond by Touloukian and Buyco (graph on the sheet: $c_V$ in cal g⁻¹ K⁻¹ against $T$ in K, log–log, 10 K to 1000 K, with "Data of Touloukian and Buyco (1970b)", "Einstein formula", "Einstein data" and "Debye formula"), estimate the Debye temperature $T_D$ of diamond. (ii) Compare with the literature value $T_{D,\text{diamond}}=2250$ K (a recent first-principles calculation gives 2240 K) and comment on the difference.</p>
+    <h4>Method</h4>
+    <p>Convert the graph's per-gram units to per mole. Then either (a) use the $T^3$ law on a low-$T$ point, $\Theta_D=T\,(C_0/C)^{1/3}$, or (b) invert the full Debye formula at a point where $T^3$ no longer holds. Do both at several temperatures. The spread of the answers <i>is</i> part (ii).</p>
+    <div class="assume"><b>Assumptions:</b> molar mass of carbon 12.011 g mol⁻¹ and 1 cal = 4.184 J (standard values). Graph readings by hand are good to about one line width; my digitisation of the figure (pixel calibration on its frame, decade = 392 px in T and 144 px in c) is good to about ±2 % in $c$, i.e. ±1 % in $\Theta_D$. $c_V$ and $c_p$ are not distinguished: for a stiff solid like diamond the difference is negligible compared with the spread found below.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li><b>Units.</b> Per mole, $C=c\cdot M$; in J, multiply by 4.184. Dulong–Petit $3R=24.94$ J mol⁻¹ K⁻¹ is $0.496$ cal g⁻¹ K⁻¹ for carbon. The graph flattens towards about 0.45 at 1000 K, so the units are consistent.</li>
+        <li><b>$T^3$ law in graph units.</b> $C=\frac{12\pi^4}{5}R(T/\Theta_D)^3=1944\,(T/\Theta_D)^3$ J mol⁻¹ K⁻¹, i.e. $c=38.7\,(T/\Theta_D)^3$ cal g⁻¹ K⁻¹. So $\Theta_D=T\,(38.7/c)^{1/3}$.</li>
+        <li><b>Low-T reading.</b> At $T=20$ K the data sit at $c\approx6\times10^{-5}$ cal g⁻¹ K⁻¹: $\Theta_D=20\cdot(38.7/6\times10^{-5})^{1/3}\approx1730$ K. Here $T/\Theta_D\approx0.012<1/50$, so the $T^3$ law should apply. The figure's own "Debye formula" line is a pure $T^3$ line, and it digitises to $\Theta_D\approx1735$ K, fitted to these lowest points.</li>
+        <li><b>Is it really $T^3$?</b> Between 18.5 K and 46 K the data rise by a factor of 10.1 over a factor of 2.49 in $T$: the slope is $\ln10.1/\ln2.49=2.5$, not 3. Point by point, $\Theta_D$ drifts from 1700 to 1960 K across the region where $T^3$ should hold.</li>
+        <li><b>Full Debye fit at higher T.</b> At $T=200$ K, $c\approx5.0\times10^{-2}$ cal g⁻¹ K⁻¹, i.e. $C/3R=0.101$. Solving $3\,(T/\Theta_D)^3\int_0^{\Theta_D/T}\frac{x^4e^x}{(e^x-1)^2}dx=0.101$ numerically gives $\Theta_D\approx1805$ K. Over 130–300 K every point inverts to 1783–1814 K; a least-squares fit gives 1800 K with 1.3 % rms misfit (Model 4).</li>
+        <li><b>All data.</b> Θ_D(T) runs from about 1700 K (18 K) up to about 2100 K (60–85 K), back down to about 1800 K (130–300 K), and up to about 2150 K (800 K). A fit to all points gives 1890 K, with 17 % rms misfit.</li>
+      </ol>
+      <div class="result"><b>Result (i):</b> $T_D\approx1800$ K, from the full Debye formula over 130–300 K, where the data are densest and most consistent. Depending on the temperature range used, single points give 1700–2150 K. <b>(ii):</b> this is about 20 % below the literature 2250 K.</div>
+      <h4>Comment for (ii)</h4>
+      <ul>
+        <li><b>$\Theta_D$ is a fit parameter, not a constant.</b> The Debye model replaces the real $g(\omega)$ by $\omega^2$ up to a cut-off. A real spectrum has extra weight at intermediate frequencies, because transverse branches flatten towards the zone boundary (van Hove peaks). That gives more heat capacity than Debye at intermediate $T$, so $\Theta_D(T)$ dips below its $T\to0$ value. Literature tables quote the $T\to0$ limit, which probes only the elastic (sound-speed) regime. That is also what a first-principles stiffness calculation gives (2240 K), so both reference values measure the same thing.</li>
+        <li><b>The low-T data are the weak point.</b> Below $\Theta_D/50\approx45$ K diamond's heat capacity is tiny ($10^{-5}$–$10^{-4}$ cal g⁻¹ K⁻¹). Any extra contribution (impurities such as nitrogen, the sample holder, calibration errors) makes $c$ too large and so $\Theta_D$ too small. The slope of 2.5 instead of 3 points to exactly that. To get 2250 K at 20 K the reading would have to be $2.7\times10^{-5}$, a factor 2.2 below the plotted points, i.e. about 50 pixels on the figure. That is far beyond any reading error.</li>
+        <li><b>The method matters.</b> A $T^3$ fit and a full-Debye fit agree only where $T\ll\Theta_D/10$. The Einstein curve in the same figure ($\Theta_E\approx1300$ K) fits only above about 250 K, the region Einstein originally used.</li>
+      </ul>
+      <div class="check"><b>Sanity check:</b> the figure's dotted Einstein curve, digitised with the same calibration, inverts to an almost constant $\Theta_E=1295$–$1308$ K from 85 K to 150 K. A wrong axis calibration would make it drift, so the calibration is good. The figure's $T^3$ line gives $\Theta_D=1727$–$1741$ K along its whole length (40–117 K). The hand inversion at 200 K (node bisection on the Debye integral) and the T³ estimate (1836 K) differ by 2 %, as expected at $T/\Theta_D=0.11$ (Model 2: Debye/T³ = 0.97 there).</div>
+    </details>
+  </article>
+
+  <div class="card">
+    <p><b>Sheet 9.1</b> (electron to phonon heat-capacity cross-over, $\gamma T=AT^3$ with $A=\frac{12\pi^4}{5}R/\Theta_D^3$) uses this page's $T^3$ law. It is worked on topic 07: <a href="07-free-electron-gas.html#hw-9-1">guide</a> and <a href="07-free-electron-gas.html#cross">interactive cross-over model</a>.</p>
+  </div>
+</section>
+
+<!-- 5. EXAM ANGLE -->
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>Not asked in 2022.</b> The recovered paper has no question on Debye or Einstein. The section is on the topic list and has a full homework sheet, so an exercise in the 2022 style (a short derivation plus numbers) is plausible. In 5 minutes without notes you should be able to: write $Z$ for one mode and get $\langle n\rangle$ and $c_v$ (★); state the high-T limit with its $1/T^2$ correction; derive $C\propto T^3$ (or $T^d$) by the $x=\hbar ck/k_BT$ substitution; define $k_D$ and $\Theta_D$; explain the Einstein model's exponential failure; and turn a measured $C(T)$ into $\Theta_D$ without mixing per-gram, per-mole and per-volume values.</p>
+  </div>
+  <article class="hw" id="exam-cu">
+    <span class="tag">Exam-style exercise · 2022 pattern</span>
+    <h3>Debye and Einstein for copper</h3>
+    <p class="ask">Copper is fcc with $a=3.61$ Å and $\Theta_D=343$ K. (a) Find the atom density, the Debye wavevector $k_D$, $\hbar\omega_D$ in meV, and the averaged sound speed $\bar c$. (b) Find the molar lattice heat capacity at 5 K and at 300 K, and compare with Dulong–Petit. (c) Choose $\Theta_E$ so that the Einstein and Debye models have the same $1/T^2$ correction at high $T$. Compare the two models at 5 K and explain the difference.</p>
+    <details>
+      <summary>Show worked solution</summary>
+      <ol>
+        <li><b>(a)</b> 4 atoms per cubic cell: $n_{at}=4/a^3=8.50\times10^{28}$ m⁻³. $k_D=(6\pi^2n_{at})^{1/3}=1.71\times10^{10}$ m⁻¹. $\hbar\omega_D=k_B\Theta_D=343\times0.08617$ meV $=29.6$ meV. $\bar c=k_B\Theta_D/(\hbar k_D)=2.62\times10^3$ m/s, a typical sound speed in a metal.</li>
+        <li><b>(b)</b> 5 K is below $\Theta_D/50=6.9$ K, so the $T^3$ law applies: $C=1944\,(5/343)^3=6.0\times10^{-3}$ J mol⁻¹ K⁻¹. At 300 K the full Debye function gives $C/3R=0.938$, so $C=23.4$ J mol⁻¹ K⁻¹, 94 % of $3R=24.9$.</li>
+        <li><b>(c)</b> Match $\frac1{12}(\Theta_E/T)^2=\frac1{20}(\Theta_D/T)^2$: $\Theta_E=\sqrt{3/5}\,\Theta_D=266$ K. At 300 K Einstein gives $C/3R=0.937$, essentially the same. At 5 K it gives $3R\,(\Theta_E/T)^2e^{-\Theta_E/T}\approx6\times10^{-19}$ J mol⁻¹ K⁻¹, about $10^{-16}$ times the Debye value. With every mode at 23 meV $\gg k_BT=0.43$ meV, everything is frozen. Real copper keeps acoustic modes down to $\omega\to0$, a sphere of radius $k_BT/\hbar\bar c$ of them stays thawed, and that gives $T^3$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $n_{at}=8.50\times10^{28}$ m⁻³, $k_D=1.71\times10^{10}$ m⁻¹, $\hbar\omega_D=29.6$ meV, $\bar c=2.6$ km/s; $C(5\,\text{K})=6.0$ mJ mol⁻¹ K⁻¹, $C(300\,\text{K})=23.4$ J mol⁻¹ K⁻¹ (94 % of Dulong–Petit); Einstein with $\Theta_E=266$ K agrees at 300 K and is too small by $\sim10^{16}$ at 5 K.</div>
+      <div class="check"><b>Sanity check:</b> all values by node with CODATA constants; the full Debye integral at 5 K agrees with the $T^3$ value to $10^{-9}$. $k_D$ is about twice $\pi/a=0.87\times10^{10}$ m⁻¹, reasonable since the fcc zone reaches out to $2\pi/a$ along ⟨100⟩. $\hbar\omega_D=29.6$ meV is comparable to $k_B\cdot300\,\text{K}=25.9$ meV, consistent with Cu being nearly classical at room temperature.</div>
+    </details>
+  </article>
+</section>
+
+<!-- 6. SOURCES -->
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 5 (eqs. 29–34, Figs. 9–11, Table 1 for Θ_D; problem 4).</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 33–38.</li>
+    <li>Problem sheet 7, Fall 2026, including its diamond graph (data of E. S. Touloukian and E. H. Buyco, 1970) and the references it cites for 2250 K and 2240 K.</li>
+    <li>Tutoring boards: "Saturday Specific Heat"; "Conductivity Wednesday" (for sheet 9.1, see topic 07).</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, layout, CFG, vline, hline, lin, setRead, setPill, rgba, K, PI } = CM;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const onChange = (sel, fn) => document.querySelectorAll(sel).forEach(el => el.addEventListener('change', () => CM.schedule(fn)));
+  const setOut = (id, text) => { document.querySelector(`output[for="${id}"]`).textContent = text; };
+  const sig = (x, d = 3) => { if (x >= 1e-3 && x < 1e4) return (+x.toPrecision(d)).toString(); const s = x.toExponential(d - 1).split('e'); return s[0] + '×10' + s[1].replace('+', '').replace('-', '⁻').replace(/\d/g, c =>'⁰¹²³⁴⁵⁶⁷⁸⁹'[c]); };
+
+  /* ---------- shared physics ---------- */
+  const R = K.kB * K.NA, Z3 = 1.2020569031595942;
+  const w = x => x < 1e-9 ? 1 : x * x * Math.exp(-x) / (-Math.expm1(-x)) ** 2;   // one-mode C/k_B, x = ħω/k_BT
+  // Debye in d dimensions, C/(d N k_B) = d t^d ∫_0^{1/t} x^(d−1) w(x) dx, Simpson n = 160 (checked against node/scipy to 1e-5).
+  function debD(t, d = 3) {
+    if (t <= 0) return 0;
+    const xD = Math.min(1 / t, 60), n = 160, h = xD / n, f = x => x ** (d - 1) * w(x);
+    let s = f(0) + f(xD); for (let i = 1; i < n; i++) s += (i % 2 ? 4 : 2) * f(i * h);
+    return d * t ** d * s * h / 3;
+  }
+  const einE = t => w(1 / t);                                                   // Einstein C/(3Nk_B), t = T/Θ_E
+  const T3C = 4 * PI ** 4 / 5;                                                  // Debye low-T: C/(3Nk_B) = (4π⁴/5) t³
+  const lowCoef = { 1: PI * PI / 3, 2: 12 * Z3, 3: T3C };                        // d·(d+1)!·ζ(d+1)
+  const meVperK = K.kB / K.e * 1e3;                                              // 0.08617 meV/K
+
+  /* ---------- Model 1: freezing out ---------- */
+  const THD = { Ar: 92, Cu: 343, Al: 428, C: 2230 };   // Kittel ch. 5 (Ar: Fig. 9; others Table 1)
+  function renderFO() {
+    const th = THD[radio('fo-mat')], T = 10 ** +$('fo-t').value, t = T / th;
+    setOut('fo-t', sig(T) + ' K');
+    const ED = th * meVperK, kT = T * meVperK, us = lin(0, 1, 161), E = us.map(u => u * ED);
+    const g = us.map(u => 3 * u * u), gw = us.map((u, i) => g[i] * w(E[i] / kT));
+    const frac = debD(t), xmax = 1.08 * ED;
+    Plotly.react('fo-p1', [
+      { x: E, y: gw, mode: 'lines', fill: 'tozeroy', fillcolor: rgba(C.occ, 0.55), line: { color: C.occ, width: 1.5 }, hovertemplate: 'ħω = %{x:.1f} meV<br>g·w = %{y:.3f}<extra>thawed</extra>' },
+      { x: E.concat([ED, ED]), y: g.concat([3, 0]), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'ħω = %{x:.1f} meV<br>g = %{y:.3f}<extra>all modes</extra>' }],
+      layout({ shapes: kT < xmax ? [vline(kT, C.ef)] : [], xaxis: ax('Phonon energy ħω (meV)', { range: [0, xmax] }), yaxis: ax('g(ω) · ħω_D / 3N', { range: [0, 3.3] }) }), CFG);
+    const xs = lin(0, 12, 241), xD = th / T;
+    Plotly.react('fo-p2', [
+      { x: [0, Math.min(xD, 12), Math.min(xD, 12), 0], y: [0, 0, 1.1, 1.1], fill: 'toself', fillcolor: rgba(C.muted, 0.14), line: { width: 0 }, mode: 'lines', hoverinfo: 'skip' },
+      { x: xs, y: xs.map(x => x < 1e-9 ? 1 : x / Math.expm1(x)), mode: 'lines', line: { color: C.emp, width: 2 }, hovertemplate: 'x = %{x:.2f}<br>⟨n⟩ħω/k_BT = %{y:.3f}<extra></extra>' },
+      { x: xs.filter(x => x <= 2.6), y: xs.filter(x => x <= 2.6).map(x => 1 - x * x / 12), mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: xs, y: xs.map(w), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'x = %{x:.2f}<br>w = %{y:.3f}<extra></extra>' }],
+      layout({ shapes: xD < 12 ? [vline(xD, C.muted)] : [], xaxis: ax('x = ħω / k_BT', { range: [0, 12] }), yaxis: ax('Per mode (k_B or k_BT)', { range: [0, 1.1] }) }), CFG);
+    setPill('fo-pill', frac > 0.9 ? ['atom', 'Nearly classical (Dulong–Petit)'] : frac < 0.1 ? ['atom', 'Mostly frozen'] : ['atom', 'Partly frozen']);
+    setRead('fo-read', [['k_BT', kT.toFixed(kT < 1 ? 3 : 1) + ' meV'], ['ħω_D = k_BΘ_D', ED.toFixed(1) + ' meV'], ['Θ_D / T', sig(xD)],
+      ['Modes with ħω < k_BT', (100 * Math.min(1, t ** 3)).toPrecision(2) + ' %'], ['C / 3Nk_B', sig(frac)], ['C per mole', sig(3 * R * frac) + ' J mol⁻¹ K⁻¹']]);
+  }
+  onChange('input[name="fo-mat"]', renderFO);
+
+  /* ---------- Model 2: Einstein vs Debye vs Dulong–Petit ---------- */
+  const TL = lin(0.005, 1.5, 300), TG = Array.from({ length: 200 }, (_, i) => 10 ** (-2 + 2.3 * i / 199));
+  const DL = TL.map(t => debD(t)), DG = TG.map(t => debD(t));
+  function renderCM() {
+    const t = +$('cm-t').value, r = +$('cm-e').value, n = +$('cm-n').value, ser = $('cm-ser').checked;
+    const E = tt => einE(tt / r), mix = (d, e) => (d + (n - 1) * e) / n;
+    const tr = (xs, ys, color, extra = {}) => Object.assign({ x: xs, y: ys, mode: 'lines', line: { color, width: 2.3 }, hovertemplate: 'T/Θ_D = %{x:.3f}<br>C/3nNk_B = %{y:.4g}<extra></extra>' }, extra);
+    const EL = TL.map(E), EG = TG.map(E);
+    const dt = debD(t), et = E(t), mt = mix(dt, et);
+    const lin1 = [tr(TL, DL, C.occ), tr(TL, EL, C.emp)];
+    if (n > 1) lin1.push(tr(TL, TL.map((x, i) => mix(DL[i], EL[i])), C.fg));
+    if (ser) {
+      const ts = TL.filter(x => x > 0.22);
+      lin1.push(tr(ts, ts.map(x => 1 - 1 / (20 * x * x)), C.ef, { line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' }));
+      const te = TL.filter(x => x > 0.29 * r);
+      lin1.push(tr(te, te.map(x => 1 - r * r / (12 * x * x)), C.ef, { line: { color: C.ef, width: 2, dash: 'dot' }, hoverinfo: 'skip' }));
+    }
+    lin1.push({ x: [t, t].concat(n > 1 ? [t] : []), y: [dt, et].concat(n > 1 ? [mt] : []), mode: 'markers', marker: { size: 9, color: [C.occ, C.emp, C.fg], line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' });
+    Plotly.react('cm-p1', lin1, layout({ shapes: [hline(1, C.muted, 'solid')], xaxis: ax('T / Θ_D', { range: [0, 1.5] }), yaxis: ax('C / (3nNk_B)', { range: [0, 1.08] }) }), CFG);
+    const lg = [tr(TG, DG, C.occ), tr(TG, EG, C.emp), tr(TG.filter(x => x < 0.3), TG.filter(x => x < 0.3).map(x => T3C * x ** 3), C.ef, { line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' })];
+    if (n > 1) lg.push(tr(TG, TG.map((x, i) => mix(DG[i], EG[i])), C.fg));
+    lg.push({ x: [t, t], y: [1e-7, 2], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' });
+    Plotly.react('cm-p2', lg, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2, 0.3] }), yaxis: ax('C / (3nNk_B)', { type: 'log', range: [-7, 0.15], exponentformat: 'power' }) }), CFG);
+    const ratio = dt / et;
+    setPill('cm-pill', ['atom', ratio > 3 ? 'Einstein frozen out, Debye not' : Math.abs(ratio - 1) < 0.05 ? 'Models agree' : 'Models differ']);
+    const rows = [['Debye', sig(dt)], ['Einstein', sig(et)]];
+    if (n > 1) rows.push(['Combined, n = ' + n, sig(mt)]);
+    rows.push(['Debye / Einstein', sig(ratio)], ['T for diamond (Θ_D 2230 K)', (t * 2230).toFixed(0) + ' K'], ['Θ_E for diamond', (r * 2230).toFixed(0) + ' K']);
+    setRead('cm-read', rows);
+  }
+  onChange('#cm-ser', renderCM);
+
+  /* ---------- Model 3: T^d law ---------- */
+  const TD = Array.from({ length: 220 }, (_, i) => 10 ** (-2.6 + 3 * i / 219));
+  const DD = { 1: TD.map(t => debD(t, 1)), 2: TD.map(t => debD(t, 2)), 3: TD.map(t => debD(t, 3)) };
+  function renderDD() {
+    const d = +radio('dd-d'), t = 10 ** +$('dd-t').value;
+    setOut('dd-t', 'T/Θ_D = ' + sig(t));
+    const tr = [];
+    [1, 2, 3].filter(k => k !== d).forEach(k => tr.push({ x: TD, y: DD[k], mode: 'lines', line: { color: C.muted, width: 1.5 }, hovertemplate: 'd = ' + k + '<br>%{y:.3g}<extra></extra>' }));
+    const ta = TD.filter(x => x < 0.4);
+    tr.push({ x: ta, y: ta.map(x => lowCoef[d] * x ** d), mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' });
+    tr.push({ x: TD, y: DD[d], mode: 'lines', line: { color: C.occ, width: 2.8 }, hovertemplate: 'T/Θ_D = %{x:.3g}<br>C/dNk_B = %{y:.3g}<extra></extra>' });
+    const c0 = debD(t, d);
+    tr.push({ x: [t], y: [c0], mode: 'markers', marker: { size: 10, color: C.occ, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' });
+    Plotly.react('dd-p1', tr, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2.6, 0.4] }), yaxis: ax('C / (d N k_B)', { type: 'log', range: [-7, 0.15], exponentformat: 'power' }) }), CFG);
+    const us = lin(0, 1, 101), gt = [];
+    [1, 2, 3].forEach(k => gt.push({ x: us.concat([1, 1]), y: us.map(u => k * u ** (k - 1)).concat([k, 0]), mode: 'lines', line: { color: k === d ? C.occ : C.muted, width: k === d ? 2.8 : 1.5 }, hovertemplate: 'd = ' + k + '<extra></extra>' }));
+    Plotly.react('dd-p2', gt, layout({ xaxis: ax('ω / ω_D', { range: [0, 1.05] }), yaxis: ax('g(ω) · ω_D / dN', { range: [0, 3.2] }) }), CFG);
+    const slope = Math.log(debD(t * 1.01, d) / debD(t / 1.01, d)) / Math.log(1.0201);
+    setPill('dd-pill', ['atom', Math.abs(slope - d) < 0.05 ? 'T^' + d + ' regime' : slope < 0.2 ? 'Classical plateau' : 'Crossover']);
+    setRead('dd-read', [['Branches (polarisations)', d], ['Local slope d ln C / d ln T', slope.toFixed(3)], ['Low-T law', 'C/(dNk_B) = ' + lowCoef[d].toFixed(2) + '·(T/Θ_D)^' + d],
+      ['C / asymptote', sig(c0 / (lowCoef[d] * t ** d))], ['C / dNk_B', sig(c0)]]);
+  }
+  onChange('input[name="dd-d"]', renderDD);
+
+  /* ---------- Model 4: diamond data, sheet 7.2 ---------- */
+  // Digitised from the sheet 7.2 figure (axis frame: 10¹ K at x = 221.5 px, 10³ K at 1005.5 px; 10⁻² cal/gK at y = 278 px, 144 px/decade, 0.3° tilt corrected).
+  // [T in K, c_V in cal g⁻¹ K⁻¹]. The 18.5 K entry is the centroid of a cluster of overlapping markers (17–21 K).
+  const DIA = [[18.5,4.97e-5],[22.7,8.97e-5],[24.2,1.03e-4],[25.8,1.25e-4],[27.4,1.49e-4],[29.9,1.68e-4],[33,2.28e-4],[36.3,2.81e-4],[39.9,3.41e-4],[43,4.08e-4],[46.2,5.02e-4],[50.3,5.78e-4],[58.8,8.51e-4],[67.9,1.32e-3],[72,1.58e-3],[76.8,2.0e-3],[80.2,2.35e-3],[85.1,2.82e-3],[89.8,3.71e-3],[96.3,4.38e-3],[100,5.29e-3],[106,6.56e-3],[113,8.61e-3],[121,0.0105],[126,0.0124],[134,0.0158],[155,0.0246],[178,0.0372],[195,0.0471],[219,0.0644],[257,0.0929],[286,0.122],[361,0.175],[393,0.202],[474,0.242],[525,0.27],[606,0.305],[688,0.332],[822,0.361]];
+  const DPg = 3 * R / 12.011 / 4.184;                    // Dulong–Petit for carbon, 0.4963 cal g⁻¹ K⁻¹
+  const cD = (T, th) => DPg * debD(T / th);
+  const cE = (T, th) => DPg * einE(T / th);
+  function invert(T, c) { let lo = 50, hi = 2e4; for (let i = 0; i < 50; i++) { const m = Math.sqrt(lo * hi); if (cD(T, m) > c) lo = m; else hi = m; } return Math.sqrt(lo * hi); }
+  const THI = DIA.map(p => invert(p[0], p[1]));         // node check: 1702 K at 18.5 K … 1797 K at 155 K … 2147 K at 822 K
+  const RANGES = { low: [10, 30], mid: [130, 300], all: [10, 1000] };
+  const FITS = {};
+  function fit(key) {
+    if (FITS[key]) return FITS[key];
+    const [a, b] = RANGES[key], s = DIA.filter(p => p[0] >= a && p[0] <= b);
+    const cost = th => s.reduce((q, [T, c]) => q + Math.log(c / cD(T, th)) ** 2, 0);
+    let lo = 800, hi = 4000;
+    for (let i = 0; i < 60; i++) { const m1 = lo + 0.382 * (hi - lo), m2 = lo + 0.618 * (hi - lo); if (cost(m1) < cost(m2)) hi = m2; else lo = m1; }
+    const th = (lo + hi) / 2;                           // node check: low 1748 K, mid 1797 K, all 1891 K
+    return (FITS[key] = { th, sel: s, cost });
+  }
+  const TS = Array.from({ length: 160 }, (_, i) => 10 ** (1 + 2 * i / 159));
+  function renderDM() {
+    const key = radio('dm-r'), th = +$('dm-th').value, thE = +$('dm-e').value, [a, b] = RANGES[key], F = fit(key);
+    const rms = Math.sqrt(F.cost(th) / F.sel.length), band = (y0, y1) => ({ x: [a, b, b, a], y: [y0, y0, y1, y1], fill: 'toself', fillcolor: rgba(C.ef, 0.10), line: { width: 0 }, mode: 'lines', hoverinfo: 'skip' });
+    const pts = { x: DIA.map(p => p[0]), y: DIA.map(p => p[1]), mode: 'markers', marker: { symbol: 'diamond', size: 7, color: C.occ }, hovertemplate: 'T = %{x} K<br>c = %{y:.3g} cal/gK<extra>data</extra>' };
+    Plotly.react('dm-p1', [band(1e-5, 0.7),
+      { x: [10, 1000], y: [DPg, DPg], mode: 'lines', line: { color: C.muted, width: 1.5 }, hoverinfo: 'skip' },
+      { x: TS, y: TS.map(T => cE(T, thE)), mode: 'lines', line: { color: C.muted, width: 2, dash: 'dot' }, hovertemplate: 'Einstein %{y:.3g}<extra></extra>' },
+      { x: TS, y: TS.map(T => cD(T, 2250)), mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hovertemplate: 'Debye 2250 K: %{y:.3g}<extra></extra>' },
+      { x: TS, y: TS.map(T => cD(T, th)), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'Debye ' + th + ' K: %{y:.3g}<extra></extra>' }, pts],
+      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3] }), yaxis: ax('Specific heat c_V (cal g⁻¹ K⁻¹)', { type: 'log', range: [-5, -0.15], exponentformat: 'power' }) }), CFG);
+    Plotly.react('dm-p2', [band(1400, 2600),
+      { x: [10, 1000], y: [2250, 2250], mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: [10, 1000], y: [th, th], mode: 'lines', line: { color: C.emp, width: 2.5 }, hoverinfo: 'skip' },
+      { x: DIA.map(p => p[0]), y: THI, mode: 'markers', marker: { symbol: 'diamond', size: 7, color: C.occ }, hovertemplate: 'T = %{x} K<br>Θ_D = %{y:.0f} K<extra></extra>' }],
+      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3] }), yaxis: ax('Θ_D needed by each point (K)', { range: [1500, 2400] }) }), CFG);
+    const thSel = THI.filter((_, i) => DIA[i][0] >= a && DIA[i][0] <= b);
+    setPill('dm-pill', ['atom', Math.abs(th - F.th) / F.th < 0.015 ? 'On the best fit for this range' : th > F.th ? 'Curve too low: Θ_D too high' : 'Curve too high: Θ_D too low']);
+    setRead('dm-read', [['Best fit Θ_D (range)', F.th.toFixed(0) + ' K'], ['rms misfit at your Θ_D', (100 * rms).toFixed(1) + ' %'],
+      ['Θ_D from single points', Math.min(...thSel).toFixed(0) + '–' + Math.max(...thSel).toFixed(0) + ' K'], ['Points in range', F.sel.length],
+      ['Your Θ_D / 2250 K', (th / 2250).toFixed(3)]]);
+  }
+  onChange('input[name="dm-r"]', renderDM);
+
+  CM.wire({ fo: renderFO, cm: renderCM, dd: renderDD, dm: renderDM });
+});
+</script>
+</body>
+</html>
