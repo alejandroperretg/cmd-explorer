@@ -29,7 +29,15 @@
 **Pedagogy.** Markup for each element is in `templates/topic.html`; page 09 is the reference.
 - Every display equation is in an `.eq` panel (optional `.eq-head` label, optional `.eq-n` number). Use `.eq.key` for must-know results only (a few per page).
 - Every equation or derivation that a sheet problem or exam question uses is tagged where it is introduced: `.tag.hw` ("Sheet 8.2", linked to the guide), `.tag.exam` ("Exam Q4c", linked to the exam answer), `.tag.deriv` (a derivation the exam needs reproduced). Tags must match what the sheet or exam actually asks. `.tag.lect` marks material not yet lectured.
-- Concept cards are numbered in reading order (`.step`), with a `.needs` line linking to prerequisite cards. Every card has at least one `details.check` and ends with a `.takeaway`. Add a `.trap` where there is a common mistake.
+- **The Concepts are organised by topic-list section, never 1, 2, 3** (user request, 2026-11-06).
+  - Each topic-list subsection, e.g. 2.6.1 Bloch theorem, is a section in topic-list order.
+  - The heading starts with the number: `<span class="step">2.6.1</span> Bloch theorem`.
+  - Each section opens with two short lines, *What this covers* and *Why it matters* (for the exam, the homework and later topics), and then teaches the content.
+  - Extra cards that aren't in the topic list sit inside the nearest subsection, labelled e.g. `2.6.2 · Empty lattice`.
+  - The reading path uses the same numbers: `<li data-sec="2.6.1">`.
+  - A `.needs` line links to prerequisite sections by number.
+- Concept cards in reading order (`.step`), with a `.needs` line linking to prerequisite cards.
+- **Formulas must stand out.** Display equations use `.eq`, which is larger than body text (set in `site.css`). Don't shrink them, and don't put a central result inline when it deserves a panel. Every card has at least one `details.check` and ends with a `.takeaway`. Add a `.trap` where there is a common mistake.
 - Every page has a reading path (`.path`, with the legend) between the header and the Overview, listing the cards in order with a rough time each and where the models and guides fit.
 
 **Correctness.**

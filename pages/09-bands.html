@@ -39,18 +39,13 @@
 
 <nav class="path" id="path" aria-labelledby="path-h">
   <h2 id="path-h">Reading path</h2>
-  <p>Read the concept cards in this order; each step says which model or exercise to try next. Steps 1–7 are the exam core (2022 Q4). Steps 8–9 add tight binding and conduction, which are not yet lectured. About 2 hours in total.</p>
+  <p>Read the Concepts section by section, in topic-list order; each line says which cards it holds and which model or exercise to try next. 2.6.1 and 2.6.2 are the exam core (2022 Q4). 2.6.3 is not yet lectured and was not examined in 2022. About 2 hours in total.</p>
   <ol>
-    <li><a href="#c-periodic">Electrons in a periodic potential</a><span class="min">5 min</span></li>
-    <li><a href="#c-bloch">Bloch's theorem</a><span class="min">10 min</span><span class="then">Then: <a href="#kwave">Model 2</a>, what k looks like in real space.</span></li>
-    <li><a href="#c-implies">What Bloch's theorem implies</a><span class="min">10 min</span><span class="then">Then: <a href="#hw-x-1">Practice A</a>.</span></li>
-    <li><a href="#c-empty">Empty-lattice approximation</a><span class="min">15 min</span><span class="then">Then: <a href="#empty">Model 8</a> with U<sub>G</sub> = 0.</span></li>
-    <li><a href="#c-standing">Why the cos and sin standing waves split</a><span class="min">10 min</span><span class="then">Then: <a href="#empty">Model 8</a> with U<sub>G</sub> &lt; 0, right plot.</span></li>
-    <li><a href="#c-central">The central equation</a><span class="min">10 min</span></li>
-    <li><a href="#c-gap">The gap at the zone boundary</a><span class="min">15 min</span><span class="then">Then: <a href="#empty">Model 8</a>, compare its gap with 2|U<sub>G</sub>|; <a href="#hw-x-2">Practice B</a>.</span></li>
-    <li><a href="#c-tb">Tight binding</a><span class="min">15 min</span><span class="then">Then: <a href="#atoms">Model 1</a>, <a href="#ek">Model 5</a>, <a href="#fs2d">Models 6</a> and <a href="#fs3d">7</a>; <a href="#hw-x-3">Practice C</a>.</span></li>
-    <li><a href="#c-four">Four questions about k, ψ and conduction</a><span class="min">10 min</span><span class="then">Then: <a href="#cond">Model 3</a> and <a href="#wire">Model 4</a>.</span></li>
-    <li><a href="#exam-q4">Exam 2022 Q4, worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
+    <li data-sec="2.6.1"><a href="#s-2-6-1">Bloch theorem</a><span class="min">25 min</span><span class="then"><a href="#c-periodic">Periodic potential</a> → <a href="#c-bloch">statement and proof</a> → <a href="#c-implies">consequences</a>. Then: <a href="#kwave">Model 2</a>, <a href="#hw-x-1">Practice A</a>.</span></li>
+    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-empty">Empty lattice</a> (then <a href="#empty">Model 8</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-central">central equation</a> → <a href="#c-gap">gap</a> (then Model 8 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
+    <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">15 min</span><span class="then">Then: <a href="#atoms">Model 1</a>, <a href="#ek">Model 5</a>, <a href="#fs2d">Models 6</a> and <a href="#fs3d">7</a>; <a href="#hw-x-3">Practice C</a>.</span></li>
+    <li data-sec="2.6"><a href="#s-2-6-x">Connecting ideas</a><span class="min">10 min</span><span class="then">Then: <a href="#cond">Model 3</a> and <a href="#wire">Model 4</a>.</span></li>
+    <li data-sec="Q4"><a href="#exam-q4">Exam 2022 Q4, worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
   </ol>
   <div class="legend">
     <b>Colour key</b>
@@ -75,9 +70,16 @@
 
 <section class="block" id="concepts">
   <h2>Concepts</h2>
-  <div class="cards">
+  <section class="sec" id="s-2-6-1">
+    <h3><span class="step">2.6.1</span>Bloch theorem</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Why a periodic potential forces every eigenstate into the form plane wave × cell-periodic function, the two equivalent statements, a proof sketch, and what follows for k, ψ and bands. Lecture notes p50–53.</p>
+      <p><b>Why it matters.</b> Exam Q4a asks for the theorem and its consequences directly, and Practice A drills it. Its labels, k in the first Brillouin zone and the band index n, are used by 2.6.2, 2.6.3, Fermi surfaces and semiconductors (3.1).</p>
+    </div>
+    <div class="cards">
     <article class="card" id="c-periodic">
-      <h3><span class="step">1</span>Electrons in a periodic potential</h3>
+      <span class="eyebrow">2.6.1 · Periodic potential</span>
+      <h4>Electrons in a periodic potential</h4>
       <p>The ions sit on a lattice, so the potential energy they create repeats: $U(\mathbf r+\mathbf R)=U(\mathbf r)$ for every lattice vector $\mathbf R$. One electron in this potential obeys</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">One-electron Schrödinger equation</span></div>
       $$\Big[-\frac{\hbar^2}{2m}\nabla^2+U(\mathbf r)\Big]\psi(\mathbf r)=\varepsilon\,\psi(\mathbf r).$$
@@ -87,8 +89,9 @@
       <p class="takeaway">The whole chapter is equation (1) with a periodic $U$. The rest is what periodicity forces on its solutions, plus two limits where it can be solved.</p>
     </article>
     <article class="card" id="c-bloch">
-      <h3><span class="step">2</span>Bloch's theorem (2.6.1)</h3>
-      <p class="needs"><a href="#c-periodic">1 · Electrons in a periodic potential</a></p>
+      <span class="eyebrow">2.6.1 · Statement and proof</span>
+      <h4>Bloch's theorem</h4>
+      <p class="needs"><a href="#c-periodic">2.6.1 · Periodic potential</a></p>
       <p>Every eigenstate can be chosen in the form</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Bloch's theorem</span><a class="tag exam" href="#exam-q4">Exam Q4a</a></div>
       $$\psi_{n\mathbf k}(\mathbf r)=u_{n\mathbf k}(\mathbf r)\,e^{i\mathbf k\cdot\mathbf r},\qquad u_{n\mathbf k}(\mathbf r+\mathbf R)=u_{n\mathbf k}(\mathbf r),$$
@@ -111,8 +114,9 @@
       <p class="takeaway">A Bloch state is a plane wave times a cell-periodic function. Equivalently, a shift by one lattice vector only multiplies ψ by the phase $e^{i\mathbf k\cdot\mathbf R}$.</p>
     </article>
     <article class="card" id="c-implies">
-      <h3><span class="step">3</span>What Bloch's theorem implies</h3>
-      <p class="needs"><a href="#c-bloch">2 · Bloch's theorem</a></p>
+      <span class="eyebrow">2.6.1 · Consequences</span>
+      <h4>What Bloch's theorem implies</h4>
+      <p class="needs"><a href="#c-bloch">2.6.1 · Statement and proof</a></p>
       <div class="tags"><a class="tag exam" href="#exam-q4">Exam Q4a</a><a class="tag hw" href="#hw-x-1">Practice A</a></div>
       <ul>
         <li><b>k is only defined up to a G.</b> Since $e^{i\mathbf G\cdot\mathbf R}=1$, the labels $\mathbf k$ and $\mathbf k+\mathbf G$ give the same phase factor. The first Brillouin zone therefore holds every distinct state: N values of k for N cells, so 2N states per band once spin is counted.</li>
@@ -129,9 +133,19 @@
       <details class="check"><summary>Why does one band hold exactly 2N electrons in a crystal of N cells?</summary><p>Born–von Karman boundary conditions allow N distinct k in the first zone, one per cell. The band has one state per k, and spin doubles that to 2N.</p></details>
       <p class="takeaway">k is a phase step per cell, defined only up to a G, so the first Brillouin zone holds every state. For each k there is a discrete ladder of bands $\varepsilon_n(\mathbf k)$.</p>
     </article>
+    </div>
+  </section>
+  <section class="sec" id="s-2-6-2">
+    <h3><span class="step">2.6.2</span>Nearly free electron model</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Start from free electrons with U → 0 (the empty lattice), see why a weak periodic potential splits the two standing waves at a zone face, write the problem as the central equation, and solve it near the face to get the gap E<sub>g</sub> = 2|U<sub>G</sub>|. The notes stop at the unsolved central equation (p54); the rest is taught here from Kittel ch. 7.</p>
+      <p><b>Why it matters.</b> Exam Q4c–f, most of Q4: the [100] sketch with degeneracies, the energies at k₀ and k₁, naming the approximation, and how gaps open. Practice B uses the gap and standing waves. Band gaps are what separate metals from insulators and semiconductors (3.1).</p>
+    </div>
+    <div class="cards">
     <article class="card" id="c-empty">
-      <h3><span class="step">4</span>Empty-lattice approximation</h3>
-      <p class="needs"><a href="#c-bloch">2 · Bloch's theorem</a> and the reciprocal lattice of fcc (§1.3, worked in <a href="#exam-q4">Q4b</a>)</p>
+      <span class="eyebrow">2.6.2 · Empty lattice</span>
+      <h4>Empty-lattice approximation</h4>
+      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a> and the reciprocal lattice of fcc (1.3, worked in <a href="#exam-q4">Q4b</a>)</p>
       <div class="tags"><span class="tag lect">Not yet lectured</span></div>
       <p>Let $U\to0$ but keep the lattice's bookkeeping. The states are still plane waves, and Bloch's theorem only relabels them. A free wave is written as $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ with $\mathbf k$ in the first zone:</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Empty-lattice bands</span><a class="tag exam" href="#exam-q4">Exam Q4c</a></div>
@@ -154,8 +168,9 @@
       <p class="takeaway">With U → 0 the bands are free parabolas (5), one per G, folded into the zone. G's with equal $G_x$ and equal $G_y^2+G_z^2$ give one curve, and their count is its degeneracy.</p>
     </article>
     <article class="card" id="c-standing">
-      <h3><span class="step">5</span>Why the cos and sin standing waves split</h3>
-      <p class="needs"><a href="#c-empty">4 · Empty-lattice approximation</a></p>
+      <span class="eyebrow">2.6.2 · Standing waves</span>
+      <h4>Why the cos and sin standing waves split</h4>
+      <p class="needs"><a href="#c-empty">2.6.2 · Empty lattice</a></p>
       <div class="tags"><span class="tag lect">Not yet lectured</span></div>
       <p>In 1D at $k=\pi/a$, the waves $e^{\pm i\pi x/a}$ have the same energy and Bragg-reflect into each other. The eigenstates are the two standing waves</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Standing waves at the zone face</span><a class="tag exam" href="#exam-q4">Exam Q4f</a><a class="tag hw" href="#hw-x-2">Practice B</a></div>
@@ -173,8 +188,9 @@
       <p class="takeaway">At the zone face the two travelling waves mix into standing waves. The one whose charge sits where U is lowest (on attractive ions) lies 2|U<sub>G</sub>| below the other.</p>
     </article>
     <article class="card" id="c-central">
-      <h3><span class="step">6</span>The central equation (2.6.2)</h3>
-      <p class="needs"><a href="#c-bloch">2 · Bloch's theorem</a>, <a href="#c-empty">4 · Empty lattice</a></p>
+      <span class="eyebrow">2.6.2 · Central equation</span>
+      <h4>The central equation</h4>
+      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a>, <a href="#c-empty">2.6.2 · Empty lattice</a></p>
       <p>Expand both the potential and the Bloch function in plane waves:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Plane-wave expansions</span></div>
       $$U(\mathbf r)=\sum_{\mathbf G}U_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r},\qquad \psi_{\mathbf k}(\mathbf r)=\sum_{\mathbf G}C_{\mathbf k-\mathbf G}\,e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}.$$
@@ -189,8 +205,9 @@
       <p class="takeaway">In a plane-wave basis the Schrödinger equation becomes a matrix eigenproblem at each k: free energies on the diagonal, Fourier components of U off it. The bands are its eigenvalues.</p>
     </article>
     <article class="card" id="c-gap">
-      <h3><span class="step">7</span>The gap at the zone boundary: 2|U<sub>G</sub>|</h3>
-      <p class="needs"><a href="#c-standing">5 · Standing waves</a>, <a href="#c-central">6 · Central equation</a></p>
+      <span class="eyebrow">2.6.2 · Gap</span>
+      <h4>The gap at the zone boundary: 2|U<sub>G</sub>|</h4>
+      <p class="needs"><a href="#c-standing">2.6.2 · Standing waves</a>, <a href="#c-central">2.6.2 · Central equation</a></p>
       <div class="tags"><span class="tag lect">Not yet lectured</span></div>
       <p>If $U$ is weak, a plane wave $e^{i\mathbf k\cdot\mathbf r}$ is changed noticeably only where another wave $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ has the same kinetic energy, $\lvert\mathbf k-\mathbf G\rvert=\lvert\mathbf k\rvert$. That is the Bragg condition, and the k's that satisfy it are exactly the Brillouin-zone faces. Keep just those two waves:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Two-wave approximation near a zone face</span><span class="tag deriv">Exam-relevant derivation</span><a class="tag exam" href="#exam-q4">Exam Q4f</a></div>
@@ -203,42 +220,66 @@
       <div class="eq key"><div class="eq-head"><span class="eq-label">Band gap, nearly free electrons</span><a class="tag exam" href="#exam-q4">Exam Q4f</a><a class="tag hw" href="#hw-x-2">Practice B</a></div>
       $$E_g=2\lvert U_{\mathbf G}\rvert .$$
       <span class="eq-n">(13)</span></div>
-      <p>Away from the face, the two waves differ in energy by much more than $U$, and the shift is only second order, $\approx\lvert U_{\mathbf G}\rvert^2/(\varepsilon^0_{\mathbf k}-\varepsilon^0_{\mathbf k-\mathbf G})$, so the free parabola survives. Near the face the bands flatten. The group velocity $v=\hbar^{-1}\partial\varepsilon/\partial k$ drops to zero at the boundary, and the curvature (the effective mass) has opposite signs on the two sides of the gap.</p>
+      <p>Away from the face, the two waves differ in energy by much more than $U$, and the shift is only second order, $\approx\lvert U_{\mathbf G}\rvert^2/(\varepsilon^0_{\mathbf k}-\varepsilon^0_{\mathbf k-\mathbf G})$, so the free parabola survives. Near the face the bands flatten. Velocity and mass are read off the band's slope and curvature:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Group velocity and effective mass of a band</span><a class="tag exam" href="#exam-q4">Exam Q4f</a><a class="tag hw" href="#hw-x-2">Practice B</a><a class="tag hw" href="#hw-x-3">Practice C</a></div>
+      $$v=\frac1\hbar\frac{\partial\varepsilon}{\partial k},\qquad \frac1{m^*}=\frac1{\hbar^2}\frac{\partial^2\varepsilon}{\partial k^2}.$$
+      <span class="eq-n">(14)</span></div>
+      <p>At the zone face the bands are flat, so $v=0$, and the curvature, hence $m^*$, has opposite signs on the two sides of the gap.</p>
       <p>This is an avoided crossing, the same level repulsion as in a 2×2 GOE matrix: a coupling $U$ between two degenerate levels pushes them $2\lvert U\rvert$ apart. Where two free curves cross but $U_{\mathbf G-\mathbf G'}=0$ between them, the crossing stays.</p>
       <p class="trap">Drawing a gap at every crossing in Q4f. A crossing opens only if the potential couples the two waves ($U_{\mathbf G-\mathbf G'}\neq0$). Uncoupled crossings stay crossings.</p>
       <details class="check"><summary>1D, U(x) = 2U₁cos(2πx/a) with U₁ = −0.3 eV: gap at k = π/a, and the group velocity at the band edges there?</summary><p>By (13), $E_g=2|U_1|=0.6$ eV. Both band edges meet the zone face flat, so $v=\hbar^{-1}\partial\varepsilon/\partial k=0$ there.</p></details>
       <p class="takeaway">Where two free waves are degenerate (on a Bragg plane), $U_{\mathbf G}$ mixes them and opens a gap $E_g=2|U_{\mathbf G}|$. The bands meet the zone face flat, with v = 0.</p>
     </article>
+    </div>
+  </section>
+  <section class="sec" id="s-2-6-3">
+    <h3><span class="step">2.6.3</span>Tight binding</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The opposite limit to 2.6.2: build Bloch states from atomic orbitals that overlap weakly, which gives cosine bands, their width and the effective mass at the band bottom. Not in the notes; taught here from Kittel ch. 9.</p>
+      <p><b>Why it matters.</b> Not asked in 2022 and not yet lectured, but it is on the topic list and Practice C drills it. It is the picture behind Models 1–7, and its effective mass and band filling come back for holes and carriers in semiconductors (3.1).</p>
+    </div>
+    <div class="cards">
     <article class="card" id="c-tb">
-      <h3><span class="step">8</span>Tight binding (2.6.3)</h3>
-      <p class="needs"><a href="#c-bloch">2 · Bloch's theorem</a></p>
+      <span class="eyebrow">2.6.3 · Tight binding</span>
+      <h4>Bands from overlapping atomic orbitals</h4>
+      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a></p>
       <div class="tags"><span class="tag lect">Not yet lectured · from Kittel ch. 9</span></div>
       <p>The opposite limit: start from an atomic orbital $\phi(\mathbf r)$ (an s state) on each atom and let it overlap weakly with its neighbours. The combination</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Tight-binding Bloch sum</span><a class="tag hw" href="#hw-x-3">Practice C</a></div>
       $$\psi_{\mathbf k}(\mathbf r)=N^{-1/2}\sum_j e^{i\mathbf k\cdot\mathbf r_j}\,\phi(\mathbf r-\mathbf r_j)$$
-      <span class="eq-n">(14)</span></div>
+      <span class="eq-n">(15)</span></div>
       <p>already has the Bloch form: a shift by a lattice vector $\mathbf T$ only relabels the sum and pulls out $e^{i\mathbf k\cdot\mathbf T}$. Keep only the on-site and nearest-neighbour matrix elements, $\int\phi^*(\mathbf r)\,H\,\phi(\mathbf r)\,dV=-\alpha$ and $\int\phi^*(\mathbf r-\boldsymbol\rho)\,H\,\phi(\mathbf r)\,dV=-\gamma$. Then</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Nearest-neighbour band energy</span><a class="tag hw" href="#hw-x-3">Practice C</a></div>
       $$\varepsilon_{\mathbf k}=-\alpha-\gamma\sum_{\boldsymbol\rho}e^{-i\mathbf k\cdot\boldsymbol\rho}.$$
-      <span class="eq-n">(15)</span></div>
+      <span class="eq-n">(16)</span></div>
       <p>For sc, with 6 neighbours at distance $a$:</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">sc s band and its band-bottom mass</span><a class="tag hw" href="#hw-x-3">Practice C</a></div>
       $$\varepsilon_{\mathbf k}=-\alpha-2\gamma(\cos k_xa+\cos k_ya+\cos k_za),\qquad m^*=\frac{\hbar^2}{2\gamma a^2}.$$
-      <span class="eq-n">(16)</span></div>
+      <span class="eq-n">(17)</span></div>
       <ul>
-        <li>sc: the bandwidth is $12\gamma$. Near $k=0$, $\varepsilon\approx-\alpha-6\gamma+\gamma k^2a^2$, which gives the $m^*$ in (16).</li>
+        <li>sc: the bandwidth is $12\gamma$. Near $k=0$, $\varepsilon\approx-\alpha-6\gamma+\gamma k^2a^2$, which gives the $m^*$ in (17).</li>
         <li>fcc, 12 neighbours: $\varepsilon_{\mathbf k}=-\alpha-4\gamma\big(\cos\tfrac{k_ya}2\cos\tfrac{k_za}2+\cos\tfrac{k_za}2\cos\tfrac{k_xa}2+\cos\tfrac{k_xa}2\cos\tfrac{k_ya}2\big)$, running from $-\alpha-12\gamma$ at Γ to $-\alpha+4\gamma$ at X, a width of $16\gamma$.</li>
         <li>A small overlap γ gives a narrow band and a heavy electron. γ falls off exponentially with atomic spacing, which is the left-hand plot of Model 1.</li>
       </ul>
       <p>Models 1–7 are tight-binding models, and their hopping $t$ is Kittel's γ. Model 8 is the other limit. Either way, each band holds 2N states: one k per cell, times two spins.</p>
       <div class="check"><b>Sanity check:</b> the fcc band range comes from scanning the cosine sum on a 61³ grid in node. The sum runs from −1 to 3, which gives energies from −α−12γ to −α+4γ.</div>
       <p class="trap">Forgetting spin when filling the band. One electron per atom half-fills an s band (2N states), so the solid is a metal, not an insulator.</p>
-      <details class="check"><summary>sc, γ = 0.25 eV, a = 3.0 Å: bandwidth, and m*/m at the band bottom? (ħ²/2m = 3.81 eV Å²)</summary><p>Bandwidth $12\gamma=3.0$ eV. From (16), $m^*/m=(\hbar^2/2m)/(\gamma a^2)=3.81/(0.25\times9.0)=1.7$.</p></details>
+      <details class="check"><summary>sc, γ = 0.25 eV, a = 3.0 Å: bandwidth, and m*/m at the band bottom? (ħ²/2m = 3.81 eV Å²)</summary><p>Bandwidth $12\gamma=3.0$ eV. From (17), $m^*/m=(\hbar^2/2m)/(\gamma a^2)=3.81/(0.25\times9.0)=1.7$.</p></details>
       <p class="takeaway">Overlapping atomic orbitals spread each level into a cosine band whose width scales with the overlap γ (12γ for sc). Weak overlap means a narrow band and a heavy electron.</p>
     </article>
+    </div>
+  </section>
+  <section class="sec" id="s-2-6-x">
+    <h3><span class="step">2.6</span>Connecting ideas</h3>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Four questions that tie 2.6.1–2.6.3 together: what k means, how one electron is a wave packet, what the sign of ψ tells you, and why only a partly full band conducts.</p>
+      <p><b>Why it matters.</b> These are the conceptual questions behind the models, and the bridge from bands to transport (2.2–2.5) and to semiconductors (3.1).</p>
+    </div>
+    <div class="cards">
     <article class="card" id="c-four">
-      <h3><span class="step">9</span>Four questions about k, ψ and conduction</h3>
-      <p class="needs"><a href="#c-implies">3 · Implications</a>, <a href="#c-gap">7 · Gap</a>, <a href="#c-tb">8 · Tight binding</a></p>
+      <span class="eyebrow">2.6 · Connecting ideas</span>
+      <h4>Four questions about k, ψ and conduction</h4>
+      <p class="needs"><a href="#c-implies">2.6.1 · Consequences</a>, <a href="#c-gap">2.6.2 · Gap</a>, <a href="#s-2-6-3">2.6.3 Tight binding</a></p>
       <ul>
         <li><b>What does k mean?</b> The phase turned per cell, $e^{i\mathbf k\cdot\mathbf R}$, multiplying a periodic $u$. Model 2 shows it in real space.</li>
         <li><b>One electron or one k?</b> A single-k state fills the whole crystal. An electron that is "here" is a wave packet of k's in a window Δk, and it moves at $v=\hbar^{-1}\partial\varepsilon/\partial k$ (Model 2, packet width).</li>
@@ -248,7 +289,8 @@
       <details class="check"><summary>Why does a completely full band carry no current, even with a field applied?</summary><p>Every k is occupied, so the field cannot change which states are filled. For each state at k with velocity v there is a filled state at −k with −v, so the total stays zero (Model 3 with 24 of 24).</p></details>
       <p class="takeaway">k is a phase step, a localised electron is a packet moving at $\hbar^{-1}\partial\varepsilon/\partial k$, and only a partly filled band can carry a current.</p>
     </article>
-  </div>
+    </div>
+  </section>
 </section>
 
 <section class="block" id="models">
@@ -581,7 +623,7 @@
   <div class="card">
     <p>2022 Q4 "Electrons in condensed matter": state Bloch's theorem; give the reciprocal lattice vectors; sketch the free-electron (empty-lattice) band structure along [100] in the periodic zone scheme; compute the lowest two energies at k = (0,0,0) and k = (π/2a,0,0); name the approximation for a weak periodic potential (nearly free electrons); sketch how gaps open at the zone boundary and compare. It reuses the reciprocal lattice of §1.3.</p>
     <p>Things to do in 5 minutes without notes: write both forms of Bloch's theorem; get bcc ↔ fcc reciprocal lattices right; list the empty-lattice curves along [100] with degeneracies; know E<sub>g</sub> = 2|U<sub>G</sub>| and which standing wave is lower.</p>
-    <p><b>Where each part is taught:</b> Q4a → (2), (3) and <a href="#c-implies">card 3</a>; Q4b → the reciprocal lattice in the worked answer below; Q4c–d → (5), (6) and the table in <a href="#c-empty">card 4</a>; Q4e → (10); Q4f → (7) and (11)–(13).</p>
+    <p><b>Where each part is taught:</b> Q4a → <a href="#s-2-6-1">2.6.1</a>, (2), (3); Q4b → the reciprocal lattice in the worked answer below; Q4c–d → <a href="#c-empty">2.6.2 · Empty lattice</a>, (5), (6) and its table; Q4e → (10); Q4f → (7) and (11)–(14).</p>
   </div>
   <article class="hw" id="exam-q4">
     <span class="tag">Exam 2022 · Q4 a–f · worked answer</span>
