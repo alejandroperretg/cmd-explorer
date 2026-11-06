@@ -26,6 +26,12 @@
 - Sliders: `<input type="range" id="<prefix>-<name>" data-fmt="2" data-unit=" eV">` (or `data-pi="1"` for k in π/a) plus `<output for="…">`. All inputs of one model share a prefix; call `CM.wire({ prefix: renderFn, … })` once. The render function reads all its inputs and redraws, and must also work when called again on a theme change.
 - Page script goes inside `document.addEventListener('DOMContentLoaded', …)` (the libraries load with `defer`).
 
+**Pedagogy.** Markup for each element is in `templates/topic.html`; page 09 is the reference.
+- Every display equation is in an `.eq` panel (optional `.eq-head` label, optional `.eq-n` number). Use `.eq.key` for must-know results only (a few per page).
+- Every equation or derivation that a sheet problem or exam question uses is tagged where it is introduced: `.tag.hw` ("Sheet 8.2", linked to the guide), `.tag.exam` ("Exam Q4c", linked to the exam answer), `.tag.deriv` (a derivation the exam needs reproduced). Tags must match what the sheet or exam actually asks. `.tag.lect` marks material not yet lectured.
+- Concept cards are numbered in reading order (`.step`), with a `.needs` line linking to prerequisite cards. Every card has at least one `details.check` and ends with a `.takeaway`. Add a `.trap` where there is a common mistake.
+- Every page has a reading path (`.path`, with the legend) between the header and the Overview, listing the cards in order with a rough time each and where the models and guides fit.
+
 **Correctness.**
 - Every numeric claim (results, readouts, captions, "typical value" statements) is checked independently: a `node -e` computation, a second formula or limit, or a comparison with a Kittel table. Write how in the guide's *Sanity check* line, or in a one-line JS comment next to a model's numbers.
 - Homework guides reproduce the sheet's given data exactly (check against the PDF, not the text dump: the dump drops Greek letters and exponents). Anything not on the sheet (material data, approximations, a reading of an ambiguous statement) goes in an `.assume` box with its source.

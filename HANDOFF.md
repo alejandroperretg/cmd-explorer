@@ -1,5 +1,7 @@
 # Handoff: CMD Explorer
 
+> **2026-11-06 morning:** the original session resumed this work itself. The pedagogy and review agents were resumed there. A scheduled run that reads this should not redo items 1–2. Check `git log` first, and only take over if the original session has gone quiet.
+
 The previous session ran out of usage on 2026-11-05 around 22:30. This file is the full state, so start here.
 
 ## Goal (set by the user)
@@ -39,6 +41,10 @@ The course is Condensed Matter and Devices (V. Wagner, Constructor University, F
 
      It should also be in `templates/topic.html` and as a "Pedagogy" rule in `CONVENTIONS.md`, then applied to `pages/09-bands.html` without touching the model code. If that's incomplete, finish it. Then rebuild and republish the bands artifact for the user to look at on their phone. The user asked for: "a clear order of reading things", equations "more visible and distinguishable from the text", highlighting "which equations are used for homework … or for exam, or which derivation is exam relevant", and "color coding and other pedagogy techniques".
   2. **Pages 02** (reciprocal lattice, §1.1.3/1.3, sheets 2 and 3.1–3.2), **05** (phonons, §1.6, sheet 6) and **06** (heat capacity, §1.7, sheet 7). These were being built in the old style.
+     - **06 is built** (not yet reviewed or committed). The builder digitised the sheet 7.2 graph and found Θ_D ≈ 1800 K, about 20 % below 2250 K. It says the Θ_D presets and Ar 92 K come from text, not from Kittel Table 1. It links to `05-phonons.html`.
+     - **02 is built** (not yet reviewed or committed). Unverified: Cu Kα₁ 154.06 pm, Po a = 334 pm and Si a = 543.0 pm (both from page 01), and the 12/√E rule. Judgement calls: sheet 2.2c's "Inverse Volumina" is read as V_BZ, and 2.3c shows both the non-relativistic and the relativistic λ. A dev server may still be running on port 8102; stop it.
+     - **05 is built** (not yet reviewed or committed). Values read by eye or calibrated: Na ν_max ≈ 3.6 THz (from Kittel Fig. 11); Na d = 0.211 nm (from n); NaCl ω_T = 3.1e13 s⁻¹, with f = 11.1 N/m as a labelled 1D toy.
+     - A review agent for 02/05/06 was started at about 22:45. If they aren't committed, rerun the review.
 - **Next, in order:**
   1. Finish (1) and (2).
   2. One review pass for 02/05/06 (physics + code; Code Reviewer persona), then commit.

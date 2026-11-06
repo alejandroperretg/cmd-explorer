@@ -38,6 +38,27 @@
   <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
 </header>
 
+<!-- READING PATH: one <li> per concept card in reading order (href = card id), rough time, optional "Then:" pointer to a model/guide. Legend stays as is. -->
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>{{One sentence: read the cards in this order; which steps are the exam core. Total time.}}</p>
+  <ol>
+    <li><a href="#c-{{slug}}">{{Concept name}}</a><span class="min">{{10}} min</span><span class="then">Then: <a href="#model1">Model 1</a>; <a href="#hw-{{1}}-{{2}}">Sheet {{1}}.{{2}}</a>.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag exam">Exam Q4c</span>asked in the 2022 exam</span>
+    <span><span class="tag hw">Sheet 8.2</span>used by a sheet or practice problem</span>
+    <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
+    <span><span class="tag lect">Not yet lectured</span>taught here from Kittel</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
 <!-- 1. OVERVIEW -->
 <section class="block" id="overview">
   <h2>Overview</h2>
@@ -45,15 +66,24 @@
   <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. {{1}} ({{section names}}), and the lecture notes pp. {{2–6}}.</p>
 </section>
 
-<!-- 2. CONCEPTS: one .card per idea; equations in $...$ or $$...$$ -->
+<!-- 2. CONCEPTS: one .card per idea, in reading order, numbered with .step; id="c-<slug>". Inline math $...$; every display equation in .eq.
+     Tags go where an equation/derivation is introduced: .tag.exam (link to the exam answer), .tag.hw (link to the guide), .tag.deriv, .tag.lect.
+     Card order: needs → (tags) → text and .eq panels → .trap (optional) → details.check (at least one) → .takeaway (last). -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
   <div class="cards">
-    <article class="card">
-      <h3>{{Concept name}}</h3>
+    <article class="card" id="c-{{slug}}">
+      <h3><span class="step">{{1}}</span>{{Concept name}}</h3>
+      <p class="needs"><a href="#c-{{prereq}}">{{0}} · {{Prerequisite card}}</a></p>
+      <div class="tags"><span class="tag lect">Not yet lectured</span><span class="tag deriv">Exam-relevant derivation</span></div>
       <p>{{Short explanation in plain language.}}</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">{{What the equation is}}</span><a class="tag exam" href="#exam">Exam Q{{4c}}</a><a class="tag hw" href="#hw-{{1}}-{{2}}">Sheet {{1}}.{{2}}</a></div>
       $$ {{E(k) = \frac{\hbar^2 k^2}{2m}}} $$
+      <span class="eq-n">(1)</span></div>
       <p>{{What each symbol means, with SI units.}}</p>
+      <p class="trap">{{A common mistake, and the correct statement.}}</p>
+      <details class="check"><summary>{{A short question answerable from this card.}}</summary><p>{{The answer, one or two sentences.}}</p></details>
+      <p class="takeaway">{{One or two sentences: what to remember from this card.}}</p>
     </article>
   </div>
 </section>

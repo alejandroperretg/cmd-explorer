@@ -10,16 +10,31 @@
   --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
   --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  /* pedagogy: equation panels, usage tags (hue per use, kept apart from --accent), study blocks */
+  --eq-bg: #eef3f8; --eq-line: #d3dde7; --eq-edge: #7f9db6; --eq-key-bg: #e4edf6; --eq-key: #1d3550;
+  --t-exam: #b42318; --t-exam-bg: #fdeceb; --t-hw: #6941c6; --t-hw-bg: #f2edfc;
+  --t-deriv: #8a5a00; --t-deriv-bg: #fbf0d9; --t-lect: #52607a; --t-lect-bg: #eef0f4;
+  --b-take: #0b7350; --b-take-bg: #e8f5ef; --b-trap: #b93815; --b-trap-bg: #fdefe9; --b-check: #0b6e7a; --b-check-bg: #e6f4f6;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #0e1115; --panel: #151a20; --fg: #e4e8ec; --muted: #95a1ad; --line: #29313a;
   --occ: #e48b52; --emp: #6aa5d0; --ef: #45cf98; --accent: #6aa5d0;
-  --s0: #0f1c2b; --s1: #1f3a56; --s2: #3a5f82; --s3: #7097b8; --s4: #b9cfe0; color-scheme: dark; } }
+  --s0: #0f1c2b; --s1: #1f3a56; --s2: #3a5f82; --s3: #7097b8; --s4: #b9cfe0;
+  --eq-bg: #18212b; --eq-line: #2a3644; --eq-edge: #3a5f82; --eq-key-bg: #1b2836; --eq-key: #7097b8;
+  --t-exam: #ff8a80; --t-exam-bg: #3b1d1d; --t-hw: #bba6ff; --t-hw-bg: #2a2342;
+  --t-deriv: #eab54d; --t-deriv-bg: #33290f; --t-lect: #a8b3c7; --t-lect-bg: #1f2531;
+  --b-take: #45cf98; --b-take-bg: #12291f; --b-trap: #ff9466; --b-trap-bg: #33190f; --b-check: #5cc8d6; --b-check-bg: #10282c;
+  color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #0e1115; --panel: #151a20; --fg: #e4e8ec; --muted: #95a1ad; --line: #29313a;
   --occ: #e48b52; --emp: #6aa5d0; --ef: #45cf98; --accent: #6aa5d0;
-  --s0: #0f1c2b; --s1: #1f3a56; --s2: #3a5f82; --s3: #7097b8; --s4: #b9cfe0; color-scheme: dark; }
+  --s0: #0f1c2b; --s1: #1f3a56; --s2: #3a5f82; --s3: #7097b8; --s4: #b9cfe0;
+  --eq-bg: #18212b; --eq-line: #2a3644; --eq-edge: #3a5f82; --eq-key-bg: #1b2836; --eq-key: #7097b8;
+  --t-exam: #ff8a80; --t-exam-bg: #3b1d1d; --t-hw: #bba6ff; --t-hw-bg: #2a2342;
+  --t-deriv: #eab54d; --t-deriv-bg: #33290f; --t-lect: #a8b3c7; --t-lect-bg: #1f2531;
+  --b-take: #45cf98; --b-take-bg: #12291f; --b-trap: #ff9466; --b-trap-bg: #33190f; --b-check: #5cc8d6; --b-check-bg: #10282c;
+  color-scheme: dark; }
 
 /* ---------- base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -72,6 +87,79 @@ header { display: flex; flex-direction: column; gap: 14px; }
 .check { border-left: 3px solid var(--emp); padding: 6px 12px; background: var(--bg); font-size: 13.5px; color: var(--muted); }
 .assume { border-left: 3px solid var(--occ); padding: 6px 12px; background: var(--bg); font-size: 13.5px; }
 .sources ul { margin: 0; padding-left: 20px; font-size: 13.5px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+
+/* ---------- pedagogy: equation panels, usage tags, reading order, study blocks (rules: CONVENTIONS.md "Pedagogy") ---------- */
+/* Display equation: <div class="eq [key]"><div class="eq-head"><span class="eq-label">…</span> tags…</div> $$…$$ <span class="eq-n">(1)</span></div>.
+   Head and number are optional; .eq.key needs a head (it carries the "Must know" badge). */
+.eq { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; min-width: 0; max-width: 100%; margin: 4px 0;
+  background: var(--eq-bg); border: 1px solid var(--eq-line); border-left: 3px solid var(--eq-edge); border-radius: 0 5px 5px 0; padding: 8px 12px; }
+.eq-head { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.eq-label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+/* the rendered math (KaTeX HTML, or MathML where KaTeX's CSS is blocked) scrolls inside the panel */
+.eq > :not(.eq-head, .eq-n) { grid-column: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.eq .katex-display { margin: 0; padding: 2px 0; }
+.eq math[display="block"] { margin: 2px 0; font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math; }
+.eq-n { grid-column: 2; font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.eq.key { background: var(--eq-key-bg); border-color: var(--eq-key); border-left-width: 5px; padding: 10px 14px; }
+.eq.key .eq-label { color: var(--fg); }
+.eq.key .eq-head::before { content: "Must know"; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--panel); background: var(--eq-key); border-radius: 3px; padding: 1px 6px; }
+
+/* Usage tags, placed where an equation/derivation is introduced. Scoped with :is() because .hw is also the guide container. */
+.tag:is(.hw, .exam, .deriv, .lect) { display: inline-flex; flex-direction: row; align-items: center; gap: 4px; min-width: 0; margin: 0; padding: 1px 8px;
+  border: 1px solid currentColor; border-radius: 99px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.02em;
+  text-transform: none; line-height: 1.5; white-space: nowrap; vertical-align: middle; text-decoration: none; }
+.tag.exam { color: var(--t-exam); background: var(--t-exam-bg); font-weight: 600; }
+.tag.hw { color: var(--t-hw); background: var(--t-hw-bg); }
+.tag.deriv { color: var(--t-deriv); background: var(--t-deriv-bg); }
+.tag.lect { color: var(--t-lect); background: var(--t-lect-bg); border-style: dashed; }
+a.tag:hover, a.tag:focus-visible { text-decoration: underline; outline: none; }
+.tags { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+
+/* Reading order: path box at the top, numbered cards, "Needs:" prerequisite line */
+.path { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.path > h2 { font-size: 1.2rem; }
+.path > p { font-size: 13.5px; color: var(--muted); }
+.path ol { list-style: none; margin: 0; padding: 0; counter-reset: step; display: flex; flex-direction: column; }
+.path li { counter-increment: step; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: start; gap: 1px 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.path li:first-child { border-top: 0; }
+.path li::before { content: counter(step); }
+.path li::before, .step { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 99px;
+  background: var(--fg); color: var(--panel); font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1; }
+.path li > a { font-weight: 600; color: var(--fg); padding-top: 1px; }
+.path li > a:hover, .path li > a:focus-visible { color: var(--accent); }
+.path .min { font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 2px; }
+.path .then { grid-column: 2 / -1; font-size: 12.5px; color: var(--muted); }
+.step { margin-right: 8px; vertical-align: 2px; }
+.needs { font-size: 12.5px; color: var(--muted); }
+.needs::before { content: "Needs: "; font-weight: 600; color: var(--fg); }
+
+/* Study blocks: .takeaway (ends every concept card), .trap (common mistake), details.check (self-test; plain .check above stays the sanity-check line) */
+.takeaway, .trap, details.check { max-width: none; border-radius: 0 4px 4px 0; padding: 7px 12px; font-size: 13.5px; color: var(--fg); }
+.takeaway { border-left: 3px solid var(--b-take); background: var(--b-take-bg); }
+.trap { border-left: 3px solid var(--b-trap); background: var(--b-trap-bg); }
+details.check { border-left: 3px solid var(--b-check); background: var(--b-check-bg); }
+.takeaway::before, .trap::before, details.check > summary::before { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 8px; }
+.takeaway::before { content: "\2713  Takeaway"; color: var(--b-take); }
+.trap::before { content: "!  Trap"; color: var(--b-trap); }
+details.check > summary { cursor: pointer; font-weight: 600; list-style: none; }
+details.check > summary::-webkit-details-marker { display: none; }
+details.check > summary::before { content: "?  Check yourself"; color: var(--b-check); display: block; margin-bottom: 2px; }
+details.check > summary::after { content: " \00B7  show answer"; font-weight: 400; font-size: 12.5px; color: var(--b-check); white-space: nowrap; }
+details.check[open] > summary::after { content: " \00B7  hide"; }
+details.check[open] > summary { margin-bottom: 6px; }
+details.check > summary:focus-visible { outline: 2px solid var(--b-check); outline-offset: 2px; }
+
+/* Legend: explains the colours and tags, near the top of the page */
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+.legend > b { color: var(--fg); font-weight: 600; flex-basis: 100%; }
+.legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 18px; height: 13px; border-radius: 0 3px 3px 0; }
+.legend i.sw-eq { background: var(--eq-bg); border: 1px solid var(--eq-line); border-left: 3px solid var(--eq-edge); }
+.legend i.sw-key { background: var(--eq-key-bg); border: 1px solid var(--eq-key); border-left-width: 5px; }
+.legend i.sw-take { background: var(--b-take-bg); border-left: 3px solid var(--b-take); }
+.legend i.sw-trap { background: var(--b-trap-bg); border-left: 3px solid var(--b-trap); }
+.legend i.sw-check { background: var(--b-check-bg); border-left: 3px solid var(--b-check); }
 
 /* ---------- bench (interactive model) ---------- */
 .bench { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 22px; display: grid; grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); gap: 26px; }
