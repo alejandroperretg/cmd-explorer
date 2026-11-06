@@ -113,7 +113,57 @@
   const MATH_OPTS = { delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
     throwOnError: false, ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'output'] };
   // Call CM.math(el) after inserting HTML that contains $...$ (static page text is rendered automatically).
-  function math(el = document.body) { if (window.renderMathInElement) window.renderMathInElement(el, MATH_OPTS); }
+  function math(el = document.body) { if (window.renderMathInElement) { window.renderMathInElement(el, MATH_OPTS); fitEq(el); } }
+
+  /* ---------- fit display equations to their .eq panel (safety net only) ---------- */
+  // Equations are written to fit at 360 px (aligned lines). If one still overflows, shrink it to fit, never below FIT_MIN.
+  // The panels never scroll. Width is measured with a Range so content overflowing on either side counts.
+  const FIT_MIN = 0.85;
+  function fitEq(el = document) {
+    (el.querySelectorAll ? el : document).querySelectorAll('.eq > :not(.eq-head, .eq-n)').forEach(box => {
+      box.style.fontSize = '';
+      let scale = 1;
+      for (let i = 0; i < 3; i++) {
+        const avail = box.clientWidth; if (!avail) return;
+        // KaTeX also emits a clipped, full-width MathML copy for screen readers; measure only the visible rendering.
+        const rg = document.createRange(); rg.selectNodeContents(box.querySelector('.katex-html') || box);
+        const need = Math.max(box.scrollWidth, rg.getBoundingClientRect().width);
+        if (need <= avail + 1 || scale <= FIT_MIN) break;
+        scale = Math.max(FIT_MIN, scale * (avail - 2) / need);
+        box.style.fontSize = (scale * 100).toFixed(1) + '%';
+      }
+    });
+  }
+  let fitTimer = 0;
+  addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => fitEq(), 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitEq());
+
+  /* ---------- layout audit (testing aid): CM.auditLayout() should return [] at 360 and 400 px ---------- */
+  // Reports elements whose content is wider than their box (scrollWidth > clientWidth + 1) and elements that spill
+  // outside their parent. Plot, canvas, SVG and math internals are skipped, as are out-of-flow and hidden elements.
+  // Only the innermost offender of a chain is listed, since an overflow also widens its ancestors' scrollWidth.
+  function auditLayout(rootEl = document.body) {
+    const SKIP_IN = '.js-plotly-plot, canvas, svg, .katex, math, select';
+    const name = e => e.tagName.toLowerCase() + (e.id ? '#' + e.id : '') + (typeof e.className === 'string' && e.className.trim() ? '.' + e.className.trim().split(/\s+/).join('.') : '');
+    const hits = [];
+    [rootEl, ...rootEl.querySelectorAll('*')].forEach(e => {
+      if (e.parentElement && e.parentElement.closest(SKIP_IN)) return;
+      if (e.matches('script, style, br, option, .katex-mathml')) return;
+      const cs = getComputedStyle(e);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'absolute' || cs.position === 'fixed') return;
+      const r = e.getBoundingClientRect(); if (!r.width && !r.height) return;
+      if (e.clientWidth > 0 && e.scrollWidth > e.clientWidth + 1 && !e.matches('canvas, svg, .js-plotly-plot'))
+        hits.push({ el: e, sel: name(e), kind: 'content wider than box', px: e.scrollWidth - e.clientWidth });
+      const p = e.parentElement;
+      if (p && p !== document.documentElement) {
+        const q = p.getBoundingClientRect(), out = Math.max(r.right - q.right, q.left - r.left);
+        if (out > 1) hits.push({ el: e, sel: name(e), kind: 'spills outside parent ' + name(p), px: Math.round(out) });
+      }
+    });
+    const els = hits.map(h => h.el);
+    return hits.filter(h => !els.some(o => o !== h.el && h.el.contains(o)))
+      .map(h => ({ sel: h.sel, kind: h.kind, px: h.px, text: (h.el.textContent || '').trim().slice(0, 50), el: h.el }));
+  }
 
   /* ---------- theme toggle (nav button with data-theme-toggle) ---------- */
   const root = document.documentElement;
@@ -139,5 +189,5 @@
   document.addEventListener('DOMContentLoaded', () => { initThemeToggle(); math(); });
 
   window.CM = { PI, MONO, C, readTheme, rgba, ax, kAx, sAx, sKAx, PIT, layout, CFG, hline, vline,
-    $, lin, setRead, setPill, schedule, fmtSlider, wire, renderAll, reduceMotion, loop, playButton, math, K };
+    $, lin, setRead, setPill, schedule, fmtSlider, wire, renderAll, reduceMotion, loop, playButton, math, fitEq, auditLayout, K };
 })();

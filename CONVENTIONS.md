@@ -38,6 +38,7 @@
   - A `.needs` line links to prerequisite sections by number.
 - Concept cards in reading order (`.step`), with a `.needs` line linking to prerequisite cards.
 - **Formulas must stand out.** Display equations use `.eq`, which is larger than body text (set in `site.css`). Don't shrink them, and don't put a central result inline when it deserves a panel. Every card has at least one `details.check` and ends with a `.takeaway`. Add a `.trap` where there is a common mistake.
+- **Motivation.** Each topic-list section opens with a `.hook` ("Where you meet this.": a concrete, checked real-world payoff, warm and direct, no hype) and ends with a `.cannow` ("You can now …", naming the exam part or sheet problem it unlocks).
 - Every page has a reading path (`.path`, with the legend) between the header and the Overview, listing the cards in order with a rough time each and where the models and guides fit.
 
 **Correctness.**
@@ -48,7 +49,7 @@
 **Definition of done** (tick all before reporting):
 - [ ] Served with `node tools/serve.js` and opened: no console errors or warnings from page code.
 - [ ] Every control visibly changes its plot or readout.
-- [ ] At 400 px width: no horizontal page scroll (`document.documentElement.scrollWidth <= 400`); long equations scroll inside their own box.
+- [ ] At 360 px and 400 px width: no horizontal page scroll, equations never scroll (long ones are written as aligned lines), and `CM.auditLayout()` returns [] at 360 px and 400 px, in light and dark.
 - [ ] Readable in light and dark (nav "Dark/Light" button), plots re-themed.
 - [ ] Every numeric claim checked, with the method stated as above.
 - [ ] Every topic-list subsection of the section has a Concepts entry.
