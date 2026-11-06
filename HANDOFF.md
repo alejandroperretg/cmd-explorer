@@ -27,7 +27,7 @@ The course is Condensed Matter and Devices (V. Wagner, Constructor University, F
 - **Phone preview:**
   - `node tools/to-artifact.js . NN-slug.html build/cmd-NN.html` builds a self-contained copy, with math as MathML;
   - publish it as a *private* artifact (Artifact tool; load the artifact-design guidance via `action: "quickstart"` first).
-  - The bands page is already published at https://claude.ai/artifact/Ph9bvTf6N3VvtzFfA8qDNY. Update it in place by passing that `url`, after a `read` of it.
+  - The bands page is already published at https://claude.ai/artifact/Ph9bvTf6N3VvtzFfA8qDNY. Update it in place by passing that `url`, after a `read` of it. Page 04 is at https://claude.ai/artifact/R49kSsmzLKeZ5bq1Vhyvkq (still in the old scrolling-equation style).
 
 ## State at handoff
 - **Done, reviewed and committed:** pages 01, 07, 08, 09. Their models are labelled by topic-list number.
@@ -56,6 +56,10 @@ The course is Condensed Matter and Devices (V. Wagner, Constructor University, F
   - The expectation list `audit/expectations.md` was started on 2026-11-06. It is built from the topic list, the notes and the sheets, without looking at the pages.
   - Once all the pages exist, a *separate* agent checks the pages against it and writes `audit/report.md`, with a pass, partial or missing verdict and evidence for each item.
 - **Last:** page 14, exam prep.
+- **After everything is done** (user's idea, 2026-11-06): put the site on GitHub (account `alejandroperretg`).
+  - Before any push, ask the user whether the repo should be public or private.
+  - Check that no course material is included (`sources/` is gitignored), and that nothing is copied verbatim from the notes, sheets or Kittel.
+  - Never push without that explicit OK.
 
 ## Linked material outside explorer/
 - `../STUDY-PLAN.md`: the user's study plan.
