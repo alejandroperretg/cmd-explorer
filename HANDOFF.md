@@ -1,5 +1,22 @@
 # Handoff: CMD Explorer
 
+> **State at 2026-11-06 evening (latest, read this first):**
+> - **Done, reviewed, committed:** pages 01–09, all marked ready.
+> - **In final style:** 03, 04, 09. Restyle the others with `templates/RETROFIT.md`, two pages per agent: 01+02, 05+06, 07+08.
+> - **May have stopped mid-run: the stress-test agent.** Its job:
+>   - add `CM.stress()` to `assets/common.js`, plus `tools/stress.js`;
+>   - write `audit/stress-report.md`;
+>   - make a shared fix for inline MathML spilling in phone builds;
+>   - stop intentional "undefined" pills from being flagged as errors.
+>
+>   Check `git status`. If its work is incomplete, finish it before the rollout.
+> - **After the rollout:**
+>   1. Run the stress test on all pages.
+>   2. Republish the phone versions: bands https://claude.ai/artifact/Ph9bvTf6N3VvtzFfA8qDNY, elasticity https://claude.ai/artifact/R49kSsmzLKeZ5bq1Vhyvkq.
+>   3. Run the coverage check against the frozen `audit/expectations.md`.
+> - **Models still missing (PLAN 15):** 2.1.1, 2.1.2, 2.1.4 and 2.1.5 on page 07; 2.2.2 and 2.2.4 on page 08. Add them during the 07+08 restyle.
+> - **Waiting:** pages 10–13 wait for lectures. GitHub comes last, and only with the user's OK.
+
 > **2026-11-06 morning:** the original session resumed this work itself. The pedagogy and review agents were resumed there. A scheduled run that reads this should not redo items 1–2. Check `git log` first, and only take over if the original session has gone quiet.
 
 The previous session ran out of usage on 2026-11-05 around 22:30. This file is the full state, so start here.
