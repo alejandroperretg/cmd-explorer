@@ -19,8 +19,25 @@
 >   - They are being placed into 2.6.1 / 2.6.2 / 2.6.3 / Connecting ideas, with links to pages 07 and 08.
 >   - Once 07 and 08 are restyled, add the reverse links on those pages (e.g. 2.1.6 → bands "E(k) with Fermi–Dirac filling", 2.2 → bands "Current in a wire").
 > - **To tidy up after the restyle:**
->   - `.recap` is defined locally in page 09 (and possibly page 05). Move it into `site.css` and remove the local copies.
+>   - From the 01+02 restyle:
+>     - add "← from 1.3.2 / 1.3.3" on 05, 07 and 09, pointing to `02#c-recip` and `02#c-bz`;
+>     - point the links on 03 and 04 to page 01 at anchors (`#c-cubic`, `#c-struct`, `#c-index`);
+>     - `.recap` shows as plain text until it is added to `site.css`.
+>   - Missing back-links:
+>     - 02 §1.3.2 → "used in 1.6.1" and "used in 1.7.1.3";
+>     - 07 sheet 9.1 → 06 §1.7.1.2;
+>     - 08 and 09 → 05 for Umklapp and for "what k means".
+>   - Equations overflow 4–36 px at 320 and 768 px in the phone builds (outside the definition of done).
+>   - `.recap` and `.fwd` are defined locally on pages 05, 06 and 09. Move it into `site.css` and remove the local copies.
 >   - Page 09 links to 07#sphere, 07#smear, 08#concepts, 08#m-fs and 08#m-rt. Switch these to the section ids once 07 and 08 have them, then add the reverse links on 07 and 08.
+> - **Final legibility check** (user request, 2026-11-07). Do it after the 07+08 restyle and the cleanup, and before republishing.
+>   - Use one reviewer agent (UI Designer persona) and look at the pages with real eyes: phone-width screenshots in light and dark, on the site and in the phone builds.
+>   - What to check:
+>     - fonts and type scale are consistent across pages;
+>     - equation formatting: KaTeX vs MathML, alignment, numbering, notation consistent across pages;
+>     - panels, tags and colours are used the same way on every page;
+>     - spacing and readability.
+>   - Fix what it finds, then run the stress test once more.
 > - **Waiting:** pages 10–13 wait for lectures. GitHub comes last, and only with the user's OK.
 
 > **2026-11-06 morning:** the original session resumed this work itself. The pedagogy and review agents were resumed there. A scheduled run that reads this should not redo items 1–2. Check `git log` first, and only take over if the original session has gone quiet.
