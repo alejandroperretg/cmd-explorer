@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* .recap is not in site.css yet: short recap of an earlier section, linked to its full treatment. */
+  .recap { border-left: 3px solid var(--muted); background: var(--panel); border-radius: 0 4px 4px 0; padding: 8px 12px; font-size: 15px; }
+  .recap > b:first-child { color: var(--muted); font-weight: 600; }
+</style>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
@@ -25,7 +30,7 @@
 <header class="page-head">
   <div class="meta"><span>Topic 09</span><span>Syllabus §2.6</span><span>Kittel ch. 7, 9</span><span>Notes pp. 50–54</span><span>Exam 2022 Q4</span></div>
   <h1>Energy Bands</h1>
-  <p class="lead">Why electrons in a crystal have bands and gaps, from Bloch's theorem through the nearly-free-electron and tight-binding pictures. Models 1–7 are tight-binding models that follow the video: atomic levels split, bands form, the gap decides how a solid conducts, and temperature fills the gap. Models 2–4 show what k means and how a partly full band carries current, and Models 6–7 show Fermi surfaces. Model 8 starts from the other limit: free electrons folded into the Brillouin zone, with gaps opening as a weak periodic potential is switched on.</p>
+  <p class="lead">Why electrons in a crystal have bands and gaps, from Bloch's theorem through the nearly-free-electron and tight-binding pictures. The models follow the lecture. Model 1 shows what k means for a Bloch state (2.6.1), Model 2 folds free electrons into the Brillouin zone and opens gaps with a weak periodic potential (2.6.2), and Model 3 builds bands from atoms (2.6.3). Models 4–8 then show how electrons move in a metal: why a partly full band conducts, how temperature fills the bands, current in a wire, and Fermi surfaces in 2D and 3D.</p>
   <ol class="chain">
     <li><a href="#overview">Overview</a></li>
     <li><a href="#concepts">Concepts</a></li>
@@ -41,10 +46,10 @@
   <h2 id="path-h">Reading path</h2>
   <p>Read the Concepts section by section, in topic-list order; each line says which cards it holds and which model or exercise to try next. 2.6.1 and 2.6.2 are the exam core (2022 Q4). 2.6.3 is not yet lectured and was not examined in 2022. About 2 hours in total.</p>
   <ol>
-    <li data-sec="2.6.1"><a href="#s-2-6-1">Bloch theorem</a><span class="min">25 min</span><span class="then"><a href="#c-periodic">Periodic potential</a> → <a href="#c-bloch">statement and proof</a> → <a href="#c-implies">consequences</a>. Then: <a href="#kwave">Model 2</a>, <a href="#hw-x-1">Practice A</a>.</span></li>
-    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-empty">Empty lattice</a> (then <a href="#empty">Model 8</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-central">central equation</a> → <a href="#c-gap">gap</a> (then Model 8 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
-    <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">15 min</span><span class="then">Then: <a href="#atoms">Model 1</a>, <a href="#ek">Model 5</a>, <a href="#fs2d">Models 6</a> and <a href="#fs3d">7</a>; <a href="#hw-x-3">Practice C</a>.</span></li>
-    <li data-sec="2.6"><a href="#s-2-6-x">Connecting ideas</a><span class="min">10 min</span><span class="then">Then: <a href="#cond">Model 3</a> and <a href="#wire">Model 4</a>.</span></li>
+    <li data-sec="2.6.1"><a href="#s-2-6-1">Bloch theorem</a><span class="min">25 min</span><span class="then"><a href="#c-periodic">Periodic potential</a> → <a href="#c-bloch">statement and proof</a> → <a href="#c-implies">consequences</a>. Then: <a href="#kwave">Model 1</a>, <a href="#hw-x-1">Practice A</a>.</span></li>
+    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-empty">Empty lattice</a> (then <a href="#empty">Model 2</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-central">central equation</a> → <a href="#c-gap">gap</a> (then Model 2 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
+    <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">10 min</span><span class="then">Then: <a href="#atoms">Model 3</a>, <a href="#hw-x-3">Practice C</a>.</span></li>
+    <li data-sec="2.6"><a href="#s-2-6-x">Connecting ideas</a><span class="min">20 min</span><span class="then"><a href="#c-four">Four questions</a>. Then, how electrons move in a metal: <a href="#cond">Model 4</a> → <a href="#ek">Model 5</a> → <a href="#wire">Model 6</a> → <a href="#fs2d">Models 7</a> and <a href="#fs3d">8</a> (Fermi surfaces, beyond the topic list).</span></li>
     <li data-sec="Q4"><a href="#exam-q4">Exam 2022 Q4, worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
   </ol>
   <div class="legend">
@@ -122,7 +127,7 @@
       <ul>
         <li><b>k is only defined up to a G.</b> Since $e^{i\mathbf G\cdot\mathbf R}=1$, the labels $\mathbf k$ and $\mathbf k+\mathbf G$ give the same phase factor. The first Brillouin zone therefore holds every distinct state: N values of k for N cells, so 2N states per band once spin is counted.</li>
         <li><b>k is the phase step from cell to cell, not a momentum.</b> $\hat{\mathbf p}\psi_{n\mathbf k}=\hbar\mathbf k\,\psi_{n\mathbf k}+e^{i\mathbf k\cdot\mathbf r}\,(-i\hbar\nabla u_{n\mathbf k})$. The second term is the crystal's contribution, so $\psi$ is not a momentum eigenstate. $\hbar\mathbf k$ is the <i>crystal momentum</i>, conserved in collisions only up to $\hbar\mathbf G$ (the Umklapp rule of 2.4).</li>
-        <li><b>ψ is not periodic, but |ψ|² is.</b> At $k=0$ every cell has the same sign. At the zone edge $k=\pi/a$ the sign alternates from cell to cell (Model 2).</li>
+        <li><b>ψ is not periodic, but |ψ|² is.</b> At $k=0$ every cell has the same sign. At the zone edge $k=\pi/a$ the sign alternates from cell to cell (Model 1).</li>
         <li><b>Bands.</b> Inserting $\psi=u\,e^{i\mathbf k\cdot\mathbf r}$ gives an equation for $u$ on a single cell:</li>
       </ul>
       <div class="eq"><div class="eq-head"><span class="eq-label">Equation for the periodic part u, on one cell</span></div>
@@ -183,7 +188,7 @@
       <div class="eq"><div class="eq-head"><span class="eq-label">Potential energy of each standing wave</span></div>
       $$\begin{aligned}\langle\psi_+|U|\psi_+\rangle&=+U_G\\ \langle\psi_-|U|\psi_-\rangle&=-U_G\end{aligned}$$
       <span class="eq-n">(8)</span></div>
-      <p>which differ by $2\lvert U_G\rvert$: a gap opens between them. The ions attract electrons, so $U$ is most negative at the ions and $U_G<0$. Then $\psi_+$, with its charge on the ions, is the top of band 1, and $\psi_-$ is the bottom of band 2. Reversing the sign of $U_G$ swaps them; try it in Model 8.</p>
+      <p>which differ by $2\lvert U_G\rvert$: a gap opens between them. The ions attract electrons, so $U$ is most negative at the ions and $U_G<0$. Then $\psi_+$, with its charge on the ions, is the top of band 1, and $\psi_-$ is the bottom of band 2. Reversing the sign of $U_G$ swaps them; try it in Model 2.</p>
       <p><b>The sign of ψ at an atom.</b> A single sign means nothing, because multiplying ψ by −1 (or any phase) changes no measurement. What matters is where |ψ|² piles up, and the relative sign between neighbouring cells, which k sets.</p>
       <div class="check"><b>Sanity check:</b> both expectation values were integrated numerically in node and give ±U_G to four digits. Kittel writes the potential as $U\cos(2\pi x/a)$ and finds $E_g=U$. That is the same result, because its Fourier component is $U_G=U/2$.</div>
       <p class="trap">Assuming the cos state is always lower. It is lower only for attractive ions ($U_G<0$). The sign of $U_G$ decides which standing wave lies below the gap.</p>
@@ -202,7 +207,7 @@
       <div class="eq"><div class="eq-head"><span class="eq-label">Central equation (nearly free electrons)</span><a class="tag exam" href="#exam-q4">Exam Q4e</a></div>
       $$\begin{aligned}&\big(\varepsilon^0_{\mathbf k-\mathbf G}-\varepsilon\big)\,C_{\mathbf k-\mathbf G}\\&\quad+\sum_{\mathbf G'}U_{\mathbf G'-\mathbf G}\,C_{\mathbf k-\mathbf G'}=0\end{aligned}$$
       <span class="eq-n">(10)</span></div>
-      <p>There is one equation per $\mathbf G$. Together they form an eigenvalue problem for the matrix $H_{\mathbf G\mathbf G'}=\varepsilon^0_{\mathbf k-\mathbf G}\,\delta_{\mathbf G\mathbf G'}+U_{\mathbf G'-\mathbf G}$, whose eigenvalues at each $\mathbf k$ are the band energies $\varepsilon_{n\mathbf k}$. $U_{\mathbf 0}$ is set to 0, since the average potential only shifts every level. Kittel's eq. (27), $(\lambda_k-\varepsilon)C(\mathbf k)+\sum_{\mathbf G}U_{\mathbf G}C(\mathbf k-\mathbf G)=0$, is the same equation after $\mathbf k\to\mathbf k-\mathbf G$. Model 8 solves it numerically with 27–33 plane waves.</p>
+      <p>There is one equation per $\mathbf G$. Together they form an eigenvalue problem for the matrix $H_{\mathbf G\mathbf G'}=\varepsilon^0_{\mathbf k-\mathbf G}\,\delta_{\mathbf G\mathbf G'}+U_{\mathbf G'-\mathbf G}$, whose eigenvalues at each $\mathbf k$ are the band energies $\varepsilon_{n\mathbf k}$. $U_{\mathbf 0}$ is set to 0, since the average potential only shifts every level. Kittel's eq. (27), $(\lambda_k-\varepsilon)C(\mathbf k)+\sum_{\mathbf G}U_{\mathbf G}C(\mathbf k-\mathbf G)=0$, is the same equation after $\mathbf k\to\mathbf k-\mathbf G$. Model 2 solves it numerically with 27–33 plane waves.</p>
       <div class="assume"><b>Where the notes stop (p54):</b> they reach this equation and do not solve it. Two slips there: the kinetic term is written $-\frac{\hbar}{2m}\nabla$ where it should be $-\frac{\hbar^2}{2m}\nabla^2$, and the coefficient inside the sum reads like $C_{\mathbf k-\mathbf G}$. It must be $C_{\mathbf k-\mathbf G'}$, otherwise the sum would not couple different waves. The solution below follows Kittel ch. 7.</div>
       <details class="check"><summary>In (10), which two plane waves does a given Fourier component couple directly?</summary><p>$U_{\mathbf G'-\mathbf G}$ couples $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ to $e^{i(\mathbf k-\mathbf G')\cdot\mathbf r}$, i.e. waves whose wave vectors differ by $\mathbf G'-\mathbf G$. If that component is zero, the two waves do not mix directly.</p></details>
       <p class="takeaway">In a plane-wave basis the Schrödinger equation becomes a matrix eigenproblem at each k: free energies on the diagonal, Fourier components of U off it. The bands are its eigenvalues.</p>
@@ -241,7 +246,7 @@
     <p class="hook"><b>Where you meet this.</b> Tight binding explains why some metals have heavy electrons. Where neighbouring orbitals barely overlap, the band is narrow and, by $m^*=\hbar^2/2\gamma a^2$, the electron is heavy. In heavy-fermion compounds such as UBe<sub>13</sub> and CeAl<sub>3</sub> the f orbitals overlap so weakly that the electrons may act up to about 1000 times heavier than a free electron (Kittel ch. 6).</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The opposite limit to 2.6.2: build Bloch states from atomic orbitals that overlap weakly, which gives cosine bands, their width and the effective mass at the band bottom. Not in the notes; taught here from Kittel ch. 9.</p>
-      <p><b>Why it matters.</b> Not asked in 2022 and not yet lectured, but it is on the topic list and Practice C drills it. It is the picture behind Models 1–7, and its effective mass and band filling come back for holes and carriers in semiconductors (3.1).</p>
+      <p><b>Why it matters.</b> Not asked in 2022 and not yet lectured, but it is on the topic list and Practice C drills it. It is the picture behind every model here except Model 2, and its effective mass and band filling come back for holes and carriers in semiconductors (3.1).</p>
     </div>
     <div class="cards">
     <article class="card" id="c-tb">
@@ -268,21 +273,21 @@
           $$\begin{aligned}\varepsilon_{\mathbf k}={}&-\alpha-4\gamma\,\big(c_yc_z\\&+c_zc_x+c_xc_y\big),\\ c_i={}&\cos\tfrac{k_ia}2\end{aligned}$$
           </div>
           It runs from $-\alpha-12\gamma$ at Γ to $-\alpha+4\gamma$ at X, a width of $16\gamma$.</li>
-        <li>A small overlap γ gives a narrow band and a heavy electron. γ falls off exponentially with atomic spacing, which is the left-hand plot of Model 1.</li>
+        <li>A small overlap γ gives a narrow band and a heavy electron. γ falls off exponentially with atomic spacing, which is the right-hand plot of Model 3.</li>
       </ul>
-      <p>Models 1–7 are tight-binding models, and their hopping $t$ is Kittel's γ. Model 8 is the other limit. Either way, each band holds 2N states: one k per cell, times two spins.</p>
+      <p>Every model here except Model 2 is a tight-binding model, and its hopping $t$ is Kittel's γ. Model 2 is the other limit. Either way, each band holds 2N states: one k per cell, times two spins.</p>
       <div class="check"><b>Sanity check:</b> the fcc band range comes from scanning the cosine sum on a 61³ grid in node. The sum runs from −1 to 3, which gives energies from −α−12γ to −α+4γ.</div>
       <p class="trap">Forgetting spin when filling the band. One electron per atom half-fills an s band (2N states), so the solid is a metal, not an insulator.</p>
       <details class="check"><summary>sc, γ = 0.25 eV, a = 3.0 Å: bandwidth, and m*/m at the band bottom? (ħ²/2m = 3.81 eV Å²)</summary><p>Bandwidth $12\gamma=3.0$ eV. From (17), $m^*/m=(\hbar^2/2m)/(\gamma a^2)$ $=3.81/(0.25\times9.0)=1.7$.</p></details>
       <p class="takeaway">Overlapping atomic orbitals spread each level into a cosine band whose width scales with the overlap γ (12γ for sc). Weak overlap means a narrow band and a heavy electron.</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> write the s band of an sc or fcc crystal, read off its width and band-bottom mass, and decide from the filling whether the solid is a metal. That is <a href="#hw-x-3">Practice C</a>, and it is what Models 1–7 compute.</p>
+    <p class="cannow"><b>You can now</b> write the s band of an sc or fcc crystal, read off its width and band-bottom mass, and decide from the filling whether the solid is a metal. That is <a href="#hw-x-3">Practice C</a>, and Model 3 shows such a band forming as the atoms move together.</p>
   </section>
   <section class="sec" id="s-2-6-x">
     <h3><span class="step">2.6</span>Connecting ideas</h3>
     <div class="sec-intro">
-      <p><b>What this covers.</b> Four questions that tie 2.6.1–2.6.3 together: what k means, how one electron is a wave packet, what the sign of ψ tells you, and why only a partly full band conducts.</p>
+      <p><b>What this covers.</b> Four questions that tie 2.6.1–2.6.3 together: what k means, how one electron is a wave packet, what the sign of ψ tells you, and why only a partly full band conducts. Then five models on how electrons move in a metal, each linked to where its idea is taught: why a partly full band conducts (Model 4), band filling at T &gt; 0 (Model 5, recap of 2.1.6), current in a wire (Model 6, → transport 2.2–2.4), and Fermi surfaces in 2D and 3D (Models 7–8, beyond the topic list).</p>
       <p><b>Why it matters.</b> These are the conceptual questions behind the models, and the bridge from bands to transport (2.2–2.5) and to semiconductors (3.1).</p>
     </div>
     <div class="cards">
@@ -291,70 +296,34 @@
       <h4>Four questions about k, ψ and conduction</h4>
       <p class="needs"><a href="#c-implies">2.6.1 · Consequences</a>, <a href="#c-gap">2.6.2 · Gap</a>, <a href="#s-2-6-3">2.6.3 Tight binding</a></p>
       <ul>
-        <li><b>What does k mean?</b> The phase turned per cell, $e^{i\mathbf k\cdot\mathbf R}$, multiplying a periodic $u$. Model 2 shows it in real space.</li>
-        <li><b>One electron or one k?</b> A single-k state fills the whole crystal. An electron that is "here" is a wave packet of k's in a window Δk, and it moves at $v=\hbar^{-1}\partial\varepsilon/\partial k$ (Model 2, packet width).</li>
-        <li><b>What does the sign of ψ at an atom mean?</b> Only |ψ|² and relative signs matter. In tight binding, the same sign everywhere is the band bottom and alternating signs are the band top. In the nearly-free picture, whether the charge sits on or between the ions decides which side of the gap a state is on (Model 8, right plot).</li>
-        <li><b>How does a metal conduct?</b> Bloch states are extended even below the barrier tops, because tunnelling repeats coherently in every cell. A perfect lattice does not scatter them, and a current needs a partly filled band (Models 3 and 4).</li>
+        <li><b>What does k mean?</b> The phase turned per cell, $e^{i\mathbf k\cdot\mathbf R}$, multiplying a periodic $u$. Model 1 shows it in real space.</li>
+        <li><b>One electron or one k?</b> A single-k state fills the whole crystal. An electron that is "here" is a wave packet of k's in a window Δk, and it moves at $v=\hbar^{-1}\partial\varepsilon/\partial k$ (Model 1, packet width).</li>
+        <li><b>What does the sign of ψ at an atom mean?</b> Only |ψ|² and relative signs matter. In tight binding, the same sign everywhere is the band bottom and alternating signs are the band top. In the nearly-free picture, whether the charge sits on or between the ions decides which side of the gap a state is on (Model 2, right plot).</li>
+        <li><b>How does a metal conduct?</b> Bloch states are extended even below the barrier tops, because tunnelling repeats coherently in every cell. A perfect lattice does not scatter them, and a current needs a partly filled band (Models 4 and 6).</li>
       </ul>
-      <details class="check"><summary>Why does a completely full band carry no current, even with a field applied?</summary><p>Every k is occupied, so the field cannot change which states are filled. For each state at k with velocity v there is a filled state at −k with −v, so the total stays zero (Model 3 with 24 of 24).</p></details>
+      <details class="check"><summary>Why does a completely full band carry no current, even with a field applied?</summary><p>Every k is occupied, so the field cannot change which states are filled. For each state at k with velocity v there is a filled state at −k with −v, so the total stays zero (Model 4 with 24 of 24).</p></details>
       <p class="takeaway">k is a phase step, a localised electron is a packet moving at $\hbar^{-1}\partial\varepsilon/\partial k$, and only a partly filled band can carry a current.</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> explain in band language why copper conducts and diamond does not: a partly filled band in one, a full band below a wide gap in the other.</p>
+    <p class="cannow"><b>You can now</b> explain in band language why copper conducts and diamond does not: a partly filled band in one, a full band below a wide gap in the other, and trace how that picture becomes the drift current and ρ(T) of <a href="08-transport.html#concepts">transport, 2.2–2.4</a>.</p>
   </section>
 </section>
 
 <section class="block" id="models">
   <h2>Interactive models</h2>
   <ol class="chain">
-    <li><a href="#atoms">Atoms → bands</a></li>
     <li><a href="#kwave">What k looks like</a></li>
+    <li><a href="#empty">Empty lattice → gaps</a></li>
+    <li><a href="#atoms">Atoms → bands</a></li>
     <li><a href="#cond">Why metals conduct</a></li>
-    <li><a href="#wire">Current in a wire</a></li>
     <li><a href="#ek">E(k) and Fermi–Dirac</a></li>
+    <li><a href="#wire">Current in a wire</a></li>
     <li><a href="#fs2d">Fermi surface in 2D</a></li>
     <li><a href="#fs3d">Fermi surface in 3D</a></li>
-    <li><a href="#empty">Empty lattice → gaps</a></li>
   </ol>
-<section class="bench" id="atoms">
-  <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 1 · finite chain</span>
-    <h3>Atoms → bands</h3>
-    <p>N atoms in a row, each with two orbitals (at −7 eV and −3.5 eV below the vacuum level). Bringing atoms closer lets electrons hop between neighbours, and each orbital splits into N levels. Every level holds two electrons, spin up and spin down.</p>
-    <div class="ctls">
-      <div class="ctl"><label for="s1-n"><span>Atoms N</span> <output for="s1-n"></output></label><input type="range" id="s1-n" min="1" max="64" step="1" value="8" data-fmt="0"></div>
-      <div class="ctl"><label for="s1-d"><span>Atomic spacing</span> <output for="s1-d"></output></label><input type="range" id="s1-d" min="0.65" max="3" step="0.01" value="1.1" data-fmt="2" data-unit=" a₀"></div>
-      <div class="ctl"><label for="s1-e"><span>Electrons per atom</span> <output for="s1-e"></output></label><input type="range" id="s1-e" min="0" max="4" step="1" value="2" data-fmt="0"></div>
-    </div>
-    <div class="state"><span class="pill" id="s1-pill"></span><dl class="readout" id="s1-read"></dl></div>
-    <div class="try"><strong>Try</strong><ul>
-      <li>Raise N from 1 to 64 and watch the levels fuse into a band.</li>
-      <li>Shrink the spacing slowly. The upper levels turn from separate dashes into one unbroken line once they rise above the hills between atoms.</li>
-      <li>With 2 electrons per atom, shrink the spacing until the gap closes. The semiconductor becomes a metal.</li>
-      <li>Set 1 electron per atom. The lower band is half full, so it conducts at any spacing.</li>
-    </ul></div>
-  </div>
-  <div class="plots">
-    <figure><div class="plot" id="p1a"></div><figcaption><b>How to read:</b> the blue curve is the potential energy an electron feels along a row of atoms, the video's funnel repeated once per nucleus (up to 8 are drawn). Each horizontal line is an allowed energy level, drawn only where its energy is above the blue curve, i.e. where the electron can be. A line broken into dashes sits below the hills, so those electrons stay mostly near one atom. An unbroken line spans the whole row. The top line at 0 eV is the vacuum level.</figcaption>
-      <div class="keys"><span><i class="sw" style="background:var(--emp);height:2px"></i>potential</span><span><i class="sw" style="background:var(--occ)"></i>full (2 e⁻)</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,var(--occ) 0 3px,transparent 3px 5px)"></i>half (1 e⁻)</span><span><i class="sw" style="background:var(--emp)"></i>empty</span></div></figure>
-    <figure><div class="plot" id="p1b"></div><figcaption><b>How to read:</b> the horizontal axis is how far apart the atoms are; read it right to left. On the far right the atoms are isolated, and each shaded band shrinks to a single atomic level. Moving left squeezes the atoms together. They overlap more, electrons hop more easily, and each band gets wider. The dashed vertical line is your current spacing, and its four dots are the band edges in the left plot. The white space between the two shaded areas is the gap. Below a spacing of about 0.8 the areas overlap and the gap is gone.</figcaption></figure>
-    <div class="idea span2">
-      <strong>Why only two bands?</strong>
-      <span>Every orbital of the atom (1s, 2s, 2p, 3s, ...) turns into its own band, so a real solid has many bands. The deep ones come from inner orbitals and are always completely full, so they never take part in conduction. Only two bands matter: the highest one holding electrons and the next one above it. That is why the model keeps just these two, here called Band A and Band B.</span>
-      <span>The names on the plot depend on how full each band is. A full band with an empty one above it is the <b>valence band</b>, and the empty band above it is the <b>conduction band</b>. A partly full band is also called a conduction band, because electrons can move in it.</span>
-    </div>
-    <div class="idea span2">
-      <strong>Does an electron in a band need 3 eV to escape?</strong>
-      <span>No. The 0 eV line is the energy needed to leave the solid completely, into vacuum. Inside a solid, the neighbouring nuclei pull the hills between atoms down. Once a band sits above those hills (an unbroken line on the left plot), each of its states is spread over the whole row, and the electron already belongs to every atom at once.</span>
-      <span>Electrons in bands below the hills still move between atoms by tunnelling, just more slowly. That tunnelling is why those levels spread into a narrower band too.</span>
-      <span>So "can the electron leave its atom?" is not the real question. The real question is whether the band has empty states left. Models 3 and 4 show why.</span>
-    </div>
-  </div>
-</section>
-
 <section class="bench" id="kwave">
   <div class="rail">
-    <span class="eyebrow">2.6.1 · Model 2 · one band, 40 atoms in a ring</span>
+    <span class="eyebrow">2.6.1 · Model 1 · one band, 40 atoms in a ring</span>
     <h3>What k looks like</h3>
     <p>Pick a k and see the electron's wave in real space. Every atom carries a copy of its orbital, multiplied by a phase that turns by k·a from one atom to the next. The copper bumps are those copies, pointing up or down with the phase. The blue area is |ψ|², the chance of finding the electron at each atom.</p>
     <p>With a packet width of 0 the electron has one exact k and is spread over the whole ring. Widening the packet mixes in nearby k values, which makes a <b>wave packet</b>: a localised electron that travels at the slope of the band. The box under the plots explains how.</p>
@@ -382,17 +351,89 @@
       <span>A wave with one exact k is a perfectly regular ripple that runs around the whole crystal, the same everywhere. Its wavelength and momentum are exact, but it has no position: the electron is equally likely to be at every atom. Set the packet width to 0 to see this. But a real electron in a wire can be "roughly here", so it can't be a single k.</span>
       <span>To get an electron that is roughly here, add several waves with slightly different k. Where their crests line up they add up to a bump, and everywhere else they cancel. That bump is the wave packet, the blue area. Tick "Show the separate waves" to see the ingredients behind it. It works like a group of ocean waves: one lump of wave that travels as a unit.</span>
       <span>Δk says how many different k values are mixed in; these are the copper dots on the band plot. A small Δk means few ingredients and a long packet spread over many atoms. A large Δk means a short, sharp packet, but its k is less definite. You can't have both at once: packet length × Δk ≈ 1. That's the uncertainty principle.</span>
-      <span>The packet moves at the slope of the band (the group velocity), not at the speed of the ripples inside it. Watch the copper ripples slide through the blue lump at a different speed. The lump is where the electron actually is, so its speed is the electron's speed. The moving electrons in Model 4 are packets like this.</span>
+      <span>The packet moves at the slope of the band (the group velocity), not at the speed of the ripples inside it. Watch the copper ripples slide through the blue lump at a different speed. The lump is where the electron actually is, so its speed is the electron's speed. The moving electrons in Model 6 are packets like this.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bench" id="empty">
+  <div class="rail">
+    <span class="eyebrow">2.6.2 · Model 2 · plane waves, sc or fcc, along [100]</span>
+    <h3>Empty lattice and nearly free electrons</h3>
+    <p>Free-electron parabolas $\frac{\hbar^2}{2m}|\mathbf k-\mathbf G|^2$, folded into the first Brillouin zone along Γ–X. With U<sub>G</sub> = 0 this is the empty lattice of exam Q4c–d. A nonzero U<sub>G</sub> switches on a weak periodic potential. The page then solves the central equation numerically (27 plane waves for fcc, 33 for sc) at every k, and gaps open at the zone boundary.</p>
+    <p>Simplification: the same U<sub>G</sub> is used for the two shortest shells of G, and every other U<sub>G</sub> is 0. Negative U<sub>G</sub> means the ions attract electrons.</p>
+    <p>Another way to see gaps: <a href="#atoms">atoms → bands</a>, the tight-binding picture of <a href="#s-2-6-3">2.6.3</a> →</p>
+    <div class="ctls">
+      <fieldset class="seg"><legend>Lattice (cubic constant a = 4.05 Å)</legend><div class="opts">
+        <label><input type="radio" name="el-lat" value="fcc" checked><span>fcc (exam)</span></label>
+        <label><input type="radio" name="el-lat" value="sc"><span>sc</span></label>
+      </div></fieldset>
+      <div class="ctl"><label for="el-u"><span>Fourier component U<sub>G</sub></span> <output for="el-u"></output></label><input type="range" id="el-u" min="-1.5" max="1.5" step="0.05" value="-0.5" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="el-k"><span>Read energies at k<sub>x</sub></span> <output for="el-k"></output></label><input type="range" id="el-k" min="0" max="2" step="0.05" value="0.5" data-pi="1"></div>
+    </div>
+    <div class="state"><span class="pill" id="el-pill"></span><dl class="readout" id="el-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Set U<sub>G</sub> = 0 to get the empty lattice. The ×n labels are the degeneracies, and the readout at Γ and at k = 0.50π/a gives the answer to Q4d.</li>
+      <li>Switch between fcc and sc. The zone edge X moves from 2π/a (bcc reciprocal lattice) to π/a, so k = π/2a goes from a quarter of Γ–X to halfway.</li>
+      <li>Make U<sub>G</sub> negative. A gap opens at X, and in the right plot the state below it piles charge on the atomic planes. Make U<sub>G</sub> positive and the two states swap.</li>
+      <li>Compare the numerical gap with 2|U<sub>G</sub>|. They agree for small U<sub>G</sub> and drift apart as other plane waves join in (second order).</li>
+      <li>fcc at Γ near 12 E₀: the eightfold level splits, but only into the groups that U<sub>G</sub> couples. Crossings of uncoupled waves stay crossings.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure class="span2"><div class="plot tall" id="el-a"></div>
+      <figcaption><b>How to read:</b> the horizontal axis is k along [100] across the whole first zone, from −X through Γ to X. The periodic zone scheme repeats this picture every reciprocal lattice vector. The vertical axis is energy in units of E₀ = ħ²π²/2ma² = 2.29 eV for a = 4.05 Å. Copper lines are the bands from the central equation. The grey dashed lines, drawn when U<sub>G</sub> ≠ 0, are the empty-lattice parabolas for comparison. A label ×n means n reciprocal lattice vectors give the same curve; unlabelled curves are single. The green dashed line is your k. For fcc the dotted green line is aluminium's free-electron Fermi level (11.6 eV, Kittel Table 6.1). It lies above the X gap, which is why Al stays a metal.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>bands, weak potential</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,var(--muted) 0 4px,transparent 4px 7px)"></i>empty lattice</span><span><i class="sw" style="background:var(--ef)"></i>your k · Al ε<sub>F</sub></span></div></figure>
+    <figure class="span2"><div class="plot short" id="el-b"></div>
+      <figcaption><b>How to read:</b> the two states just below and just above the gap at X, drawn in real space. The horizontal axis is position x along [100] in units of a. Grey vertical lines are atomic planes: every a for sc, every a/2 for fcc. Each curve is |ψ|² averaged over the plane, with mean 1. Copper is the top of the lower band, blue the bottom of the upper band. With U<sub>G</sub> &lt; 0 the copper state piles its charge on the planes, where the attractive ions lower its energy. With U<sub>G</sub> = 0 both are flat travelling waves of equal energy.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>below the gap</span><span><i class="sw" style="background:var(--emp)"></i>above the gap</span><span><i class="sw" style="background:var(--muted)"></i>atomic plane</span></div></figure>
+  </div>
+</section>
+
+<section class="bench" id="atoms">
+  <div class="rail">
+    <span class="eyebrow">2.6.3 · Model 3 · finite chain</span>
+    <h3>Atoms → bands</h3>
+    <p>N atoms in a row, each with two orbitals (at −7 eV and −3.5 eV below the vacuum level). Bringing atoms closer lets electrons hop between neighbours, and each orbital splits into N levels. Every level holds two electrons, spin up and spin down.</p>
+    <p>← The other limit, free electrons in a weak potential, is <a href="#empty">Model 2</a> (2.6.2). This one is the tight-binding picture of <a href="#c-tb">2.6.3</a>.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s1-n"><span>Atoms N</span> <output for="s1-n"></output></label><input type="range" id="s1-n" min="1" max="64" step="1" value="8" data-fmt="0"></div>
+      <div class="ctl"><label for="s1-d"><span>Atomic spacing</span> <output for="s1-d"></output></label><input type="range" id="s1-d" min="0.65" max="3" step="0.01" value="1.1" data-fmt="2" data-unit=" a₀"></div>
+      <div class="ctl"><label for="s1-e"><span>Electrons per atom</span> <output for="s1-e"></output></label><input type="range" id="s1-e" min="0" max="4" step="1" value="2" data-fmt="0"></div>
+    </div>
+    <div class="state"><span class="pill" id="s1-pill"></span><dl class="readout" id="s1-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Raise N from 1 to 64 and watch the levels fuse into a band.</li>
+      <li>Shrink the spacing slowly. The upper levels turn from separate dashes into one unbroken line once they rise above the hills between atoms.</li>
+      <li>With 2 electrons per atom, shrink the spacing until the gap closes. The semiconductor becomes a metal.</li>
+      <li>Set 1 electron per atom. The lower band is half full, so it conducts at any spacing.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure><div class="plot" id="p1a"></div><figcaption><b>How to read:</b> the blue curve is the potential energy an electron feels along a row of atoms, the video's funnel repeated once per nucleus (up to 8 are drawn). Each horizontal line is an allowed energy level, drawn only where its energy is above the blue curve, i.e. where the electron can be. A line broken into dashes sits below the hills, so those electrons stay mostly near one atom. An unbroken line spans the whole row. The top line at 0 eV is the vacuum level.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--emp);height:2px"></i>potential</span><span><i class="sw" style="background:var(--occ)"></i>full (2 e⁻)</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,var(--occ) 0 3px,transparent 3px 5px)"></i>half (1 e⁻)</span><span><i class="sw" style="background:var(--emp)"></i>empty</span></div></figure>
+    <figure><div class="plot" id="p1b"></div><figcaption><b>How to read:</b> the horizontal axis is how far apart the atoms are; read it right to left. On the far right the atoms are isolated, and each shaded band shrinks to a single atomic level. Moving left squeezes the atoms together. They overlap more, electrons hop more easily, and each band gets wider. The dashed vertical line is your current spacing, and its four dots are the band edges in the left plot. The white space between the two shaded areas is the gap. Below a spacing of about 0.8 the areas overlap and the gap is gone.</figcaption></figure>
+    <div class="idea span2">
+      <strong>Why only two bands?</strong>
+      <span>Every orbital of the atom (1s, 2s, 2p, 3s, ...) turns into its own band, so a real solid has many bands. The deep ones come from inner orbitals and are always completely full, so they never take part in conduction. Only two bands matter: the highest one holding electrons and the next one above it. That is why the model keeps just these two, here called Band A and Band B.</span>
+      <span>The names on the plot depend on how full each band is. A full band with an empty one above it is the <b>valence band</b>, and the empty band above it is the <b>conduction band</b>. A partly full band is also called a conduction band, because electrons can move in it.</span>
+    </div>
+    <div class="idea span2">
+      <strong>Does an electron in a band need 3 eV to escape?</strong>
+      <span>No. The 0 eV line is the energy needed to leave the solid completely, into vacuum. Inside a solid, the neighbouring nuclei pull the hills between atoms down. Once a band sits above those hills (an unbroken line on the left plot), each of its states is spread over the whole row, and the electron already belongs to every atom at once.</span>
+      <span>Electrons in bands below the hills still move between atoms by tunnelling, just more slowly. That tunnelling is why those levels spread into a narrower band too.</span>
+      <span>So "can the electron leave its atom?" is not the real question. The real question is whether the band has empty states left. Models 4 and 6 show why.</span>
     </div>
   </div>
 </section>
 
 <section class="bench" id="cond">
   <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 3 · one band, 24 atoms in a ring</span>
+    <span class="eyebrow">2.6 · Model 4 · one band, 24 atoms in a ring</span>
     <h3>Why a partly full band conducts</h3>
     <p>Each state in a band is a wave spread over the whole crystal. The states differ in wavelength, labelled by the crystal momentum k = 2π / wavelength. At k = 0 the wave stands still (the bottom of the band), and the sign of k says which way it travels. The atoms form a ring so the row has no ends.</p>
     <p>Each state's velocity is the slope of the band at that k. With no voltage the filled states sit symmetrically around k = 0, so every right-mover is cancelled by a left-mover and no current flows. A voltage pushes every electron by the same small step in k. That works only if there are empty states to step into.</p>
+    <p>← The idea is the last of the <a href="#c-four">four questions</a> above. The same push in k applied to a 3D Fermi sphere is the shifted Fermi sphere of transport, <a href="08-transport.html#m-fs">2.2 →</a>.</p>
     <div class="ctls">
       <div class="ctl"><label for="sc-n"><span>Filled states (2 e⁻ each)</span> <output for="sc-n"></output></label><input type="range" id="sc-n" min="0" max="24" step="1" value="12" data-fmt="0" data-unit=" of 24"></div>
       <div class="ctl"><label for="sc-f"><span>Voltage push (shift in k)</span> <output for="sc-f"></output></label><input type="range" id="sc-f" min="0" max="0.5" step="0.01" value="0.15" data-pi="1"></div>
@@ -410,13 +451,41 @@
   </div>
 </section>
 
+<section class="bench" id="ek">
+  <div class="rail">
+    <span class="eyebrow">2.6 · Model 5 · periodic chain, two atoms per cell</span>
+    <h3>Band structure E(k) and Fermi–Dirac filling</h3>
+    <p>The same kind of E(k) plot as Model 4, now with two bands. This chain alternates two atom types whose energies differ by Δ, which opens a gap E<sub>g</sub> = Δ at the zone edge. Dots show each state's occupation f(E) = 1 / (e<sup>(E−μ)/kT</sup> + 1).</p>
+    <p class="recap"><b>Recap from <a href="07-free-electron-gas.html#smear">2.1.6</a>.</b> At T = 0, f(E) is a step at μ: every state below is filled, every state above is empty. Heating smears the step over a few k<sub>B</sub>T around μ (k<sub>B</sub>T = 26 meV at 300 K), so only states that close to μ change occupation. Here the gap sits at μ, which is why its size matters so much.</p>
+    <div class="ctls">
+      <div class="ctl"><label for="s2-gap"><span>Band gap E<sub>g</sub></span> <output for="s2-gap"></output></label><input type="range" id="s2-gap" min="0" max="5" step="0.01" value="1.1" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s2-t"><span>Hopping t (bandwidth)</span> <output for="s2-t"></output></label><input type="range" id="s2-t" min="0.2" max="2" step="0.01" value="1" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="s2-T"><span>Temperature</span> <output for="s2-T"></output></label><input type="range" id="s2-T" min="0" max="1500" step="5" value="300" data-fmt="0" data-unit=" K"></div>
+      <div class="ctl"><label for="s2-fill"><span>Electrons per cell</span> <output for="s2-fill"></output></label><input type="range" id="s2-fill" min="0" max="4" step="0.01" value="2" data-fmt="2"></div>
+    </div>
+    <div class="state"><span class="pill" id="s2-pill"></span><dl class="readout" id="s2-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>At 300 K and E<sub>g</sub> = 1.1 eV (silicon-like), note the excited electrons, then add 100 K.</li>
+      <li>Set E<sub>g</sub> to 0. The bands touch and it is a metal.</li>
+      <li>Set electrons per cell to 2.02. The extra electrons sit in the conduction band at any temperature, which is what n-type doping does.</li>
+    </ul></div>
+  </div>
+  <div class="plots wide-left">
+    <figure><div class="plot" id="p2a"></div><figcaption><b>How to read:</b> each dot is a state; height = energy, horizontal = k. The lower curve is the valence band, normally full. The upper curve is the conduction band, normally empty. The green strip between them is the gap, where no states exist. Dot colour is the chance the state is filled. At 300 K with a 1.1 eV gap, almost every upper dot stays blue.</figcaption>
+      <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>occupied</span><span><i class="sw dot" style="background:var(--emp)"></i>empty</span><span><i class="sw" style="background:var(--ef)"></i>chemical potential μ</span></div></figure>
+    <figure><div class="plot" id="p2b"></div><figcaption><b>How to read:</b> the same energy axis as the left plot, turned sideways. The blue area is how many states exist at each energy (zero in the gap), and the copper area is how many are filled. The line is the Fermi–Dirac probability f(E): 1 means certainly filled, 0 certainly empty. It drops from 1 to 0 around μ, and the drop softens as temperature rises.</figcaption></figure>
+    <figure class="span2"><div class="plot short" id="p2c"></div><figcaption><b>How to read:</b> how many electrons have jumped the gap into the conduction band (per pair of atoms) at each temperature. The vertical scale is logarithmic, so each step up is 10× more. The dot is your current temperature. The steep rise is the exponential the video describes, roughly e<sup>−E<sub>g</sub>/2kT</sup>: a modest warm-up multiplies the number of carriers many times over.</figcaption></figure>
+  </div>
+</section>
+
 <section class="bench" id="wire">
   <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 4 · a wire of 12 × 3 atoms</span>
+    <span class="eyebrow">2.6 · Model 6 · a wire of 12 × 3 atoms</span>
     <h3>Current in a wire</h3>
     <p><b>Top:</b> the inside of the wire. The grey + circles are the ions of the lattice. Each one is wrapped in its tightly bound Band A electrons (the haze). Copper dots are the electrons that are free to move.</p>
-    <p><b>Bottom:</b> the same electrons on an energy diagram like Model 1's. The battery tilts every energy downhill toward the + end.</p>
+    <p><b>Bottom:</b> the same electrons on an energy diagram like Model 3's. The battery tilts every energy downhill toward the + end.</p>
     <p>Free electrons fly around fast in random directions and keep bumping into the vibrating ions (the small flashes). Between bumps the voltage speeds them up a little toward +, so on average they drift that way. That drift is the current.</p>
+    <p>Transport teaches this in full →: the Drude drift and Ohm's law in <a href="08-transport.html#concepts">2.2</a>, scattering and ρ(T) in <a href="08-transport.html#m-rt">2.4</a>.</p>
     <div class="ctls">
       <fieldset class="seg"><legend>Material</legend><div class="opts">
         <label><input type="radio" name="sw-mat" value="metal" checked><span>Metal</span></label>
@@ -447,43 +516,18 @@
     <figure class="span2"><div class="plot short" id="sw-c"></div><figcaption><b>How to read:</b> the current through this wire at every temperature, for the chosen material and voltage, from the same model. The dot is your temperature. In a metal the current falls as the ions shake more. In a semiconductor it climbs steeply, because heat frees new carriers much faster than collisions slow them down.</figcaption></figure>
     <div class="idea span2">
       <strong>How does an electron get past the hills between atoms?</strong>
-      <span>It doesn't climb over them. A metal's Band B lies above the hills, and bands below them are still linked by tunnelling, so their states already stretch along the whole wire. The voltage doesn't lift electrons over anything. It only tilts the energies very slightly (in a real wire about 10⁻⁸ eV per atom), which nudges each electron toward + between collisions. A partly full band has empty states right next to the filled ones (Model 3), so even that tiny nudge is enough.</span>
+      <span>It doesn't climb over them. A metal's Band B lies above the hills, and bands below them are still linked by tunnelling, so their states already stretch along the whole wire. The voltage doesn't lift electrons over anything. It only tilts the energies very slightly (in a real wire about 10⁻⁸ eV per atom), which nudges each electron toward + between collisions. A partly full band has empty states right next to the filled ones (Model 4), so even that tiny nudge is enough.</span>
       <span>The bound electrons in Band A are not drawn as moving dots, because a full band carries no current: every electron moving right is matched by one moving left. It only conducts once heat empties a few of its states, and those empty states move as holes.</span>
     </div>
   </div>
 </section>
 
-<section class="bench" id="ek">
-  <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 5 · periodic chain, two atoms per cell</span>
-    <h3>Band structure E(k) and Fermi–Dirac filling</h3>
-    <p>The same kind of E(k) plot as Model 3, now with two bands. This chain alternates two atom types whose energies differ by Δ, which opens a gap E<sub>g</sub> = Δ at the zone edge. Dots show each state's occupation f(E) = 1 / (e<sup>(E−μ)/kT</sup> + 1).</p>
-    <div class="ctls">
-      <div class="ctl"><label for="s2-gap"><span>Band gap E<sub>g</sub></span> <output for="s2-gap"></output></label><input type="range" id="s2-gap" min="0" max="5" step="0.01" value="1.1" data-fmt="2" data-unit=" eV"></div>
-      <div class="ctl"><label for="s2-t"><span>Hopping t (bandwidth)</span> <output for="s2-t"></output></label><input type="range" id="s2-t" min="0.2" max="2" step="0.01" value="1" data-fmt="2" data-unit=" eV"></div>
-      <div class="ctl"><label for="s2-T"><span>Temperature</span> <output for="s2-T"></output></label><input type="range" id="s2-T" min="0" max="1500" step="5" value="300" data-fmt="0" data-unit=" K"></div>
-      <div class="ctl"><label for="s2-fill"><span>Electrons per cell</span> <output for="s2-fill"></output></label><input type="range" id="s2-fill" min="0" max="4" step="0.01" value="2" data-fmt="2"></div>
-    </div>
-    <div class="state"><span class="pill" id="s2-pill"></span><dl class="readout" id="s2-read"></dl></div>
-    <div class="try"><strong>Try</strong><ul>
-      <li>At 300 K and E<sub>g</sub> = 1.1 eV (silicon-like), note the excited electrons, then add 100 K.</li>
-      <li>Set E<sub>g</sub> to 0. The bands touch and it is a metal.</li>
-      <li>Set electrons per cell to 2.02. The extra electrons sit in the conduction band at any temperature, which is what n-type doping does.</li>
-    </ul></div>
-  </div>
-  <div class="plots wide-left">
-    <figure><div class="plot" id="p2a"></div><figcaption><b>How to read:</b> each dot is a state; height = energy, horizontal = k. The lower curve is the valence band, normally full. The upper curve is the conduction band, normally empty. The green strip between them is the gap, where no states exist. Dot colour is the chance the state is filled. At 300 K with a 1.1 eV gap, almost every upper dot stays blue.</figcaption>
-      <div class="keys"><span><i class="sw dot" style="background:var(--occ)"></i>occupied</span><span><i class="sw dot" style="background:var(--emp)"></i>empty</span><span><i class="sw" style="background:var(--ef)"></i>chemical potential μ</span></div></figure>
-    <figure><div class="plot" id="p2b"></div><figcaption><b>How to read:</b> the same energy axis as the left plot, turned sideways. The blue area is how many states exist at each energy (zero in the gap), and the copper area is how many are filled. The line is the Fermi–Dirac probability f(E): 1 means certainly filled, 0 certainly empty. It drops from 1 to 0 around μ, and the drop softens as temperature rises.</figcaption></figure>
-    <figure class="span2"><div class="plot short" id="p2c"></div><figcaption><b>How to read:</b> how many electrons have jumped the gap into the conduction band (per pair of atoms) at each temperature. The vertical scale is logarithmic, so each step up is 10× more. The dot is your current temperature. The steep rise is the exponential the video describes, roughly e<sup>−E<sub>g</sub>/2kT</sup>: a modest warm-up multiplies the number of carriers many times over.</figcaption></figure>
-  </div>
-</section>
-
 <section class="bench" id="fs2d">
   <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 6 · square lattice</span>
+    <span class="eyebrow">2.6 · Model 7 · square lattice · beyond the topic list</span>
     <h3>Fermi surface in 2D</h3>
     <p>E(k) = −2t(cos k<sub>x</sub>a + cos k<sub>y</sub>a) − 4t′ cos k<sub>x</sub>a cos k<sub>y</sub>a, with t = 1 eV. States with E &lt; E<sub>F</sub> are filled. Their boundary, here a line, is the Fermi surface. The dashed line is a cut, and the Fermi points k<sub>F</sub> are where the band crosses E<sub>F</sub> along it.</p>
+    <p>Beyond the topic list (Kittel ch. 9), but useful for intuition. ← At low E<sub>F</sub> this is the free-electron Fermi circle, the 2D cousin of the Fermi sphere in <a href="07-free-electron-gas.html#sphere">2.1.3</a>.</p>
     <div class="ctls">
       <div class="ctl"><label for="s3-ef"><span>Fermi level E<sub>F</sub></span> <output for="s3-ef"></output></label><input type="range" id="s3-ef" min="-5.5" max="5.5" step="0.02" value="-1.6" data-fmt="2" data-unit=" eV"></div>
       <div class="ctl"><label for="s3-tp"><span>Next-neighbour hopping t′</span> <output for="s3-tp"></output></label><input type="range" id="s3-tp" min="-0.4" max="0.4" step="0.01" value="0" data-fmt="2" data-unit=" eV"></div>
@@ -497,8 +541,8 @@
     </ul></div>
   </div>
   <div class="plots">
-    <figure><div class="plot" id="p3a"></div><figcaption><b>How to read:</b> in 2D, k has two components, so the states of the band fill a square map (the Brillouin zone) seen from above. Each point is one state, coloured by energy (dark = low). Electrons fill the lowest states first, so the filled region (copper) grows out from the centre as E<sub>F</sub> rises. Its green edge is the Fermi surface: the highest filled states, next to empty ones. As in Model 3, these are the electrons that carry current.</figcaption></figure>
-    <figure><div class="plot" id="p3b"></div><figcaption><b>How to read:</b> walk along the dashed line on the map and plot each state's energy. This gives the same kind of E(k) curve as Models 3 and 5. Copper = filled. The green dots, where the curve crosses E<sub>F</sub>, are the same points as the green dots on the map.</figcaption></figure>
+    <figure><div class="plot" id="p3a"></div><figcaption><b>How to read:</b> in 2D, k has two components, so the states of the band fill a square map (the Brillouin zone) seen from above. Each point is one state, coloured by energy (dark = low). Electrons fill the lowest states first, so the filled region (copper) grows out from the centre as E<sub>F</sub> rises. Its green edge is the Fermi surface: the highest filled states, next to empty ones. As in Model 4, these are the electrons that carry current.</figcaption></figure>
+    <figure><div class="plot" id="p3b"></div><figcaption><b>How to read:</b> walk along the dashed line on the map and plot each state's energy. This gives the same kind of E(k) curve as Models 4 and 5. Copper = filled. The green dots, where the curve crosses E<sub>F</sub>, are the same points as the green dots on the map.</figcaption></figure>
     <figure><div class="plot" id="p3c"></div><figcaption><b>How to read:</b> the same energies as the map, drawn as a landscape where height = energy. Fill it with water up to the green plane (E<sub>F</sub>): the shoreline is the Fermi surface, and the copper line is the cut. Drag to rotate.</figcaption></figure>
     <figure><div class="plot" id="p3d"></div><figcaption><b>How to read:</b> how many states exist at each energy, counted over the whole map. The copper area up to E<sub>F</sub> (green line) is the number of electrons. The spike at 0 eV comes from the flat saddle points at the edge midpoints of the map.</figcaption></figure>
   </div>
@@ -506,9 +550,10 @@
 
 <section class="bench" id="fs3d">
   <div class="rail">
-    <span class="eyebrow">2.6.3 · Model 7 · simple cubic lattice</span>
+    <span class="eyebrow">2.6 · Model 8 · simple cubic lattice · beyond the topic list</span>
     <h3>Fermi surface in 3D</h3>
     <p>E(k) = −2t(cos k<sub>x</sub>a + cos k<sub>y</sub>a + (t<sub>z</sub>/t) cos k<sub>z</sub>a), with t = 1 eV. The copper surface is every k where E(k) = E<sub>F</sub>, drawn inside the cubic Brillouin zone. The green plane is the cut shown on the right.</p>
+    <p>Beyond the topic list (Kittel ch. 9), but useful for intuition. ← At low E<sub>F</sub> the surface is the free-electron Fermi sphere of <a href="07-free-electron-gas.html#sphere">2.1.3</a>.</p>
     <div class="ctls">
       <div class="ctl"><label for="s4-ef"><span>Fermi level E<sub>F</sub></span> <output for="s4-ef"></output></label><input type="range" id="s4-ef" min="-6" max="6" step="0.05" value="-2.4" data-fmt="2" data-unit=" eV"></div>
       <div class="ctl"><label for="s4-tz"><span>Out-of-plane hopping t<sub>z</sub>/t</span> <output for="s4-tz"></output></label><input type="range" id="s4-tz" min="0" max="1" step="0.01" value="1" data-fmt="2"></div>
@@ -523,46 +568,13 @@
   </div>
   <div class="plots">
     <figure><div class="plot tall" id="p4a"></div><figcaption><b>How to read:</b> in a real 3D crystal, k has three components, so the states fill a cube. Filled states form a solid blob inside it, and the copper skin of that blob is the Fermi surface. The green plane slices the cube, and the green line is where it cuts the surface. Drag to rotate, scroll to zoom.</figcaption></figure>
-    <figure><div class="plot tall" id="p4b"></div><figcaption><b>How to read:</b> the slice from the green plane, viewed from above, read exactly like the 2D map in Model 6. Copper = filled states in that slice, green = where the Fermi surface crosses it.</figcaption></figure>
-  </div>
-</section>
-
-<section class="bench" id="empty">
-  <div class="rail">
-    <span class="eyebrow">2.6.2 · Model 8 · plane waves, sc or fcc, along [100]</span>
-    <h3>Empty lattice and nearly free electrons</h3>
-    <p>Free-electron parabolas $\frac{\hbar^2}{2m}|\mathbf k-\mathbf G|^2$, folded into the first Brillouin zone along Γ–X. With U<sub>G</sub> = 0 this is the empty lattice of exam Q4c–d. A nonzero U<sub>G</sub> switches on a weak periodic potential. The page then solves the central equation numerically (27 plane waves for fcc, 33 for sc) at every k, and gaps open at the zone boundary.</p>
-    <p>Simplification: the same U<sub>G</sub> is used for the two shortest shells of G, and every other U<sub>G</sub> is 0. Negative U<sub>G</sub> means the ions attract electrons.</p>
-    <div class="ctls">
-      <fieldset class="seg"><legend>Lattice (cubic constant a = 4.05 Å)</legend><div class="opts">
-        <label><input type="radio" name="el-lat" value="fcc" checked><span>fcc (exam)</span></label>
-        <label><input type="radio" name="el-lat" value="sc"><span>sc</span></label>
-      </div></fieldset>
-      <div class="ctl"><label for="el-u"><span>Fourier component U<sub>G</sub></span> <output for="el-u"></output></label><input type="range" id="el-u" min="-1.5" max="1.5" step="0.05" value="-0.5" data-fmt="2" data-unit=" eV"></div>
-      <div class="ctl"><label for="el-k"><span>Read energies at k<sub>x</sub></span> <output for="el-k"></output></label><input type="range" id="el-k" min="0" max="2" step="0.05" value="0.5" data-pi="1"></div>
-    </div>
-    <div class="state"><span class="pill" id="el-pill"></span><dl class="readout" id="el-read"></dl></div>
-    <div class="try"><strong>Try</strong><ul>
-      <li>Set U<sub>G</sub> = 0 to get the empty lattice. The ×n labels are the degeneracies, and the readout at Γ and at k = 0.50π/a gives the answer to Q4d.</li>
-      <li>Switch between fcc and sc. The zone edge X moves from 2π/a (bcc reciprocal lattice) to π/a, so k = π/2a goes from a quarter of Γ–X to halfway.</li>
-      <li>Make U<sub>G</sub> negative. A gap opens at X, and in the right plot the state below it piles charge on the atomic planes. Make U<sub>G</sub> positive and the two states swap.</li>
-      <li>Compare the numerical gap with 2|U<sub>G</sub>|. They agree for small U<sub>G</sub> and drift apart as other plane waves join in (second order).</li>
-      <li>fcc at Γ near 12 E₀: the eightfold level splits, but only into the groups that U<sub>G</sub> couples. Crossings of uncoupled waves stay crossings.</li>
-    </ul></div>
-  </div>
-  <div class="plots">
-    <figure class="span2"><div class="plot tall" id="el-a"></div>
-      <figcaption><b>How to read:</b> the horizontal axis is k along [100] across the whole first zone, from −X through Γ to X. The periodic zone scheme repeats this picture every reciprocal lattice vector. The vertical axis is energy in units of E₀ = ħ²π²/2ma² = 2.29 eV for a = 4.05 Å. Copper lines are the bands from the central equation. The grey dashed lines, drawn when U<sub>G</sub> ≠ 0, are the empty-lattice parabolas for comparison. A label ×n means n reciprocal lattice vectors give the same curve; unlabelled curves are single. The green dashed line is your k. For fcc the dotted green line is aluminium's free-electron Fermi level (11.6 eV, Kittel Table 6.1). It lies above the X gap, which is why Al stays a metal.</figcaption>
-      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>bands, weak potential</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,var(--muted) 0 4px,transparent 4px 7px)"></i>empty lattice</span><span><i class="sw" style="background:var(--ef)"></i>your k · Al ε<sub>F</sub></span></div></figure>
-    <figure class="span2"><div class="plot short" id="el-b"></div>
-      <figcaption><b>How to read:</b> the two states just below and just above the gap at X, drawn in real space. The horizontal axis is position x along [100] in units of a. Grey vertical lines are atomic planes: every a for sc, every a/2 for fcc. Each curve is |ψ|² averaged over the plane, with mean 1. Copper is the top of the lower band, blue the bottom of the upper band. With U<sub>G</sub> &lt; 0 the copper state piles its charge on the planes, where the attractive ions lower its energy. With U<sub>G</sub> = 0 both are flat travelling waves of equal energy.</figcaption>
-      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>below the gap</span><span><i class="sw" style="background:var(--emp)"></i>above the gap</span><span><i class="sw" style="background:var(--muted)"></i>atomic plane</span></div></figure>
+    <figure><div class="plot tall" id="p4b"></div><figcaption><b>How to read:</b> the slice from the green plane, viewed from above, read exactly like the 2D map in Model 7. Copper = filled states in that slice, green = where the Fermi surface crosses it.</figcaption></figure>
   </div>
 </section>
 
 <section class="notes">
   <h3>Model notes</h3>
-  <p>Models 1–7 are nearest-neighbour tight-binding models: each electron sits in one orbital per atom and hops to neighbours with amplitude t. Real silicon has many orbitals and an indirect gap, and real copper's Fermi surface is a sphere with necks touching the zone faces of an FCC lattice. The shapes here are the simplest ones that show the same ideas. Wave vectors are in units of 1/a, where a is the lattice constant. Spin is counted as a factor of 2 in every electron number. Model 8 is the opposite limit: free plane waves plus a weak potential. Its lattice constant is aluminium's (4.05 Å, which follows from Kittel's n = 18.06·10²² cm⁻³ with 3 e⁻ per atom and 4 atoms per cube). Its sc option is a hypothetical simple cubic crystal with the same a.</p>
+  <p>All models except Model 2 are nearest-neighbour tight-binding models: each electron sits in one orbital per atom and hops to neighbours with amplitude t. Real silicon has many orbitals and an indirect gap, and real copper's Fermi surface is a sphere with necks touching the zone faces of an FCC lattice. The shapes here are the simplest ones that show the same ideas. Wave vectors are in units of 1/a, where a is the lattice constant. Spin is counted as a factor of 2 in every electron number. Model 2 is the opposite limit: free plane waves plus a weak potential. Its lattice constant is aluminium's (4.05 Å, which follows from Kittel's n = 18.06·10²² cm⁻³ with 3 e⁻ per atom and 4 atoms per cube). Its sc option is a hypothetical simple cubic crystal with the same a.</p>
 </section>
 </section>
 
@@ -624,7 +636,7 @@
         <li>(e) The band holds 2N states and gets N electrons, so it is half full: a metal. The band is symmetric about $-\alpha$, so ε<sub>F</sub> = −α.</li>
       </ol>
       <div class="result"><b>Result:</b> (b) bandwidth 6.0 eV; (c) m* = 0.85 m; (d) v = 4.6·10⁵ m/s along +x; (e) half-filled band, metal, ε<sub>F</sub> = −α.</div>
-      <div class="check"><b>Sanity check:</b> Model 7 (t = γ = 1 eV) shows a band range of ±6 eV, i.e. 12γ. Model 2 quotes 760 km/s at the steepest point for a = 2.5 Å and t = 1 eV; scaling by γa gives 760 × (0.5 × 3.0)/(1 × 2.5) = 456 km/s, which matches (d).</div>
+      <div class="check"><b>Sanity check:</b> Model 8 (t = γ = 1 eV) shows a band range of ±6 eV, i.e. 12γ. Model 1 quotes 760 km/s at the steepest point for a = 2.5 Å and t = 1 eV; scaling by γa gives 760 × (0.5 × 3.0)/(1 × 2.5) = 456 km/s, which matches (d).</div>
     </details>
   </article>
 </section>
@@ -660,13 +672,13 @@
             <tr><td>(−2,0,0)</td><td>(k+4)²</td><td>16 → 36</td><td>1</td></tr>
             <tr><td>(0,±2,0), (0,0,±2)</td><td>k² + 16</td><td>16 → 20</td><td>4</td></tr>
           </tbody></table></div>
-          Sketch them between −X and X (mirror image for negative k), repeat every G for the periodic scheme, and label each curve with its degeneracy. The G = 0 and G = (2,0,0) curves meet at X, and the two groups of four split off from the eightfold level at Γ. Model 8 at U<sub>G</sub> = 0 draws exactly this.</li>
+          Sketch them between −X and X (mirror image for negative k), repeat every G for the periodic scheme, and label each curve with its degeneracy. The G = 0 and G = (2,0,0) curves meet at X, and the two groups of four split off from the eightfold level at Γ. Model 2 at U<sub>G</sub> = 0 draws exactly this.</li>
         <li><b>(d)</b> fcc: at k₀, $\varepsilon=0$ and $12E_0=3\frac{\hbar^2}{2m}(\frac{2\pi}a)^2$ (8-fold, G = (2π/a)(±1,±1,±1)). At k₁ = (π/2a, 0, 0), a quarter of the way to X: $\varepsilon=\frac14E_0$ (G = 0) and $\frac{41}{4}E_0$ (4-fold, G = (2π/a)(1,±1,±1), since $(\tfrac12-2)^2+8=\tfrac{41}4$). With Al's a = 4.05 Å, E₀ = 2.29 eV: 0 and 27.5 eV; 0.57 and 23.5 eV. <i>If sc:</i> at k₀, 0 and $4E_0$ (6-fold); at k₁, which is then halfway to X, $\frac14E_0$ and $\frac94E_0$ (from G = (2π/a)(1,0,0), since $(\tfrac12-2)^2=\tfrac94$ with k in π/a).</li>
         <li><b>(e)</b> The nearly-free-electron model: plane waves plus a weak periodic potential, i.e. the central equation, solved with the two-wave approximation near the zone faces (Bragg planes).</li>
         <li><b>(f)</b> Same curves as (c) away from degeneracies, shifted only in second order. At X the two waves G = 0 and G = (2π/a)(2,0,0) are coupled by $U_{200}$ and split into $\varepsilon^0_X\pm|U_{200}|$, a gap $2|U_{200}|$. The bands meet the zone face with zero slope (v = 0), and the effective mass changes sign across the gap. Below the gap is the standing wave with charge on the atomic planes (for attractive ions). Degenerate levels at Γ split only where some $U_{\mathbf G-\mathbf G'}\neq0$ couples them; uncoupled crossings remain. Compared with (c): parabolas become bands separated by gaps, which is what separates metals from insulators.</li>
       </ol>
       <div class="result"><b>Result:</b> (b) bcc reciprocal lattice, b₁ = (2π/a)(−1,1,1) etc.; (d) fcc: 0 and 12 E₀ at k₀, E₀/4 and 41E₀/4 at k₁, with E₀ = ħ²π²/2ma² (sc: 0 and 4 E₀; E₀/4 and 9E₀/4); (f) gaps of 2|U<sub>G</sub>| at the zone boundary.</div>
-      <div class="check"><b>Sanity check:</b> a<sub>i</sub>·b<sub>j</sub> = 2πδ<sub>ij</sub> checked numerically in node. The empty-lattice ladders come from brute-force enumeration over G (see the Concepts table) and match Model 8's readout at U<sub>G</sub> = 0. 41/4 ≈ 10.25 is also the 4-fold level the model labels at k = 0.5π/a.</div>
+      <div class="check"><b>Sanity check:</b> a<sub>i</sub>·b<sub>j</sub> = 2πδ<sub>ij</sub> checked numerically in node. The empty-lattice ladders come from brute-force enumeration over G (see the Concepts table) and match Model 2's readout at U<sub>G</sub> = 0. 41/4 ≈ 10.25 is also the 4-fold level the model labels at k = 0.5π/a.</div>
       <p><b>Points usually lost:</b> not stating the lattice; giving conventional instead of primitive vectors; forgetting the degeneracies; drawing gaps at crossings that the potential does not couple; drawing a band that "ends" at the zone edge in the periodic scheme.</p>
     </details>
   </article>

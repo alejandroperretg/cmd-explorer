@@ -15,6 +15,9 @@
 >   2. Republish the phone versions: bands https://claude.ai/artifact/Ph9bvTf6N3VvtzFfA8qDNY, elasticity https://claude.ai/artifact/R49kSsmzLKeZ5bq1Vhyvkq.
 >   3. Run the coverage check against the frozen `audit/expectations.md`.
 > - **Models still missing (PLAN 15):** 2.1.1, 2.1.2, 2.1.4 and 2.1.5 on page 07; 2.2.2 and 2.2.4 on page 08. Add them during the 07+08 restyle.
+> - **Page 09 intuition models** (user clarification, 2026-11-07): they are relevant intuition for Bloch, NFE and conduction, just not in lecture order.
+>   - They are being placed into 2.6.1 / 2.6.2 / 2.6.3 / Connecting ideas, with links to pages 07 and 08.
+>   - Once 07 and 08 are restyled, add the reverse links on those pages (e.g. 2.1.6 → bands "E(k) with Fermi–Dirac filling", 2.2 → bands "Current in a wire").
 > - **Waiting:** pages 10–13 wait for lectures. GitHub comes last, and only with the user's OK.
 
 > **2026-11-06 morning:** the original session resumed this work itself. The pedagogy and review agents were resumed there. A scheduled run that reads this should not redo items 1–2. Check `git log` first, and only take over if the original session has gone quiet.
