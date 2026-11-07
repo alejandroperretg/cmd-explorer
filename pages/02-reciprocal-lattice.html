@@ -37,7 +37,30 @@
   <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
 </header>
 
-<!-- 1. OVERVIEW -->
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>The order follows the lecture notes, pp. 7–15: direct imaging (1.1.3), Bragg's law (1.3.1), the reciprocal lattice (1.3.2), X-ray scattering and the Brillouin zone (1.3.3, notes "1.3.4"), then the basis (1.3.5, from Kittel). Sheets 2 and 3.1–3.2 hang off these sections. About 2 hours in total, including the exercise.</p>
+  <ol>
+    <li data-sec="1.1.3"><a href="#c-imaging">TEM and STM</a><span class="min">15 min</span><span class="then">Then: <a href="#model1">Model 1</a>; <a href="#hw-2-3">Sheet 2.3</a>.</span></li>
+    <li data-sec="1.3.1"><a href="#c-bragg">Bragg's law</a><span class="min">10 min</span><span class="then">Then: <a href="#model2">Model 2</a>.</span></li>
+    <li data-sec="1.3.2"><a href="#c-recip">Reciprocal lattice</a><span class="min">20 min</span><span class="then">Then: <a href="#model3">Model 3</a>; <a href="#hw-2-1">Sheet 2.1</a>.</span></li>
+    <li data-sec="1.3.3"><a href="#c-laue">X-ray scattering and the Laue condition</a><span class="min">15 min</span><span class="then">Then: <a href="#model4">Model 4</a>.</span></li>
+    <li data-sec="1.3.3"><a href="#c-bz">Brillouin zones</a><span class="min">10 min</span><span class="then">Then: <a href="#hw-2-2">Sheet 2.2</a>.</span></li>
+    <li data-sec="1.3.5"><a href="#c-sf">Structure and form factors</a><span class="min">20 min</span><span class="then">Then: <a href="#model5">Model 5</a>, <a href="#model6">Model 6</a>; <a href="#hw-3-1">Sheet 3.1</a>, <a href="#hw-3-2">Sheet 3.2</a>.</span></li>
+    <li data-sec="Ex"><a href="#exam-ex">Exam-style exercise: copper</a><span class="min">20 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag exam">Exam Q4b</span>asked in the 2022 exam (answer on topic 09)</span>
+    <span><span class="tag hw">Sheet 2.2</span>used by a sheet problem</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
 <section class="block" id="overview">
   <h2>Overview</h2>
   <p>Two ways to see atoms. <b>Direct imaging</b> (1.1.3) uses electrons: a TEM needs a de Broglie wavelength far below the atomic spacing, and an STM uses the exponential distance dependence of a tunnelling current. <b>Diffraction</b> (1.3) gives up the picture and measures its Fourier transform instead. Each scattered beam is labelled by a reciprocal lattice vector $\mathbf G$, and its strength by the structure factor of the basis.</p>
@@ -50,39 +73,105 @@
     <li>$S_{\mathbf G}=\sum_j f_j e^{-i\mathbf G\cdot\mathbf r_j}$ decides which reflections vanish.</li>
     <li>The form factor $f$ is the Fourier transform of one atom's electron cloud.</li>
   </ul>
-  <p>Lattices and primitive vectors are on <a href="01-crystal-structure.html">topic 01</a>; this page starts from them. Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 2 (Bragg law, Fourier analysis, reciprocal lattice, diffraction conditions, Laue equations, Brillouin zones, Fourier analysis of the basis), ch. 1 "Direct Imaging of Atomic Structure", and the lecture notes pp. 7–15.</p>
+  <p>Lattices and primitive vectors are on <a href="01-crystal-structure.html">topic 01</a>; this page starts from them. The reciprocal lattice and the Brillouin zone are used again for phonons (<a href="05-phonons.html">topic 05</a>), free electrons (<a href="07-free-electron-gas.html">topic 07</a>) and bands (<a href="09-bands.html">topic 09</a>). Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 2 (Bragg law, Fourier analysis, reciprocal lattice, diffraction conditions, Laue equations, Brillouin zones, Fourier analysis of the basis), ch. 1 "Direct Imaging of Atomic Structure", and the lecture notes pp. 7–15.</p>
 </section>
 
-<!-- 2. CONCEPTS -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
-  <div class="cards">
-    <article class="card">
-      <h3>1.1.3 Direct imaging of atomic structure</h3>
+
+  <section class="sec" id="s-1-1-3">
+    <h3><span class="step">1.1.3</span>Direct imaging of atomic structure</h3>
+    <p class="hook"><b>Where you meet this.</b> In 1989 Don Eigler's group at IBM pushed 35 xenon atoms around a nickel surface with an STM tip and spelled "IBM". The STM's inventors, Binnig and Rohrer, had received the 1986 Nobel Prize in Physics. The exponential current law below is why one atom at the tip apex does all the work.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> How a TEM and an STM reach atomic resolution: the electron's de Broglie wavelength, and the tunnelling current's exponential dependence on the gap (notes pp. 7–9, where it is called "1.2").</p>
+      <p><b>Why it matters.</b> Sheet 2.3 asks for both working principles and two numbers. It also motivates diffraction: imaging needs wavelengths below the atomic spacing, and so does Bragg's law.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-imaging">
+      <span class="eyebrow">1.1.3 · TEM and STM</span>
+      <h4>TEM and STM</h4>
+      <p class="needs">← from <a href="01-crystal-structure.html#c-lattice">1.1.1 Lattice and basis</a></p>
       <p><b>TEM.</b> Electrons accelerated through a voltage $U$ have the de Broglie wavelength</p>
-      $$\lambda=\frac hp,\qquad p=\sqrt{2m_e eU}\quad\text{(non-relativistic)},\qquad p=\sqrt{2m_e eU\Big(1+\frac{eU}{2m_ec^2}\Big)}\quad\text{(relativistic)}.$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Electron wavelength (non-relativistic)</span><a class="tag hw" href="#hw-2-3">Sheet 2.3</a></div>
+      $$\begin{aligned}\lambda&=\frac hp,\\ p&=\sqrt{2m_e eU}.\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Relativistic momentum (TEM voltages)</span><a class="tag hw" href="#hw-2-3">Sheet 2.3c</a></div>
+      $$p=\sqrt{2m_eeU\Big(1+\frac{eU}{2m_ec^2}\Big)}.$$
+      <span class="eq-n">(2)</span></div>
       <p>At 250 kV this gives about 2 pm, a hundred times smaller than the spacing of atoms. Magnetic lenses image the electrons that pass through a thin sample. In practice lens aberrations, not λ, limit the resolution, but it still reaches atomic columns.</p>
       <p><b>STM.</b> A sharp metal tip is held a few atomic diameters above a conducting surface. Electrons tunnel through the vacuum gap $d$, and the current falls off as</p>
-      $$I\propto e^{-2\kappa d},\qquad \kappa=\frac{\sqrt{2m_e\phi}}{\hbar},$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">STM tunnelling current</span><a class="tag hw" href="#hw-2-3">Sheet 2.3b</a></div>
+      $$\begin{aligned}I&\propto e^{-2\kappa d},\\ \kappa&=\frac{\sqrt{2m_e\phi}}{\hbar},\end{aligned}$$
+      <span class="eq-n">(3)</span></div>
       <p>where $\phi$ is the work function (the barrier height, in J) and $m_e$ the electron mass. With $\phi\approx 3$ eV the current changes by a factor of about 6 per 0.1 nm, so the foremost atom of the tip carries almost all of it. A feedback loop moves the tip to keep $I$ constant, and the tip height traced over the surface is the image.</p>
       <div class="assume"><b>Course sources differ:</b> the notes write $I\propto e^{-\alpha x}$ and the sheet $e^{-2\kappa d}$, so $\alpha=2\kappa$. The notes list "TEM, SEM" as the two imaging options, but an SEM does not reach atomic resolution; sheet 2.3 and Kittel pair TEM with STM.</div>
+      <p class="trap">Forgetting the relativistic correction at TEM voltages. At 250 kV, $eU/2m_ec^2=0.245$, so (1) overestimates λ by about 10 %.</p>
+      <details class="check"><summary>At 250 kV, what are λ from (1) and from (2)?</summary><p>(1): 2.45 pm. (2): $p$ is larger by $\sqrt{1.245}=1.116$, so λ = 2.20 pm (node).</p></details>
+      <details class="check"><summary>With φ = 3 eV, by what factor does I change when the gap shrinks by 0.1 nm?</summary><p>$\kappa=8.87\times10^{9}$ m⁻¹, so $e^{2\kappa\cdot0.1\,\text{nm}}=e^{1.77}=5.9$.</p></details>
+      <p class="takeaway">TEM: λ = h/p must be far below the atomic spacing, so use (2) at high voltage. STM: $I\propto e^{-2\kappa d}$ changes about 6× per 0.1 nm, so the tip apex atom images the surface.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> explain how TEM and STM reach atomic resolution and compute the electron wavelength and the current ratio. That is <a href="#hw-2-3">Sheet 2.3</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.3.1 Bragg's law</h3>
+  <section class="sec" id="s-1-3-1">
+    <h3><span class="step">1.3.1</span>Bragg's law</h3>
+    <p class="hook"><b>Where you meet this.</b> In 1913 W. H. and W. L. Bragg used this law on rock salt and found that NaCl contains no molecules: every Na is surrounded by six Cl, and every Cl by six Na. Every powder diffractometer in a materials lab still runs on it, usually with copper Kα X-rays at 154 pm.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Reflection from stacks of lattice planes, the glancing angle, and why the wavelength must be at most twice the plane spacing (notes p. 10).</p>
+      <p><b>Why it matters.</b> It says where reflections can appear. The reciprocal lattice (1.3.2) and the Laue condition (1.3.3) restate it, and the Brillouin-zone faces are its planes.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-bragg">
+      <span class="eyebrow">1.3.1 · Bragg's law</span>
+      <h4>Bragg's law</h4>
+      <div class="recap"><b>Recap from <a href="01-crystal-structure.html#c-index">1.1.2</a>.</b> A lattice plane family (hkl) is a stack of equally spaced, parallel planes that contains every lattice point.</div>
       <p>Diffraction is a wave effect, so the wavelength has to be comparable to the spacing of atoms. Treat the crystal as a stack of parallel atomic planes with spacing $d$. Each plane reflects a little of the beam like a weak mirror. Reflections from neighbouring planes add up in phase only when their path difference $2d\sin\theta$ is a whole number of wavelengths:</p>
-      $$2d\sin\theta=n\lambda,\qquad n=1,2,3,\dots$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Bragg's law (n = 1, 2, 3, …)</span><a class="tag hw" href="#exam-ex">Exercise (d)</a></div>
+      $$2d\sin\theta=n\lambda.$$
+      <span class="eq-n">(4)</span></div>
       <p>Here θ is the <i>glancing</i> angle between the beam and the planes. The beam is deflected by 2θ, and a θ–2θ diffractometer plots intensity against 2θ. A solution needs $\lambda\le 2d$, which is why X-rays (photons, $\lambda=hc/E$) of about 0.1 nm, or electrons and neutrons of similar wavelength, are used. Visible light cannot diffract from a crystal lattice.</p>
       <p>Bragg's law says <i>where</i> reflections can appear. It says nothing about their strength, which comes from the basis (1.3.5).</p>
+      <p class="trap">Using the deflection angle as θ. θ is measured from the planes, not from the incoming beam's normal, and the detector sits at 2θ.</p>
+      <details class="check"><summary>Cu Kα (154.06 pm) on the (100) planes of polonium (d = 334 pm): first-order Bragg angle?</summary><p>$\sin\theta=154.06/668=0.231$, so θ = 13.33° and the deflection is 26.67°. That is the angle Model 2 opens on.</p></details>
+      <p class="takeaway">Reflection needs $2d\sin\theta=n\lambda$ (4) with θ the glancing angle, so only waves with $\lambda\le2d$ diffract.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> find where a plane family reflects for a given wavelength, and say why X-rays, electrons and neutrons work but light does not. That is part (d) of the <a href="#exam-ex">copper exercise</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.3.2 Reciprocal lattice</h3>
-      <p>Anything periodic in the crystal, such as the electron density, can be written as a Fourier series. Only plane waves $e^{i\mathbf G\cdot\mathbf r}$ that take the same value at every lattice point qualify:</p>
-      $$n(\mathbf r)=\sum_{\mathbf G}n_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r},\qquad e^{i\mathbf G\cdot\mathbf R}=1\ \Leftrightarrow\ \mathbf G\cdot\mathbf R=2\pi\cdot\text{integer for every lattice vector }\mathbf R.$$
+  <section class="sec" id="s-1-3-2">
+    <h3><span class="step">1.3.2</span>Reciprocal lattice</h3>
+    <p class="hook"><b>Where you meet this.</b> Switch a TEM from image mode to diffraction mode and the screen shows a regular array of spots: a plane of the reciprocal lattice, magnified. Materials scientists read crystal orientation and lattice constants straight off it.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Fourier series of lattice-periodic functions, the vectors $\mathbf G$ that qualify, the reciprocal primitive vectors $\mathbf b_i$, the reciprocal cell volume, and the reciprocal lattices of sc, bcc and fcc (notes p. 11).</p>
+      <p><b>Why it matters.</b> Sheets 2.1 and 2.2 compute $\mathbf b_i$ and volumes, and exam Q4b asks for the fcc reciprocal vectors. Phonons, free electrons and Bloch bands all label their states by $\mathbf k$ inside the reciprocal lattice's cell.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-recip">
+      <span class="eyebrow">1.3.2 · Reciprocal lattice</span>
+      <h4>Reciprocal lattice</h4>
+      <p class="needs">← from <a href="01-crystal-structure.html#c-cell">1.1.1 Primitive cell</a>, <a href="01-crystal-structure.html#c-cubic">1.1.2 Cubic lattices</a></p>
+      <div class="recap"><b>Recap from <a href="01-crystal-structure.html#c-cell">1.1.1</a>.</b> Lattice vectors are $\mathbf R=n_1\mathbf a_1+n_2\mathbf a_2+n_3\mathbf a_3$ with integer $n_i$, and the primitive cell has volume $V_c=|\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)|$. fcc: $V_c=a^3/4$; bcc: $a^3/2$.</div>
+      <p>Anything periodic in the crystal, such as the electron density, can be written as a Fourier series:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Fourier series of a lattice-periodic function</span></div>
+      $$n(\mathbf r)=\sum_{\mathbf G}n_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r}.$$
+      <span class="eq-n">(5)</span></div>
+      <p>Only plane waves $e^{i\mathbf G\cdot\mathbf r}$ that take the same value at every lattice point qualify:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Definition of the reciprocal lattice</span></div>
+      $$\begin{aligned}e^{i\mathbf G\cdot\mathbf R}&=1\ \text{for every }\mathbf R\\ \Leftrightarrow\ \mathbf G\cdot\mathbf R&=2\pi\cdot\text{integer}.\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
       <p>These $\mathbf G$ form a lattice of their own, $\mathbf G=v_1\mathbf b_1+v_2\mathbf b_2+v_3\mathbf b_3$ with integer $v_i$, spanned by</p>
-      $$\mathbf b_1=2\pi\frac{\mathbf a_2\times\mathbf a_3}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\quad \mathbf b_2=2\pi\frac{\mathbf a_3\times\mathbf a_1}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\quad \mathbf b_3=2\pi\frac{\mathbf a_1\times\mathbf a_2}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\qquad \mathbf b_i\cdot\mathbf a_j=2\pi\delta_{ij}.$$
-      <p>$\mathbf b_i$ has units of 1/m. Each $\mathbf G$ is normal to a family of lattice planes, and the spacing of those planes is $d=2\pi/|\mathbf G|$ for the shortest $\mathbf G$ in that direction. Scaling the crystal by a factor λ scales the reciprocal lattice by 1/λ. The cell volume of the reciprocal lattice is $V_{BZ}=(2\pi)^3/V_c$ (sheet 2.1).</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Reciprocal primitive vectors</span><a class="tag exam" href="09-bands.html#exam-q4">Exam Q4b</a><a class="tag hw" href="#hw-2-1">Sheet 2.1</a><a class="tag hw" href="#hw-2-2">Sheet 2.2b</a></div>
+      $$\begin{aligned}\mathbf b_1&=2\pi\,\frac{\mathbf a_2\times\mathbf a_3}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\\ \mathbf b_2&=2\pi\,\frac{\mathbf a_3\times\mathbf a_1}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)},\\ \mathbf b_3&=2\pi\,\frac{\mathbf a_1\times\mathbf a_2}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)}.\end{aligned}$$
+      <span class="eq-n">(7)</span></div>
+      <div class="eq"><div class="eq-head"><span class="eq-label">What (7) is built to satisfy</span></div>
+      $$\mathbf b_i\cdot\mathbf a_j=2\pi\delta_{ij}.$$
+      <span class="eq-n">(8)</span></div>
+      <p>$\mathbf b_i$ has units of 1/m. Each $\mathbf G$ is normal to a family of lattice planes, and the spacing of those planes is $d=2\pi/|\mathbf G|$ for the shortest $\mathbf G$ in that direction. Scaling the crystal by a factor λ scales the reciprocal lattice by 1/λ. The cell volume of the reciprocal lattice is</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Reciprocal cell (Brillouin-zone) volume</span><a class="tag hw" href="#hw-2-1">Sheet 2.1</a><a class="tag hw" href="#hw-2-2">Sheet 2.2c</a></div>
+      $$V_{BZ}=\frac{(2\pi)^3}{V_c}.$$
+      <span class="eq-n">(9)</span></div>
       <div class="dict"><table>
         <thead><tr><th>Lattice (cube a)</th><th>Reciprocal lattice</th><th>Shortest G</th><th>1st Brillouin zone</th></tr></thead>
         <tbody>
@@ -91,52 +180,111 @@
           <tr><td>fcc</td><td>bcc, cube 4π/a</td><td>8 × (2π/a)(1,1,1)</td><td>truncated octahedron</td></tr>
         </tbody>
       </table></div>
-      <div class="assume"><b>Trap: $|\mathbf b_i|=2\pi/|\mathbf a_i|$ is wrong in general.</b> Some tutoring boards box this formula. It holds only when $\mathbf a_i$ is perpendicular to the other two primitive vectors (sc, tetragonal, orthorhombic). Take fcc, with $\mathbf a_1=\tfrac a2(0,1,1)$, $\mathbf a_2=\tfrac a2(1,0,1)$, $\mathbf a_3=\tfrac a2(1,1,0)$ (Kittel):
+      <p>The notes close 1.3.2 by naming the Wigner–Seitz cell of the reciprocal lattice the <b>first Brillouin zone</b>; its physics comes after the scattering argument, in <a href="#c-bz">1.3.3 · Brillouin zones</a>.</p>
+      <div class="trap"><b>$|\mathbf b_i|=2\pi/|\mathbf a_i|$ is wrong in general.</b> Some tutoring boards box this formula. It holds only when $\mathbf a_i$ is perpendicular to the other two primitive vectors (sc, tetragonal, orthorhombic). Take fcc, with $\mathbf a_1=\tfrac a2(0,1,1)$, $\mathbf a_2=\tfrac a2(1,0,1)$, $\mathbf a_3=\tfrac a2(1,1,0)$ (Kittel):
         <ul>
           <li>$|\mathbf a_1|=a/\sqrt2$, so the shortcut predicts $|\mathbf b_1|=\sqrt2\cdot 2\pi/a=1.414\cdot2\pi/a$.</li>
           <li>The formula above gives $\mathbf b_1=\tfrac{2\pi}a(-1,1,1)$, so $|\mathbf b_1|=\sqrt3\cdot2\pi/a=1.732\cdot2\pi/a$.</li>
           <li>The shortcut is 18 % too short (the true value is $\sqrt{3/2}=1.22$ times larger). bcc fails by the same factor: the shortcut gives $1.155\cdot2\pi/a$, the true value is $1.414\cdot2\pi/a$.</li>
         </ul>
         The correct general statement is $|\mathbf b_1|=2\pi/d$, where $d$ is the spacing of the planes spanned by $\mathbf a_2$ and $\mathbf a_3$. For fcc these are the (111) planes, $d=a/\sqrt3$. Model 3 shows both numbers side by side.</div>
+      <details class="check"><summary>What is the reciprocal lattice of sc with cube edge a?</summary><p>sc with edge $2\pi/a$: (7) gives $\mathbf b_i=\tfrac{2\pi}a\hat{\mathbf e}_i$, and $V_{BZ}=(2\pi/a)^3=(2\pi)^3/V_c$ as in (9).</p></details>
+      <p class="note"><b>Used in</b> <a href="05-phonons.html">1.6 Phonons →</a> (k is only defined up to a G), <a href="07-free-electron-gas.html">2.1 Free electron gas →</a> (k-space counting), <a href="09-bands.html#c-implies">2.6.1 Bloch theorem →</a> and <a href="09-bands.html#exam-q4">exam Q4b →</a>.</p>
+      <p class="takeaway">The reciprocal lattice is the set of $\mathbf G$ with $e^{i\mathbf G\cdot\mathbf R}=1$ (6), spanned by (7). fcc ↔ bcc, and $V_{BZ}=(2\pi)^3/V_c$.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> construct the reciprocal lattice of any lattice, name it for sc, bcc and fcc, and compute its cell volume. That is <a href="#hw-2-1">Sheet 2.1</a>, <a href="#hw-2-2">Sheet 2.2b</a> and <a href="09-bands.html#exam-q4">Exam Q4b</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.3.2 Brillouin zones <span class="note">(notes "1.3.4")</span></h3>
-      <p>The <b>first Brillouin zone</b> is the Wigner–Seitz cell of the reciprocal lattice. Draw the vectors from the origin to its nearest reciprocal lattice points and cut each one in half with a perpendicular plane; the smallest region enclosed by those planes is the zone. A wave vector $\mathbf k$ lies on the bisector plane of $\mathbf G$ when</p>
-      $$\mathbf k\cdot\big(\tfrac12\mathbf G\big)=\big(\tfrac12\mathbf G\big)^2 .$$
-      <p>This is the elastic diffraction condition of 1.3.3. So the zone faces are <b>exactly the wave vectors that are Bragg-reflected</b>. A wave with $\mathbf k$ on a face is reflected into $\mathbf k-\mathbf G$ and becomes a standing wave. That standing wave gives zero group velocity for phonons (topic 05) and the band gap for electrons (<a href="09-bands.html">topic 09</a>). Higher zones are the regions reached by crossing one, two, … more bisector planes; each has the same volume as the first.</p>
-    </article>
-
-    <article class="card">
-      <h3>1.3.3 X-ray scattering and the Laue condition</h3>
+  <section class="sec" id="s-1-3-3">
+    <h3><span class="step">1.3.3</span>X-ray scattering</h3>
+    <p class="hook"><b>Where you meet this.</b> Most of the more than 200 000 structures in the Protein Data Bank, from haemoglobin to the SARS-CoV-2 spike protein, were solved by X-ray diffraction from crystals. Every one of those analyses starts from the Laue condition below.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The scattered amplitude as a Fourier integral of the electron density, the Laue condition $\Delta\mathbf k=\mathbf G$, its equivalence to Bragg's law, the Ewald construction, and the Brillouin zone as the set of Bragg planes (notes pp. 12–15, the last as "1.3.4").</p>
+      <p><b>Why it matters.</b> It is the bridge from 1.3.1 to 1.3.5: the structure factor is the cell integral left over here. The Brillouin zone (sheet 2.2, exam Q4c–d) organises phonons and electron bands.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-laue">
+      <span class="eyebrow">1.3.3 · Laue condition</span>
+      <h4>X-ray scattering and the Laue condition</h4>
+      <p class="needs"><a href="#c-recip">1.3.2 Reciprocal lattice</a>; <a href="#c-bragg">1.3.1 Bragg's law</a></p>
       <p>Each volume element of the crystal scatters the incoming wave $e^{i\mathbf k\cdot\mathbf r}$ with an amplitude proportional to the local electron density. The wave leaves towards the detector with wave vector $\mathbf k'$. The path to and from a point $\mathbf r$ adds the phase factor $e^{-i\Delta\mathbf k\cdot\mathbf r}$ with $\Delta\mathbf k=\mathbf k'-\mathbf k$. Summing over the crystal (Kittel's sign):</p>
-      $$F=\int n(\mathbf r)\,e^{-i\Delta\mathbf k\cdot\mathbf r}\,dV=\sum_{\mathbf G}n_{\mathbf G}\int e^{i(\mathbf G-\Delta\mathbf k)\cdot\mathbf r}\,dV .$$
-      <p>For a large crystal the integral is negligible unless $\Delta\mathbf k=\mathbf G$ (Laue condition). Equivalently, writing $\mathbf r=\mathbf R+\boldsymbol\rho$ splits $F$ into a lattice sum $\sum_{\mathbf R}e^{-i\Delta\mathbf k\cdot\mathbf R}$ times one cell integral, and the lattice sum only adds up when every phase is 1. Measured intensity is $|F|^2$.</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Scattering amplitude</span></div>
+      $$\begin{aligned}F&=\int n(\mathbf r)\,e^{-i\Delta\mathbf k\cdot\mathbf r}\,dV\\&=\sum_{\mathbf G}n_{\mathbf G}\\&\quad\times\int e^{i(\mathbf G-\Delta\mathbf k)\cdot\mathbf r}\,dV.\end{aligned}$$
+      <span class="eq-n">(10)</span></div>
+      <p>For a large crystal the integral is negligible unless</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Laue condition</span><a class="tag hw" href="#hw-3-2">Sheet 3.2</a></div>
+      $$\Delta\mathbf k=\mathbf G.$$
+      <span class="eq-n">(11)</span></div>
+      <p>Equivalently, writing $\mathbf r=\mathbf R+\boldsymbol\rho$ splits $F$ into a lattice sum $\sum_{\mathbf R}e^{-i\Delta\mathbf k\cdot\mathbf R}$ times one cell integral, and the lattice sum only adds up when every phase is 1. Measured intensity is $|F|^2$.</p>
       <p><b>Elastic scattering</b>, $|\mathbf k'|=|\mathbf k|$, then gives Kittel's two steps:</p>
-      $$\mathbf k'=\mathbf k+\mathbf G\ \Rightarrow\ (\mathbf k+\mathbf G)^2=k^2\ \Rightarrow\ 2\mathbf k\cdot\mathbf G+G^2=0\ \xrightarrow{\ \mathbf G\to-\mathbf G\ }\ 2\mathbf k\cdot\mathbf G=G^2 .$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Elastic diffraction condition</span></div>
+      $$\begin{aligned}\mathbf k'&=\mathbf k+\mathbf G\\ \Rightarrow\ (\mathbf k+\mathbf G)^2&=k^2\\ \Rightarrow\ 2\mathbf k\cdot\mathbf G+G^2&=0\\ \xrightarrow{\ \mathbf G\to-\mathbf G\ }\ 2\mathbf k\cdot\mathbf G&=G^2.\end{aligned}$$
+      <span class="eq-n">(12)</span></div>
       <p>The last step is allowed because $-\mathbf G$ is also a reciprocal lattice vector. With $|\mathbf G|=2\pi n/d$ and $\mathbf k\cdot\hat{\mathbf G}=k\sin\theta$ this becomes $2d\sin\theta=n\lambda$, which is Bragg's law. The same condition, dotted with each $\mathbf a_i$, gives the Laue equations $\mathbf a_i\cdot\Delta\mathbf k=2\pi v_i$.</p>
       <p><b>Ewald construction.</b> Draw $\mathbf k$ ending on the reciprocal-lattice origin, and a sphere of radius $k$ around its tail. Every reciprocal lattice point on the sphere gives a diffracted beam $\mathbf k'$, pointing from the centre to that point. This sphere is the "where is the detector" picture: the detector sits along $\mathbf k'$ (Model 2). A white beam, with a range of $k$, makes many spheres and therefore many spots at once (Laue method).</p>
       <div class="assume"><b>Notes vs Kittel:</b> the notes (p. 14) state that $\mathbf K=\mathbf k'-\mathbf k$ must equal $\mathbf G$, but then substitute $\mathbf k'=-\mathbf G+\mathbf k$. The final condition is the same; this page follows Kittel's order above. The notes also flip the sign of the exponent between pp. 13 and 14. That flip changes nothing in $|F|^2$, but structure-factor phases need a fixed sign, and this page uses Kittel's $e^{-i\Delta\mathbf k\cdot\mathbf r}$ throughout. Symbols: the notes and sheet 3.2 call the scattering vector $\mathbf K$, Kittel calls it $\Delta\mathbf k$, and the tutoring boards call it $\mathbf q$.</div>
+      <p class="trap">Reading (11) as "every G gives a beam". The Laue condition and elastic scattering (12) must hold together, so a fixed crystal in a monochromatic beam usually shows no reflection at all: the Ewald sphere misses every point.</p>
+      <details class="check"><summary>How do powder and Laue methods get reflections anyway?</summary><p>Powder: grains at every orientation, so for each G some grains satisfy (12). Laue: a white beam has a range of $k$, i.e. many Ewald spheres, so many points are hit at once.</p></details>
+      <p class="takeaway">Scattering measures the Fourier transform of the density; it is nonzero only at $\Delta\mathbf k=\mathbf G$ (11). With $|\mathbf k'|=|\mathbf k|$ this is $2\mathbf k\cdot\mathbf G=G^2$ (12), Bragg's law in vector form.</p>
     </article>
 
-    <article class="card">
-      <h3>1.3.5 Analysis with basis: structure and form factors</h3>
-      <p>Write the cell's electron density as a sum over its atoms $j$ at positions $\mathbf r_j$. At $\Delta\mathbf k=\mathbf G$ the amplitude is $F=N\,S_{\mathbf G}$ ($N$ cells), with the <b>structure factor</b></p>
-      $$S_{\mathbf G}=\sum_j f_j\,e^{-i\mathbf G\cdot\mathbf r_j}=\sum_j f_j\,e^{-i2\pi(v_1x_j+v_2y_j+v_3z_j)},\qquad \mathbf r_j=x_j\mathbf a_1+y_j\mathbf a_2+z_j\mathbf a_3 ,$$
+    <article class="card" id="c-bz">
+      <span class="eyebrow">1.3.3 · Brillouin zones (notes "1.3.4")</span>
+      <h4>Brillouin zones</h4>
+      <p class="needs"><a href="#c-laue">1.3.3 Laue condition</a>; ← from <a href="01-crystal-structure.html#c-cell">1.1.1 Wigner–Seitz cell</a></p>
+      <p>The <b>first Brillouin zone</b> is the Wigner–Seitz cell of the reciprocal lattice. Draw the vectors from the origin to its nearest reciprocal lattice points and cut each one in half with a perpendicular plane; the smallest region enclosed by those planes is the zone. A wave vector $\mathbf k$ lies on the bisector plane of $\mathbf G$ when</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Zone face = Bragg plane</span><a class="tag exam" href="09-bands.html#exam-q4">Exam Q4c–d</a><a class="tag hw" href="#hw-2-2">Sheet 2.2b</a></div>
+      $$\mathbf k\cdot\big(\tfrac12\mathbf G\big)=\big(\tfrac12\mathbf G\big)^2.$$
+      <span class="eq-n">(13)</span></div>
+      <p>This is the elastic diffraction condition (12), divided by 4. So the zone faces are <b>exactly the wave vectors that are Bragg-reflected</b>. A wave with $\mathbf k$ on a face is reflected into $\mathbf k-\mathbf G$ and becomes a standing wave. That standing wave gives zero group velocity for phonons (topic 05) and the band gap for electrons (topic 09). Higher zones are the regions reached by crossing one, two, … more bisector planes; each has the same volume as the first, (9).</p>
+      <p class="trap">Giving the fcc Brillouin zone as a rhombic dodecahedron. That is the Wigner–Seitz cell of the fcc <i>real</i> lattice. The reciprocal lattice of fcc is bcc, so the zone is the bcc Wigner–Seitz cell, a truncated octahedron.</p>
+      <details class="check"><summary>For fcc, where does the zone boundary along [100] sit?</summary><p>The shortest G along [100] is $\tfrac{2\pi}a(2,0,0)$, so the face is at half of it: the X point, $\tfrac{2\pi}a(1,0,0)$ (exam Q4c–d).</p></details>
+      <p class="note"><b>Used in</b> <a href="05-phonons.html">1.6 Phonons →</a> (dispersion over the first zone, zero group velocity at its edge) and <a href="09-bands.html#c-standing">2.6.2 Standing waves and gaps →</a>.</p>
+      <p class="takeaway">First Brillouin zone = Wigner–Seitz cell of the reciprocal lattice; its faces (13) are the Bragg planes, where waves become standing waves.</p>
+    </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive Bragg's law from the Laue condition, use the Ewald construction, and draw and size a Brillouin zone. That is <a href="#hw-2-2">Sheet 2.2</a> and the zone-boundary step of <a href="09-bands.html#exam-q4">Exam Q4c–d</a>.</p>
+  </section>
+
+  <section class="sec" id="s-1-3-5">
+    <h3><span class="step">1.3.5</span>Analysis with basis</h3>
+    <p class="hook"><b>Where you meet this.</b> Silicon powder is a standard calibration sample for X-ray diffractometers. Its pattern shows (111), (220), (311) and (400), but no (200) peak, although (200) planes certainly exist. The structure factor of the diamond basis cancels it.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The structure factor of a basis, the atomic form factor, and the extinction rules of bcc, fcc and diamond (Kittel ch. 2, "Fourier analysis of the basis"; not in the notes).</p>
+      <p><b>Why it matters.</b> Sheet 3.1 is the diamond structure factor and sheet 3.2 the hydrogen form factor. The extinction rules decide which peaks a diffraction pattern shows.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-sf">
+      <span class="eyebrow">1.3.5 · Structure and form factors</span>
+      <h4>Structure and form factors</h4>
+      <p class="needs"><a href="#c-laue">1.3.3 Laue condition</a>; ← from <a href="01-crystal-structure.html#c-struct">1.1.5 Simple crystal structures</a></p>
+      <div class="recap"><b>Recap from <a href="01-crystal-structure.html#c-struct">1.1.5</a>.</b> A crystal is a lattice plus a basis; atom $j$ of the basis sits at $\mathbf r_j=x_j\mathbf a_1+y_j\mathbf a_2+z_j\mathbf a_3$. Diamond, for example, is fcc with atoms at 000 and ¼¼¼.</div>
+      <p>Write the cell's electron density as a sum over its atoms $j$. At $\Delta\mathbf k=\mathbf G$ the amplitude is $F=N\,S_{\mathbf G}$ ($N$ cells), with the <b>structure factor</b></p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Structure factor of the basis</span><a class="tag hw" href="#hw-3-1">Sheet 3.1</a></div>
+      $$\begin{aligned}S_{\mathbf G}&=\sum_j f_j\,e^{-i\mathbf G\cdot\mathbf r_j},\\ \mathbf G\cdot\mathbf r_j&=2\pi(v_1x_j+v_2y_j\\&\qquad+v_3z_j),\end{aligned}$$
+      <span class="eq-n">(14)</span></div>
       <p>and the <b>atomic form factor</b>, the Fourier transform of one atom's electron density $n_j$:</p>
-      $$f_j=\int n_j(\boldsymbol\rho)\,e^{-i\mathbf G\cdot\boldsymbol\rho}\,dV=\int_0^\infty 4\pi\rho^2\,n_j(\rho)\,\frac{\sin G\rho}{G\rho}\,d\rho\quad\text{(spherical atom)}.$$
-      <p>$f_j(0)=Z$, the number of electrons, and $f_j$ falls off once $G$ exceeds about one over the atom's radius. A compact atom gives a wide transform. A missing reflection does <i>not</i> mean a missing $\mathbf G$: it means $S_{\mathbf G}=0$.</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Atomic form factor (second line: spherical atom)</span><a class="tag hw" href="#hw-3-2">Sheet 3.2</a></div>
+      $$\begin{aligned}f_j&=\int n_j(\boldsymbol\rho)\,e^{-i\mathbf G\cdot\boldsymbol\rho}\,dV\\&=\int_0^\infty 4\pi\rho^2\,n_j(\rho)\\&\qquad\times\frac{\sin G\rho}{G\rho}\,d\rho.\end{aligned}$$
+      <span class="eq-n">(15)</span></div>
+      <p>$f_j(0)=Z$, the number of electrons, and $f_j$ falls off once $G$ exceeds about one over the atom's radius. A compact atom gives a wide transform.</p>
       <p>Extinction rules, with $(hkl)$ indexed on the conventional cube:</p>
       <ul>
         <li><b>bcc</b>, basis 000, ½½½: $S=f\,[1+e^{-i\pi(h+k+l)}]$, so the reflection is absent when $h+k+l$ is odd.</li>
         <li><b>fcc</b>, basis 000, 0½½, ½0½, ½½0: the reflection is present only when $h,k,l$ are all even or all odd.</li>
         <li><b>diamond</b>: the fcc rule, and also absent when all indices are even with $h+k+l\equiv2\pmod 4$ (sheet 3.1).</li>
       </ul>
+      <p class="trap">Concluding from a missing reflection that the G is missing. The reciprocal lattice point is there; the basis makes $S_{\mathbf G}=0$.</p>
+      <details class="check"><summary>bcc metal, conventional-cube indices: is the (100) reflection seen? And (110)?</summary><p>(100): $h+k+l=1$ is odd, so $S=f(1-1)=0$, absent. (110): $h+k+l=2$, $S=2f$, present.</p></details>
+      <p class="takeaway">Where reflections can appear is set by the lattice (G); how strong they are is set by the basis through $S_{\mathbf G}$ (14) and the form factors (15).</p>
     </article>
-  </div>
+    </div>
+    <p class="cannow"><b>You can now</b> compute a structure factor, derive extinction rules, and compute a form factor from an electron density. That is <a href="#hw-3-1">Sheet 3.1</a>, <a href="#hw-3-2">Sheet 3.2</a> and part (d) of the <a href="#exam-ex">copper exercise</a>.</p>
+  </section>
 </section>
 
-<!-- 3. INTERACTIVE MODELS -->
+
 <section class="block" id="models">
   <h2>Interactive models</h2>
 
@@ -182,8 +330,8 @@
       </div>
       <div class="state"><span class="pill atom" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
       <div class="try"><strong>Try</strong><ul>
-        <li>The model opens on the (10) reflection: ω = 13.33° and sin θ = λ/2a. Move ω by 0.1° and the spot is lost: a single crystal in a monochromatic beam reflects only at sharp angles.</li>
-        <li>Sweep ω slowly. Spots flash at 25.97° for (11): its Bragg angle is 19.04°, but its planes are tilted 45° from (100). At 27.47° you get (20), the second order of (10). Each spot obeys 2d sin θ = λ for its own d.</li>
+        <li>The model opens on the (−1 0) reflection, G = (2π/a)(−1, 0), from the (100) planes: ω = 13.33° and sin θ = λ/2a. Move ω by 0.1° and the spot is lost: a single crystal in a monochromatic beam reflects only at sharp angles.</li>
+        <li>Sweep ω slowly. Spots flash at 25.97° for (1 1): its Bragg angle is 19.04°, but its planes are tilted 45° from (100). At 27.47° you get (−2 0), the second order of (−1 0). Each spot obeys 2d sin θ = λ for its own d.</li>
         <li>Look at the green dashed line, the bisector of G. It always passes through the circle's centre, so −k ends on the bisector plane of G. The Bragg condition and the Brillouin-zone faces are the same planes.</li>
         <li>Raise λ to 400 pm: the circle shrinks, and only short G (widely spaced planes) can still reflect, because λ ≤ 2d.</li>
       </ul></div>
@@ -321,7 +469,7 @@
   </section>
 </section>
 
-<!-- 4. HOMEWORK GUIDES -->
+
 <section class="block" id="homework">
   <h2>Homework guides</h2>
 
@@ -336,9 +484,9 @@
       <h4>Steps</h4>
       <ol>
         <li>Let $V=\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)$ (signed cell volume). Then $\mathbf b_1=\dfrac{2\pi}{V}\,\mathbf a_2\times\mathbf a_3$, so
-          $$\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=\frac{2\pi}{V}\,(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3).$$</li>
+          <div class="eq">$$\begin{aligned}&\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)\\&=\frac{2\pi}{V}\,(\mathbf a_2\times\mathbf a_3)\\&\quad\cdot(\mathbf b_2\times\mathbf b_3).\end{aligned}$$</div></li>
         <li>Apply the identity with $\mathbf A=\mathbf a_2$, $\mathbf B=\mathbf a_3$, $\mathbf C=\mathbf b_2$, $\mathbf D=\mathbf b_3$:
-          $$(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3)=(\mathbf a_2\cdot\mathbf b_2)(\mathbf a_3\cdot\mathbf b_3)-(\mathbf a_2\cdot\mathbf b_3)(\mathbf a_3\cdot\mathbf b_2)=(2\pi)(2\pi)-0\cdot0 .$$</li>
+          <div class="eq">$$\begin{aligned}&(\mathbf a_2\times\mathbf a_3)\cdot(\mathbf b_2\times\mathbf b_3)\\&=(\mathbf a_2\cdot\mathbf b_2)(\mathbf a_3\cdot\mathbf b_3)\\&\quad-(\mathbf a_2\cdot\mathbf b_3)(\mathbf a_3\cdot\mathbf b_2)\\&=(2\pi)(2\pi)-0\cdot0.\end{aligned}$$</div></li>
         <li>Hence $\mathbf b_1\cdot(\mathbf b_2\times\mathbf b_3)=\dfrac{2\pi}{V}(2\pi)^2=\dfrac{(2\pi)^3}{\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)}$. ∎</li>
         <li>Alternative route (Kittel ch. 2 Problem 3; tutoring board): write all three $\mathbf b_i$ in terms of the $\mathbf a_i$ and use $(\mathbf c\times\mathbf a)\times(\mathbf a\times\mathbf b)=\big(\mathbf c\cdot(\mathbf a\times\mathbf b)\big)\,\mathbf a$. This gives $\mathbf b_2\times\mathbf b_3=\frac{(2\pi)^2}{V^2}(\mathbf a_3\times\mathbf a_1)\times(\mathbf a_1\times\mathbf a_2)=\frac{(2\pi)^2}{V}\mathbf a_1$, and then $\mathbf b_1\cdot\frac{(2\pi)^2}{V}\mathbf a_1=\frac{(2\pi)^3}{V}$.</li>
       </ol>
@@ -360,11 +508,11 @@
       <ol>
         <li><b>(a)</b> Cr: $V_c=a^3/2=(288.5\times10^{-12}\,\mathrm m)^3/2=1.201\times10^{-29}$ m³. Cu: $V_c=a^3/4=(361.5\times10^{-12}\,\mathrm m)^3/4=1.181\times10^{-29}$ m³.</li>
         <li><b>(b) Cr, bcc.</b> $\mathbf a_1=\tfrac a2(-1,1,1)$, $\mathbf a_2=\tfrac a2(1,-1,1)$, $\mathbf a_3=\tfrac a2(1,1,-1)$. Then $\mathbf a_2\times\mathbf a_3=\tfrac{a^2}2(0,1,1)$ and $V_c=a^3/2$, so
-          $$\mathbf b_1=\tfrac{2\pi}a(0,1,1),\quad \mathbf b_2=\tfrac{2\pi}a(1,0,1),\quad \mathbf b_3=\tfrac{2\pi}a(1,1,0),\qquad \tfrac{2\pi}a=2.178\times10^{10}\ \mathrm{m^{-1}}.$$
+          <div class="eq">$$\begin{aligned}\mathbf b_1&=\tfrac{2\pi}a(0,1,1),\\ \mathbf b_2&=\tfrac{2\pi}a(1,0,1),\\ \mathbf b_3&=\tfrac{2\pi}a(1,1,0),\\ \tfrac{2\pi}a&=2.178\times10^{10}\ \mathrm{m^{-1}}.\end{aligned}$$</div>
           These are fcc primitive vectors for a cube of edge 4π/a, so the reciprocal lattice is fcc. $|\mathbf b_i|=\sqrt2\cdot2\pi/a=3.080\times10^{10}$ m⁻¹. The shortcut $2\pi/|\mathbf a_i|=2.515\times10^{10}$ m⁻¹ would be wrong.</li>
         <li>The BZ of Cr is bounded by the bisectors of the 12 shortest $\mathbf G=\tfrac{2\pi}a(\pm1,\pm1,0)$ (all permutations), at a distance $|\mathbf G|/2=1.540\times10^{10}$ m⁻¹ from Γ. It is a <b>rhombic dodecahedron</b>, with 12 rhombic faces. Its corners lie at $\tfrac{2\pi}a(1,0,0)$ (point H, $2.178\times10^{10}$ m⁻¹) and at $\tfrac{\pi}a(1,1,1)$ (point P).</li>
         <li><b>(b) Cu, fcc.</b> $\mathbf a_1=\tfrac a2(0,1,1)$, $\mathbf a_2=\tfrac a2(1,0,1)$, $\mathbf a_3=\tfrac a2(1,1,0)$. Then $\mathbf a_2\times\mathbf a_3=\tfrac{a^2}4(-1,1,1)$ and $V_c=a^3/4$, so
-          $$\mathbf b_1=\tfrac{2\pi}a(-1,1,1),\quad \mathbf b_2=\tfrac{2\pi}a(1,-1,1),\quad \mathbf b_3=\tfrac{2\pi}a(1,1,-1),\qquad \tfrac{2\pi}a=1.738\times10^{10}\ \mathrm{m^{-1}}.$$
+          <div class="eq">$$\begin{aligned}\mathbf b_1&=\tfrac{2\pi}a(-1,1,1),\\ \mathbf b_2&=\tfrac{2\pi}a(1,-1,1),\\ \mathbf b_3&=\tfrac{2\pi}a(1,1,-1),\\ \tfrac{2\pi}a&=1.738\times10^{10}\ \mathrm{m^{-1}}.\end{aligned}$$</div>
           These are bcc primitive vectors for a cube of edge 4π/a, so the reciprocal lattice is bcc. $|\mathbf b_i|=\sqrt3\cdot2\pi/a=3.010\times10^{10}$ m⁻¹; the shortcut $2\pi/|\mathbf a_i|=2.458\times10^{10}$ m⁻¹ is 18 % short.</li>
         <li>The BZ of Cu has two kinds of face:
           <ul>
@@ -413,7 +561,7 @@
             <li>Atomic resolution needs a wavelength well below the atomic spacing, and the electrons have pm wavelengths (c). Lens aberrations, not λ, set the practical limit.</li>
           </ul></li>
         <li><b>(b)(i)</b> $\phi=3\times1.602\times10^{-19}$ J $=4.81\times10^{-19}$ J.
-          $$\kappa=\frac{\sqrt{2\cdot9.109\times10^{-31}\cdot4.81\times10^{-19}}}{1.0546\times10^{-34}}\ \mathrm{m^{-1}}=8.87\times10^{9}\ \mathrm{m^{-1}}=8.87\ \mathrm{nm^{-1}}.$$</li>
+          <div class="eq">$$\begin{aligned}m_e&=9.109\times10^{-31}\ \mathrm{kg},\\ \phi&=4.81\times10^{-19}\ \mathrm{J},\\ \hbar&=1.0546\times10^{-34}\ \mathrm{J\,s},\\ \kappa&=\sqrt{2m_e\phi}\,/\,\hbar\\&=8.87\times10^{9}\ \mathrm{m^{-1}}\\&=8.87\ \mathrm{nm^{-1}}.\end{aligned}$$</div></li>
         <li><b>(b)(ii)</b> $I(d-\Delta d)/I(d)=e^{2\kappa\Delta d}=e^{2\cdot8.87\cdot0.2}=e^{3.55}=34.8$.</li>
         <li><b>(c)(i)</b> $eU=250$ keV $=4.005\times10^{-14}$ J.
           <ul>
@@ -440,7 +588,7 @@
       <ol>
         <li>Basis, in units of a: $(0,0,0),(0,\tfrac12,\tfrac12),(\tfrac12,0,\tfrac12),(\tfrac12,\tfrac12,0)$ and the same four plus $(\tfrac14,\tfrac14,\tfrac14)$.</li>
         <li><b>(i)</b> $S=f\sum_j e^{-i2\pi(\nu_1x_j+\nu_2y_j+\nu_3z_j)}$ factorises:
-          $$S=f\,\big[1+e^{-i\pi(\nu_2+\nu_3)}+e^{-i\pi(\nu_1+\nu_3)}+e^{-i\pi(\nu_1+\nu_2)}\big]\,\big[1+e^{-i\pi(\nu_1+\nu_2+\nu_3)/2}\big].$$</li>
+          <div class="eq">$$\begin{aligned}S=f\,\big[&1+e^{-i\pi(\nu_2+\nu_3)}\\&+e^{-i\pi(\nu_1+\nu_3)}\\&+e^{-i\pi(\nu_1+\nu_2)}\big]\\ \times\big[&1\\&+e^{-i\pi(\nu_1+\nu_2+\nu_3)/2}\big].\end{aligned}$$</div></li>
         <li><b>fcc bracket.</b> Each term is ±1.
           <ul>
             <li>All $\nu_i$ even or all odd: every pair sum is even and the bracket is 4.</li>
@@ -479,8 +627,8 @@
       <h4>Steps</h4>
       <ol>
         <li>Angular part: $\int_0^{2\pi}\!d\varphi\int_0^\pi e^{-iKr\cos\theta}\sin\theta\,d\theta=2\pi\int_{-1}^{1}e^{-iKrx}dx=4\pi\,\dfrac{\sin Kr}{Kr}$.</li>
-        <li>So $f_K=\displaystyle\int_0^\infty 4\pi r^2\,\frac{e^{-2r/a_0}}{\pi a_0^3}\,\frac{\sin Kr}{Kr}\,dr=\frac{4}{Ka_0^3}\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr$, with $\beta=2/a_0$.</li>
-        <li>$\displaystyle\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr=\mathrm{Im}\int_0^\infty r\,e^{-(\beta-iK)r}dr=\mathrm{Im}\frac{1}{(\beta-iK)^2}=\mathrm{Im}\frac{(\beta+iK)^2}{(\beta^2+K^2)^2}=\frac{2\beta K}{(\beta^2+K^2)^2}$.</li>
+        <li>So, with $\beta=2/a_0$,<div class="eq">$$\begin{aligned}f_K&=\int_0^\infty 4\pi r^2\,\frac{e^{-2r/a_0}}{\pi a_0^3}\\&\qquad\times\frac{\sin Kr}{Kr}\,dr\\&=\frac{4}{Ka_0^3}\\&\quad\times\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr.\end{aligned}$$</div></li>
+        <li>The remaining radial integral:<div class="eq">$$\begin{aligned}&\int_0^\infty r\,e^{-\beta r}\sin Kr\,dr\\&=\mathrm{Im}\int_0^\infty r\,e^{-(\beta-iK)r}\,dr\\&=\mathrm{Im}\frac{1}{(\beta-iK)^2}\\&=\mathrm{Im}\frac{(\beta+iK)^2}{(\beta^2+K^2)^2}\\&=\frac{2\beta K}{(\beta^2+K^2)^2}.\end{aligned}$$</div></li>
         <li>Insert $\beta=2/a_0$: $f_K=\dfrac{4}{Ka_0^3}\cdot\dfrac{4K/a_0}{(4/a_0^2+K^2)^2}=\dfrac{16/a_0^4}{(4+K^2a_0^2)^2/a_0^4}=\dfrac{16}{(4+K^2a_0^2)^2}$. ∎</li>
       </ol>
       <div class="result"><b>Result:</b> $f_K=16/(4+K^2a_0^2)^2$. It equals 1 at $K=0$, falls to ½ at $Ka_0=1.29$, and decays as $16/(Ka_0)^4$ for large $K$.</div>
@@ -489,7 +637,7 @@
   </article>
 </section>
 
-<!-- 5. EXAM ANGLE -->
+
 <section class="block" id="exam">
   <h2>Exam angle</h2>
   <div class="card">
@@ -528,7 +676,7 @@
   </article>
 </section>
 
-<!-- 6. SOURCES -->
+
 <section class="block sources" id="sources">
   <h2>Sources</h2>
   <ul>
@@ -762,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lbl = r => r.f.join('');
     Plotly.react('m5-p', [
       { x: X, y: Y, mode: 'lines', line: { color: C.occ, width: 3 }, hoverinfo: 'skip' },
-      { x: on.slice(0, 10).map(r => r.tt), y: on.slice(0, 10).map(r => r.m * r.S * r.S / Imax + 0.06), mode: 'text', text: on.slice(0, 10).map(lbl), textfont: { family: CM.MONO, size: 11, color: C.fg }, hovertemplate: '2θ = %{x:.2f}°<extra>%{text}</extra>' },
+      { x: on.slice(0, 10).map(r => r.tt), y: on.slice(0, 10).map(r => r.m * r.S * r.S / Imax + 0.06), mode: 'text', text: on.slice(0, 10).map(lbl), textfont: { family: CM.MONO, size: 12, color: C.fg }, hovertemplate: '2θ = %{x:.2f}°<extra>%{text}</extra>' },
       { x: off.map(r => r.tt), y: off.map(() => 0), mode: 'markers', marker: { symbol: 'circle-open', color: C.emp, size: 9, line: { width: 2 } }, text: off.map(lbl), hovertemplate: '%{text} extinct, 2θ = %{x:.2f}°<extra></extra>' }],
       layout({ xaxis: ax('Scattering angle 2θ (°)', { range: [0, 180] }), yaxis: ax('mult. × |S/f|² (rel.)', { range: [-0.05, 1.2] }) }), CFG);
     $('m5-tb').innerHTML = rows.slice(0, 10).map(r => `<tr><td>${lbl(r)}</td><td>${r.N}</td><td>${r.d.toFixed(1)}</td><td>${r.tt === null ? '— (λ > 2d)' : r.tt.toFixed(2)}</td><td>${r.S ? r.S.toFixed(2) : '0 (extinct)'}</td><td>${r.m}</td></tr>`).join('');

@@ -62,6 +62,11 @@ Every page must also meet the definition of done in `CONVENTIONS.md`. Inputs per
 - [ ] **16 Coverage audit** (user request; two separate agents, so the check isn't biased).
   - (a) Expectation list, `audit/expectations.md`. Built from the topic list, the user's notes and sheets 1–9 only, without opening `pages/`. Every item has an ID, its source and a pass criterion.
   - (b) After the pages are done, a second agent checks every item against `pages/` and writes `audit/report.md` with pass, partial or missing for each item, with evidence.
+  - (c) The checker also reviews the reading flow (user request, 2026-11-07):
+    - Does each page follow the lecture order and motivation, as in the notes?
+    - Are there unnecessary duplicates across pages?
+    - Does every cross-page dependency have a recap or link in both directions?
+    - Is there curiosity material (e.g. page 09's original video-based models) that breaks the lecture flow?
   - Done when every item has a verdict and every missing item is fixed or listed in PLAN.
 
 - [ ] **14 Exam prep** (`pages/14-exam-prep.html`; all sections)

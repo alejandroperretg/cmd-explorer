@@ -41,53 +41,141 @@
   <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
 </header>
 
-<!-- 1. OVERVIEW -->
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>Read the three sections in topic-list order. 1.1.1 and 1.1.2 set up the language (lattice, basis, primitive cell, symmetry), and 1.1.5 applies it to real structures. All of sheet 1 and exam Q1 come from here. About 1½ hours in total, including the exam question.</p>
+  <ol>
+    <li data-sec="1.1.1"><a href="#c-lattice">Lattice, basis, crystal structure</a><span class="min">10 min</span></li>
+    <li data-sec="1.1.1"><a href="#c-cell">Primitive cell and Wigner–Seitz cell</a><span class="min">10 min</span><span class="then">Then: <a href="#model1">Model 1</a>; <a href="#hw-1-1">Sheet 1.1</a>.</span></li>
+    <li data-sec="1.1.2"><a href="#c-symm">Symmetry operations as matrices</a><span class="min">15 min</span><span class="then">Then: <a href="#model3">Model 2</a>; <a href="#hw-1-3">Sheet 1.3</a>.</span></li>
+    <li data-sec="1.1.2"><a href="#c-rot">Why only 1-, 2-, 3-, 4- and 6-fold axes</a><span class="min">5 min</span></li>
+    <li data-sec="1.1.2"><a href="#c-bravais">The 14 Bravais lattices</a><span class="min">5 min</span></li>
+    <li data-sec="1.1.2"><a href="#c-cubic">The three cubic lattices</a><span class="min">10 min</span></li>
+    <li data-sec="1.1.2"><a href="#c-index">Index system: planes and directions</a><span class="min">10 min</span></li>
+    <li data-sec="1.1.5"><a href="#c-struct">Simple crystal structures and packing</a><span class="min">15 min</span><span class="then">Then: <a href="#model2">Model 3</a>; <a href="#hw-1-2">Sheet 1.2</a>.</span></li>
+    <li data-sec="Q1"><a href="#exam-q1">Exam 2022 Q1, worked answer</a><span class="min">15 min</span><span class="then">Then the <a href="#exam-x">copper exercise</a>. Try each part yourself before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag exam">Exam Q1b</span>asked in the 2022 exam</span>
+    <span><span class="tag hw">Sheet 1.2</span>used by a sheet problem</span>
+    <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
 <section class="block" id="overview">
   <h2>Overview</h2>
-  <p>This topic answers three questions. Where are the atoms? Answer with a lattice, its primitive vectors and a basis. Which operations leave the lattice unchanged? Rotations, reflections and inversion, and only 1-, 2-, 3-, 4- and 6-fold rotation axes are possible. That restriction gives exactly 14 Bravais lattices. And how densely can atoms be packed? You need the coordination number and the packing fraction.</p>
+  <p>This topic answers three questions. Where are the atoms? Answer with a lattice, its primitive vectors and a basis (1.1.1). Which operations leave the lattice unchanged? Rotations, reflections and inversion, and only 1-, 2-, 3-, 4- and 6-fold rotation axes are possible. That restriction gives exactly 14 Bravais lattices (1.1.2). And how densely can atoms be packed? You need the coordination number and the packing fraction (1.1.5).</p>
   <p>Key results to leave with: the fcc and bcc primitive vectors and their cell volume ($a^3/4$ and $a^3/2$), the coordination numbers (sc 6, bcc 8, fcc and hcp 12, diamond 4), and the packing fractions (0.524, 0.680, 0.740, 0.740, 0.340). The 2022 exam asked for all of it for fcc (Q1).</p>
   <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 1 (Crystal structure: lattice and basis, primitive cell, lattice types, index system, simple crystal structures; pp. 3–19), and the lecture notes pp. 2–7 and 16.</p>
+  <p class="note"><b>Direct imaging (1.1.3)</b> is taught on the reciprocal lattice page: <a href="02-reciprocal-lattice.html#s-1-1-3">1.1.3 Direct imaging →</a>. The notes treat it with diffraction ("1.2"), and sheet 2.3 has the numbers: TEM needs an electron wavelength $\lambda=h/p$ below the atomic spacing, and the STM current falls as $I\propto e^{-2\kappa d}$, so a fraction of an ångström in height changes $I$ strongly.</p>
 </section>
 
-<!-- 2. CONCEPTS -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
-  <div class="cards">
-    <article class="card">
-      <h3>1.1.1 Lattice, basis, crystal structure</h3>
+
+  <section class="sec" id="s-1-1-1">
+    <h3><span class="step">1.1.1</span>Primitive lattice</h3>
+    <p class="hook"><b>Where you meet this.</b> A 300 mm silicon wafer is one single crystal. Every one of its 5.0×10²² atoms per cm³ sits on an fcc lattice point or at one fixed offset from it, which is why a wafer cleaves along flat planes and why its orientation is printed as a (100) or (111) index. <!-- Si diamond, a = 5.431 Å: 8/a³ = 4.99e22 cm⁻³ (node) --></p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Lattice versus basis, primitive vectors, the primitive, conventional and Wigner–Seitz cells (notes pp. 2–3; Kittel ch. 1).</p>
+      <p><b>Why it matters.</b> Sheet 1.1 is a Bravais-lattice test, and exam Q1b asks for the fcc primitive vectors. The reciprocal lattice (topic 02), Brillouin zones and Bloch electrons all start from the primitive vectors.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-lattice">
+      <span class="eyebrow">1.1.1 · Lattice and basis</span>
+      <h4>Lattice, basis, crystal structure</h4>
       <p>A <b>lattice</b> is an infinite set of mathematical points that looks the same from every point. Each point is an integer combination of three linearly independent <b>primitive translation vectors</b>:</p>
-      $$\mathbf R = n_1\mathbf a_1 + n_2\mathbf a_2 + n_3\mathbf a_3,\qquad n_i\in\mathbb Z .$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Lattice vector</span><a class="tag hw" href="#hw-1-1">Sheet 1.1</a></div>
+      $$\begin{aligned}\mathbf R&=n_1\mathbf a_1+n_2\mathbf a_2+n_3\mathbf a_3,\\ n_i&\in\mathbb Z.\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
       <p>A <b>basis</b> is the group of atoms attached identically to every lattice point. Atom $j$ sits at $\mathbf r_j = x_j\mathbf a_1+y_j\mathbf a_2+z_j\mathbf a_3$ with $0\le x_j,y_j,z_j\lt 1$. Lattice + basis = <b>crystal structure</b>. Think of wallpaper: the lattice says <i>where</i> the motif goes and the basis says <i>what</i> it is.</p>
       <div class="assume"><b>Notation:</b> the lecture notes write the lattice vector as $\mathbf R$, Kittel as $\mathbf T$. This page uses $\mathbf R$ and keeps $\mathbf T$ for the translation part of a symmetry operation, as the notes do.</div>
+      <p class="trap">Equating lattice points with atoms. A lattice point is a position, not an atom. Diamond has 8 atoms per cube but only 4 lattice points: the lattice is fcc and each point carries a 2-atom basis.</p>
+      <details class="check"><summary>NaCl has 4 Na⁺ and 4 Cl⁻ per cube. What are its lattice and basis?</summary><p>fcc (4 points per cube) with a 2-ion basis: Cl⁻ at 000 and Na⁺ at ½½½. 4 points × 2 ions = 8 ions per cube.</p></details>
+      <p class="note"><b>Used in</b> <a href="02-reciprocal-lattice.html#c-recip">1.3.2 Reciprocal lattice →</a> (Fourier series over the lattice).</p>
+      <p class="takeaway">Crystal structure = lattice (1), integer combinations of primitive vectors, plus a basis of atoms attached to every point.</p>
     </article>
-    <article class="card">
-      <h3>1.1.1 Primitive cell and Wigner–Seitz cell</h3>
+
+    <article class="card" id="c-cell">
+      <span class="eyebrow">1.1.1 · Unit cells</span>
+      <h4>Primitive cell and Wigner–Seitz cell</h4>
+      <p class="needs"><a href="#c-lattice">1.1.1 Lattice and basis</a></p>
       <p>A <b>primitive cell</b> fills all space without gaps or overlaps when repeated by the lattice translations, and contains exactly <b>one</b> lattice point. The parallelepiped spanned by $\mathbf a_1,\mathbf a_2,\mathbf a_3$ is one choice, with volume</p>
-      $$V_c = |\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)| .$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Primitive cell volume</span><a class="tag exam" href="#exam-q1">Exam Q1b</a><a class="tag hw" href="#hw-1-1">Sheet 1.1</a></div>
+      $$V_c=|\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)|.$$
+      <span class="eq-n">(2)</span></div>
       <p>The choice of primitive vectors is <b>not unique</b>, but every primitive cell has the same volume. A <b>conventional cell</b> (e.g. the cube of fcc) is larger and shows the symmetry more clearly. To count points in it, a corner point counts ⅛, an edge point ¼, a face point ½ and an interior point 1.</p>
       <p>The <b>Wigner–Seitz cell</b> is the set of points of space closer to one lattice point than to any other. Construct it by drawing the perpendicular bisector planes to the lines joining that point to its neighbours and keeping the smallest enclosed volume. It is primitive and has the full symmetry of the lattice.</p>
+      <p class="trap">Counting every corner of the cube as a whole point. A corner is shared by 8 cubes, so it counts ⅛. Otherwise the fcc cube seems to hold 14 points instead of 4.</p>
+      <details class="check"><summary>The fcc cube (edge a) holds how many lattice points, and what is V_c?</summary><p>$8\cdot\tfrac18+6\cdot\tfrac12=4$ points, so $V_c=a^3/4$. The triple product (2) of the fcc vectors gives the same.</p></details>
+      <p class="note"><b>Used in</b> <a href="02-reciprocal-lattice.html#c-recip">1.3.2 Reciprocal lattice →</a> ($V_{BZ}=(2\pi)^3/V_c$) and <a href="02-reciprocal-lattice.html#c-bz">1.3.3 Brillouin zones →</a> (the Wigner–Seitz cell of the reciprocal lattice).</p>
+      <p class="takeaway">A primitive cell holds one lattice point and has volume (2), whatever vectors you pick. The conventional cell holds several and shows the symmetry.</p>
     </article>
-    <article class="card">
-      <h3>1.1.2 Symmetry operations</h3>
-      <p>A symmetry operation maps the lattice onto itself: $\mathbf R' = M\mathbf R + \mathbf T$, with $M$ a 3×3 matrix and $\mathbf T$ a lattice translation. $M$ must keep lengths, so it is orthogonal ($M^TM=\mathbb 1$, $\det M=\pm1$):</p>
+    </div>
+    <p class="cannow"><b>You can now</b> test whether a set of points is a Bravais lattice, and choose primitive vectors and check them with the triple product. That is <a href="#hw-1-1">Sheet 1.1</a> and the cell-volume part of <a href="#exam-q1">Exam Q1b</a>.</p>
+  </section>
+
+  <section class="sec" id="s-1-1-2">
+    <h3><span class="step">1.1.2</span>Lattice classification by symmetry</h3>
+    <p class="hook"><b>Where you meet this.</b> Snowflakes are six-sided because ice is a hexagonal crystal. In 1982 Dan Shechtman saw a sharp ten-fold diffraction pattern from an Al–Mn alloy, a symmetry that the argument below forbids for any lattice. The resolution was a new kind of ordered but non-periodic solid, the quasicrystal, and the 2011 Nobel Prize in Chemistry.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Rotations, reflections and inversion as 3×3 matrices, why only 1-, 2-, 3-, 4- and 6-fold axes fit a lattice, the 14 Bravais lattices in 7 crystal systems, the sc, bcc and fcc primitive vectors, and the Miller-index notation for planes and directions (notes pp. 4–5, 9; Kittel ch. 1).</p>
+      <p><b>Why it matters.</b> Sheet 1.3 asks for six symmetry matrices, sheet 1.1a needs the Bravais list, and exam Q1a–b asks for the symmetry and primitive vectors of fcc.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-symm">
+      <span class="eyebrow">1.1.2 · Symmetry operations</span>
+      <h4>Symmetry operations as matrices</h4>
+      <p class="needs"><a href="#c-lattice">1.1.1 Lattice and basis</a></p>
+      <p>A symmetry operation maps the lattice onto itself:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Symmetry operation (T a lattice translation)</span></div>
+      $$\mathbf R'=M\mathbf R+\mathbf T.$$
+      <span class="eq-n">(3)</span></div>
+      <p>$M$ is a 3×3 matrix that must keep lengths, so it is orthogonal ($M^TM=\mathbb 1$, $\det M=\pm1$):</p>
       <ul>
         <li><b>rotation</b> $C_n$ by $2\pi/n$ ($\det M=+1$);</li>
         <li><b>inversion</b> $M=-\mathbb 1$, $\mathbf r\to-\mathbf r$;</li>
-        <li><b>reflection</b> in a plane with unit normal $\hat{\mathbf n}$: $M=\mathbb 1-2\hat{\mathbf n}\hat{\mathbf n}^T$. This equals inversion after a 180° rotation about $\hat{\mathbf n}$, as stated in the notes (p. 4).</li>
+        <li><b>reflection</b> in a plane with unit normal $\hat{\mathbf n}$, given by (4). This equals inversion after a 180° rotation about $\hat{\mathbf n}$, as stated in the notes (p. 4).</li>
       </ul>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Reflection in the plane with unit normal n̂</span><a class="tag hw" href="#hw-1-3">Sheet 1.3d, f</a></div>
+      $$M=\mathbb 1-2\hat{\mathbf n}\hat{\mathbf n}^T.$$
+      <span class="eq-n">(4)</span></div>
       <p>Practical rule: <b>the columns of $M$ are the images of $\hat{\mathbf x},\hat{\mathbf y},\hat{\mathbf z}$</b>. Rotation about a unit axis $\hat{\mathbf n}$ by $\varphi$ (Rodrigues):</p>
-      $$M = \cos\varphi\,\mathbb 1 + \sin\varphi\,[\hat{\mathbf n}]_\times + (1-\cos\varphi)\,\hat{\mathbf n}\hat{\mathbf n}^T .$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Rotation by φ about the unit axis n̂ (Rodrigues)</span><a class="tag hw" href="#hw-1-3">Sheet 1.3a, c, e</a></div>
+      $$\begin{aligned}M&=\cos\varphi\,\mathbb 1+\sin\varphi\,[\hat{\mathbf n}]_\times\\&\quad+(1-\cos\varphi)\,\hat{\mathbf n}\hat{\mathbf n}^T.\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
       <p>Here $[\hat{\mathbf n}]_\times\mathbf v = \hat{\mathbf n}\times\mathbf v$. Try it in Model 2.</p>
+      <p class="trap">Mixing active and passive rotations. Rotating the point by φ (active) and rotating the axes by φ (passive) give transposed matrices. State which one you use; sheet 1.3 says "coordinate transformation".</p>
+      <details class="check"><summary>Write M for a 90° rotation about ẑ, column by column.</summary><p>$\hat{\mathbf x}\to\hat{\mathbf y}$, $\hat{\mathbf y}\to-\hat{\mathbf x}$, $\hat{\mathbf z}\to\hat{\mathbf z}$, so the columns are $(0,1,0)$, $(-1,0,0)$, $(0,0,1)$: $M=\begin{pmatrix}0&amp;-1&amp;0\\1&amp;0&amp;0\\0&amp;0&amp;1\end{pmatrix}$, with $\det M=+1$.</p></details>
+      <p class="takeaway">Read off any symmetry matrix by columns (images of x̂, ŷ, ẑ). Rotations have det +1; inversion and reflections (4) have det −1; oblique axes need (5).</p>
     </article>
-    <article class="card">
-      <h3>1.1.2 Why only 1, 2, 3, 4 and 6-fold axes</h3>
+
+    <article class="card" id="c-rot">
+      <span class="eyebrow">1.1.2 · Crystallographic restriction</span>
+      <h4>Why only 1-, 2-, 3-, 4- and 6-fold axes</h4>
+      <p class="needs"><a href="#c-symm">1.1.2 Symmetry operations</a></p>
       <p>In the basis $\mathbf a_1,\mathbf a_2,\mathbf a_3$ a symmetry maps lattice vectors to lattice vectors, so its matrix has <b>integer entries</b> and an integer trace. The trace does not depend on the basis. In a Cartesian frame with $z$ along the axis, a rotation by $\varphi$ has trace $1+2\cos\varphi$. Hence</p>
-      $$2\cos\varphi\in\mathbb Z \;\Rightarrow\; \varphi \in \{0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ\}\ (\text{and their negatives}).$$
-      <p>That is $n = 1, 6, 4, 3, 2$. A 5-fold axis ($2\cos72^\circ=0.618$) is impossible: pentagons cannot tile a plane.</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Allowed rotation angles of a lattice</span></div>
+      $$\begin{aligned}2\cos\varphi&\in\mathbb Z\\ \Rightarrow\ \varphi&\in\{0^\circ,60^\circ,90^\circ,\\&\qquad 120^\circ,180^\circ\}\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
+      <p>and their negatives. That is $n = 1, 6, 4, 3, 2$. A 5-fold axis ($2\cos72^\circ=0.618$) is impossible: pentagons cannot tile a plane.</p>
       <div class="assume"><b>Notes slip:</b> the notes' table of basic rotations (p. 4) labels the 6-fold rotation "C₅"; it is $C_6$ (60°). The notes also list 240°, 270°, 300°, which are the same operations as −120°, −90°, −60°.</div>
+      <p class="trap">Reading (6) as "every allowed angle is a symmetry of every lattice". It only lists what is possible. A cube has no 60° axis: 60° about [111] (sheet 1.3e) is a valid matrix but not a symmetry of the cubic lattice.</p>
+      <details class="check"><summary>Can a lattice have an 8-fold axis?</summary><p>No: $2\cos45^\circ=\sqrt2=1.414$ is not an integer.</p></details>
+      <p class="takeaway">Integer trace forces $2\cos\varphi\in\{-2,-1,0,1,2\}$: only 1-, 2-, 3-, 4- and 6-fold axes fit a lattice.</p>
     </article>
-    <article class="card">
-      <h3>1.1.2 The 14 Bravais lattices</h3>
+
+    <article class="card" id="c-bravais">
+      <span class="eyebrow">1.1.2 · Bravais lattices</span>
+      <h4>The 14 Bravais lattices</h4>
+      <p class="needs"><a href="#c-rot">1.1.2 Allowed axes</a></p>
+      <div class="tags"><a class="tag hw" href="#hw-1-1">Sheet 1.1a</a></div>
       <p>In 2D there are 5 lattice types: oblique, square, hexagonal, rectangular, centred rectangular. In 3D, combining the allowed point symmetries with centring gives <b>14</b>, grouped into <b>7 crystal systems</b> by the shape of the conventional cell (Kittel Table 1). P = primitive, I = body-centred, F = face-centred, C = base-centred, R = rhombohedral.</p>
       <div class="dict"><table>
         <thead><tr><th>System</th><th>Lattices</th><th>Conventional cell</th></tr></thead>
@@ -102,13 +190,24 @@
         </tbody>
       </table></div>
       <p>1+2+4+2+3+1+1 = 14. Missing combinations reduce to listed ones. Example: "base-centred cubic" is just simple tetragonal (sheet 1.1a, Model 1).</p>
+      <details class="check"><summary>Why is there no "base-centred cubic" among the 14?</summary><p>Centring two opposite faces breaks the 3-fold axes, and the result is a lattice already listed: simple tetragonal with $a'=a/\sqrt2$, $c=a$ (sheet 1.1a).</p></details>
+      <p class="takeaway">7 crystal systems × allowed centrings = 14 Bravais lattices; any other centring is one of them in disguise.</p>
     </article>
-    <article class="card">
-      <h3>1.1.2 The three cubic lattices</h3>
+
+    <article class="card" id="c-cubic">
+      <span class="eyebrow">1.1.2 · Cubic lattices</span>
+      <h4>The three cubic lattices</h4>
+      <p class="needs"><a href="#c-cell">1.1.1 Unit cells</a>; <a href="#c-bravais">1.1.2 Bravais lattices</a></p>
       <p>Primitive vectors in Kittel's choice ($a$ = cube edge):</p>
-      $$\text{sc: } a\hat{\mathbf x},\ a\hat{\mathbf y},\ a\hat{\mathbf z}$$
-      $$\text{bcc: } \tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}-\hat{\mathbf z}),\ \tfrac a2(-\hat{\mathbf x}+\hat{\mathbf y}+\hat{\mathbf z}),\ \tfrac a2(\hat{\mathbf x}-\hat{\mathbf y}+\hat{\mathbf z})$$
-      $$\text{fcc: } \tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}),\ \tfrac a2(\hat{\mathbf y}+\hat{\mathbf z}),\ \tfrac a2(\hat{\mathbf z}+\hat{\mathbf x})$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">sc</span></div>
+      $$\mathbf a_1,\mathbf a_2,\mathbf a_3=a\hat{\mathbf x},\ a\hat{\mathbf y},\ a\hat{\mathbf z}.$$
+      <span class="eq-n">(7)</span></div>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">bcc</span></div>
+      $$\begin{aligned}\mathbf a_1&=\tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}-\hat{\mathbf z}),\\ \mathbf a_2&=\tfrac a2(-\hat{\mathbf x}+\hat{\mathbf y}+\hat{\mathbf z}),\\ \mathbf a_3&=\tfrac a2(\hat{\mathbf x}-\hat{\mathbf y}+\hat{\mathbf z}).\end{aligned}$$
+      <span class="eq-n">(8)</span></div>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">fcc</span><a class="tag exam" href="#exam-q1">Exam Q1b</a></div>
+      $$\begin{aligned}\mathbf a_1&=\tfrac a2(\hat{\mathbf x}+\hat{\mathbf y}),\\ \mathbf a_2&=\tfrac a2(\hat{\mathbf y}+\hat{\mathbf z}),\\ \mathbf a_3&=\tfrac a2(\hat{\mathbf z}+\hat{\mathbf x}).\end{aligned}$$
+      <span class="eq-n">(9)</span></div>
       <div class="dict"><table>
         <thead><tr><th></th><th>sc</th><th>bcc</th><th>fcc</th></tr></thead>
         <tbody>
@@ -121,10 +220,17 @@
         </tbody>
       </table></div>
       <p>Values as in Kittel Table 2; recomputed by counting lattice points in shells (node script, also run live in Model 1).</p>
+      <p class="trap">Giving the three cube edges as the fcc (or bcc) primitive vectors. They span the conventional cube, $a^3$, which holds 4 (or 2) points, so they are not primitive. Exam Q1b lost points this way.</p>
+      <details class="check"><summary>Show that the fcc vectors (9) are 60° apart.</summary><p>$\mathbf a_1\cdot\mathbf a_2=\tfrac{a^2}4$ and $|\mathbf a_i|^2=\tfrac{a^2}2$, so $\cos\theta=\tfrac12$ and $\theta=60^\circ$. For bcc, $\mathbf a_1\cdot\mathbf a_2=-\tfrac{a^2}4$ and $|\mathbf a_i|^2=\tfrac{3a^2}4$ give $\cos\theta=-\tfrac13$, $\theta=109.47^\circ$.</p></details>
+      <p class="note"><b>Used in</b> <a href="02-reciprocal-lattice.html#c-recip">1.3.2 Reciprocal lattice →</a> (fcc ↔ bcc) and <a href="03-crystal-binding.html#c-lj">1.4.1 Lattice sums →</a> (fcc vs bcc neighbour shells).</p>
+      <p class="takeaway">fcc: corner to three face centres, $V_c=a^3/4$, 60°. bcc: centre to three corners, $V_c=a^3/2$, 109.47°. Know (8) and (9) by heart.</p>
     </article>
-    <article class="card">
-      <h3>Index system: (hkl), {hkl}, [uvw], ⟨uvw⟩</h3>
-      <p>This answers the open "what does this mean exactly?" on notes p. 9.</p>
+
+    <article class="card" id="c-index">
+      <span class="eyebrow">1.1.2 · Index system</span>
+      <h4>Planes and directions: (hkl), {hkl}, [uvw], ⟨uvw⟩</h4>
+      <p class="needs"><a href="#c-lattice">1.1.1 Lattice and basis</a>; <a href="#c-cubic">1.1.2 Cubic lattices</a></p>
+      <p>The notes close 1.1.2 with this notation ("for sc; others are more complex", p. 5) and return to it on p. 9. This answers the open "what does this mean exactly?" there.</p>
       <ul>
         <li><b>(hkl)</b>: a plane, or the set of parallel planes. Take the intercepts with the axes in units of $\mathbf a_1,\mathbf a_2,\mathbf a_3$, take reciprocals, and scale to the smallest integers. Equivalently, the plane passes through $\mathbf a_1/h$, $\mathbf a_2/k$, $\mathbf a_3/l$. An intercept at ∞ gives 0. A negative index is written with a bar: $(\bar 1 00)$.</li>
         <li>Example: intercepts 1, 2, ∞ → reciprocals 1, ½, 0 → <b>(210)</b>.</li>
@@ -132,9 +238,27 @@
         <li><b>[uvw]</b>: a direction, the smallest integers along $u\mathbf a_1+v\mathbf a_2+w\mathbf a_3$. <b>⟨uvw⟩</b>: the family of equivalent directions, e.g. ⟨111⟩ = the body diagonals.</li>
         <li>In <b>cubic</b> crystals only, [hkl] ⟂ (hkl).</li>
       </ul>
+      <p class="trap">Using the intercepts themselves as indices. The indices are the <i>reciprocals</i> of the intercepts, cleared of fractions. Intercepts 1, 2, ∞ give (210), not (12∞).</p>
+      <details class="check"><summary>A plane cuts the axes at 2a₁, 3a₂ and runs parallel to a₃. Its Miller indices?</summary><p>Reciprocals ½, ⅓, 0; multiply by 6: <b>(320)</b>.</p></details>
+      <p class="note"><b>Used in</b> <a href="02-reciprocal-lattice.html#c-bragg">1.3.1 Bragg's law →</a> (plane spacing d) and <a href="04-elasticity.html">1.5 Elasticity →</a> (directions such as [110]).</p>
+      <p class="takeaway">(hkl) are reciprocal intercepts, [uvw] are vector components; braces and angle brackets mean the whole symmetry family.</p>
     </article>
-    <article class="card">
-      <h3>1.1.5 Simple crystal structures</h3>
+    </div>
+    <p class="cannow"><b>You can now</b> write any rotation or reflection matrix, say why 5-fold axes are impossible, place a lattice in its crystal system, give the cubic primitive vectors, and name planes and directions. That is <a href="#hw-1-3">Sheet 1.3</a>, <a href="#hw-1-1">Sheet 1.1a</a> and <a href="#exam-q1">Exam Q1a–b</a>.</p>
+  </section>
+
+  <section class="sec" id="s-1-1-5">
+    <h3><span class="step">1.1.5</span>Simple crystal structures</h3>
+    <p class="hook"><b>Where you meet this.</b> Cryostats and LNG piping use austenitic stainless steel, which is fcc, because fcc metals stay ductile down to liquid-helium temperature: their close-packed planes slip instead of cracking. Ordinary bcc steel turns brittle in the cold. The coordination numbers and packing fractions below are the first step in telling the two apart.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The common structures as lattice + basis (NaCl, CsCl, hcp, diamond, zinc blende), coordination numbers, and how to compute a packing fraction (notes pp. 6–7, 16; Kittel ch. 1).</p>
+      <p><b>Why it matters.</b> Sheet 1.2 asks for CN and packing fraction of fcc, hcp, sc and diamond, and exam Q1c–d asked the same for fcc. Diamond and zinc blende return as the semiconductor structures, and the structure factor (topic 02) needs the basis.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-struct">
+      <span class="eyebrow">1.1.5 · Structures and packing</span>
+      <h4>Simple crystal structures and packing</h4>
+      <p class="needs"><a href="#c-cubic">1.1.2 Cubic lattices</a></p>
       <p>Each structure is a Bravais lattice plus a basis. Coordinates are in units of the cube edge, or of a₁, a₂, a₃ for hcp. Example lattice constants are from Kittel ch. 1.</p>
       <div class="dict"><table>
         <thead><tr><th>Structure</th><th>Lattice + basis</th><th>CN</th><th>Examples (a)</th></tr></thead>
@@ -148,16 +272,22 @@
       </table></div>
       <p>NaCl is two fcc lattices shifted by half the body diagonal. Diamond is two fcc lattices shifted by a quarter of it. hcp and fcc are both stacks of close-packed triangular layers: hcp stacks ABAB…, fcc stacks ABCABC… along [111]. <b>Diamond and hcp are not Bravais lattices</b>: each needs a 2-atom basis.</p>
       <div class="assume"><b>hcp convention:</b> this page uses Kittel's $\mathbf a_1=(a,0,0)$, $\mathbf a_2=(-\tfrac a2,\tfrac{\sqrt3}2a,0)$ (120°, also notes p. 6), so the second atom is at (⅔, ⅓, ½). The notes' worked example (p. 16) uses $\mathbf a_2=a(\tfrac12,\tfrac{\sqrt3}2,0)$ (60°), which gives (⅓, ⅓, ½). Both are the same point $(\tfrac a2,\tfrac{a}{2\sqrt3},\tfrac c2)$; state your convention.</div>
+      <p>The <b>coordination number</b> (CN) is the number of nearest neighbours. Put touching spheres of radius $r$ = half the nearest-neighbour distance on every atom; the <b>packing fraction</b> is the share of space they fill:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Packing fraction (N_cell atoms in a cell of volume V_cell)</span><a class="tag exam" href="#exam-q1">Exam Q1d</a><a class="tag hw" href="#hw-1-2">Sheet 1.2</a><span class="tag deriv">Exam-relevant derivation</span></div>
+      $$f=\frac{N_{\rm cell}\,\tfrac43\pi r^3}{V_{\rm cell}}.$$
+      <span class="eq-n">(10)</span></div>
+      <p>Any cell works, as long as $N_{\rm cell}$ and $V_{\rm cell}$ belong to the same one. fcc and hcp reach 0.740, the densest packing of equal spheres; sc 0.524; diamond only 0.340.</p>
+      <p class="trap">Taking $r=a/2$ in fcc. The spheres touch along the face diagonal, not the cube edge: $4r=\sqrt2a$. With $r=a/2$ the "packing fraction" comes out above 1.</p>
+      <details class="check"><summary>bcc: along which direction do spheres touch, and what is f?</summary><p>Along the body diagonal: $4r=\sqrt3a$. Two atoms per cube: $f=2\cdot\tfrac43\pi(\sqrt3a/4)^3/a^3=\pi\sqrt3/8=0.680$.</p></details>
+      <p class="note"><b>Used in</b> <a href="02-reciprocal-lattice.html#c-sf">1.3.5 Structure factor →</a> (the basis decides which reflections vanish), <a href="03-crystal-binding.html#c-madelung">1.4.2 Madelung energy →</a> (NaCl, CsCl) and <a href="03-crystal-binding.html#c-covalent">1.4.3 Covalent crystals →</a> (diamond).</p>
+      <p class="takeaway">Name a structure as lattice + basis; find where spheres touch to get $r(a)$; then (10). fcc = hcp 0.740 &gt; bcc 0.680 &gt; sc 0.524 &gt; diamond 0.340.</p>
     </article>
-    <article class="card">
-      <h3>1.1.3 Direct imaging of atomic structure</h3>
-      <p>Atoms can be imaged directly. <b>TEM</b> needs an electron wavelength $\lambda = h/p$ smaller than the atomic spacing. <b>STM</b> scans a sharp tip over the surface; the tunnelling current falls as $I\propto e^{-2\kappa d}$ with $\kappa=\sqrt{2m\phi}/\hbar$, so a change in height of a fraction of an ångström changes $I$ strongly. That sensitivity gives atomic resolution.</p>
-      <p>The notes treat this with diffraction ("1.2"), and sheet 2.3 has the numbers, so it is worked out on the <a href="02-reciprocal-lattice.html">reciprocal lattice page</a>.</p>
-    </article>
-  </div>
+    </div>
+    <p class="cannow"><b>You can now</b> describe NaCl, CsCl, hcp, diamond and zinc blende as lattice + basis and compute any coordination number and packing fraction. That is <a href="#hw-1-2">Sheet 1.2</a> and <a href="#exam-q1">Exam Q1c–d</a>.</p>
+  </section>
 </section>
 
-<!-- 3. INTERACTIVE MODELS -->
+
 <section class="block" id="models">
   <h2>Interactive models</h2>
 
@@ -267,7 +397,7 @@
   </section>
 </section>
 
-<!-- 4. HOMEWORK GUIDES -->
+
 <section class="block" id="homework">
   <h2>Homework guides</h2>
 
@@ -340,24 +470,30 @@
   </article>
 </section>
 
-<!-- 5. EXAM ANGLE -->
 <section class="block" id="exam">
   <h2>Exam angle</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>2022 Q1: FCC lattice</h3>
-      <p>The exam asked: (a) general properties of the fcc lattice, (b) sketch and calculate the primitive basis vectors, (c) coordination number, (d) packing fraction. This is sheet 1.2a plus the fcc primitive vectors. Model answer:</p>
+  <article class="hw" id="exam-q1">
+    <span class="tag">Exam 2022 · Question 1</span>
+    <h3>FCC lattice</h3>
+    <p class="ask">(a) General properties of the fcc lattice. (b) Sketch and calculate the primitive basis vectors. (c) Coordination number. (d) Packing fraction.</p>
+    <p>This is sheet 1.2a plus the fcc primitive vectors (<a href="#c-cubic">1.1.2</a>, <a href="#c-struct">1.1.5</a>).</p>
+    <details>
+      <summary>Show model answer</summary>
       <ol>
         <li><b>(a)</b> A cubic Bravais lattice: points at the cube corners and face centres, 4 per conventional cube ($8\cdot\tfrac18+6\cdot\tfrac12$). It has full cubic symmetry: three 4-fold axes ⟨100⟩, four 3-fold ⟨111⟩, six 2-fold ⟨110⟩, mirror planes and inversion. It is close-packed: the (111) planes are triangular layers stacked ABCABC…, and neighbours touch along ⟨110⟩. Its Wigner–Seitz cell is a rhombic dodecahedron; its reciprocal lattice is bcc. Examples: Cu, Al, Ag, Au, Ni.</li>
         <li><b>(b)</b> Sketch the cube with the origin at a corner and draw three arrows to the three adjacent face centres: $\mathbf a_1=\tfrac a2(1,1,0)$, $\mathbf a_2=\tfrac a2(0,1,1)$, $\mathbf a_3=\tfrac a2(1,0,1)$, each of length $a/\sqrt2$ and 60° apart. They span a rhombohedron with $V_c=\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)=a^3/4$, so one point per primitive cell (Model 1, fcc).</li>
         <li><b>(c)</b> 12 nearest neighbours at $a/\sqrt2$, the maximum for equal spheres (6 second neighbours at $a$).</li>
-        <li><b>(d)</b> Touching along the face diagonal: $4r=\sqrt2 a$; $f=4\cdot\tfrac43\pi r^3/a^3=\pi/(3\sqrt2)\approx0.74$.</li>
+        <li><span class="tag deriv">Exam-relevant derivation</span> <b>(d)</b> Touching along the face diagonal: $4r=\sqrt2 a$; $f=4\cdot\tfrac43\pi r^3/a^3=\pi/(3\sqrt2)\approx0.74$.</li>
       </ol>
-      <p><b>Points lost:</b> giving the cube edges instead of primitive vectors; taking $r=a/2$; not drawing the vectors from one corner to three face centres; forgetting that the primitive cell holds 1 point, not 4.</p>
-    </div>
-    <div class="card">
-      <h3>Exam-style exercise: copper</h3>
-      <p>Copper is fcc with $a = 3.61$ Å (Kittel Table 3). Find (i) the primitive cell volume, (ii) the nearest-neighbour distance and coordination number, (iii) the radius of touching spheres and the packing fraction, (iv) the number of atoms per m³.</p>
+      <p class="trap">Points lost: giving the cube edges instead of primitive vectors; taking $r=a/2$; not drawing the vectors from one corner to three face centres; forgetting that the primitive cell holds 1 point, not 4.</p>
+    </details>
+  </article>
+  <article class="hw" id="exam-x">
+    <span class="tag">Exam-style exercise · about 8 pts</span>
+    <h3>Copper</h3>
+    <p class="ask">Copper is fcc with $a = 3.61$ Å (Kittel Table 3). Find (i) the primitive cell volume, (ii) the nearest-neighbour distance and coordination number, (iii) the radius of touching spheres and the packing fraction, (iv) the number of atoms per m³.</p>
+    <details>
+      <summary>Show worked solution</summary>
       <ol>
         <li>$V_c=a^3/4 = (3.61\times10^{-10}\,\text{m})^3/4 = 1.18\times10^{-29}$ m³.</li>
         <li>$d=a/\sqrt2 = 2.55$ Å; CN = 12.</li>
@@ -365,21 +501,21 @@
         <li>$n = 4/a^3 = 1/V_c = 8.50\times10^{28}$ m⁻³.</li>
       </ol>
       <div class="check"><b>Sanity check:</b> computed in node. Kittel Table 4 lists for Cu 8.45 × 10²² cm⁻³ = 8.45 × 10²⁸ m⁻³ and a nearest-neighbour distance of 2.56 Å, which agree within 0.6 % (the tables use slightly different data). The same $n$ reappears as the electron density of Cu (one valence electron per atom) on the free-electron-gas page.</div>
-    </div>
-    <div class="card">
-      <h3>Five-minute checklist</h3>
-      <ul>
-        <li>Write the primitive vectors of sc, bcc and fcc and get $V_c$ from the triple product.</li>
-        <li>Count points per cube (corner ⅛, edge ¼, face ½).</li>
-        <li>For each structure, state CN, the direction in which spheres touch, $r(a)$ and PF.</li>
-        <li>Decide whether a structure is Bravais (translation test); name hcp, diamond and NaCl as lattice + basis.</li>
-        <li>Write a rotation or reflection matrix by columns; state why 5-fold axes are impossible.</li>
-      </ul>
-    </div>
+    </details>
+  </article>
+  <div class="card">
+    <h3>Five-minute checklist</h3>
+    <ul>
+      <li>Write the primitive vectors of sc, bcc and fcc and get $V_c$ from the triple product.</li>
+      <li>Count points per cube (corner ⅛, edge ¼, face ½).</li>
+      <li>For each structure, state CN, the direction in which spheres touch, $r(a)$ and PF.</li>
+      <li>Decide whether a structure is Bravais (translation test); name hcp, diamond and NaCl as lattice + basis.</li>
+      <li>Write a rotation or reflection matrix by columns; state why 5-fold axes are impossible.</li>
+    </ul>
   </div>
 </section>
 
-<!-- 6. SOURCES -->
+
 <section class="block sources" id="sources">
   <h2>Sources</h2>
   <ul>

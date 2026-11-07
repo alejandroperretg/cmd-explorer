@@ -37,6 +37,13 @@
   - The reading path uses the same numbers: `<li data-sec="2.6.1">`.
   - A `.needs` line links to prerequisite sections by number.
 - Concept cards in reading order (`.step`), with a `.needs` line linking to prerequisite cards.
+- **Follow the lecture flow** (user request, 2026-11-07).
+  - The order, the build-up and the motivation within a page follow how the lectures develop the topic: the notes' order and the topic-list order. A curiosity-driven or textbook order never decides the structure.
+  - Material that doesn't fit the lecture flow (e.g. the original video-based bands models) goes after the lecture content, under "Going further", or into the section where the lectures need it.
+- **Duplication and cross-links.**
+  - Don't duplicate material across pages. A short recap (a few lines plus at most one key equation) is welcome where a section depends on an earlier one. Mark it `.recap`, with "Recap from X.Y.Z" linking to the full treatment.
+  - Every forward or backward dependency has a link in both directions, e.g. "used in 2.6.2 →" and "← from 1.3.2", so reading through the site is smooth.
+  - Never re-derive at length what another page already teaches. Link to it instead.
 - **Formulas must stand out.** Display equations use `.eq`, which is larger than body text (set in `site.css`). Don't shrink them, and don't put a central result inline when it deserves a panel. Every card has at least one `details.check` and ends with a `.takeaway`. Add a `.trap` where there is a common mistake.
 - **Motivation.** Each topic-list section opens with a `.hook` ("Where you meet this.": a concrete, checked real-world payoff, warm and direct, no hype) and ends with a `.cannow` ("You can now …", naming the exam part or sheet problem it unlocks).
 - Every page has a reading path (`.path`, with the legend) between the header and the Overview, listing the cards in order with a rough time each and where the models and guides fit.
