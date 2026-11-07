@@ -14,6 +14,11 @@
 <script defer src="../assets/common.js"></script>
 </head>
 <body>
+<style>
+  /* .recap is not in site.css yet: short recap of an earlier section, linked to its full treatment. In the body so the phone build keeps it. */
+  .recap { border-left: 3px solid var(--muted); background: var(--panel); border-radius: 0 4px 4px 0; padding: 8px 12px; font-size: 15px; }
+  .recap > b:first-child { color: var(--muted); font-weight: 600; }
+</style>
 <nav class="site-nav" aria-label="Site"><div class="in">
   <a class="brand" href="../index.html">CMD Explorer</a>
   <a href="../index.html#map">Syllabus map</a>
@@ -37,31 +42,73 @@
   <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
 </header>
 
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>Read the Concepts section by section, in the lecture's order (notes pp. 33–38): the general result (★) first, then its two limits, then the models that interpolate between them. Each line says which cards it holds and which model or exercise to try next. Sheet 7 covers 1.7.1.2 and 1.7.1.3; heat capacity was not asked in the 2022 exam, so the exam-style exercise follows the sheet's level. You need phonons and the density of states from <a href="05-phonons.html#s-1-6-5">topic 05</a>; the recaps below repeat the essentials. About 2 hours in total.</p>
+  <ol>
+    <li data-sec="1.7.1"><a href="#s-1-7-1">Lattice specific heat</a><span class="min">30 min</span><span class="then"><a href="#c-partition">Partition function and (★)</a> → <a href="#c-units">units</a>. Then: <a href="#freeze">Model 1</a>.</span></li>
+    <li data-sec="1.7.1.1"><a href="#s-1-7-1-1">High-temperature limit</a><span class="min">15 min</span><span class="then"><a href="#c-high">Dulong–Petit and its correction</a>. Then: <a href="#compare">Model 2</a> with the series on.</span></li>
+    <li data-sec="1.7.1.2"><a href="#s-1-7-1-2">Low-temperature limit</a><span class="min">30 min</span><span class="then"><a href="#c-low">The T³ law</a>. Then: <a href="#dims">Model 3</a>, <a href="#hw-7-1">Sheet 7.1</a>.</span></li>
+    <li data-sec="1.7.1.3"><a href="#s-1-7-1-3">Intermediate temperatures</a><span class="min">40 min</span><span class="then"><a href="#c-debye">Debye</a> → <a href="#c-einstein">Einstein and combined</a> → <a href="#c-dosint">phonon DOS</a>. Then: <a href="#compare">Model 2</a>, <a href="#diamond">Model 4</a>, <a href="#hw-7-2">Sheet 7.2</a>.</span></li>
+    <li data-sec="Ex"><a href="#exam-cu">Exam-style exercise: copper</a><span class="min">20 min</span><span class="then">Uses all four sections. Try each part before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag hw">Sheet 7.2</span>used by a sheet problem</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
 <!-- 1. OVERVIEW -->
 <section class="block" id="overview">
   <h2>Overview</h2>
   <p>The lecture takes the statistical-mechanics route. Write the energy of the harmonic crystal as a sum over modes $(\mathbf k,s)$, sum the geometric series in each mode's partition function, and take $u=-\frac1V\partial_\beta\ln Z$ and $c_v=\partial u/\partial T$. The result (★) below is exact for a harmonic lattice. Everything else in the section is a limit of it (high $T$, low $T$) or an approximation to the dispersion $\omega_s(\mathbf k)$ (Debye, Einstein, combined).</p>
-  <p>Key results to leave with: (★) and where the Bose factor comes from; Dulong–Petit with its $1/T^2$ corrections; the $T^3$ law and why it becomes $T^d$ in $d$ dimensions (sheet 7.1); the Debye formula and how to pull $\Theta_D$ out of measured data (sheet 7.2); and why Einstein's flat mode freezes out exponentially. The electronic heat capacity and the sheet 9.1 cross-over are on <a href="07-free-electron-gas.html#smear">topic 07</a> and are not repeated here.</p>
+  <p>Key results to leave with: (★) and where the Bose factor comes from (1.7.1); Dulong–Petit with its $1/T^2$ corrections (1.7.1.1); the $T^3$ law and why it becomes $T^d$ in $d$ dimensions (1.7.1.2, sheet 7.1); the Debye formula and how to pull $\Theta_D$ out of measured data (1.7.1.3, sheet 7.2); and why Einstein's flat mode freezes out exponentially. The electronic heat capacity and the sheet 9.1 cross-over are on <a href="07-free-electron-gas.html#smear">topic 07</a> and are not repeated here.</p>
   <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 5 (Phonon Heat Capacity: Planck Distribution, Normal Mode Enumeration, Density of States in Three Dimensions, Debye Model, Debye $T^3$ Law, Einstein Model), and the lecture notes pp. 33–38.</p>
 </section>
 
 <!-- 2. CONCEPTS -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
-  <div class="cards">
-    <article class="card">
-      <h3>1.7.1 Lattice specific heat from the partition function</h3>
-      <p>A crystal of $N$ unit cells with $n$ atoms each has $3nN$ normal modes: $N$ wavevectors in the first BZ times $3n$ branches (3 acoustic, $3n-3$ optical). In the harmonic approximation each mode is an independent oscillator. A microstate is the list of occupation numbers $\{n_s(\mathbf k)\}$ ($3nN$ non-negative integers), with $E=E_{eq}+\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\big(n_s(\mathbf k)+\tfrac12\big)$. Because $E$ is a sum, $Z$ is a product, and each factor is a geometric series starting at $n_s=0$:</p>
-      $$Z=e^{-\beta E_{eq}}\prod_{\mathbf k,s}\sum_{n=0}^{\infty}e^{-\beta\hbar\omega_s(\mathbf k)(n+\frac12)}=e^{-\beta E_{eq}}\prod_{\mathbf k,s}\frac{e^{-\beta\hbar\omega_s/2}}{1-e^{-\beta\hbar\omega_s}} .$$
-      <p>Then $u=-\frac1V\partial_\beta\ln Z$ gives the energy density as static lattice, plus Bose occupation, plus zero-point motion:</p>
-      $$u=u_{eq}+\frac1V\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\Big(\frac{1}{e^{\beta\hbar\omega_s(\mathbf k)}-1}+\frac12\Big).$$
-      <p>With $\partial_T=-k_B\beta^2\partial_\beta$, and with $u_{eq}$ and the zero-point term independent of $T$:</p>
-      $$c_v=\frac{\partial u}{\partial T}\Big|_V=\frac{k_B}{V}\sum_{\mathbf k,s}\frac{x^2e^x}{(e^x-1)^2},\qquad x=\frac{\hbar\omega_s(\mathbf k)}{k_BT}.\qquad(\star)$$
-      <p>$c_v$ is in J K⁻¹ m⁻³. Each mode contributes $k_B\,w(x)$, where $w(x)=x^2e^x/(e^x-1)^2$ rises from 0 (frozen, $\hbar\omega\gg k_BT$) to 1 (classical, $\hbar\omega\ll k_BT$). Model 1 shows this weight over a real spectrum. This is the same equipartition breakdown as in any quantum oscillator system: a level spacing much larger than $k_BT$ cannot absorb heat.</p>
-    </article>
 
-    <article class="card">
-      <h3>Per volume, per crystal, per mole, per gram</h3>
+  <section class="sec" id="s-1-7-1">
+    <h3><span class="step">1.7.1</span>Lattice specific heat</h3>
+    <p class="hook"><b>Where you meet this.</b> Warming a 1 kg copper block by one kelvin takes about 385 J, and almost all of it goes into lattice vibrations. This section turns that number into a formula: count the phonon modes, give each one its quantum share of the heat, and add them up.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The crystal as a set of independent quantum oscillators, its partition function, the internal energy (Bose occupation plus zero-point energy) and the general heat capacity (★); then the four normalisations of "heat capacity" you will meet. Lecture notes pp. 33–34.</p>
+      <p><b>Why it matters.</b> (★) is the starting point of every later result on this page and of sheet 7.1. Its one-mode weight w(x) explains why heat capacity freezes out at low T, and the same Bose factor returns in phonon scattering on <a href="08-transport.html">topic 08</a>.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-partition">
+      <span class="eyebrow">1.7.1 · Partition function</span>
+      <h4>From the partition function to (★)</h4>
+      <p class="needs">← Phonons from <a href="05-phonons.html#s-1-6-5">1.6.5</a></p>
+      <div class="recap"><b>Recap from 1.6.5</b> (<a href="05-phonons.html#c-phonon">topic 05</a>). In the harmonic approximation each normal mode $(\mathbf k,s)$ is an independent oscillator, and its energy is $\hbar\omega_s(\mathbf k)\,(n+\tfrac12)$, where the integer $n\ge0$ counts the phonons in that mode.</div>
+      <p>A crystal of $N$ unit cells with $n$ atoms each has $3nN$ normal modes: $N$ wavevectors in the first BZ times $3n$ branches (3 acoustic, $3n-3$ optical). A microstate is the list of occupation numbers $\{n_s(\mathbf k)\}$ ($3nN$ non-negative integers), with $E=E_{eq}+\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\big(n_s(\mathbf k)+\tfrac12\big)$. Because $E$ is a sum, $Z$ is a product, and each factor is a geometric series starting at $n_s=0$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Partition function</span></div>
+      $$\begin{aligned}Z&=e^{-\beta E_{eq}}\\&\quad\times\prod_{\mathbf k,s}\,\sum_{n=0}^{\infty}e^{-\beta\hbar\omega_s(n+\frac12)}\\&=e^{-\beta E_{eq}}\\&\quad\times\prod_{\mathbf k,s}\frac{e^{-\beta\hbar\omega_s/2}}{1-e^{-\beta\hbar\omega_s}}\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
+      <p>Here $\omega_s$ is short for $\omega_s(\mathbf k)$. Then $u=-\frac1V\partial_\beta\ln Z$ gives the energy density as static lattice, plus Bose occupation, plus zero-point motion:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Energy density</span></div>
+      $$\begin{aligned}u&=u_{eq}+\frac1V\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\\&\quad\times\Big(\frac{1}{e^{\beta\hbar\omega_s(\mathbf k)}-1}+\frac12\Big)\end{aligned}$$
+      <span class="eq-n">(2)</span></div>
+      <p>With $\partial_T=-k_B\beta^2\partial_\beta$, and with $u_{eq}$ and the zero-point term independent of $T$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Lattice heat capacity per volume</span><a class="tag hw" href="#hw-7-1">Sheet 7.1</a></div>
+      $$\begin{aligned}c_v&=\frac{\partial u}{\partial T}\Big|_V\\&=\frac{k_B}{V}\sum_{\mathbf k,s}\frac{x^2e^x}{(e^x-1)^2}\\ x&=\frac{\hbar\omega_s(\mathbf k)}{k_BT}\end{aligned}$$
+      <span class="eq-n">(★)</span></div>
+      <p>$c_v$ is in J K⁻¹ m⁻³. Each mode contributes $k_B\,w(x)$, where $w(x)=x^2e^x/(e^x-1)^2$ rises from 0 (frozen, $\hbar\omega\gg k_BT$) to 1 (classical, $\hbar\omega\ll k_BT$). Model 1 shows this weight over a real spectrum. This is the same equipartition breakdown as in any quantum oscillator system: a level spacing much larger than $k_BT$ cannot absorb heat.</p>
+      <p class="trap">Differentiating the zero-point term. It is temperature-independent, so it adds to u but never to c_v.</p>
+      <details class="check"><summary>What is w(x) for a mode with ħω = 3k_BT, and what does it mean?</summary><p>$w(3)=9e^3/(e^3-1)^2=0.50$: the mode still carries half its classical share $k_B$. Freeze-out is gradual, not a step at $\hbar\omega=k_BT$.</p></details>
+      <p class="takeaway">The crystal is $3nN$ independent quantum oscillators. Each adds $k_B\,w(\hbar\omega/k_BT)$ to the heat capacity, between 0 (frozen) and $k_B$ (classical).</p>
+    </article>
+    <article class="card" id="c-units">
+      <span class="eyebrow">1.7.1 · Units</span>
+      <h4>Per volume, per crystal, per mole, per gram</h4>
+      <p class="needs"><a href="#c-partition">1.7.1 · Partition function</a></p>
       <p>Four normalisations appear in the sources, and mixing them up is the most common numerical slip:</p>
       <ul>
         <li><b>Lecture:</b> $c_v$ is per <b>volume</b> (the $\frac1V$ in (★)), in J K⁻¹ m⁻³.</li>
@@ -71,54 +118,149 @@
       </ul>
       <p>On this page $c_v$ (lower case) is the lecture's density and $C$ (upper case) is a total or molar value. Models plot $C/(3Nk_B)$, which is the same in every normalisation. Dulong–Petit is $3R=24.94$ J mol⁻¹ K⁻¹, or 0.496 cal g⁻¹ K⁻¹ for carbon.</p>
       <div class="assume"><b>Notation clashes:</b> lecture $\Theta_D$, $\bar c$ versus Kittel $\theta$, $v$. Kittel ch. 5 writes $\tau=k_BT$, which is not the relaxation time of topic 08. In the notes, $n$ is both the number of basis atoms and the atom density; this page writes the atom density as $n_{at}=nN/V$. The notes' $N$ counts cells on p33–34 but atoms in the Debye construction on p36.</div>
+      <p class="trap">Comparing a per-gram graph value with a per-mole formula. For carbon, 3R = 24.94 J mol⁻¹ K⁻¹ is only 0.496 cal g⁻¹ K⁻¹.</p>
+      <details class="check"><summary>Convert 0.1 cal g⁻¹ K⁻¹ for diamond to a fraction of Dulong–Petit.</summary><p>$0.1\times4.184\times12.011=5.03$ J mol⁻¹ K⁻¹, and $5.03/24.94=0.20$ of $3R$.</p></details>
+      <p class="takeaway">Fix the normalisation before comparing numbers. $C/(3Nk_B)$ is the same in all four and is what the models plot.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive (★) from the partition function and convert a heat capacity between per volume, per crystal, per mole and per gram. (★) is step 1 of <a href="#hw-7-1">Sheet 7.1</a>; see it in <a href="#freeze">Model 1</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.7.1.1 High-temperature limit</h3>
+  <section class="sec" id="s-1-7-1-1">
+    <h3><span class="step">1.7.1.1</span>High-temperature limit</h3>
+    <p class="hook"><b>Where you meet this.</b> In 1819 Dulong and Petit noticed that most solid elements need about 25 J to warm one mole by one kelvin: copper 24.4, aluminium 24.2, iron 25.1, lead 26.4 J mol⁻¹ K⁻¹. This section explains the common value, 3R, and why diamond falls far short of it at room temperature.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The expansion of (★) for k_BT much larger than every ħω: the Dulong–Petit value and its first quantum correction, of order 1/T². Lecture notes pp. 34 and 36.</p>
+      <p><b>Why it matters.</b> It is the high-T check on every model (Debye and Einstein both reach it), and "high" means compared with Θ_D, which is why diamond is not classical at 300 K. Sheet 7.2's data flatten towards this value.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-high">
+      <span class="eyebrow">1.7.1.1 · Dulong–Petit</span>
+      <h4>Every mode carries k_B</h4>
+      <p class="needs"><a href="#c-partition">1.7.1 · Partition function</a></p>
       <p>For $k_BT\gg\hbar\omega_s$ for every mode, i.e. $x\ll1$, expand the mode weight:</p>
-      $$\frac{x^2e^x}{(e^x-1)^2}=1-\frac{x^2}{12}+\frac{x^4}{240}-\dots\;\Rightarrow\; c_v=\frac{3nN}{V}k_B-\frac{k_B}{12V}\sum_{\mathbf k,s}\Big(\frac{\hbar\omega_s}{k_BT}\Big)^2+\dots$$
-      <p>The leading term is Dulong–Petit, $c_v=3n_{at}k_B$: every mode carries $k_B$, as equipartition gives for two quadratic degrees of freedom. The quantum correction is $\mathcal O(1/T^2)$, set by the mean square frequency. For the Debye spectrum, $\langle\omega^2\rangle=\frac35\omega_D^2$, which gives $C/3Nk_B=1-\frac1{20}(\Theta_D/T)^2$. For Einstein it is $1-\frac1{12}(\Theta_E/T)^2$.</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">High-T expansion of (★)</span></div>
+      $$\begin{aligned}\frac{x^2e^x}{(e^x-1)^2}&=1-\frac{x^2}{12}\\&\quad+\frac{x^4}{240}-\dots\end{aligned}$$
+      <span class="eq-n">(3a)</span></div>
+      <p>so, summed over all $3nN$ modes,</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Dulong–Petit plus quantum correction</span></div>
+      $$\begin{aligned}c_v&=\frac{3nN}{V}k_B\\&\quad-\frac{k_B}{12V}\sum_{\mathbf k,s}\Big(\frac{\hbar\omega_s}{k_BT}\Big)^2\\&\quad+\dots\end{aligned}$$
+      <span class="eq-n">(3b)</span></div>
+      <p>The leading term is Dulong–Petit, $c_v=3n_{at}k_B$: every mode carries $k_B$, as equipartition gives for two quadratic degrees of freedom. The quantum correction is $\mathcal O(1/T^2)$, set by the mean square frequency. For the Debye spectrum, $\langle\omega^2\rangle=\frac35\omega_D^2$; for Einstein all modes sit at $\omega_E$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Dulong–Petit with its first correction: Debye C_D, Einstein C_E</span></div>
+      $$\begin{aligned}\frac{C_D}{3Nk_B}&=1-\frac1{20}\Big(\frac{\Theta_D}{T}\Big)^2\\ \frac{C_E}{3Nk_B}&=1-\frac1{12}\Big(\frac{\Theta_E}{T}\Big)^2\end{aligned}$$
+      <span class="eq-n">(4)</span></div>
       <p>"High" means compared with $\Theta_D$. Cu ($\Theta_D=343$ K) is at 94 % of $3R$ at 300 K. Diamond ($\Theta_D=2230$ K) is at only 17 %, so at room temperature it is far from classical.</p>
       <div class="check"><b>Check:</b> the series against the exact $w(x)$ at $x=0.5$: 0.979427 vs 0.979424. The Debye correction at $T=\Theta_D$ predicts 0.950; the exact value is 0.952 (node). The 300 K values come from the full Debye function with Kittel's Θ_D.</div>
+      <p class="trap">Calling 300 K "high temperature" by default. The test is T against Θ_D: room temperature is high for copper and lead but low for diamond.</p>
+      <details class="check"><summary>Debye solid at T = 2Θ_D: by how much is C below Dulong–Petit?</summary><p>By $\frac1{20}(1/2)^2=1.25\,\%$, so $C\approx0.988\cdot3Nk_B$.</p></details>
+      <p class="takeaway">At high T every mode holds $k_B$: $C=3Nk_B$ (3R per mole), approached from below with a $1/T^2$ correction.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive Dulong–Petit from (★), give the sign and size of the first correction, and judge whether a solid is "hot" by comparing T with Θ_D. Part (b) at 300 K and part (c) of the <a href="#exam-cu">copper exercise</a> use this.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.7.1.2 Low-temperature limit: the $T^3$ law</h3>
+  <section class="sec" id="s-1-7-1-2">
+    <h3><span class="step">1.7.1.2</span>Low-temperature limit</h3>
+    <p class="hook"><b>Where you meet this.</b> At 1 K, copper's lattice heat capacity is about 5×10⁻⁵ J mol⁻¹ K⁻¹, two millionths of its room-temperature value (the conduction electrons then dominate, <a href="07-free-electron-gas.html">topic 07</a>). That collapse is why a cryostat with only microwatts to milliwatts of cooling power can still bring a heavy copper sample stage down to millikelvin.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Why only long-wavelength acoustic modes matter at low T, the substitution x = ħck/k_BT, the T³ law in the lecture's form and in Kittel's form with Θ_D, and the counting picture behind it. Lecture notes pp. 35–36.</p>
+      <p><b>Why it matters.</b> Sheet 7.1 repeats this calculation in two dimensions, sheet 7.2 uses the T³ law on low-T data, and sheet 9.1 compares it with the electronic γT on <a href="07-free-electron-gas.html#hw-9-1">topic 07</a>.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-low">
+      <span class="eyebrow">1.7.1.2 · T³ law</span>
+      <h4>Only the soft acoustic modes thaw</h4>
+      <p class="needs"><a href="#c-partition">1.7.1 · Partition function</a>; ← sound waves from <a href="05-phonons.html#c-chain">1.6.1</a></p>
       <p>For $k_BT$ well below every optical frequency and below the zone-boundary acoustic frequencies, only long-wavelength acoustic modes are thawed. They are linear, $\omega_s=c_s(\hat{\mathbf k})k$. Replace the sum by $V\!\int\!d^3k/(2\pi)^3$ with $d^3k=k^2dk\,d\Omega$ and substitute $x=\hbar c_sk/k_BT$. The upper limit can go to $\infty$, because the integrand has died by then:</p>
-      $$u-u_0=\frac{(k_BT)^4}{\hbar^3}\Big(\frac13\sum_{s=1}^{3}\oint\frac{1}{c_s^3}\frac{d\Omega}{4\pi}\Big)\frac{3}{2\pi^2}\int_0^\infty\frac{x^3\,dx}{e^x-1},\qquad\int_0^\infty\frac{x^3dx}{e^x-1}=\frac{\pi^4}{15}.$$
-      <p>The bracket defines the averaged sound speed $1/\bar c^3$. Differentiating:</p>
-      $$c_v^{low}=\frac{2\pi^2}{5}\,k_B\Big(\frac{k_BT}{\hbar\bar c}\Big)^3\quad\Longleftrightarrow\quad C=\frac{12\pi^4}{5}Nk_B\Big(\frac{T}{\Theta_D}\Big)^3=1944\,\frac{\text{J}}{\text{mol K}}\Big(\frac{T}{\Theta_D}\Big)^3 .$$
-      <p>The right-hand form is Kittel's. It is the lecture's result times $V$, once $\Theta_D$ is defined as on the next card. <b>Counting picture</b> (Kittel Fig. 10): modes with $\hbar\omega\lesssim k_BT$ fill a sphere of radius $k_T=k_BT/\hbar\bar c$, a fraction $(T/\Theta_D)^3$ of all $3N$ modes, each with energy $\sim k_BT$. So $U\sim3Nk_BT(T/\Theta_D)^3$ and $C\propto T^3$. In $d$ dimensions the sphere becomes a $d$-ball, so $C\propto T^d$ (Model 3, sheet 7.1).</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Thermal energy at low T</span><a class="tag hw" href="#hw-7-1">Sheet 7.1</a></div>
+      $$\begin{aligned}u-u_0&=\frac{(k_BT)^4}{\hbar^3}\,\frac{1}{\bar c^3}\\&\quad\times\frac{3}{2\pi^2}\int_0^\infty\frac{x^3\,dx}{e^x-1}\\ \frac{1}{\bar c^3}&\equiv\frac13\sum_{s=1}^{3}\oint\frac{1}{c_s^3}\,\frac{d\Omega}{4\pi}\\ &\int_0^\infty\frac{x^3\,dx}{e^x-1}=\frac{\pi^4}{15}\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
+      <p>The direction-averaged bracket defines the averaged sound speed $\bar c$. Differentiating:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">T³ law (lecture form)</span><a class="tag hw" href="#hw-7-1">Sheet 7.1</a></div>
+      $$c_v^{low}=\frac{2\pi^2}{5}\,k_B\Big(\frac{k_BT}{\hbar\bar c}\Big)^3$$
+      <span class="eq-n">(6)</span></div>
+      <div class="eq"><div class="eq-head"><span class="eq-label">T³ law (Kittel form, with Θ_D from 1.7.1.3)</span><a class="tag hw" href="#hw-7-2">Sheet 7.2</a><a class="tag hw" href="07-free-electron-gas.html#hw-9-1">Sheet 9.1</a></div>
+      $$\begin{aligned}C&=\frac{12\pi^4}{5}Nk_B\Big(\frac{T}{\Theta_D}\Big)^3\\&=1944\,\frac{\text{J}}{\text{mol K}}\Big(\frac{T}{\Theta_D}\Big)^3\end{aligned}$$
+      <span class="eq-n">(7)</span></div>
+      <p>The second line is per mole. (7) is the lecture's result times $V$, once $\Theta_D$ is defined as in <a href="#c-debye">1.7.1.3</a>. <b>Counting picture</b> (Kittel Fig. 10): modes with $\hbar\omega\lesssim k_BT$ fill a sphere of radius $k_T=k_BT/\hbar\bar c$, a fraction $(T/\Theta_D)^3$ of all $3N$ modes, each with energy $\sim k_BT$. So $U\sim3Nk_BT(T/\Theta_D)^3$ and $C\propto T^3$. In $d$ dimensions the sphere becomes a $d$-ball, so $C\propto T^d$ (Model 3, sheet 7.1).</p>
       <p>In real crystals the clean $T^3$ regime needs roughly $T\lesssim\Theta_D/50$ (Kittel), because the dispersion bends away from $ck$ well before the zone boundary. Inside the Debye model itself, $T^3$ is accurate to 0.002 % at $T=\Theta_D/20$ and to 3 % at $\Theta_D/10$.</p>
-      <div class="check"><b>Check:</b> with $k_D=(6\pi^2n_{at})^{1/3}$ and $k_B\Theta_D=\hbar\bar ck_D$, the ratio $V\frac{2\pi^2}{5}k_B(k_BT/\hbar\bar c)^3\big/\frac{12\pi^4}{5}Nk_B(T/\Theta_D)^3$ evaluates to 1.000000 (node). $\int x^4e^x/(e^x-1)^2dx=4\pi^4/15=25.976$ numerically. Debye/T³ ratios: 0.99998 at $T/\Theta_D=0.05$, 0.973 at 0.1.</div>
+      <div class="check"><b>Check:</b> with $k_D=(6\pi^2n_{at})^{1/3}$ and $k_B\Theta_D=\hbar\bar ck_D$, the ratio of (7) to $V$ times (6) evaluates to 1.000000 (node). $\int x^4e^x/(e^x-1)^2dx=4\pi^4/15=25.976$ numerically. Debye/T³ ratios: 0.99998 at $T/\Theta_D=0.05$, 0.973 at 0.1.</div>
+      <p class="trap">Applying T³ at T ≈ Θ_D/10 or above without checking. Real crystals leave the clean T³ regime near Θ_D/50; above that, use the full Debye formula.</p>
+      <details class="check"><summary>Why does a layer lattice give C ∝ T² instead of T³?</summary><p>In 2D the thawed modes fill a disc of radius $k_BT/\hbar\bar c$, so their number grows as $T^2$; each carries about $k_BT$, so $U\propto T^3$ and $C\propto T^2$. That is <a href="#hw-7-1">Sheet 7.1</a>.</p></details>
+      <p class="takeaway">At low T only acoustic modes with $\hbar ck\lesssim k_BT$ are thawed. Their number grows as $T^3$, so $C=1944\,(T/\Theta_D)^3$ J mol⁻¹ K⁻¹; in d dimensions, $C\propto T^d$.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive the T³ law by the substitution x = ħck/k_BT and redo it in any dimension. That is <a href="#hw-7-1">Sheet 7.1</a>, step 2 of <a href="#hw-7-2">Sheet 7.2</a> and part (b) at 5 K of the <a href="#exam-cu">copper exercise</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.7.1.3 Intermediate T: the Debye model</h3>
+  <section class="sec" id="s-1-7-1-3">
+    <h3><span class="step">1.7.1.3</span>Intermediate temperatures</h3>
+    <p class="hook"><b>Where you meet this.</b> Tables of Debye temperatures (Cu 343 K, Al 428 K, diamond 2230 K) sum up each solid's lattice heat capacity at every temperature with a single number. Sheet 7.2 has you pull that number out of measured diamond data, and find that it is not quite constant.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The Debye model (linear branches, a sphere for the zone, k_D and Θ_D, the Debye integral), the Einstein model and its exponential freeze-out, the lecture's combined model for a basis, and the phonon density of states that all three approximate. Lecture notes pp. 36–38.</p>
+      <p><b>Why it matters.</b> Sheet 7.2 is a Debye fit to real data. Θ_D returns in the resistivity of metals (<a href="08-transport.html">topic 08</a>), and the Einstein picture is the right one for flat optical branches (<a href="05-phonons.html#s-1-6-2">1.6.2</a>).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-debye">
+      <span class="eyebrow">1.7.1.3 · Debye model</span>
+      <h4>Linear branches in a sphere</h4>
+      <p class="needs"><a href="#c-low">1.7.1.2 · T³ law</a>; ← Brillouin zone from <a href="02-reciprocal-lattice.html#s-1-3-2">1.3.2</a></p>
       <p>(★) is exact but needs $\omega_s(\mathbf k)$ over the whole BZ. Debye makes two replacements: (a) three acoustic branches $\omega=\bar c\,k$ for all $k$; (b) the BZ becomes a sphere of the same volume, i.e. the same number of $k$-points:</p>
-      $$\frac{4\pi}{3}k_D^3=\frac{(2\pi)^3}{V}N\;\Rightarrow\;k_D=\big(6\pi^2n_{at}\big)^{1/3},\qquad \hbar\omega_D=\hbar\bar ck_D=k_B\Theta_D .$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Debye wave vector and temperature</span><a class="tag hw" href="#hw-7-2">Sheet 7.2</a></div>
+      $$\begin{aligned}\frac{4\pi}{3}k_D^3&=\frac{(2\pi)^3}{V}N\\ \Rightarrow\;k_D&=\big(6\pi^2n_{at}\big)^{1/3}\\ \hbar\omega_D&=\hbar\bar ck_D=k_B\Theta_D\end{aligned}$$
+      <span class="eq-n">(8)</span></div>
       <p>Redoing the low-T integral with the upper limit $x_D=\Theta_D/T$ kept finite:</p>
-      $$c_v^{Debye}=9\,n_{at}k_B\Big(\frac{T}{\Theta_D}\Big)^3\int_0^{\Theta_D/T}\frac{x^4e^x}{(e^x-1)^2}\,dx .$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Debye heat capacity</span><a class="tag hw" href="#hw-7-2">Sheet 7.2</a></div>
+      $$\begin{aligned}c_v^{Debye}&=9\,n_{at}k_B\Big(\frac{T}{\Theta_D}\Big)^3\\&\times\int_0^{\Theta_D/T}\frac{x^4e^x}{(e^x-1)^2}\,dx\end{aligned}$$
+      <span class="eq-n">(9)</span></div>
       <p>For $\Theta_D/T\to\infty$ the integral is $4\pi^4/15$ (the $T^3$ law). For $\Theta_D/T\to0$ it is $\frac13(\Theta_D/T)^3$, giving $3n_{at}k_B$ (Dulong–Petit). Both limits are therefore right, and in between it is a one-parameter curve. $\Theta_D$ plays the role for phonons that $\varepsilon_F/k_B$ plays for electrons: it separates "quantum" from "classical". The Debye sphere is not the BZ; it only has the same volume. For $n>1$ basis atoms, count all $nN$ atoms in $k_D$, or use the combined model below.</p>
+      <p class="trap">Drawing the Debye sphere as the Brillouin zone. It only has the same volume (the same number of k-points); its radius k_D is not π/a.</p>
+      <details class="check"><summary>Show that (9) gives Dulong–Petit when T ≫ Θ_D.</summary><p>For small $x$ the integrand is $\approx x^2$, so the integral is $\frac13(\Theta_D/T)^3$. Then $c_v=9n_{at}k_B\cdot\frac13=3n_{at}k_B$.</p></details>
+      <p class="takeaway">Debye: linear dispersion up to a cut-off k_D chosen to hold all modes. One parameter, Θ_D, and both limits come out right.</p>
     </article>
-
-    <article class="card">
-      <h3>1.7.1.3 Einstein model and the combined model</h3>
+    <article class="card" id="c-einstein">
+      <span class="eyebrow">1.7.1.3 · Einstein and combined models</span>
+      <h4>One frequency for every atom</h4>
+      <p class="needs"><a href="#c-debye">1.7.1.3 · Debye model</a>; ← optical branches from <a href="05-phonons.html#c-basis-sol">1.6.2</a></p>
       <p><b>Einstein:</b> every atom vibrates at one frequency $\omega_E$ in three directions, independent of $\mathbf k$. Then (★) has $3N$ identical terms:</p>
-      $$c_v^{Einstein}=3n_{at}k_B\,\frac{(\Theta_E/T)^2\,e^{\Theta_E/T}}{\big(e^{\Theta_E/T}-1\big)^2},\qquad k_B\Theta_E=\hbar\omega_E .$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Einstein heat capacity</span></div>
+      $$\begin{aligned}c_v^{Einstein}&=3n_{at}k_B\\&\quad\times\frac{x_E^2\,e^{x_E}}{(e^{x_E}-1)^2}\\ x_E&=\Theta_E/T\\ k_B\Theta_E&=\hbar\omega_E\end{aligned}$$
+      <span class="eq-n">(10)</span></div>
       <p>For $T\gg\Theta_E$ this gives Dulong–Petit. For $T\ll\Theta_E$ it gives $c_v\approx3n_{at}k_B(\Theta_E/T)^2e^{-\Theta_E/T}$, an exponential freeze-out. Experiment shows $T^3$ instead, because a real crystal always has acoustic modes of arbitrarily low frequency near $k=0$, and those stay thawed at any $T>0$. The Einstein model describes an <b>optical</b> branch well, since optical branches are nearly flat.</p>
       <p><b>Combined (lecture p38):</b> for $n$ atoms per cell, the 3 acoustic branches go to Debye (sphere built from the $N$ cells) and the $3(n-1)$ optical branches to Einstein:</p>
-      $$\frac{C}{3nNk_B}=\frac{1}{n}\Big[D\big(T/\Theta_D\big)+(n-1)\,E\big(T/\Theta_E\big)\Big],$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Combined model</span></div>
+      $$\begin{aligned}&\frac{C}{3nNk_B}\\&\ =\frac{1}{n}\Big[D\big(T/\Theta_D\big)\\&\qquad+(n-1)\,E\big(T/\Theta_E\big)\Big]\end{aligned}$$
+      <span class="eq-n">(11)</span></div>
       <p>where $D$ and $E$ are the Debye and Einstein curves normalised to 1 at high $T$ (Model 2).</p>
+      <p class="trap">Using the Einstein model at low T. It freezes out exponentially, while every real crystal follows T³ there because its acoustic modes reach down to ω = 0.</p>
+      <details class="check"><summary>Diamond has 2 atoms per primitive cell. What weight does the combined model give the Einstein part?</summary><p>$(n-1)/n=1/2$: 3 of the 6 branches are optical.</p></details>
+      <p class="takeaway">Einstein: one flat mode, right at high T, exponentially wrong at low T. It suits optical branches; the combined model gives the acoustic ones to Debye.</p>
     </article>
-
-    <article class="card">
-      <h3>Phonon density of states</h3>
+    <article class="card" id="c-dosint">
+      <span class="eyebrow">1.7.1.3 · Phonon density of states</span>
+      <h4>What Debye and Einstein approximate</h4>
+      <p class="needs"><a href="#c-einstein">1.7.1.3 · Einstein model</a>; ← density of states from <a href="05-phonons.html#s-1-6-4">1.6.4</a></p>
+      <div class="recap"><b>Recap from 1.6.4</b> (<a href="05-phonons.html#c-dos">topic 05</a>). The density of states counts modes per unit frequency and per volume, eq. (10) of topic 05 (below). Flat parts of a branch pile up modes (van Hove peaks).</div>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Phonon DOS</span></div>
+      $$\begin{aligned}g(\omega)&=\sum_s\int_{BZ}\frac{d^3k}{(2\pi)^3}\\&\qquad\times\delta\big(\omega-\omega_s(\mathbf k)\big)\end{aligned}$$
+      </div>
       <p>The summand in (★) depends on $\mathbf k$ only through $\omega$, so the sum can be grouped by frequency:</p>
-      $$c_v=\int_0^\infty k_B\,w\!\Big(\frac{\hbar\omega}{k_BT}\Big)\,g(\omega)\,d\omega,\qquad g(\omega)=\sum_s\int_{BZ}\frac{d^3k}{(2\pi)^3}\,\delta\big(\omega-\omega_s(\mathbf k)\big)=\sum_s\oint_{\omega_s=\omega}\frac{dS_k}{(2\pi)^3\,|\nabla_{\mathbf k}\omega_s|}.$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">(★) as a DOS integral</span></div>
+      $$c_v=\int_0^\infty k_B\,w\!\Big(\frac{\hbar\omega}{k_BT}\Big)\,g(\omega)\,d\omega$$
+      <span class="eq-n">(12)</span></div>
+      <p>The zone integral can also be written over the constant-frequency surfaces:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Surface form</span></div>
+      $$g(\omega)=\sum_s\oint_{\omega_s=\omega}\frac{dS_k}{(2\pi)^3\,|\nabla_{\mathbf k}\omega_s|}$$
+      <span class="eq-n">(13)</span></div>
       <p>$g$ is per volume and per unit $\omega$, and $\int g\,d\omega=3n_{at}$ (Kittel's $D(\omega)=Vg$). Debye: $g=\frac{3}{2\pi^2}\frac{\omega^2}{\bar c^3}$ up to $\omega_D$. Einstein: $g=3n_{at}\,\delta(\omega-\omega_E)$. A real $g$ (e.g. Al, sketched on p38) follows $\omega^2$ only at low $\omega$, then has van Hove peaks where $\nabla_{\mathbf k}\omega=0$. The dispersion relations themselves are on <a href="05-phonons.html">topic 05</a>.</p>
+      <p class="trap">Treating Debye's ω² law as the real spectrum. It holds only at low ω; real spectra have extra weight from flat branches, which is why Θ_D fitted from data drifts with T (Sheet 7.2).</p>
+      <details class="check"><summary>What is ∫g dω for the Debye spectrum, and why?</summary><p>$3n_{at}$: three branches times one mode per atom (per volume). That condition is what fixes $\omega_D$.</p></details>
+      <p class="takeaway">Heat capacity is $k_B\,w(\hbar\omega/k_BT)$ integrated against g(ω). Debye (ω² up to ω_D) and Einstein (a δ at ω_E) are two simple guesses for g.</p>
     </article>
-  </div>
+    </div>
+    <p class="cannow"><b>You can now</b> define k_D and Θ_D, write the Debye and Einstein formulas with both limits, and fit Θ_D to data. That is <a href="#hw-7-2">Sheet 7.2</a> (try <a href="#diamond">Model 4</a>) and parts (a) and (c) of the <a href="#exam-cu">copper exercise</a>.</p>
+  </section>
 </section>
 
 <!-- 3. INTERACTIVE MODELS -->
@@ -271,9 +413,13 @@
       <summary>Show worked solution</summary>
       <h4>Steps</h4>
       <ol>
-        <li>Thermal energy per area (the zero-point term does not depend on $T$ and drops out of $c$): $\displaystyle u-u_0=\sum_{s=1}^{2}\int\frac{d^2k}{(2\pi)^2}\frac{\hbar c_sk}{e^{\hbar c_sk/k_BT}-1}$.</li>
-        <li>Polar coordinates: $\int d^2k=\int_0^{2\pi}d\varphi\int k\,dk$, so $\displaystyle u-u_0=\sum_s\frac{1}{2\pi}\int_0^{k_D}\frac{\hbar c_s k^2\,dk}{e^{\hbar c_sk/k_BT}-1}$.</li>
-        <li>Substitute $x=\hbar c_sk/k_BT$. At low $T$ the upper limit $x_D=\Theta_D/T\to\infty$: $\displaystyle u-u_0=\sum_s\frac{(k_BT)^3}{2\pi\,\hbar^2c_s^2}\int_0^\infty\frac{x^2dx}{e^x-1}=\sum_s\frac{(k_BT)^3}{2\pi\,\hbar^2c_s^2}\cdot2\zeta(3)$, with $\zeta(3)=1.202$.</li>
+        <li>Thermal energy per area (the zero-point term does not depend on $T$ and drops out of $c$):
+          <div class="eq">$$\begin{aligned}u-u_0&=\sum_{s=1}^{2}\int\frac{d^2k}{(2\pi)^2}\\&\quad\times\frac{\hbar c_sk}{e^{\hbar c_sk/k_BT}-1}\end{aligned}$$</div></li>
+        <li>Polar coordinates: $\int d^2k=\int_0^{2\pi}d\varphi\int k\,dk$, so
+          <div class="eq">$$\begin{aligned}u-u_0&=\sum_s\frac{1}{2\pi}\int_0^{k_D}\hbar c_s k^2\\&\quad\times\frac{dk}{e^{\hbar c_sk/k_BT}-1}\end{aligned}$$</div></li>
+        <li>Substitute $x=\hbar c_sk/k_BT$. At low $T$ the upper limit $x_D=\Theta_D/T\to\infty$:
+          <div class="eq">$$\begin{aligned}u-u_0&=\sum_s\frac{(k_BT)^3}{2\pi\,\hbar^2c_s^2}\\&\quad\times I_2\\ I_2&=\int_0^\infty\frac{x^2dx}{e^x-1}\\&=2\zeta(3)\end{aligned}$$</div>
+          with $\zeta(3)=1.202$.</li>
         <li>Define the 2D average $\frac{2}{\bar c^2}=\sum_s\frac1{c_s^2}$: $\displaystyle u-u_0=\frac{2\zeta(3)}{\pi}\frac{(k_BT)^3}{(\hbar\bar c)^2}$.</li>
         <li>Differentiate: $\displaystyle c=\frac{\partial u}{\partial T}=\frac{6\zeta(3)}{\pi}\,k_B\Big(\frac{k_BT}{\hbar\bar c}\Big)^2\propto T^2$, in J K⁻¹ m⁻², the 2D analogue of the lecture's per-volume $c_v$.</li>
         <li>Debye form, for the whole layer of $N$ atoms: the Debye disc $\pi k_D^2=(2\pi)^2N/A$ gives $k_D^2=4\pi N/A$. With $k_B\Theta_D=\hbar\bar ck_D$, $C=Ac=24\zeta(3)\,Nk_B\,(T/\Theta_D)^2\approx28.8\,Nk_B(T/\Theta_D)^2$.</li>
@@ -423,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lg = [tr(TG, DG, C.occ), tr(TG, EG, C.emp), tr(TG.filter(x => x < 0.3), TG.filter(x => x < 0.3).map(x => T3C * x ** 3), C.ef, { line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' })];
     if (n > 1) lg.push(tr(TG, TG.map((x, i) => mix(DG[i], EG[i])), C.fg));
     lg.push({ x: [t, t], y: [1e-7, 2], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' });
-    Plotly.react('cm-p2', lg, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2, 0.3] }), yaxis: ax('C / (3nNk_B)', { type: 'log', range: [-7, 0.15], exponentformat: 'power' }) }), CFG);
+    Plotly.react('cm-p2', lg, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2, 0.3], dtick: 1 }), yaxis: ax('C / (3nNk_B)', { type: 'log', range: [-7, 0.15], dtick: 1, exponentformat: 'power' }) }), CFG);
     const ratio = dt / et;
     setPill('cm-pill', ['atom', ratio > 3 ? 'Einstein frozen out, Debye not' : Math.abs(ratio - 1) < 0.05 ? 'Models agree' : 'Models differ']);
     const rows = [['Debye', sig(dt)], ['Einstein', sig(et)]];
@@ -446,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tr.push({ x: TD, y: DD[d], mode: 'lines', line: { color: C.occ, width: 2.8 }, hovertemplate: 'T/Θ_D = %{x:.3g}<br>C/dNk_B = %{y:.3g}<extra></extra>' });
     const c0 = debD(t, d);
     tr.push({ x: [t], y: [c0], mode: 'markers', marker: { size: 10, color: C.occ, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' });
-    Plotly.react('dd-p1', tr, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2.6, 0.4] }), yaxis: ax('C / (d N k_B)', { type: 'log', range: [-7, 0.15], exponentformat: 'power' }) }), CFG);
+    Plotly.react('dd-p1', tr, layout({ xaxis: ax('T / Θ_D', { type: 'log', range: [-2.6, 0.4], dtick: 1 }), yaxis: ax('C / (d N k_B)', { type: 'log', range: [-7, 0.15], dtick: 1, exponentformat: 'power' }) }), CFG);
     const us = lin(0, 1, 101), gt = [];
     [1, 2, 3].forEach(k => gt.push({ x: us.concat([1, 1]), y: us.map(u => k * u ** (k - 1)).concat([k, 0]), mode: 'lines', line: { color: k === d ? C.occ : C.muted, width: k === d ? 2.8 : 1.5 }, hovertemplate: 'd = ' + k + '<extra></extra>' }));
     Plotly.react('dd-p2', gt, layout({ xaxis: ax('ω / ω_D', { range: [0, 1.05] }), yaxis: ax('g(ω) · ω_D / dN', { range: [0, 3.2] }) }), CFG);
@@ -487,12 +633,12 @@ document.addEventListener('DOMContentLoaded', () => {
       { x: TS, y: TS.map(T => cE(T, thE)), mode: 'lines', line: { color: C.muted, width: 2, dash: 'dot' }, hovertemplate: 'Einstein %{y:.3g}<extra></extra>' },
       { x: TS, y: TS.map(T => cD(T, 2250)), mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hovertemplate: 'Debye 2250 K: %{y:.3g}<extra></extra>' },
       { x: TS, y: TS.map(T => cD(T, th)), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'Debye ' + th + ' K: %{y:.3g}<extra></extra>' }, pts],
-      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3] }), yaxis: ax('Specific heat c_V (cal g⁻¹ K⁻¹)', { type: 'log', range: [-5, -0.15], exponentformat: 'power' }) }), CFG);
+      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3], dtick: 1 }), yaxis: ax('Specific heat c_V (cal g⁻¹ K⁻¹)', { type: 'log', range: [-5, -0.15], dtick: 1, exponentformat: 'power' }) }), CFG);
     Plotly.react('dm-p2', [band(1400, 2600),
       { x: [10, 1000], y: [2250, 2250], mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
       { x: [10, 1000], y: [th, th], mode: 'lines', line: { color: C.emp, width: 2.5 }, hoverinfo: 'skip' },
       { x: DIA.map(p => p[0]), y: THI, mode: 'markers', marker: { symbol: 'diamond', size: 7, color: C.occ }, hovertemplate: 'T = %{x} K<br>Θ_D = %{y:.0f} K<extra></extra>' }],
-      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3] }), yaxis: ax('Θ_D needed by each point (K)', { range: [1500, 2400] }) }), CFG);
+      layout({ xaxis: ax('Temperature T (K)', { type: 'log', range: [1, 3], dtick: 1 }), yaxis: ax('Θ_D needed by each point (K)', { range: [1500, 2400] }) }), CFG);
     const thSel = THI.filter((_, i) => DIA[i][0] >= a && DIA[i][0] <= b);
     setPill('dm-pill', ['atom', Math.abs(th - F.th) / F.th < 0.015 ? 'On the best fit for this range' : th > F.th ? 'Curve too low: Θ_D too high' : 'Curve too high: Θ_D too low']);
     setRead('dm-read', [['Best fit Θ_D (range)', F.th.toFixed(0) + ' K'], ['rms misfit at your Θ_D', (100 * rms).toFixed(1) + ' %'],

@@ -12,6 +12,8 @@ if (!js.includes("output: 'mathml'")) throw new Error('MATH_OPTS not found');
 const head = s.slice(s.indexOf('<head>') + 6, s.indexOf('</head>'));
 const title = head.match(/<title>[\s\S]*?<\/title>/)[0];
 const fonts = head.match(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis[^>]*>/)[0];
+// Page-local <style> blocks in <head> must survive the build.
+const headStyles = [...head.matchAll(/<style[\s\S]*?<\/style>/g)].map(m => m[0]).join('\n');
 const libs = [...head.matchAll(/<script defer src="(https:[^"]+)"><\/script>/g)]
   .map(m => `<script src="${m[1]}"></script>`).join('\n');
 let body = s.slice(s.indexOf('<body>') + 6, s.lastIndexOf('</body>'));
@@ -24,6 +26,7 @@ ${fonts}
 <style>
 ${css}
 </style>
+${headStyles}
 ${libs}
 <script>
 ${js}

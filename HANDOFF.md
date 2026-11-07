@@ -18,6 +18,9 @@
 > - **Page 09 intuition models** (user clarification, 2026-11-07): they are relevant intuition for Bloch, NFE and conduction, just not in lecture order.
 >   - They are being placed into 2.6.1 / 2.6.2 / 2.6.3 / Connecting ideas, with links to pages 07 and 08.
 >   - Once 07 and 08 are restyled, add the reverse links on those pages (e.g. 2.1.6 → bands "E(k) with Fermi–Dirac filling", 2.2 → bands "Current in a wire").
+> - **To tidy up after the restyle:**
+>   - `.recap` is defined locally in page 09 (and possibly page 05). Move it into `site.css` and remove the local copies.
+>   - Page 09 links to 07#sphere, 07#smear, 08#concepts, 08#m-fs and 08#m-rt. Switch these to the section ids once 07 and 08 have them, then add the reverse links on 07 and 08.
 > - **Waiting:** pages 10–13 wait for lectures. GitHub comes last, and only with the user's OK.
 
 > **2026-11-06 morning:** the original session resumed this work itself. The pedagogy and review agents were resumed there. A scheduled run that reads this should not redo items 1–2. Check `git log` first, and only take over if the original session has gone quiet.

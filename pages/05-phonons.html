@@ -12,12 +12,17 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
 <script defer src="../assets/common.js"></script>
-<style>
-  .chaincv canvas { display: block; width: 100%; height: 230px; }
-  @media (max-width: 640px) { .chaincv canvas { height: 200px; } }
-</style>
 </head>
 <body>
+<style>
+  /* In the body, not the head: tools/to-artifact.js keeps only body markup, so a head style would be lost in the phone build. */
+  .chaincv canvas { display: block; width: 100%; max-width: 100%; height: 230px; }
+  @media (max-width: 640px) { .chaincv canvas { height: 200px; } }
+  /* .recap is not in site.css yet: short recap of an earlier section, linked to its full treatment. */
+  .recap { border-left: 3px solid var(--muted); background: var(--panel); border-radius: 0 4px 4px 0; padding: 8px 12px; font-size: 15px; }
+  .recap > b:first-child { color: var(--muted); font-weight: 600; }
+  .fwd { color: var(--muted); }
+</style>
 <nav class="site-nav" aria-label="Site"><div class="in">
   <a class="brand" href="../index.html">CMD Explorer</a>
   <a href="../index.html#map">Syllabus map</a>
@@ -41,42 +46,91 @@
   <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
 </header>
 
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>Read the Concepts section by section, in topic-list order (the topic list has no 1.6.3). Each line says which cards it holds and which model or exercise to try next. 1.6.1, 1.6.2 and 1.6.4 carry sheet 6. Lattice vibrations were not asked in the 2022 exam, so the exam-style exercise at the end follows the sheet's level. About 2 hours in total.</p>
+  <ol>
+    <li data-sec="1.6.1"><a href="#s-1-6-1">Simple linear chain</a><span class="min">35 min</span><span class="then"><a href="#c-approx">Approximations</a> → <a href="#c-chain">dispersion</a> → <a href="#c-k">what k means</a>. Then: <a href="#alias">Model 1</a>, <a href="#hw-6-1">Sheet 6.1</a>.</span></li>
+    <li data-sec="1.6.2"><a href="#s-1-6-2">Linear chain with basis</a><span class="min">35 min</span><span class="then"><a href="#c-basis-setup">Setting up</a> → <a href="#c-basis-sol">solution</a>. Then: <a href="#diatomic">Model 2</a>.</span></li>
+    <li data-sec="1.6.4"><a href="#s-1-6-4">Density of states</a><span class="min">20 min</span><span class="then"><a href="#c-dos">From ω(k) to g(ω)</a>. Then: <a href="#dos">Model 3</a>, <a href="#hw-6-2">Sheet 6.2</a>.</span></li>
+    <li data-sec="1.6.5"><a href="#s-1-6-5">Phonons</a><span class="min">10 min</span><span class="then"><a href="#c-phonon">Quanta and crystal momentum</a>.</span></li>
+    <li data-sec="1.6.6"><a href="#s-1-6-6">Measurement of phonons</a><span class="min">15 min</span><span class="then"><a href="#c-measure">Neutrons and light</a>. Then: <a href="#neutron">Model 4</a>.</span></li>
+    <li data-sec="Ex"><a href="#exam-nacl">Exam-style exercise: NaCl chain</a><span class="min">20 min</span><span class="then">Uses 1.6.2 and 1.6.6. Try each part before opening the solution.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag hw">Sheet 6.2</span>used by a sheet problem</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
 <!-- 1. OVERVIEW -->
 <section class="block" id="overview">
   <h2>Overview</h2>
   <p>A static lattice cannot explain the $T^3$ heat capacity of insulators, thermal expansion, the heat conduction of insulators, the temperature dependence of a metal's resistance, the infrared response of ionic crystals or sound. All of these need the atoms to move. With the electrons following the ions instantly (adiabatic approximation) and small displacements (harmonic approximation), Newton's equations for a chain of masses and springs are linear and are solved by plane waves $u_j\propto e^{i(kja-\omega t)}$.</p>
-  <p>Key results to leave with: the monatomic dispersion $\omega=\sqrt{4f/m}\,|\sin(ka/2)|$ and why $k$ only matters modulo $2\pi/a$; the acoustic and optical branches of a two-atom chain, with the gap at $\pi/a$, solved here in full (the notes stop at the determinant); the density of states $g(\omega)\propto 1/|d\omega/dk|$ and its singularity where the band is flat; and phonons as quanta $\hbar\omega(n+\tfrac12)$ with crystal momentum $\hbar k$, measured by neutrons across the whole zone and by light only near $k=0$.</p>
+  <p>Key results to leave with: the monatomic dispersion $\omega=\sqrt{4f/m}\,|\sin(ka/2)|$ and why $k$ only matters modulo $2\pi/a$ (1.6.1); the acoustic and optical branches of a two-atom chain, with the gap at $\pi/a$, solved here in full, since the notes stop at the determinant (1.6.2); the density of states $g(\omega)\propto 1/|d\omega/dk|$ and its singularity where the band is flat (1.6.4); phonons as quanta $\hbar\omega(n+\tfrac12)$ with crystal momentum $\hbar k$ (1.6.5); and why neutrons map the whole zone while light sees only $k\approx0$ (1.6.6).</p>
   <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 4 (Vibrations of Crystals with Monatomic Basis; Two Atoms per Primitive Basis; Quantization of Elastic Waves; Phonon Momentum; Inelastic Scattering by Phonons) and ch. 5 (Density of States in One Dimension), and the lecture notes pp. 26–33. The lecture writes $f, m, k$ for Kittel's $C, M, K$; this page follows the lecture and the sheet.</p>
 </section>
 
 <!-- 2. CONCEPTS -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
-  <div class="cards">
-    <article class="card">
-      <h3>Setting up: adiabatic and harmonic approximations</h3>
+
+  <section class="sec" id="s-1-6-1">
+    <h3><span class="step">1.6.1</span>Simple linear chain</h3>
+    <p class="hook"><b>Where you meet this.</b> Knock on one end of a steel rail and the sound reaches the far end through the steel at about 5 km/s, some 15 times faster than through the air (343 m/s). That speed is the slope of this section's dispersion curve at small k, $v_s=a\sqrt{f/m}$: stiff springs and light atoms make fast sound.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Why the atoms can be treated as masses on springs (adiabatic and harmonic approximations), the dispersion ω(k) of a one-atom chain with its sound and group velocities, and what the wave vector k means on a lattice. Lecture notes pp. 26–30.</p>
+      <p><b>Why it matters.</b> Sheet 6.1 repeats this derivation with longer-range springs, and sheet 6.2 starts from its result. Every later section builds on it, and the rule "k and k + G are the same wave" returns for electrons in Bloch states (<a href="09-bands.html#kwave">topic 09</a>).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-approx">
+      <span class="eyebrow">1.6.1 · Approximations</span>
+      <h4>Setting up: adiabatic and harmonic approximations</h4>
       <p>Electrons are thousands of times lighter than ions and adjust to any ion arrangement almost instantly, so they stay in their ground state as the ions move. The energy is then a function of the ion positions alone, $U(\{\mathbf r(\mathbf R,j)\})$, with $\mathbf R$ the lattice point and $j$ the basis atom. The force on an ion is $\mathbf F=-\partial U/\partial\mathbf r$.</p>
       <p>Write each position as its lattice site plus a small displacement, $\mathbf r=\mathbf R+\mathbf v_j+\mathbf u(\mathbf R,j)$ with $\langle u^2\rangle\ll r_{NN}^2$. Expand $U$ to second order: the linear term vanishes at equilibrium, so $U$ is a quadratic form in the $u$'s, the forces are linear (Hooke) and the problem is a set of coupled harmonic oscillators. Its normal modes are the lattice waves.</p>
+      <details class="check"><summary>Why does the expansion of U have no linear term in the displacements?</summary><p>The expansion is about the equilibrium positions, where every force $-\partial U/\partial\mathbf r$ is zero. The first derivatives vanish, so the first non-constant term is quadratic.</p></details>
+      <p class="takeaway">Adiabatic: the energy depends on the ion positions only. Harmonic: it is quadratic in small displacements. Together they turn the crystal into coupled springs with linear equations of motion.</p>
     </article>
-
-    <article class="card">
-      <h3>1.6.1 Simple linear chain</h3>
+    <article class="card" id="c-chain">
+      <span class="eyebrow">1.6.1 · Dispersion</span>
+      <h4>The monatomic chain</h4>
+      <p class="needs"><a href="#c-approx">1.6.1 · Approximations</a></p>
       <p>Atoms of mass $m$, spacing $a$, nearest-neighbour springs $f$, displacement $u_j$ of atom $j$:</p>
-      $$U=\sum_j\tfrac12 f\,(u_j-u_{j+1})^2,\qquad m\ddot u_j=-\frac{\partial U}{\partial u_j}=f\,(u_{j+1}+u_{j-1}-2u_j).$$
-      <p>Insert $u_j=u_0\,e^{i(kja-\omega t)}$ and cancel $u_0e^{i(kja-\omega t)}$: $-m\omega^2=f(e^{ika}+e^{-ika}-2)=-2f(1-\cos ka)=-4f\sin^2\tfrac{ka}{2}$, so</p>
-      $$\omega(k)=\sqrt{\frac{4f}{m}}\,\Big|\sin\frac{ka}{2}\Big|,\qquad \omega_m=\sqrt{4f/m}.$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Potential and equation of motion</span><a class="tag hw" href="#hw-6-1">Sheet 6.1</a></div>
+      $$\begin{aligned}U&=\sum_j\tfrac12 f\,(u_j-u_{j+1})^2\\ m\ddot u_j&=-\frac{\partial U}{\partial u_j}\\&=f\,(u_{j+1}+u_{j-1}-2u_j)\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
+      <p>Insert $u_j=u_0\,e^{i(kja-\omega t)}$ and cancel $u_0e^{i(kja-\omega t)}$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">After the plane-wave ansatz</span></div>
+      $$\begin{aligned}-m\omega^2&=f\,(e^{ika}+e^{-ika}-2)\\&=-2f\,(1-\cos ka)\\&=-4f\sin^2\tfrac{ka}{2}\end{aligned}$$
+      <span class="eq-n">(2)</span></div>
+      <p>so</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Monatomic dispersion</span><a class="tag hw" href="#hw-6-2">Sheet 6.2</a></div>
+      $$\begin{aligned}\omega(k)&=\sqrt{\frac{4f}{m}}\,\Big|\sin\frac{ka}{2}\Big|\\ \omega_m&=\sqrt{4f/m}\end{aligned}$$
+      <span class="eq-n">(3)</span></div>
       <ul>
         <li><b>Long waves</b>, $ka\ll1$: $\omega\approx a\sqrt{f/m}\,|k|$. Sound with speed $v_s=a\sqrt{f/m}$, independent of frequency, as in a continuum.</li>
         <li><b>Group velocity</b> $v_g=d\omega/dk=v_s\cos(ka/2)$ for $k>0$: the speed of a packet and of energy. It falls to zero at $k=\pi/a$.</li>
         <li><b>Zone boundary</b> $k=\pm\pi/a$: $u_j\propto(-1)^j$, neighbours exactly opposed. A standing wave, the lattice version of Bragg reflection with $\lambda=2a$.</li>
       </ul>
       <div class="assume"><b>Notes, p27:</b> the chain potential is written with $(u_l+u_{l+1})^2$. It must be a difference, $(u_l-u_{l+1})^2$: a rigid shift of the whole chain costs no energy, and the force on the next line only follows from the minus sign.</div>
+      <p class="trap">Taking the phase velocity ω/k as the speed of sound or energy. Signals and energy travel at the group velocity dω/dk, which is zero at the zone boundary even though ω/k is not.</p>
+      <details class="check"><summary>At k = π/a, what do neighbouring atoms do, and how fast does energy travel?</summary><p>$u_{j+1}/u_j=e^{i\pi}=-1$: neighbours move exactly opposite. $v_g=v_s\cos(\pi/2)=0$, so the mode is a standing wave and carries no energy.</p></details>
+      <p class="takeaway">$\omega=\sqrt{4f/m}\,|\sin(ka/2)|$: linear (sound) at small k, flat with zero group velocity at the zone boundary $\pm\pi/a$.</p>
     </article>
-
-    <article class="card">
-      <h3>1.6.1 What k means: k and k + 2π/a are the same wave</h3>
+    <article class="card" id="c-k">
+      <span class="eyebrow">1.6.1 · What k means</span>
+      <h4>k and k + 2π/a are the same wave</h4>
+      <p class="needs"><a href="#c-chain">1.6.1 · Dispersion</a>; ← Brillouin zone from <a href="02-reciprocal-lattice.html#s-1-3-2">1.3.2</a></p>
+      <div class="recap"><b>Recap from 1.3.2</b> (<a href="02-reciprocal-lattice.html#s-1-3-2">topic 02</a>). The reciprocal lattice is the set of G with $e^{iGR}=1$ for every lattice vector R; the first Brillouin zone is its Wigner–Seitz cell, the k closer to G = 0 than to any other G. For a chain of spacing a: $G=2pi n/a$, zone $-pi/alt klepi/a$.</div>
       <p>The displacement only exists at the atoms, $x=ja$. Replace $k$ by $k'=k+2\pi n/a$:</p>
-      $$u_j'=u_0\,e^{i(k'ja-\omega t)}=u_0\,e^{i(kja-\omega t)}\,e^{i2\pi nj}=u_j ,$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Shifting k by n·2π/a</span></div>
+      $$\begin{aligned}u_j'&=u_0\,e^{i(k'ja-\omega t)}\\&=u_0\,e^{i(kja-\omega t)}\,e^{i2\pi nj}\\&=u_j\end{aligned}$$
+      <span class="eq-n">(4)</span></div>
       <p>because $e^{i2\pi nj}=1$ for every integer $j$. Every atom does exactly the same thing, at the same frequency (ω(k) is periodic with $2\pi/a$). The two continuous sine curves you could draw through the atoms differ, but the space between atoms has no displacement, so the difference is not physical. This is aliasing, as with a strobe light or a sampled signal (Kittel ch. 4 Fig. 5).</p>
       <p>What $k$ really specifies is the <b>phase step from one atom to the next</b>, $u_{j+1}/u_j=e^{ika}$. A phase is only defined modulo $2\pi$, so $ka$ only matters modulo $2\pi$, and one interval of length $2\pi/a$ holds every distinct mode. The conventional choice is $-\pi/a\lt k\le\pi/a$, the first Brillouin zone. $2\pi/a$ is the reciprocal lattice vector $G$ of the chain, so the rule reads: <b>$k$ and $k+G$ label the same mode</b>.</p>
       <ul>
@@ -84,33 +138,66 @@
         <li>Velocities: $v_g=d\omega/dk$ is the same at $k$ and $k+G$ (the derivative of a periodic function is periodic). The phase velocity $\omega/k$ is not, which shows it has no physical meaning on a lattice.</li>
         <li>Why it matters later: the same rule makes electron Bloch states periodic in $k$ (<a href="09-bands.html#kwave">topic 09, "What k looks like"</a>) and lets phonon collisions change total $k$ by $G$ (Umklapp, <a href="08-transport.html">topic 08</a>).</li>
       </ul>
+      <p class="trap">Thinking the wave at k + 2π/a is a different, shorter wave of the crystal. Between the atoms there is nothing to displace, so the two curves describe one and the same motion.</p>
+      <details class="check"><summary>A chain wave has k = 1.3π/a. Which k in the first zone describes the same motion?</summary><p>Subtract $G=2\pi/a$: $k'=1.3\pi/a-2\pi/a=-0.7\pi/a$. It is the opening state of <a href="#alias">Model 1</a>.</p></details>
+      <p class="takeaway">k is the phase step per atom, so it only matters modulo 2π/a. The first Brillouin zone, $-\pi/a\lt k\le\pi/a$, holds all N modes of an N-atom chain.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive the monatomic dispersion from the chain potential, give its sound speed and zone-boundary behaviour, and explain why k is restricted to the first zone. <a href="#hw-6-1">Sheet 6.1</a> is the same derivation with more springs; try it next, then play with <a href="#alias">Model 1</a>.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.6.2 Linear chain with basis: setting it up</h3>
+  <section class="sec" id="s-1-6-2">
+    <h3><span class="step">1.6.2</span>Linear chain with basis</h3>
+    <p class="hook"><b>Where you meet this.</b> Rock-salt (NaCl) windows are a standard part of infrared spectrometers because they are transparent out to about 15 µm. Further out, near 61 µm, the crystal absorbs strongly: there light shakes Na⁺ and Cl⁻ against each other in the optical branch you derive here.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> A chain with two different masses per cell: the equations of motion, the 2×2 matrix and its determinant, the full solution with acoustic and optical branches, the gap, the eigenvectors, and branch counting in 3D. Lecture notes pp. 30–31; the notes stop at the determinant, so the solution follows Kittel ch. 4.</p>
+      <p><b>Why it matters.</b> Every crystal with a basis (NaCl, diamond, GaAs) has optical branches. They are what light couples to (1.6.6) and what the Einstein model describes on <a href="06-heat-capacity.html">topic 06</a>, and the count of 3p branches gives the 3nN modes of the heat capacity. The exam-style exercise below is this section with numbers.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-basis-setup">
+      <span class="eyebrow">1.6.2 · Setting up</span>
+      <h4>Two masses per cell</h4>
+      <p class="needs"><a href="#c-chain">1.6.1 · Dispersion</a></p>
       <p>Two masses $m_1$ and $m_2$ alternate, joined by equal springs $f$. $a$ is the repeat distance (between atoms of the <i>same</i> kind) and $j$ the cell index. Call the displacements $u_j$ (mass $m_1$) and $v_j$ (mass $m_2$, to the right of $u_j$). Atom $u_j$ touches $v_j$ and $v_{j-1}$; atom $v_j$ touches $u_j$ and $u_{j+1}$:</p>
-      $$m_1\ddot u_j=f\,(v_j+v_{j-1}-2u_j),\qquad m_2\ddot v_j=f\,(u_{j+1}+u_j-2v_j).$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Equations of motion</span></div>
+      $$\begin{aligned}m_1\ddot u_j&=f\,(v_j+v_{j-1}-2u_j)\\ m_2\ddot v_j&=f\,(u_{j+1}+u_j-2v_j)\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
       <p>Try a wave with a different amplitude on each sublattice, $u_j=u\,e^{i(kja-\omega t)}$, $v_j=v\,e^{i(kja-\omega t)}$. Then $v_{j-1}=v_j\,e^{-ika}$ and $u_{j+1}=u_j\,e^{+ika}$, and</p>
-      $$\begin{pmatrix}2f-m_1\omega^2 & -f\,(1+e^{-ika})\\[2pt] -f\,(1+e^{ika}) & 2f-m_2\omega^2\end{pmatrix}\begin{pmatrix}u\\ v\end{pmatrix}=0 .$$
-      <p>This is Kittel's eq. (20). A non-zero $(u,v)$ needs a zero determinant. The off-diagonal product is $f^2(1+e^{-ika})(1+e^{ika})=f^2(2+2\cos ka)$, so</p>
-      $$m_1m_2\,\omega^4-2f(m_1+m_2)\,\omega^2+2f^2(1-\cos ka)=0 ,$$
-      <p>Kittel's eq. (22), a quadratic in $\omega^2$.</p>
-      <p><b>The lecture's route</b> (mass weighting) gives the same answer. With $w_1=\sqrt{m_1}\,u$, $w_2=\sqrt{m_2}\,v$ the equations read $\omega^2\mathbf w=\underline D\,\mathbf w$ with the dynamical matrix</p>
-      $$\underline D=\begin{pmatrix}\dfrac{2f}{m_1} & -\dfrac{f(1+e^{-ika})}{\sqrt{m_1m_2}}\\[8pt] -\dfrac{f(1+e^{ika})}{\sqrt{m_1m_2}} & \dfrac{2f}{m_2}\end{pmatrix},\qquad \det(\underline D-\omega^2\mathbb 1)=0 ,$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Linear system for the amplitudes (Kittel eq. 20)</span></div>
+      $$\begin{aligned}&(2f-m_1\omega^2)\,u\\&\quad-f\,(1+e^{-ika})\,v=0\\[4pt] &-f\,(1+e^{ika})\,u\\&\quad+(2f-m_2\omega^2)\,v=0\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
+      <p>A non-zero $(u,v)$ needs a zero determinant. The off-diagonal product is $f^2(1+e^{-ika})(1+e^{ika})=f^2(2+2\cos ka)$, so</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Determinant condition (Kittel eq. 22)</span></div>
+      $$\begin{aligned}&m_1m_2\,\omega^4-2f(m_1+m_2)\,\omega^2\\&\quad+2f^2(1-\cos ka)=0\end{aligned}$$
+      <span class="eq-n">(7)</span></div>
+      <p>a quadratic in $\omega^2$.</p>
+      <p><b>The lecture's route</b> (mass weighting) gives the same answer. With $w_1=\sqrt{m_1}\,u$, $w_2=\sqrt{m_2}\,v$ the equations read $\omega^2\mathbf w=\underline D\,\mathbf w$ with the dynamical matrix $\underline D$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Dynamical matrix (lecture)</span></div>
+      $$\begin{aligned}D_{11}&=\frac{2f}{m_1},\qquad D_{22}=\frac{2f}{m_2}\\ D_{12}&=-\frac{f\,(1+e^{-ika})}{\sqrt{m_1m_2}}\\ D_{21}&=-\frac{f\,(1+e^{ika})}{\sqrt{m_1m_2}}\\ 0&=\det(\underline D-\omega^2\mathbb 1)\end{aligned}$$
+      <span class="eq-n">(8)</span></div>
       <p>where $\mathbb 1$ is the identity matrix $I$. $\underline D$ is Hermitian, so its eigenvalues $\omega^2$ are real.</p>
       <div class="assume"><b>Notes, p31, two slips:</b> (1) both off-diagonal entries carry $e^{ika}$. Because $u_1$ couples to $u_2(x-a)$, the (1,2) entry must carry $e^{-ika}$ and the (2,1) entry $e^{+ika}$. With equal exponents $\underline D$ is not Hermitian and the determinant contains the complex number $(1+e^{ika})^2$. (2) In the determinant line the off-diagonal entries have lost the factor $f$ (the diagonal has it). Which neighbour you call "same cell" flips both exponents, but only the convention-free product $|1+e^{ika}|^2=4\cos^2(ka/2)$ enters the result.</div>
+      <p class="trap">Giving both off-diagonal entries the same exponent, as the notes do. The two entries must be complex conjugates; otherwise the determinant is complex and ω² comes out complex.</p>
+      <details class="check"><summary>Why can only the product of the off-diagonal entries enter the determinant, and what is it?</summary><p>A 2×2 determinant is $D_{11}D_{22}-D_{12}D_{21}$. The product is $f^2(1+e^{-ika})(1+e^{ika})/m_1m_2=f^2\,|1+e^{ika}|^2/m_1m_2=4f^2\cos^2(ka/2)/m_1m_2$, real and independent of the "same cell" convention.</p></details>
+      <p class="takeaway">Two atoms per cell give a 2×2 problem for each k. Its determinant (7) is a quadratic in ω², so each k has two frequencies.</p>
     </article>
-
-    <article class="card">
-      <h3>1.6.2 Linear chain with basis: the solution</h3>
-      <p>Divide eq. (22) by $m_1m_2$, write $1-\cos ka=2\sin^2(ka/2)$ and solve the quadratic in $\omega^2$:</p>
-      $$\omega_\pm^2(k)=f\Big(\frac1{m_1}+\frac1{m_2}\Big)\pm f\sqrt{\Big(\frac1{m_1}+\frac1{m_2}\Big)^2-\frac{4\sin^2(ka/2)}{m_1m_2}} .$$
-      <p>The minus sign is the <b>acoustic</b> branch, the plus sign the <b>optical</b> branch. Take $m_1>m_2$ and $1/\mu=1/m_1+1/m_2$:</p>
+    <article class="card" id="c-basis-sol">
+      <span class="eyebrow">1.6.2 · Solution</span>
+      <h4>Acoustic and optical branches</h4>
+      <p class="needs"><a href="#c-basis-setup">1.6.2 · Setting up</a></p>
+      <p>Divide (7) by $m_1m_2$, write $1-\cos ka=2\sin^2(ka/2)$ and solve the quadratic in $\omega^2$. With the reduced mass $\mu$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Two-atom chain dispersion</span></div>
+      $$\begin{aligned}\omega_\pm^2(k)&=\frac{f}{\mu}\pm f\,R(k)\\ R(k)&=\sqrt{\frac{1}{\mu^2}-\frac{4\sin^2(ka/2)}{m_1m_2}}\\ \frac1\mu&=\frac1{m_1}+\frac1{m_2}\end{aligned}$$
+      <span class="eq-n">(9)</span></div>
+      <p>The minus sign is the <b>acoustic</b> branch, the plus sign the <b>optical</b> branch. Take $m_1>m_2$:</p>
       <ul>
         <li>$k\to0$: acoustic $\omega_-^2\approx\dfrac{f}{2(m_1+m_2)}k^2a^2$, sound at $v_s=a\sqrt{f/2(m_1+m_2)}$ (Kittel eq. 24). Optical $\omega_+=\sqrt{2f/\mu}$, the maximum (eq. 23).</li>
         <li>$k=\pm\pi/a$: the square root becomes $|1/m_2-1/m_1|$, so $\omega_-=\sqrt{2f/m_1}$ and $\omega_+=\sqrt{2f/m_2}$ (eq. 25).</li>
         <li><b>Gap:</b> no wave solution has $\sqrt{2f/m_1}\lt\omega\lt\sqrt{2f/m_2}$. It closes when $m_1=m_2$.</li>
       </ul>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Band edges</span></div>
+      $$\begin{aligned}\omega_+(0)&=\sqrt{2f/\mu}\\ \omega_+(\pi/a)&=\sqrt{2f/m_2}\\ \omega_-(\pi/a)&=\sqrt{2f/m_1}\end{aligned}$$
+      </div>
       <p><b>Eigenvectors</b> from the first row: $u/v=f(1+e^{-ika})/(2f-m_1\omega^2)$.</p>
       <ul>
         <li>Acoustic, $k\to0$: $u/v\to1$. Both atoms move together, like sound.</li>
@@ -119,36 +206,107 @@
       </ul>
       <p><b>Check with equal masses.</b> $m_1=m_2=m$ gives $\omega_\pm^2=\frac{2f}{m}(1\pm|\cos\frac{ka}{2}|)$, i.e. $\omega_-=\sqrt{4f/m}\,|\sin\frac{ka}{4}|$ and $\omega_+=\sqrt{4f/m}\,|\cos\frac{ka}{4}|$. That is the monatomic chain of spacing $a/2$, whose zone runs to $2\pi/a$, with its outer half shifted by $2\pi/a$ into $[-\pi/a,\pi/a]$. Choosing a cell twice too large folds the band; a real mass difference then opens the gap at the fold. Model 2 shows both.</p>
       <p><b>In 3D</b>, with $p$ atoms per primitive cell and $N$ cells: $3p$ branches, 3 acoustic (one longitudinal, two transverse) and $3p-3$ optical, each with $N$ values of $k$. Total $3pN$ modes, one per degree of freedom.</p>
+      <p class="trap">Using the nearest-neighbour distance for a. Here a is the repeat distance between atoms of the same kind, twice the m₁–m₂ spacing; with the wrong a the zone boundary and the sound speed come out wrong by a factor 2.</p>
+      <details class="check"><summary>m₁ = 2m₂. Give both frequencies at k = π/a in units of √(2f/m₂).</summary><p>Acoustic $\sqrt{2f/m_1}=\sqrt{f/m_2}=0.707$; optical $\sqrt{2f/m_2}=1$. The gap runs from 0.707 to 1.</p></details>
+      <details class="check"><summary>How many phonon branches does a crystal with 2 atoms per primitive cell have?</summary><p>6: 3 acoustic (LA, 2 TA) and 3 optical (LO, 2 TO).</p></details>
+      <p class="takeaway">Acoustic: atoms in phase, ω → 0 at k = 0. Optical: atoms against each other, highest at k = 0. Between them, a gap from √(2f/m₁) to √(2f/m₂) at the zone boundary.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> set up the two-atom chain, get ω± at k = 0 and π/a, sketch both branches with the gap and describe their eigenvectors. That is parts (a) to (d) of the <a href="#exam-nacl">NaCl exercise</a>; check your numbers against <a href="#diatomic">Model 2</a>, which opens in the same state.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.6.4 Density of states</h3>
+  <section class="sec" id="s-1-6-4">
+    <h3><span class="step">1.6.4</span>Density of states</h3>
+    <p class="hook"><b>Where you meet this.</b> Every heat capacity in a data table, such as copper's 24.4 J mol⁻¹ K⁻¹ at room temperature, is a sum over the vibration modes, each weighted by how strongly it is excited. The density of states is the list that sum runs over: how many modes sit at each frequency. <a href="06-heat-capacity.html">Topic 06</a> does the sum; this section builds the list.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The definition of g(ω) as a zone integral over a δ-function, its 1D reduction to the roots of ω(k) = ω, the van Hove singularity where the band is flat, and the closed form for the monatomic chain. The lecture derives it on notes p38, inside heat capacity (numbered 1.7.1.4 there); the topic list files it here, and topic 06 recaps it where the lecture uses it.</p>
+      <p><b>Why it matters.</b> Sheet 6.2 asks for exactly the 1D DOS. The Debye and Einstein models on <a href="06-heat-capacity.html">topic 06</a> are two approximations to g(ω), and the same construction gives the electron DOS on <a href="07-free-electron-gas.html">topic 07</a>.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-dos">
+      <span class="eyebrow">1.6.4 · From ω(k) to g(ω)</span>
+      <h4>Counting modes per unit frequency</h4>
+      <p class="needs"><a href="#c-chain">1.6.1 · Dispersion</a>, <a href="#c-k">1.6.1 · What k means</a></p>
       <p>The density of states counts modes per unit frequency. Summing over branches $s$ and integrating over the first Brillouin zone,</p>
-      $$g(\omega)=\sum_s\int_{1.\mathrm{BZ}}\frac{d^3k}{(2\pi)^3}\,\delta\big(\omega-\omega_s(\mathbf k)\big),$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">Density of states, per unit volume</span><a class="tag hw" href="#hw-6-2">Sheet 6.2</a></div>
+      $$\begin{aligned}g(\omega)&=\sum_s\int_{1.\mathrm{BZ}}\frac{d^3k}{(2\pi)^3}\\&\qquad\times\delta\big(\omega-\omega_s(\mathbf k)\big)\end{aligned}$$
+      <span class="eq-n">(10)</span></div>
       <p>per unit volume (Kittel's $D(\omega)=V g(\omega)$ is for the whole crystal). The weight $d^3k/(2\pi)^3$ is one allowed $k$ per $(2\pi)^3/V$ from periodic boundary conditions. In 1D the integral collapses onto the roots $k_i$ of $\omega(k_i)=\omega$ (sheet 6.2's hint):</p>
-      $$g(\omega)=\frac1{2\pi}\sum_i\frac{1}{|d\omega/dk|_{k_i}} .$$
+      <div class="eq"><div class="eq-head"><span class="eq-label">1D: sum over the roots</span><a class="tag hw" href="#hw-6-2">Sheet 6.2</a></div>
+      $$g(\omega)=\frac1{2\pi}\sum_i\frac{1}{|d\omega/dk|_{k_i}}$$
+      <span class="eq-n">(11)</span></div>
       <p>A frequency band $d\omega$ cuts the dispersion where it is steep in a narrow $dk$ (few modes) and where it is flat in a wide $dk$ (many modes). Wherever $v_g=0$ the DOS diverges: a <b>van Hove singularity</b>. For the monatomic chain this happens at $\omega_m$:</p>
-      $$g(\omega)=\frac{2}{\pi a}\frac{1}{\sqrt{\omega_m^2-\omega^2}}\quad(0\le\omega\lt\omega_m),\qquad \int_0^{\omega_m}g\,d\omega=\frac1a .$$
-      <p>One mode per atom per branch, as the counting demands. The DOS is what heat capacity integrates over (Debye and Einstein models, topic 06). The derivation is homework guide 6.2.</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">DOS of the monatomic chain</span><a class="tag hw" href="#hw-6-2">Sheet 6.2</a></div>
+      $$\begin{aligned}g(\omega)&=\frac{2}{\pi a}\frac{1}{\sqrt{\omega_m^2-\omega^2}}\\&\qquad(0\le\omega\lt\omega_m)\\ \int_0^{\omega_m}g\,d\omega&=\frac1a\end{aligned}$$
+      <span class="eq-n">(12)</span></div>
+      <p>One mode per atom per branch, as the counting demands. The DOS is what heat capacity integrates over (Debye and Einstein models, topic 06). The derivation is homework guide 6.2. <span class="fwd">Used in 1.7.1 → <a href="06-heat-capacity.html#c-dosint">heat capacity as a DOS integral</a>, Debye and Einstein models.</span></p>
+      <p class="trap">Counting only one root. Each ω below ω_m is reached at both +k₀ and −k₀ in the zone; dropping one halves g and breaks the normalisation to one mode per atom.</p>
+      <details class="check"><summary>Where does the chain's DOS diverge, and why is the total number of modes still finite?</summary><p>At $\omega_m$, where $v_g=0$. Near it $g\propto(\omega_m-\omega)^{-1/2}$, which is integrable: the integral is $1/a$, one mode per atom.</p></details>
+      <p class="takeaway">$g(\omega)\propto1/|d\omega/dk|$: flat parts of the dispersion pile up modes, and zero group velocity gives a van Hove singularity.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> derive the 1D density of states of the chain and say where it diverges and why. That is <a href="#hw-6-2">Sheet 6.2</a>; <a href="#dos">Model 3</a> does the same count live.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.6.5 Phonons</h3>
+  <section class="sec" id="s-1-6-5">
+    <h3><span class="step">1.6.5</span>Phonons</h3>
+    <p class="hook"><b>Where you meet this.</b> Diamond has no free electrons, yet it conducts heat about five times better than copper (roughly 2000 against 400 W m⁻¹ K⁻¹), which is why diamond heat spreaders sit under some high-power laser diodes. Every joule of that heat is carried by phonons, the quanta of this section.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Quantised mode energies, the phonon as one quantum of a mode, its thermal occupation, and crystal momentum ħk defined only up to ħG. Lecture notes p33.</p>
+      <p><b>Why it matters.</b> The Planck occupation is where the heat capacity on <a href="06-heat-capacity.html">topic 06</a> starts. Conservation of crystal momentum modulo ħG is the Umklapp rule of transport (<a href="08-transport.html">topic 08</a>) and the selection rule of neutron scattering (1.6.6).</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-phonon">
+      <span class="eyebrow">1.6.5 · Quanta and crystal momentum</span>
+      <h4>Phonons</h4>
+      <p class="needs"><a href="#c-k">1.6.1 · What k means</a>, <a href="#c-basis-sol">1.6.2 · Solution</a></p>
       <p>Each normal mode $(\mathbf k,s)$ is an independent harmonic oscillator, so quantum mechanics allows only the energies</p>
-      $$E_{\mathbf k,s}=\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big),\qquad E=\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big),\quad n=0,1,2,\dots$$
-      <p>A <b>phonon</b> is one quantum of a mode; $n_{\mathbf k,s}$ is the number of phonons in it, and $\frac12\hbar\omega$ is the zero-point energy. In equilibrium the mean occupation is the Planck (Bose–Einstein) value $\langle n\rangle=1/(e^{\hbar\omega/k_BT}-1)$. Example: the top mode of the Na chain below has $\hbar\omega=14.9$ meV; at 300 K ($k_BT=25.9$ meV) $\langle n\rangle=1.28$, at 10 K only $3\times10^{-8}$. At low $T$ only the soft acoustic modes near $k=0$ are excited, which gives the $T^3$ law.</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Energy of one mode</span></div>
+      $$E_{\mathbf k,s}=\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big)$$
+      <span class="eq-n">(13)</span></div>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Energy of the crystal</span></div>
+      $$\begin{aligned}E&=\sum_{\mathbf k,s}\hbar\omega_s(\mathbf k)\Big(n_{\mathbf k,s}+\frac12\Big)\\ n&=0,1,2,\dots\end{aligned}$$
+      <span class="eq-n">(14)</span></div>
+      <p>A <b>phonon</b> is one quantum of a mode; $n_{\mathbf k,s}$ is the number of phonons in it, and $\frac12\hbar\omega$ is the zero-point energy. In equilibrium the mean occupation is the Planck (Bose–Einstein) value</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Thermal occupation</span></div>
+      $$\langle n\rangle=\frac{1}{e^{\hbar\omega/k_BT}-1}$$
+      <span class="eq-n">(15)</span></div>
+      <p>Example: the top mode of the Na chain in Model 4 has $\hbar\omega=14.9$ meV; at 300 K ($k_BT=25.9$ meV) $\langle n\rangle=1.28$, at 10 K only $3\times10^{-8}$. At low $T$ only the soft acoustic modes near $k=0$ are excited, which gives the $T^3$ law. <span class="fwd">Used in 1.7.1 → <a href="06-heat-capacity.html#c-partition">partition function and (★)</a>.</span></p>
       <p><b>Crystal momentum.</b> In collisions a phonon acts as if it had momentum $\hbar\mathbf k$, but it is a pattern of relative displacements and carries no real momentum (except the uniform $\mathbf k=0$ translation). Since $\mathbf k$ and $\mathbf k+\mathbf G$ label the same mode, $\hbar\mathbf k$ is only defined up to $\hbar\mathbf G$, and in a scattering process it is conserved only modulo $\hbar\mathbf G$: the lattice as a whole takes up $\hbar\mathbf G$.</p>
       <div class="assume"><b>Tutor board wording:</b> the board calls $n_{\mathbf k,l}$ the number of "available" phonons. It is the number of phonons <i>present</i> in the mode (the occupation number). The board's branch index $l$ is the notes' $s$.</div>
+      <p class="trap">Calling ħk the momentum of a phonon. It is crystal momentum: defined only up to ħG and conserved in collisions only modulo ħG.</p>
+      <details class="check"><summary>A mode has ħω = 14.9 meV. How many phonons does it hold on average at 300 K?</summary><p>$x=14.9/25.9=0.576$, so $\langle n\rangle=1/(e^{0.576}-1)=1/0.78=1.28$.</p></details>
+      <p class="takeaway">Each mode is a quantum oscillator with energy ħω(n + ½); n counts its phonons, Planck-distributed in equilibrium. ħk is crystal momentum, defined modulo ħG.</p>
     </article>
+    </div>
+    <p class="cannow"><b>You can now</b> write the energy of the vibrating crystal in phonons, give the thermal occupation of a mode, and say why ħk is not a true momentum. Topic 06 starts from exactly this.</p>
+  </section>
 
-    <article class="card">
-      <h3>1.6.6 Measurement of phonons</h3>
+  <section class="sec" id="s-1-6-6">
+    <h3><span class="step">1.6.6</span>Measurement of phonons</h3>
+    <p class="hook"><b>Where you meet this.</b> The phonon dispersion curves in textbooks, including the sodium curves behind Model 4 (Kittel ch. 4 Fig. 11), were measured by firing neutrons from research reactors at single crystals. Bertram Brockhouse shared the 1994 Nobel Prize in Physics for developing this neutron spectroscopy.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Inelastic neutron scattering with its two conservation laws, why thermal neutrons match phonons in both momentum and energy, and why light (Raman, infrared) reaches only k ≈ 0. Lecture notes p33.</p>
+      <p><b>Why it matters.</b> It is where every measured ω(k) comes from, and it explains why infrared spectra see only optical phonons (1.6.2). It uses crystal momentum modulo ħG from 1.6.5.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-measure">
+      <span class="eyebrow">1.6.6 · Neutrons and light</span>
+      <h4>Mapping ω(k)</h4>
+      <p class="needs"><a href="#c-phonon">1.6.5 · Phonons</a></p>
       <p><b>Inelastic neutron scattering</b> maps the whole $\omega(\mathbf k)$. A neutron enters with $\mathbf k$, leaves with $\mathbf k'$, and creates (+) or absorbs (−) a phonon $\mathbf K$ (Kittel eqs. 33–34):</p>
-      $$\mathbf k+\mathbf G=\mathbf k'\pm\mathbf K,\qquad \frac{\hbar^2k^2}{2M_n}=\frac{\hbar^2k'^2}{2M_n}\pm\hbar\omega(\mathbf K).$$
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Crystal momentum and energy balance</span></div>
+      $$\begin{aligned}\mathbf k+\mathbf G&=\mathbf k'\pm\mathbf K\\ \frac{\hbar^2k^2}{2M_n}&=\frac{\hbar^2k'^2}{2M_n}\pm\hbar\omega(\mathbf K)\end{aligned}$$
+      <span class="eq-n">(16)</span></div>
       <p>Measuring the energy lost and the direction gives one point $(\mathbf K,\omega)$ on the dispersion, with $\mathbf G$ chosen so that $\mathbf K$ lies in the first zone. Neutrons suit the job because a thermal neutron (25 meV) has $k=3.5\times10^{10}$ m⁻¹ ($\lambda=0.18$ nm), comparable with the zone size $\pi/a\sim10^{10}$ m⁻¹, and an energy comparable with phonon energies (10–60 meV).</p>
       <p><b>Light</b> (Raman scattering, infrared absorption) sees only $\mathbf k\approx0$. A photon of the same 25 meV has $k=1.3\times10^5$ m⁻¹, and even visible light at 2 eV has $k=1.0\times10^7$ m⁻¹, about $10^{-3}$ of the zone. At $k\approx0$ acoustic modes have $\omega\approx0$, so light probes the optical modes. Example: NaCl absorbs infrared at its transverse optical frequency $\omega_T=3.1\times10^{13}$ s⁻¹ ($\hbar\omega_T=20$ meV, $\lambda=61\ \mu$m).</p>
+      <p class="trap">Forgetting the G in the momentum balance. The phonon created has the first-zone K = q − G, which can be far from the momentum transfer q itself.</p>
+      <details class="check"><summary>Why can a 2 eV photon not create a zone-boundary phonon?</summary><p>Its wave vector, $1.0\times10^7$ m⁻¹, is about $10^{-3}$ of $\pi/a$. Crystal momentum must balance, so it can only make phonons with $K\approx0$.</p></details>
+      <p class="takeaway">Neutrons match phonons in both k and energy, so they map the whole zone. Photons carry almost no momentum, so light sees only k ≈ 0, which means the optical modes.</p>
     </article>
-  </div>
+    </div>
+    <p class="cannow"><b>You can now</b> write the two conservation laws of neutron scattering and explain why neutrons map the whole zone while light sees only k ≈ 0. That is part (d) of the <a href="#exam-nacl">NaCl exercise</a> and the last bullet of the exam angle; <a href="#neutron">Model 4</a> shows which phonons a neutron can create.</p>
+  </section>
 </section>
 
 <!-- 3. INTERACTIVE MODELS -->
@@ -260,7 +418,7 @@
 
   <section class="bench" id="neutron">
     <div class="rail">
-      <span class="eyebrow">1.6.5–1.6.6 · Crystal momentum and neutron scattering</span>
+      <span class="eyebrow">1.6.6 · Neutron scattering (uses 1.6.5 crystal momentum)</span>
       <h3>Which phonons can a neutron create?</h3>
       <p>A neutron hits a chain of sodium atoms along [001] (spacing d = 0.211 nm, ν_max = 3.6 THz from Kittel ch. 4 Fig. 11) and scatters forward or back. Energy and crystal momentum must both balance: the neutron curve (blue) has to meet the phonon dispersion (copper). The dispersion repeats in every zone, so the neutron can hand $\hbar G$ to the lattice and create a phonon whose first-zone $K$ is far from its momentum transfer $q$.</p>
       <div class="ctls">
@@ -298,9 +456,12 @@
       <summary>Show worked solution</summary>
       <h4>Steps</h4>
       <ol>
-        <li>Write $u_n=u(na)$. For a fixed $l$, $u_n$ appears in the term with index $n$ (pair $n,n+l$) and in the term with index $n-l$ (pair $n-l,n$): $\;\tfrac12f_l(u_n-u_{n+l})^2+\tfrac12f_l(u_{n-l}-u_n)^2$.</li>
-        <li>Differentiate: $F_n=-\dfrac{\partial U}{\partial u_n}=-\sum_{l>0}f_l\big[(u_n-u_{n+l})+(u_n-u_{n-l})\big]=\sum_{l>0}f_l\,(u_{n+l}+u_{n-l}-2u_n)$.</li>
-        <li>Equation of motion $m\ddot u_n=F_n$ with $u_n=u_0\,e^{i(kna-\omega t)}$, so $u_{n\pm l}=u_n\,e^{\pm ilka}$ and $\ddot u_n=-\omega^2u_n$: $\;-m\omega^2=\sum_{l>0}f_l\,(e^{ilka}+e^{-ilka}-2)$.</li>
+        <li>Write $u_n=u(na)$. For a fixed $l$, $u_n$ appears in the term with index $n$ (pair $n,n+l$) and in the term with index $n-l$ (pair $n-l,n$):
+          <div class="eq">$$\begin{aligned}&\tfrac12f_l(u_n-u_{n+l})^2\\&\quad+\tfrac12f_l(u_{n-l}-u_n)^2\end{aligned}$$</div></li>
+        <li>Differentiate (all sums over $l>0$):
+          <div class="eq">$$\begin{aligned}F_n&=-\frac{\partial U}{\partial u_n}\\&=-\sum_{l}f_l\big[(u_n-u_{n+l})\\&\qquad+(u_n-u_{n-l})\big]\\&=\sum_{l}f_l\,(u_{n+l}+u_{n-l}\\&\qquad-2u_n)\end{aligned}$$</div></li>
+        <li>Equation of motion $m\ddot u_n=F_n$ with $u_n=u_0\,e^{i(kna-\omega t)}$, so $u_{n\pm l}=u_n\,e^{\pm ilka}$ and $\ddot u_n=-\omega^2u_n$: 
+          <div class="eq">$$\begin{aligned}-m\omega^2&=\sum_{l}f_l\,\big(e^{ilka}\\&\qquad+e^{-ilka}-2\big)\end{aligned}$$</div></li>
         <li>Use $e^{i\theta}+e^{-i\theta}-2=2\cos\theta-2=-4\sin^2(\theta/2)$ with $\theta=lka$: $\;m\omega^2=4\sum_{l>0}f_l\sin^2(lka/2)$.</li>
         <li>Take the positive root.</li>
       </ol>
