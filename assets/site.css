@@ -154,6 +154,12 @@ a.tag:hover, a.tag:focus-visible { text-decoration: underline; outline: none; }
 .cannow b { color: var(--b-take); font-weight: 600; }
 .needs { font-size: 12.5px; color: var(--muted); }
 .needs::before { content: "Needs: "; font-weight: 600; color: var(--fg); }
+/* Cross-page links: .recap = a short recap of an earlier section, opening with <b>Recap from <a>X.Y.Z …</a>.</b>; .fwd = a "Used in X.Y.Z →" or "← from X.Y.Z" line (p or inline span) */
+.recap { border-left: 3px solid var(--muted); background: var(--bg); border-radius: 0 4px 4px 0; padding: 7px 12px; font-size: 13.5px; }
+.recap > b:first-child { color: var(--muted); font-weight: 600; }
+.recap > b:first-child a { font-weight: 600; }
+.fwd { color: var(--muted); }
+p.fwd { font-size: 12.5px; }
 
 /* Study blocks: .takeaway (ends every concept card), .trap (common mistake), details.check (self-test; plain .check above stays the sanity-check line) */
 .takeaway, .trap, details.check { max-width: none; border-radius: 0 4px 4px 0; padding: 7px 12px; font-size: 13.5px; color: var(--fg); }
@@ -258,6 +264,13 @@ a.topic:hover, a.topic:focus-visible { border-color: var(--accent); outline: non
 .topic .pill.built { color: var(--ef); }
 .topic .pill.planned { color: var(--muted); }
 .topic.planned { border-style: dashed; }
+/* Ready cards with a Models line: the title link covers the card (whole card clickable), the model links sit above it */
+.topic { position: relative; }
+.topic h3 a { color: inherit; text-decoration: none; }
+.topic h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 6px; }
+.topic h3 a:focus-visible { outline: none; }
+.topic:has(h3 a:hover, h3 a:focus-visible) { border-color: var(--accent); }
+.topic .models { position: relative; z-index: 1; margin: 0; font-size: 13px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
 @media (max-width: 900px) { .bench { grid-template-columns: 1fr; } }
@@ -275,7 +288,7 @@ a.topic:hover, a.topic:focus-visible { border-color: var(--accent); outline: non
 /* Phones: readability floors checked by tools/stress.js (body text >= 15 px, labels and captions >= 12 px, tap targets >= 40 px). */
 @media (max-width: 640px) {
   .card p, .card li, .rail p, .try, .hw .ask, .hw ol, .hw ul, .result, .check, .assume, .sources ul, .sec-intro, .cannow, .idea, .notes,
-  .takeaway, .trap, details.check, .path li, .path > p, .topic ul, .dict table, .ctl label, .seg legend, .chk { font-size: 15px; }
+  .recap, p.fwd, .takeaway, .trap, details.check, .path li, .path > p, .topic ul, .topic .models, .dict table, .ctl label, .seg legend, .chk { font-size: 15px; }
   .hw summary { font-size: 15px; }
   figcaption, .keys, .note, .needs, .legend, .eq-label, .path .then, .path .min, .chain, .btns, .err { font-size: 13px; }
   .eyebrow, .hw .tag, .hw h4, .dict th, .topic .num, .topic .pill, .eq-n, .page-head .meta span, .step,
@@ -290,7 +303,11 @@ a.topic:hover, a.topic:focus-visible { border-color: var(--accent); outline: non
   .tag:is(.hw, .exam, .deriv, .lect) { white-space: normal; }
   .legend > span { flex-wrap: wrap; }
 }
-/* Smallest phones: plots use the bench padding too, so they stay at least 280 px wide at 320 px */
-@media (max-width: 359px) { .bench .plot, .bench .cvwrap { width: auto; margin-inline: -14px; } }
+/* Smallest phones: plots use the bench padding too, so they stay at least 280 px wide at 320 px.
+   .plots and figure widen by the same 14 px and pad it back, so the plot stays inside its parents' boxes (no overflow) */
+@media (max-width: 359px) {
+  .bench .plots, .bench .plots > figure { margin-inline: -14px; padding-inline: 14px; }
+  .bench .plot, .bench .cvwrap { width: auto; margin-inline: -14px; }
+}
 /* Phone builds (MathML): an inline formula still wider than its line scrolls in its own span (CM.fitEq adds .m-scroll) */
 .katex.m-scroll { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }

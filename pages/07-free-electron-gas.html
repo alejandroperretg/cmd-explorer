@@ -12,7 +12,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
 <script defer src="../assets/common.js"></script>
-<style>.recap { border-left: 3px solid var(--emp); background: var(--bg); border-radius: 0 4px 4px 0; padding: 8px 12px; } .recap b a { font-weight: 600; }</style>
 </head>
 <body>
 <nav class="site-nav" aria-label="Site"><div class="in">
@@ -157,7 +156,7 @@
     <article class="card" id="c-count">
       <span class="eyebrow">2.1.3 · Counting</span>
       <h4>Fermi wavevector and Fermi energy</h4>
-      <p class="needs"><a href="#c-bc">2.1.1 · Two boundary conditions</a></p>
+      <p class="needs"><a href="#c-bc">2.1.1 · Two boundary conditions</a>; ← from <a href="02-reciprocal-lattice.html#c-recip">1.3.2 Reciprocal lattice</a></p>
       <p>At $T=0$ the $N$ electrons occupy the lowest states, two per k-point (spin ↑↓, Pauli). Because $\varepsilon$ depends only on $|\mathbf k|$, the filled region is a sphere of radius $k_F$. Count: states inside = 2 × sphere volume / volume per point,</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Counting the sphere</span><span class="tag deriv">Exam-relevant derivation</span><a class="tag exam" href="#exam-q2">Exam Q2d</a></div>
       $$N=2\cdot\frac{\tfrac43\pi k_F^3}{(2\pi)^3/V}=\frac{V k_F^3}{3\pi^2}$$
@@ -264,6 +263,7 @@
       <p>It is a step at $T=0$, rounded over a width of a few $k_BT$ for $T>0$, with $f(\mu)=\tfrac12$. $\mu$ is fixed by $N=\int_0^\infty f\,D\,d\varepsilon$. In 3D it barely moves, $\mu\approx\varepsilon_F[1-\tfrac{\pi^2}{12}(T/T_F)^2]$, because $k_BT\ll\varepsilon_F$ in every metal ($k_BT=25.85$ meV at 300 K, 0.4 % of Cu's $\varepsilon_F$). $D(\varepsilon)$ counts the states, $f$ says which are filled; the energy is $U=\int\varepsilon\,D\,f\,d\varepsilon$ and needs both.</p>
       <p class="trap">Setting μ = ε_F at all T. It holds in a metal to 10⁻⁵, but not for ³He near 1 K or at high T, where μ falls (sheet 8.2, <a href="#smear">Model 6</a>).</p>
       <details class="check"><summary>What is f at ε = μ + 2k_BT?</summary><p>$1/(e^2+1)=0.12$; at $\mu-2k_BT$ it is $0.88$. Almost all the change sits within $\pm2k_BT$.</p></details>
+      <p class="fwd">Used in <a href="09-bands.html#ek">2.6 · Model 5, E(k) with Fermi–Dirac filling →</a></p>
       <p class="takeaway">$f$ is a step rounded over a few $k_BT$ around μ; μ is set by conserving N and stays at $\varepsilon_F$ in metals.</p>
     </article>
     <article class="card" id="c-cel">
@@ -625,6 +625,7 @@
   <article class="hw" id="hw-9-1">
     <span class="tag">Sheet 9 · Problem 1 · 4 pts</span>
     <h3>Heat capacity cross-over electron to phonon system</h3>
+    <p class="fwd">← from <a href="06-heat-capacity.html#c-low">1.7.1.2 T³ law</a> (the phonon term)</p>
     <p class="ask">In metals the electrons give a heat capacity ∝ T at low temperature, the phonons one ∝ T³. Find the cross-over temperature where both are equal for (i) Cu, (ii) Na, (iii) Al, from open-source material data. State data sources, assumptions and formulas.</p>
     <h4>Method</h4>
     <p>Per mole of atoms, the electrons give $\gamma T$ with Kittel eq. 36, $C_{el}=\frac12\pi^2Nk_BT/T_F$, where $N$ is the number of <b>electrons</b>: $N=ZN_A$ for valence $Z$. The phonons give the Debye law $AT^3$ with $N_A$ atoms. Set them equal:</p>

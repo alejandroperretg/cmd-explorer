@@ -87,7 +87,7 @@
     </tbody></table></div>
   <p class="note">Values from Kittel ch. 3: Table 4 (Ar), Fig. 8 (NaCl: 7.9 − 5.1 + 3.6 = 6.4 eV), and the text on covalent, metallic and hydrogen bonds.</p>
   <div class="assume"><b>About the sources:</b> notes p17, where this lecture should be, is a single "?". The notes only have a recap line on covalent bonds and metals (p18), the hydrogen bond (p18) and a list of review keywords (p23). Sections 1.4.1–1.4.4 are therefore taught here from Kittel ch. 3, at the level of sheets 3 and 4. The lectures did cover them (p18 recaps them), so they are not tagged "not yet lectured".</div>
-  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (Crystals of Inert Gases, Ionic Crystals, Covalent Crystals, Metals, Hydrogen Bonds), and the lecture notes pp. 17–18 and 23. Lattices and structures (fcc, bcc, NaCl, CsCl, diamond) are on <a href="01-crystal-structure.html">topic 01</a>.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (Crystals of Inert Gases, Ionic Crystals, Covalent Crystals, Metals, Hydrogen Bonds), and the lecture notes pp. 17–18 and 23. Lattices and structures (fcc, bcc, NaCl, CsCl, diamond) are on <a href="01-crystal-structure.html#c-struct">topic 01</a>.</p>
 </section>
 
 <section class="block" id="concepts">
@@ -144,7 +144,7 @@
     <article class="card" id="c-lj">
       <span class="eyebrow">1.4.1 · Lattice sums</span>
       <h4>Lennard-Jones crystal: lattice sums and equilibrium</h4>
-      <p class="needs"><a href="#c-vdw">1.4.1 Van der Waals and Pauli</a>; fcc and bcc neighbours on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p class="needs"><a href="#c-vdw">1.4.1 Van der Waals and Pauli</a>; fcc and bcc neighbours on <a href="01-crystal-structure.html#c-cubic">topic 01</a></p>
       <p>Insert (4) into (2). Write every distance as $r_j=p_jR$, a multiple $p_j$ of the nearest-neighbour distance $R$:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Total energy of the Lennard-Jones crystal (Kittel eq. 11)</span><a class="tag hw" href="#hw-3-3">Sheet 3.3</a></div>
       $$\begin{aligned}U_{\text{tot}}(R)&=2N\varepsilon\Big[A_{12}\Big(\frac\sigma R\Big)^{12}\\&\qquad\quad-A_6\Big(\frac\sigma R\Big)^{6}\Big],\\ A_n&=\sum_j{}'\,p_j^{-n}.\end{aligned}$$
@@ -197,7 +197,7 @@
     <article class="card" id="c-madelung">
       <span class="eyebrow">1.4.2 · Madelung energy</span>
       <h4>Ionic crystals: the Madelung energy</h4>
-      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; NaCl and CsCl structures on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; NaCl and CsCl structures on <a href="01-crystal-structure.html#c-struct">topic 01</a></p>
       <p>The ions have closed shells (Na⁺ like Ne, Cl⁻ like Ar) and are nearly spherical, so each acts like a point charge $\pm q$. Coulomb energy is the main part of the binding; van der Waals adds only 1–2%. For a reference ion, the Coulomb energy with all the others is $-\alpha q^2/(4\pi\varepsilon_0R)$, with</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Madelung constant (Kittel eqs. 21 and 25)</span><a class="tag hw" href="#hw-4-1">Sheet 4.1</a><a class="tag hw" href="#hw-4-2">Sheet 4.2</a></div>
       $$\begin{aligned}\alpha&=\sum_j{}'\,\frac{(\pm)}{p_j}\\&=\sum_j{}'\,(\pm)\,\frac{R}{r_j}.\end{aligned}$$
@@ -257,13 +257,13 @@
     <p class="hook"><b>Where you meet this.</b> Every transistor in a chip sits in a silicon crystal held together by the four tetrahedral bonds described here. Diamond has the same bonds, only shorter (C–C 0.154 nm), and is the hardest natural material. <!-- C–C bond length in diamond: standard value 1.54 Å = √3/4 × 3.567 Å --></p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The electron-pair bond, why it depends on spin, and why it makes crystals open and directional. One recap line in the notes (p18), so taught from Kittel ch. 3.</p>
-      <p><b>Why it matters.</b> No sheet problem uses it, but C, Si and Ge are the semiconductors of chapter 3 (topic 12). The bonding/antibonding split returns as the valence and conduction bands of tight binding (<a href="09-bands.html">topic 09</a>).</p>
+      <p><b>Why it matters.</b> No sheet problem uses it, but C, Si and Ge are the semiconductors of chapter 3 (topic 12). The bonding/antibonding split returns as the valence and conduction bands of tight binding (<a href="09-bands.html#c-tb">topic 09</a>).</p>
     </div>
     <div class="cards">
     <article class="card" id="c-covalent">
       <span class="eyebrow">1.4.3 · Electron-pair bond</span>
       <h4>Covalent crystals</h4>
-      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; the diamond structure on <a href="01-crystal-structure.html">topic 01</a></p>
+      <p class="needs"><a href="#c-cohesive">1.4.1 Cohesive energy</a>; the diamond structure on <a href="01-crystal-structure.html#c-struct">topic 01</a></p>
       <p>A covalent bond is a pair of electrons, one from each atom, with <b>antiparallel spins</b>, concentrated between the two nuclei. The spin matters through the Pauli principle, not through magnetic forces. In H₂ the spin singlet (antiparallel) puts charge between the protons and binds, while the triplet (parallel) keeps it out and repels (Kittel Fig. 12). This spin-dependent Coulomb energy is the <i>exchange interaction</i>. In the simplest picture, two equal orbitals with energy $\varepsilon_0$ and coupling $\gamma$ mix into</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Bonding and antibonding levels (two-orbital model, overlap neglected)</span></div>
       $$\begin{aligned}\varepsilon_\pm&=\varepsilon_0\mp|\gamma|,\\ \psi_\pm&=\tfrac1{\sqrt2}(\phi_A\pm\phi_B).\end{aligned}$$

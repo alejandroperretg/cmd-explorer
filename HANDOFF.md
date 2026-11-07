@@ -61,6 +61,7 @@ The course is Condensed Matter and Devices (V. Wagner, Constructor University, F
   - `requestAnimationFrame` doesn't run in the hidden pane, so use `CM.renderAll()`;
   - prefer text checks to screenshots.
   - **Stress test:** `node tools/stress.js --pages NN --builds --port <port>` (headless Chrome, temp profile, 320–1280 px × light/dark; exit 1 if anything is broken). Rebuild `build/cmd-NN.html` first. Findings: `audit/stress-report.md`; full JSON via `--out`; debug with `--eval "NN-build 360 dark <js>"`.
+  - **Link check:** `node tools/links.js` (`--list` prints every link): broken anchors, the cross-page dependency graph, and missing back-links (A links to B, B never links to A). Exit 1 on any broken or missing; justified one-way links go in its `EXCEPT` list.
 - **After a page passes review:**
   - `node tools/flip.js . NN …` switches its index card to ready and ticks `PLAN.md`;
   - then commit (real name; end the message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`);

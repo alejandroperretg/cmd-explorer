@@ -68,7 +68,8 @@
 
 <!-- 2. CONCEPTS: one .sec per topic-list subsection (number in .step, never 1, 2, 3), opening with What this covers / Why it matters; inside it one .card per idea, id="c-<slug>", eyebrow "2.6.2 · Label". Inline math $...$; every display equation in .eq.
      Tags go where an equation/derivation is introduced: .tag.exam (link to the exam answer), .tag.hw (link to the guide), .tag.deriv, .tag.lect.
-     Card order: needs → (tags) → text and .eq panels → .trap (optional) → details.check (at least one) → .takeaway (last). -->
+     Card order: needs → (tags) → .recap (optional) → text and .eq panels → .trap (optional) → details.check (at least one) → .fwd (optional) → .takeaway (last).
+     Cross-page links: a prerequisite on another page goes in .needs as "← from <a>X.Y.Z …</a>"; otherwise use p.fwd. Every link has one back in the other direction (check: node tools/links.js). -->
 <section class="block" id="concepts">
   <h2>Concepts</h2>
   <div class="cards">
@@ -83,8 +84,9 @@
     <article class="card" id="c-{{slug}}">
       <span class="eyebrow">{{2.6.1}} · {{Card label}}</span>
       <h4>{{Concept name}}</h4>
-      <p class="needs"><a href="#s-{{2-6-1}}">{{2.6.1}} {{Prerequisite section}}</a></p>
+      <p class="needs"><a href="#s-{{2-6-1}}">{{2.6.1}} {{Prerequisite section}}</a>; ← from <a href="{{NN-page}}.html#{{id}}">{{1.3.2}} {{Section on another page}}</a></p>
       <div class="tags"><span class="tag lect">Not yet lectured</span><span class="tag deriv">Exam-relevant derivation</span></div>
+      <div class="recap"><b>Recap from <a href="{{NN-page}}.html#{{id}}">{{1.3.2}} {{Section title}}</a>.</b> {{A few lines and at most one key equation; the full treatment stays on the linked page.}}</div>
       <p>{{Short explanation in plain language.}}</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">{{What the equation is}}</span><a class="tag exam" href="#exam">Exam Q{{4c}}</a><a class="tag hw" href="#hw-{{1}}-{{2}}">Sheet {{1}}.{{2}}</a></div>
       $$ {{E(k) = \frac{\hbar^2 k^2}{2m}}} $$
@@ -92,6 +94,7 @@
       <p>{{What each symbol means, with SI units.}}</p>
       <p class="trap">{{A common mistake, and the correct statement.}}</p>
       <details class="check"><summary>{{A short question answerable from this card.}}</summary><p>{{The answer, one or two sentences.}}</p></details>
+      <p class="fwd">Used in <a href="{{NN-page}}.html#{{id}}">{{2.6.2}} {{Later section}} →</a> ({{what it is used for}})</p>
       <p class="takeaway">{{One or two sentences: what to remember from this card.}}</p>
     </article>
     </div>

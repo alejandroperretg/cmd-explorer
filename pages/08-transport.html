@@ -19,7 +19,6 @@
   .tbl table { border-collapse: collapse; font-size: 13px; width: 100%; }
   .tbl th, .tbl td { text-align: left; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   .tbl th { color: var(--muted); font-weight: 600; font-size: 12px; }
-  .recap { border-left: 3px solid var(--emp); background: var(--bg); border-radius: 0 4px 4px 0; padding: 8px 12px; } .recap b a { font-weight: 600; }
 </style>
 </head>
 <body>
@@ -166,6 +165,7 @@
       <div class="assume"><b>Notes slip:</b> notes p44 writes $\vec j=n\,\frac{e\vec E}{m}\tau$, one factor $e$ short. The correct line is $\vec j=(ne)\,\frac{e\vec E}{m}\tau$: charge density × drift velocity. The board's "$\sigma=n\mu$" is missing the same $e$: $\sigma=ne\mu$ (Kittel ch. 8).</div>
       <p class="trap">Thinking every electron is accelerated by the field. The whole sphere shifts, but only the states at its rim change occupation; deep electrons have nowhere to go.</p>
       <details class="check"><summary>Doubling τ: what happens to σ, the shift δk and the mean free path?</summary><p>All three double: $\sigma\propto\tau$, $\delta k\propto\tau$, $\ell=v_F\tau\propto\tau$.</p></details>
+      <p class="fwd">Used in <a href="09-bands.html#wire">2.6 · Model 6, current in a wire →</a></p>
       <p class="takeaway">A field shifts the Fermi sphere by $e\tau E/\hbar$ against itself; the imbalance at the rim is the current, $\sigma=ne^2\tau/m$.</p>
     </article>
     <article class="card" id="c-ac">
@@ -255,7 +255,7 @@
     <article class="card" id="c-umk">
       <span class="eyebrow">2.4.2 · Normal vs Umklapp</span>
       <h4>k′ = k + q + G</h4>
-      <p class="needs"><a href="#c-matt">2.4.1 · Matthiessen's rule</a></p>
+      <p class="needs"><a href="#c-matt">2.4.1 · Matthiessen's rule</a>; ← from <a href="05-phonons.html#c-k">1.6.1 What k means</a></p>
       <div class="recap"><b>Recap from <a href="02-reciprocal-lattice.html#s-1-3-2">1.3.2 Reciprocal lattice</a>.</b> Wavevectors in a crystal are defined only up to a reciprocal lattice vector $\vec G$; the first Brillouin zone holds every distinct one. Phonon wavevectors $\vec q$ (<a href="05-phonons.html#s-1-6-5">1.6.5</a>) live in the same zone.</div>
       <p>In electron–phonon scattering crystal momentum is conserved only up to a reciprocal lattice vector:</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Crystal-momentum conservation</span></div>

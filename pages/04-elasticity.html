@@ -63,7 +63,7 @@
   <h2>Overview</h2>
   <p>Section 1.5 treats a crystal as a continuous elastic body. Its size is much larger than the lattice constant, and the deformations are small enough to be linear. A strain tensor ε describes how the crystal deforms (1.5.1), a stress tensor σ describes the forces per unit area inside it (1.5.2), and Hooke's law σ = C e links the two (1.5.3). Because the elastic energy density u = ½ eᵀC e (1.5.4) exists, C is symmetric, which leaves 21 constants. Cubic symmetry reduces these to C<sub>11</sub>, C<sub>12</sub> and C<sub>44</sub>, and the bulk modulus is B = (C<sub>11</sub> + 2C<sub>12</sub>)/3 (1.5.5).</p>
   <p>Key results to leave with: the Voigt bookkeeping with its factor 2 in the shears; σ = C e and e = S σ with S = C⁻¹; u = ½ eᵀC e; the cubic C matrix and its three eigenvalues C<sub>11</sub> + 2C<sub>12</sub>, C<sub>11</sub> − C<sub>12</sub> and C<sub>44</sub>; B; the stability conditions (sheet 5.2); and E and ν along [100] and [110] (sheet 5.1). The 2022 exam had no question on elasticity, so the exam angle below gives an exercise in its style.</p>
-  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (second half: "Analysis of Elastic Strains" to "Elastic Waves in Cubic Crystals"), and the lecture notes pp. 18–25. Directions such as [110] are as on <a href="01-crystal-structure.html">page 01</a>. The sound waves that follow from C are on <a href="05-phonons.html">page 05</a>.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 3 (second half: "Analysis of Elastic Strains" to "Elastic Waves in Cubic Crystals"), and the lecture notes pp. 18–25. Directions such as [110] are as on <a href="01-crystal-structure.html#c-index">page 01</a>. The sound waves that follow from C are on <a href="05-phonons.html#c-chain">page 05</a>.</p>
 </section>
 
 <section class="block" id="concepts">
@@ -188,7 +188,7 @@
     <article class="card" id="c-cubic">
       <span class="eyebrow">1.5.4 · Cubic crystals</span>
       <h4>Cubic crystals: three constants (notes §1.5.5)</h4>
-      <p class="needs"><a href="#c-energy">1.5.4 · Energy density</a>; cubic symmetry operations on <a href="01-crystal-structure.html">page 01</a></p>
+      <p class="needs"><a href="#c-energy">1.5.4 · Energy density</a>; cubic symmetry operations on <a href="01-crystal-structure.html#c-symm">page 01</a></p>
       <p>u must not change under any symmetry operation of the crystal. Two kinds of operation do all the work:</p>
       <ul>
         <li><b>120° rotation about a body diagonal</b> [111]: x → y → z → x. It cycles $e_1\to e_2\to e_3$ and $e_4\to e_5\to e_6$, so $C_{11}=C_{22}=C_{33}$, $C_{12}=C_{23}=C_{31}$ and $C_{44}=C_{55}=C_{66}$.</li>
@@ -215,7 +215,7 @@
       </tbody></table></div>
       <p class="trap">Reading the table in N/m². Notes p25 and the board write the Cu and diamond values with the unit "[N/m²]", without the factor. The table is in units of $10^{11}$ N/m² = 100 GPa (Kittel Tables 11–12), so Cu has $C_{11}=1.68\times10^{11}$ N/m² = 168 GPa.</p>
       <div class="assume"><b>Notes p24, cycle list:</b> the four 3-fold axes are [111], [1̄11], [11̄1] and [111̄]. The handwritten list repeats [1̄11] (once in each sense) and misses [111̄], and the notes mark it "Prof wasn't sure". Only one 3-fold axis is needed for the argument above.</div>
-      <p><b>Looking ahead.</b> The same three constants set the sound speeds. A longitudinal wave along [100] has $v_L=\sqrt{C_{11}/\rho}$ and a transverse one has $v_T=\sqrt{C_{44}/\rho}$ (Kittel Fig. 20). These are the speeds behind the Debye temperature on <a href="06-heat-capacity.html">page 06</a>.</p>
+      <p><b>Looking ahead.</b> The same three constants set the sound speeds. A longitudinal wave along [100] has $v_L=\sqrt{C_{11}/\rho}$ and a transverse one has $v_T=\sqrt{C_{44}/\rho}$ (Kittel Fig. 20). These are the speeds behind the Debye temperature on <a href="06-heat-capacity.html#c-debye">page 06</a>.</p>
       <details class="check"><summary>Why do exactly three combinations appear in (9)?</summary><p>They are the three distinct eigenvalues of $C_{\rm cubic}$: $C_{11}+2C_{12}$ for (1,1,1,0,0,0), $C_{11}-C_{12}$ twice in the volume-conserving normal-strain plane, and $C_{44}$ three times for the shears. Inverting a symmetric matrix inverts each eigenvalue on the same eigenvector.</p></details>
       <p class="takeaway">Cubic means three constants. The 3-fold axes make the diagonal entries equal, and the 2-fold axes kill the cross terms. Table values are in 10¹¹ N/m².</p>
     </article>
@@ -257,6 +257,7 @@
       <p>Cu: $B=(1.684+2\cdot1.214)/3=1.37\times10^{11}$ N/m² = 137 GPa. One gigapascal of pressure therefore shrinks Cu by $\Delta V/V=-1/137=-0.73$ %. The syllabus calls this subsection 1.5.5; the notes number it 1.5.5.1, under "Elastic constants in cubic systems".</p>
       <p class="trap">Putting δ, rather than δ/3, on each axis. A uniform dilation δ stretches each axis by δ/3, because the three relative length changes add up to the relative volume change.</p>
       <details class="check"><summary>Check (12) a second way, from e = S σ with hydrostatic pressure p.</summary><p>$\sigma_1=\sigma_2=\sigma_3=-p$, so $e_1=-(S_{11}+2S_{12})\,p$ and $\delta=3e_1=-3(S_{11}+2S_{12})p$. By (9), $3(S_{11}+2S_{12})=3/(C_{11}+2C_{12})=1/B$. ✓</p></details>
+      <p class="fwd">Used in <a href="07-free-electron-gas.html#c-press">2.1.5 Degeneracy pressure →</a> (B of the free-electron gas)</p>
       <p class="takeaway">B = (C₁₁ + 2C₁₂)/3: the hydrostatic eigenvalue of C, divided by 3.</p>
     </article>
     <article class="card" id="c-young">
