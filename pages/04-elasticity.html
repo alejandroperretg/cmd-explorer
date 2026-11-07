@@ -408,13 +408,13 @@
       <ol>
         <li><b>(i)</b> $\underline\sigma=(\sigma,0,0,0,0,0)$. Then $e_1=S_{11}\sigma$, $e_2=e_3=S_{12}\sigma$ and $e_4=e_5=e_6=0$. Hence $E=\sigma/e_1=1/S_{11}$ and $\nu=-e_2/e_1=-S_{12}/S_{11}$.</li>
         <li>With (9), $S_{11}=\dfrac{C_{11}+C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})}$ and $S_{12}=\dfrac{-C_{12}}{(C_{11}-C_{12})(C_{11}+2C_{12})}$, so
-          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(i) result</span></div>$$\begin{aligned}&E_{[100]}\\&=\frac{(C_{11}-C_{12})(C_{11}+2C_{12})}{C_{11}+C_{12}},\\ &\nu_{[100]}=\frac{C_{12}}{C_{11}+C_{12}}.\end{aligned}$$</div>
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(i) result</span></div>$$\begin{aligned}&E_{[100]}=\frac{C_{11}+2C_{12}}{C_{11}+C_{12}}\\&\qquad\times(C_{11}-C_{12}),\\ &\nu_{[100]}=\frac{C_{12}}{C_{11}+C_{12}}.\end{aligned}$$</div>
           By cubic symmetry both side faces give the same ν.</li>
         <li><b>(ii)</b> $\hat{\mathbf n}=(1,1,0)/\sqrt2$, so $\sigma_{xx}=\sigma_{yy}=\sigma_{xy}=\sigma/2$, i.e. $\underline\sigma=(\tfrac\sigma2,\tfrac\sigma2,0,0,0,\tfrac\sigma2)$. Then $e_1=e_2=\tfrac\sigma2(S_{11}+S_{12})$, $e_3=S_{12}\sigma$, $e_6=\tfrac\sigma2S_{44}$, so the tensor shear is $\varepsilon_{xy}=e_6/2=\tfrac\sigma4S_{44}$.</li>
         <li>Longitudinal strain: $\hat{\mathbf n}^T\underline{\underline\varepsilon}\,\hat{\mathbf n}=\tfrac12(\varepsilon_{xx}+\varepsilon_{yy})+\varepsilon_{xy}$ $=\tfrac\sigma2\big(S_{11}+S_{12}+\tfrac12S_{44}\big)$. So $1/E_{[110]}=\tfrac12(S_{11}+S_{12}+\tfrac12S_{44})$. With $D\equiv(C_{11}-C_{12})(C_{11}+2C_{12})$ as in (9), $S_{11}+S_{12}=C_{11}/D$ and $S_{44}=1/C_{44}$:
           <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(ii): Young’s modulus along [110]</span></div>$$E_{[110]}=\frac{4C_{44}\,D}{2C_{11}C_{44}+D}.$$</div></li>
         <li>Transverse strain along [001]: $\varepsilon_{zz}=S_{12}\sigma$, so $\nu_{[110]\to[001]}=-S_{12}E_{[110]}$. Along $\hat{\mathbf m}=(1,-1,0)/\sqrt2$: $\hat{\mathbf m}^T\underline{\underline\varepsilon}\,\hat{\mathbf m}=\tfrac12(\varepsilon_{xx}+\varepsilon_{yy})-\varepsilon_{xy}$ $=\tfrac\sigma2(S_{11}+S_{12}-\tfrac12S_{44})$. With the same D:
-          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(ii): the two Poisson ratios</span></div>$$\begin{aligned}\nu_{[110]\to[001]}&=\frac{4C_{12}C_{44}}{2C_{11}C_{44}+D},\\ \nu_{[110]\to[1\bar10]}&=\frac{D-2C_{11}C_{44}}{D+2C_{11}C_{44}}.\end{aligned}$$</div></li>
+          <div class="eq"><div class="eq-head"><span class="eq-label">Sheet 5.1(ii): the two Poisson ratios</span></div>$$\begin{aligned}&\nu_{[110]\to[001]}\\&\quad=\frac{4C_{12}C_{44}}{2C_{11}C_{44}+D},\\ &\nu_{[110]\to[1\bar10]}\\&\quad=\frac{D-2C_{11}C_{44}}{D+2C_{11}C_{44}}.\end{aligned}$$</div></li>
       </ol>
       <div class="result"><b>Result:</b> (i) E = (C₁₁ − C₁₂)(C₁₁ + 2C₁₂)/(C₁₁ + C₁₂), ν = C₁₂/(C₁₁ + C₁₂). (ii) E = 4C₄₄D/(2C₁₁C₄₄ + D), with two Poisson ratios: 4C₁₂C₄₄/(2C₁₁C₄₄ + D) toward [001] and (D − 2C₁₁C₄₄)/(D + 2C₁₁C₄₄) toward [1̄10], where D = (C₁₁ − C₁₂)(C₁₁ + 2C₁₂). Cu: E<sub>[100]</sub> = 66.7 GPa, ν = 0.419; E<sub>[110]</sub> = 130.3 GPa, ν = 0.819 (to [001]) and −0.136 (to [1̄10]).</div>
       <div class="check"><b>Sanity check:</b> for isotropy, C₄₄ = (C₁₁ − C₁₂)/2, so 2C₁₁C₄₄ = C₁₁(C₁₁ − C₁₂). Then E<sub>[110]</sub> reduces to E<sub>[100]</sub>, and both ν<sub>[110]</sub> reduce to C₁₂/(C₁₁ + C₁₂), as they must. The Cu numbers were checked in node by rotating the full rank-4 compliance tensor and computing n̂ᵀε n̂ and m̂ᵀε m̂ directly. They agree with these closed forms to all digits shown, and with Model 2's readout.</div>
@@ -568,6 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const c11 = +$('m2-c11').value, c12 = +$('m2-c12').value, c44 = +$('m2-c44').value, s = +$('m2-s').value;
     const n = dirAt(s), stable = c11 - c12 > 0 && c11 + 2 * c12 > 0 && c44 > 0;
     const A = 2 * c44 / (c11 - c12), B = 100 * (c11 + 2 * c12) / 3;
+    ['m2-p3', 'm2-pl'].forEach(id => { if (stable) delete $(id).dataset.state; else $(id).dataset.state = 'invalid'; });   // empty on purpose (CM.stress skips them)
     if (!stable) {
       Plotly.react('m2-p3', [], layout({ margin: { l: 0, r: 0, t: 0, b: 0 }, scene: { bgcolor: 'rgba(0,0,0,0)', xaxis: sAx('x'), yaxis: sAx('y'), zaxis: sAx('z') } }), CFG);
       Plotly.react('m2-pl', [], layout({ xaxis: ax('Direction'), yaxis: ax('E (GPa)') }), CFG);
@@ -633,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Plotly.react('m3-pm', [
       { x: [XR[0], XR[1]], y: [(1 - XR[0]) / 2, (1 - XR[1]) / 2], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dash' }, hoverinfo: 'skip' },
       { x: pts.map(p => p[0]), y: pts.map(p => p[1]), text: names, customdata: names, mode: 'markers+text', textposition: 'top center',
-        textfont: { size: 10, color: C.muted }, marker: { size: 7, color: names.map(k => hi.includes(k) ? C.occ : C.muted) },
+        textfont: { size: 12, color: C.muted }, marker: { size: 7, color: names.map(k => hi.includes(k) ? C.occ : C.muted) },
         hovertemplate: '%{text}: C₁₂/C₁₁ = %{x:.3f}, C₄₄/C₁₁ = %{y:.3f}<extra></extra>' },
       { x: [r], y: [s], mode: 'markers', marker: { color: C.ef, size: 14, line: { color: C.panel, width: 2 } }, hoverinfo: 'skip' }],
       layout({ xaxis: ax('C₁₂ / C₁₁', { range: XR, zeroline: false }), yaxis: ax('C₄₄ / C₁₁', { range: YR, zeroline: false }),
@@ -642,9 +643,9 @@ document.addEventListener('DOMContentLoaded', () => {
           { type: 'line', x0: 1, x1: 1, y0: YR[0], y1: YR[1], line: { color: C.ef, width: 1.5 } },
           { type: 'line', x0: XR[0], x1: XR[1], y0: 0, y1: 0, line: { color: C.ef, width: 1.5 } }],
         annotations: [
-          { x: -0.5, y: -0.17, text: 'C₁₁+2C₁₂ = 0', showarrow: false, xanchor: 'left', font: { size: 10, color: C.muted } },
-          { x: 1, y: -0.17, text: 'C₁₁ = C₁₂', showarrow: false, xanchor: 'right', font: { size: 10, color: C.muted } },
-          { x: XR[0], y: 0, text: 'C₄₄ = 0', showarrow: false, xanchor: 'left', yanchor: 'bottom', font: { size: 10, color: C.muted } }] }), CFG);
+          { x: -0.5, y: -0.17, text: 'C₁₁+2C₁₂ = 0', showarrow: false, xanchor: 'left', font: { size: 12, color: C.muted } },
+          { x: 1, y: -0.17, text: 'C₁₁ = C₁₂', showarrow: false, xanchor: 'right', font: { size: 12, color: C.muted } },
+          { x: XR[0], y: 0, text: 'C₄₄ = 0', showarrow: false, xanchor: 'left', yanchor: 'bottom', font: { size: 12, color: C.muted } }] }), CFG);
     const cols = [C.occ, C.emp, C.ef];
     Plotly.react('m3-pu', lam.map((l, i) => ({ x: TS, y: TS.map(t => 0.5 * l * t * t), mode: 'lines', line: { color: cols[i], width: 2.5 },
       hovertemplate: 'u/C₁₁ = %{y:.3f}<extra></extra>' })),

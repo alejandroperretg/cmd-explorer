@@ -806,7 +806,8 @@ document.addEventListener('DOMContentLoaded', () => {
       { x: pts.x, y: pts.y, mode: 'markers', marker: { color: pts.c, size: pts.s, line: { width: 0 } }, text: pts.t, hovertemplate: '%{text}<extra></extra>' },
       { x: [0], y: [0], mode: 'markers', marker: { color: C.ef, size: 13, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'reference ion<extra></extra>' }],
       layout({ shapes, xaxis: ax('x (R)', { range: [-ext, ext], zeroline: false }), yaxis: ax('y (R)', { range: st === 'chain' ? [-2, 2] : [-ext, ext], zeroline: false, scaleanchor: st === 'chain' ? undefined : 'x' }) }), CFG);
-    const rows = S.map(s => [s.name, at(s, L).toFixed(5)]);
+    // A series whose smallest region is larger than L (CsCl, Cs-faced cubes start at 2/√3 R) has no value yet.
+    const rows = S.map(s => { const v = at(s, L); return [s.name, Number.isFinite(v) ? v.toFixed(5) : `— (smallest is ${s.x[0].toFixed(2)} R)`]; });
     rows.push(['Exact α', ex.toFixed(6)]);
     setRead('m2-read', rows);
     const best = S.filter(s => !s.shape).map(s => Math.abs(at(s, L) - ex)).filter(isFinite);
@@ -856,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { x: [1], y: [Ek(1)], mode: 'markers', marker: { color: C.occ, size: 12 }, hovertemplate: 'atom: %{y:.2f} eV<extra></extra>' },
       { x: [dx], y: [Ek(dx)], mode: 'markers', marker: { color: C.emp, size: 12 }, hovertemplate: 'delocalised: %{y:.3f} eV<extra></extra>' },
       { x: [1], y: [HA / 2], mode: 'markers', marker: { color: C.ef, size: 11, symbol: 'diamond' }, hovertemplate: 'H 1s ⟨T⟩ = 13.6 eV<extra></extra>' }],
-      layout({ xaxis: ax('Size of the region Δx (Bohr radii a₀)', { range: [0, 15.5] }), yaxis: ax('Kinetic energy (eV)', { type: 'log', range: [-2.5, 1.7] }) }), CFG);
+      layout({ xaxis: ax('Size of the region Δx (Bohr radii a₀)', { range: [0, 15.5] }), yaxis: ax('Kinetic energy (eV)', { type: 'log', range: [-2.5, 1.7], dtick: 1 }) }), CFG);
     const gain = Ek(1) - Ek(dx);
     setPill('m4-pill', ['metal', `${(100 * gain / Ek(1)).toFixed(1)} % of the confinement energy released`]);
     setRead('m4-read', [['E at 1 a₀', Ek(1).toFixed(2) + ' eV'], ['E at Δx', Ek(dx).toFixed(3) + ' eV'], ['Energy gained', gain.toFixed(2) + ' eV'], ['Ratio E(1)/E(Δx)', (dx * dx).toFixed(1)]]);

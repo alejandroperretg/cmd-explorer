@@ -271,3 +271,26 @@ a.topic:hover, a.topic:focus-visible { border-color: var(--accent); outline: non
   .eq-n { grid-row: 1; align-self: start; }
   .eq > :not(.eq-head, .eq-n) { grid-column: 1 / -1; }
 }
+
+/* Phones: readability floors checked by tools/stress.js (body text >= 15 px, labels and captions >= 12 px, tap targets >= 40 px). */
+@media (max-width: 640px) {
+  .card p, .card li, .rail p, .try, .hw .ask, .hw ol, .hw ul, .result, .check, .assume, .sources ul, .sec-intro, .cannow, .idea, .notes,
+  .takeaway, .trap, details.check, .path li, .path > p, .topic ul, .dict table, .ctl label, .seg legend, .chk { font-size: 15px; }
+  .hw summary { font-size: 15px; }
+  figcaption, .keys, .note, .needs, .legend, .eq-label, .path .then, .path .min, .chain, .btns, .err { font-size: 13px; }
+  .eyebrow, .hw .tag, .hw h4, .dict th, .topic .num, .topic .pill, .eq-n, .page-head .meta span, .step,
+  .tag:is(.hw, .exam, .deriv, .lect), .eq.key .eq-head::before, .takeaway::before, .trap::before, details.check > summary::before, .cannow::before { font-size: 12px; }
+  .btn, .site-nav .theme { min-height: 40px; font-size: 14px; }
+  .seg span { padding-block: 10px; font-size: 14px; }
+  input[type=range] { height: 40px; margin: 0; }
+  .chk { min-height: 40px; }
+  /* Reading-path links: a 40 px tap area without changing the row height */
+  .path li > a { display: inline-block; padding-block: 9px; margin-block: -9px; }
+  /* Long tags and legend entries wrap instead of overflowing narrow screens */
+  .tag:is(.hw, .exam, .deriv, .lect) { white-space: normal; }
+  .legend > span { flex-wrap: wrap; }
+}
+/* Smallest phones: plots use the bench padding too, so they stay at least 280 px wide at 320 px */
+@media (max-width: 359px) { .bench .plot, .bench .cvwrap { width: auto; margin-inline: -14px; } }
+/* Phone builds (MathML): an inline formula still wider than its line scrolls in its own span (CM.fitEq adds .m-scroll) */
+.katex.m-scroll { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }

@@ -265,7 +265,7 @@
         <li>sc: the bandwidth is $12\gamma$. Near $k=0$, $\varepsilon\approx-\alpha-6\gamma+\gamma k^2a^2$, which gives the $m^*$ in (17).</li>
         <li>fcc, 12 neighbours:
           <div class="eq"><div class="eq-head"><span class="eq-label">fcc s band</span></div>
-          $$\begin{aligned}\varepsilon_{\mathbf k}={}&-\alpha-4\gamma\Big(\cos\tfrac{k_ya}2\cos\tfrac{k_za}2\\&+\cos\tfrac{k_za}2\cos\tfrac{k_xa}2\\&+\cos\tfrac{k_xa}2\cos\tfrac{k_ya}2\Big)\end{aligned}$$
+          $$\begin{aligned}\varepsilon_{\mathbf k}={}&-\alpha-4\gamma\,\big(c_yc_z\\&+c_zc_x+c_xc_y\big),\\ c_i={}&\cos\tfrac{k_ia}2\end{aligned}$$
           </div>
           It runs from $-\alpha-12\gamma$ at Γ to $-\alpha+4\gamma$ at X, a width of $16\gamma$.</li>
         <li>A small overlap γ gives a narrow band and a heavy electron. γ falls off exponentially with atomic spacing, which is the left-hand plot of Model 1.</li>
@@ -740,7 +740,7 @@ function render1() {
   const well = { x: xg, y: vg.map(v => Math.max(-12.5, v)), mode: 'lines', line: { color: C.emp, width: 2.5 }, hoverinfo: 'skip' };
   const xb = nd > 1 ? (Math.floor(nd / 2) - 0.5 - (nd - 1) / 2) * s : null, vb = nd > 1 ? V(xb) : null;
   const ann = nd > 1 && vb > -12 ? [{ x: xb, y: vb, text: 'hill between atoms', showarrow: true, arrowhead: 0, ax: 0, ay: -40,
-    arrowcolor: C.muted, font: { size: 11, color: C.muted }, bgcolor: rgba(C.panel, 0.8) }] : [];
+    arrowcolor: C.muted, font: { size: 12, color: C.muted }, bgcolor: rgba(C.panel, 0.8) }] : [];
   // name each band by what it holds: the highest full band is the valence band, the band electrons can move in is the conduction band
   const st = occB.map(o => o === 0 ? 'empty' : o >= 2 * N ? 'full' : 'part');
   const role = st.map((s, i) => s === 'part' ? 'conduction band, partly full'
@@ -749,7 +749,7 @@ function render1() {
   const bandName = i => (N === 1 ? 'Orbital ' : 'Band ') + 'AB'[i];
   edges.forEach(([, top], i) => ann.push({ xref: 'paper', x: 0.01, xanchor: 'left', y: top, yanchor: 'bottom', showarrow: false,
     text: `<b>${bandName(i)}</b> · ${N === 1 ? (occB[i] ? occB[i] + ' e⁻' : 'empty') : role[i]}`,
-    font: { size: 11, color: occB[i] ? C.occ : C.emp }, bgcolor: rgba(C.panel, 0.85) }));
+    font: { size: 12, color: occB[i] ? C.occ : C.emp }, bgcolor: rgba(C.panel, 0.85) }));
   Plotly.react('p1a', [well, seg(g.empty, C.emp), seg(g.half, C.occ, 'dot'), seg(g.full, C.occ)],
     layout({ annotations: ann, shapes: [hline(0, C.fg, 'solid')], xaxis: ax('Position along the row (Å)', { range: [-L, L], zeroline: false }),
       yaxis: ax('Energy (eV)', { range: [-12, 1], zeroline: false }) }), CFG);
@@ -761,8 +761,8 @@ function render1() {
   });
   tr.push({ x: [d, d, d, d], y: edges.flat(), mode: 'markers', marker: { color: C.ef, size: 7 }, hovertemplate: '%{y:.2f} eV<extra></extra>' });
   const ann1b = ORB.map((o, i) => ({ x: 2.98, xanchor: 'right', y: o.eps, yanchor: 'bottom', yshift: 4, showarrow: false,
-    text: `<b>Band ${'AB'[i]}</b> · from the ${String(o.eps).replace('-', '−')} eV orbital`, font: { size: 11, color: C.fg } }));
-  if (edges[1][0] - edges[0][1] > 0.4) ann1b.push({ x: d, y: (edges[0][1] + edges[1][0]) / 2, xanchor: 'left', xshift: 8, showarrow: false, text: 'gap', font: { size: 11, color: C.ef } });
+    text: `<b>Band ${'AB'[i]}</b> · from the ${String(o.eps).replace('-', '−')} eV orbital`, font: { size: 12, color: C.fg } }));
+  if (edges[1][0] - edges[0][1] > 0.4) ann1b.push({ x: d, y: (edges[0][1] + edges[1][0]) / 2, xanchor: 'left', xshift: 8, showarrow: false, text: 'gap', font: { size: 12, color: C.ef } });
   Plotly.react('p1b', tr, layout({ annotations: ann1b, shapes: [vline(d, C.ef)], xaxis: ax('Atomic spacing (relative to a₀)', { range: [0.65, 3] }), yaxis: ax('Energy (eV)', { range: [-12, 1] }) }), CFG);
 
   const gap = edges[1][0] - edges[0][1];
@@ -1059,7 +1059,7 @@ function renderC() {
   Plotly.react('pc-a', [curve(k => -2 * Math.cos(k)), dots(E)],
     layout({ annotations: [{ x: 0, y: -2.2, yanchor: 'top', showarrow: false, text: '<b>the band</b> (one orbital per atom)', font: { size: 12, color: C.fg } }],
       shapes: [vline(push, C.ef, 'dot')], xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: [-2.7, 2.5] }) }), CFG);
-  const lab = (y, text) => ({ xref: 'paper', x: 0.02, y, xanchor: 'left', text, showarrow: false, font: { size: 11, color: C.muted } });
+  const lab = (y, text) => ({ xref: 'paper', x: 0.02, y, xanchor: 'left', text, showarrow: false, font: { size: 12, color: C.muted } });
   Plotly.react('pc-b', [curve(k => 2 * Math.sin(k)), dots(v)],
     layout({ shapes: [hline(0, C.line, 'solid')], annotations: [lab(2.25, '↑ moving right'), lab(-2.25, '↓ moving left')],
       xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Velocity (slope of the band)', { range: [-2.5, 2.5], showticklabels: false }) }), CFG);
@@ -1115,7 +1115,7 @@ function render2() {
   if (D > 0) shapes.unshift({ type: 'rect', xref: 'paper', x0: 0, x1: 1, y0: -D / 2, y1: D / 2, fillcolor: rgba(C.ef, 0.07), line: { width: 0 }, layer: 'below' });
   const bl = (y, yanchor, text) => ({ x: 0, y, yanchor, showarrow: false, text, font: { size: 12, color: C.fg }, bgcolor: rgba(C.panel, 0.85) });
   const ann2 = [bl(-W - 0.08, 'top', '<b>valence band</b>'), bl(W + 0.08, 'bottom', '<b>conduction band</b>')];
-  if (D > 0.3) ann2.push({ x: -PI * 0.97, xanchor: 'left', y: 0, yshift: 9, showarrow: false, text: 'gap', font: { size: 11, color: C.ef } });
+  if (D > 0.3) ann2.push({ x: -PI * 0.97, xanchor: 'left', y: 0, yshift: 9, showarrow: false, text: 'gap', font: { size: 12, color: C.ef } });
   Plotly.react('p2a', [line(-1), line(1), dots(-1), dots(1)],
     layout({ annotations: ann2, shapes, xaxis: kAx('Crystal momentum k (1/a)'), yaxis: ax('Energy (eV)', { range: yr }) }), CFG);
 
@@ -1358,14 +1358,14 @@ function renderEL() {
     for (let t = 0.3; t <= 0.95; t += 0.05) {
       const k = t * L.X, y = cv.f(k);
       if (y < 0.4 || y > L.ymax - 0.5 || curves.some(o => o !== cv && Math.abs(o.f(k) - y) < sep)) continue;
-      ann.push({ x: k, y, text: '×' + cv.n, showarrow: false, font: { size: 11, color: C.fg }, bgcolor: rgba(C.panel, 0.85) });
+      ann.push({ x: k, y, text: '×' + cv.n, showarrow: false, font: { size: 12, color: C.fg }, bgcolor: rgba(C.panel, 0.85) });
       break;
     }
   });
   const shapes = [vline(kq, C.ef)];
   if (lat === 'fcc') {
     shapes.push(hline(EL_EF, C.ef, 'dot'));
-    ann.push({ xref: 'paper', x: 0.01, xanchor: 'left', y: EL_EF, yanchor: 'bottom', showarrow: false, text: 'Al ε_F (free electrons)', font: { size: 11, color: C.ef }, bgcolor: rgba(C.panel, 0.85) });
+    ann.push({ xref: 'paper', x: 0.01, xanchor: 'left', y: EL_EF, yanchor: 'bottom', showarrow: false, text: 'Al ε_F (free electrons)', font: { size: 12, color: C.ef }, bgcolor: rgba(C.panel, 0.85) });
   }
   const X = L.X, tick = X === 1 ? { tickvals: [-1, -0.5, 0, 0.5, 1], ticktext: ['−X', '−π/2a', 'Γ', 'π/2a', 'X'] }
     : { tickvals: [-2, -1, -0.5, 0, 0.5, 1, 2], ticktext: ['−X', '−π/a', '', 'Γ', 'π/2a', 'π/a', 'X'] };

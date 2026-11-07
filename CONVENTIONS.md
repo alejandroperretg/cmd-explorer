@@ -51,6 +51,7 @@
 - [ ] Every control visibly changes its plot or readout.
 - [ ] At 360 px and 400 px width: no horizontal page scroll, equations never scroll (long ones are written as aligned lines), and `CM.auditLayout()` returns [] at 360 px and 400 px, in light and dark.
 - [ ] Readable in light and dark (nav "Dark/Light" button), plots re-themed.
+- [ ] `CM.stress()` passes. Build the phone copy (`node tools/to-artifact.js . NN-slug.html build/cmd-NN.html`), then run `node tools/stress.js --pages NN --builds`. It runs `CM.stress()` and the readability checks in headless Chrome at 320, 360, 400, 768 and 1280 px, in light and dark. Pass means no "broken" items at any width or theme, and no "unreadable" items at 360 px or 400 px.
 - [ ] Every numeric claim checked, with the method stated as above.
 - [ ] Every topic-list subsection of the section has a Concepts entry.
 - [ ] Interactive models are organised by topic-list number. Each model's eyebrow starts with the subsection number it serves, e.g. `2.1.1 · Boundary conditions`. Chapter 2 gets at least one model per subsection (the user's emphasis). Chapters 1 and 3 get one per section at minimum.
