@@ -1,5 +1,11 @@
 # Handoff: CMD Explorer
 
+> **Published (user decision, 2026-11-07):**
+> - The repo https://github.com/alejandroperretg/cmd-explorer is **public**.
+> - GitHub Pages serves `main` at https://alejandroperretg.github.io/cmd-explorer/.
+> - Every push to `main` updates the live site.
+> - Never commit `sources/` or anything verbatim from the PDFs.
+
 > **State at 2026-11-06 evening (latest, read this first):**
 > - **Done, reviewed, committed:** pages 01–09, all marked ready.
 > - **In final style:** 03, 04, 09. Restyle the others with `templates/RETROFIT.md`, two pages per agent: 01+02, 05+06, 07+08.
