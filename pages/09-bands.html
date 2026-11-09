@@ -42,7 +42,7 @@
   <p>Read the Concepts section by section, in topic-list order; each line says which cards it holds and which model or exercise to try next. 2.6.1 and 2.6.2 are the exam core (2022 Q4). 2.6.3 is not yet lectured and was not examined in 2022. About 2 hours in total.</p>
   <ol>
     <li data-sec="2.6.1"><a href="#s-2-6-1">Bloch theorem</a><span class="min">25 min</span><span class="then"><a href="#c-periodic">Periodic potential</a> → <a href="#c-bloch">statement and proof</a> → <a href="#c-implies">consequences</a>. Then: <a href="#kwave">Model 1</a>, <a href="#hw-x-1">Practice A</a>.</span></li>
-    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-empty">Empty lattice</a> (then <a href="#empty">Model 2</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-central">central equation</a> → <a href="#c-gap">gap</a> (then Model 2 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
+    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-central">Central equation</a> → <a href="#c-empty">empty lattice</a>, its U<sub>G</sub> = 0 case (then <a href="#empty">Model 2</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-gap">gap</a> (then Model 2 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
     <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">10 min</span><span class="then">Then: <a href="#atoms">Model 3</a>, <a href="#hw-x-3">Practice C</a>.</span></li>
     <li data-sec="2.6"><a href="#s-2-6-x">Connecting ideas</a><span class="min">20 min</span><span class="then"><a href="#c-four">Four questions</a>. Then, how electrons move in a metal: <a href="#cond">Model 4</a> → <a href="#ek">Model 5</a> → <a href="#wire">Model 6</a> → <a href="#fs2d">Models 7</a> and <a href="#fs3d">8</a> (Fermi surfaces, beyond the topic list).</span></li>
     <li data-sec="Q4"><a href="#exam-q4">Exam 2022 Q4, worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
@@ -141,23 +141,40 @@
     <h3><span class="step">2.6.2</span>Nearly free electron model</h3>
     <p class="hook"><b>Where you meet this.</b> The band gap is why a silicon chip can switch and why an LED has a colour. Silicon's 1.12 eV gap leaves almost no free electrons at room temperature until a gate voltage or a dopant supplies them. In an LED an electron drops across the gap and emits one photon of energy ≈ E<sub>g</sub>, so red light (650 nm) needs a gap near 1.9 eV and blue (460 nm) one near 2.7 eV. This section shows where gaps come from in the first place.</p>
     <div class="sec-intro">
-      <p><b>What this covers.</b> Start from free electrons with U → 0 (the empty lattice), see why a weak periodic potential splits the two standing waves at a zone face, write the problem as the central equation, and solve it near the face to get the gap E<sub>g</sub> = 2|U<sub>G</sub>|. The notes stop at the unsolved central equation (p54); the rest is taught here from Kittel ch. 7.</p>
+      <p><b>What this covers.</b> Write the Schrödinger equation in plane waves as the central equation, solve its U<sub>G</sub> = 0 case (the empty lattice), see why a weak periodic potential splits the two standing waves at a zone face, and solve it near the face to get the gap E<sub>g</sub> = 2|U<sub>G</sub>|. The notes stop at the unsolved central equation (p54); the rest is taught here from Kittel ch. 7.</p>
       <p><b>Why it matters.</b> Exam Q4c–f, most of Q4: the [100] sketch with degeneracies, the energies at k₀ and k₁, naming the approximation, and how gaps open. Practice B uses the gap and standing waves. Band gaps are what separate metals from insulators and semiconductors (3.1).</p>
     </div>
     <div class="cards">
+    <article class="card" id="c-central">
+      <span class="eyebrow">2.6.2 · Central equation</span>
+      <h4>The central equation</h4>
+      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a></p>
+      <p>Expand both the potential and the Bloch function in plane waves:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Plane-wave expansions</span></div>
+      $$\begin{aligned}U(\mathbf r)&=\sum_{\mathbf G}U_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r}\\ \psi_{\mathbf k}(\mathbf r)&=\sum_{\mathbf G}C_{\mathbf k-\mathbf G}\,e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
+      <p>Insert both into the Schrödinger equation and collect the coefficient of $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$. In the notes' notation, $\varepsilon^0_{\mathbf q}=\hbar^2q^2/2m$ is the free kinetic energy:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Central equation (nearly free electrons)</span><a class="tag exam" href="#exam-q4">Exam Q4e</a></div>
+      $$\begin{aligned}&\big(\varepsilon^0_{\mathbf k-\mathbf G}-\varepsilon\big)\,C_{\mathbf k-\mathbf G}\\&\quad+\sum_{\mathbf G'}U_{\mathbf G'-\mathbf G}\,C_{\mathbf k-\mathbf G'}=0\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
+      <p>There is one equation per $\mathbf G$. Together they form an eigenvalue problem for the matrix $H_{\mathbf G\mathbf G'}=\varepsilon^0_{\mathbf k-\mathbf G}\,\delta_{\mathbf G\mathbf G'}+U_{\mathbf G'-\mathbf G}$, whose eigenvalues at each $\mathbf k$ are the band energies $\varepsilon_{n\mathbf k}$. $U_{\mathbf 0}$ is set to 0, since the average potential only shifts every level. Kittel's eq. (27), $(\lambda_k-\varepsilon)C(\mathbf k)+\sum_{\mathbf G}U_{\mathbf G}C(\mathbf k-\mathbf G)=0$, is the same equation after $\mathbf k\to\mathbf k-\mathbf G$. Model 2 solves it numerically with 27–33 plane waves. The next cards solve it by hand: first with every $U_{\mathbf G}=0$ (the empty lattice), then with one $U_{\mathbf G}$ switched on near a zone face (the gap).</p>
+      <div class="assume"><b>Where the notes stop (p54):</b> they reach this equation and do not solve it. Two slips there: the kinetic term is written $-\frac{\hbar}{2m}\nabla$ where it should be $-\frac{\hbar^2}{2m}\nabla^2$, and the coefficient inside the sum reads like $C_{\mathbf k-\mathbf G}$. It must be $C_{\mathbf k-\mathbf G'}$, otherwise the sum would not couple different waves. The solution below follows Kittel ch. 7.</div>
+      <details class="check"><summary>In (6), which two plane waves does a given Fourier component couple directly?</summary><p>$U_{\mathbf G'-\mathbf G}$ couples $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ to $e^{i(\mathbf k-\mathbf G')\cdot\mathbf r}$, i.e. waves whose wave vectors differ by $\mathbf G'-\mathbf G$. If that component is zero, the two waves do not mix directly.</p></details>
+      <p class="takeaway">In a plane-wave basis the Schrödinger equation becomes a matrix eigenproblem at each k: free energies on the diagonal, Fourier components of U off it. The bands are its eigenvalues.</p>
+    </article>
     <article class="card" id="c-empty">
       <span class="eyebrow">2.6.2 · Empty lattice</span>
       <h4>Empty-lattice approximation</h4>
-      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a> and the reciprocal lattice of fcc (1.3, worked in <a href="#exam-q4">Q4b</a>)</p>
+      <p class="needs"><a href="#c-central">2.6.2 · Central equation</a> and the reciprocal lattice of fcc (1.3, worked in <a href="#exam-q4">Q4b</a>)</p>
       <div class="tags"><span class="tag lect">Not yet lectured</span></div>
-      <p>Let $U\to0$ but keep the lattice's bookkeeping. The states are still plane waves, and Bloch's theorem only relabels them. A free wave is written as $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ with $\mathbf k$ in the first zone:</p>
+      <p>The simplest solution of the central equation (6) is its $U_{\mathbf G}=0$ case: nothing couples the plane waves, and each $C_{\mathbf k-\mathbf G}$ is an eigenvector on its own with $\varepsilon=\varepsilon^0_{\mathbf k-\mathbf G}$. So let $U\to0$ but keep the lattice's bookkeeping. The states are still plane waves, and Bloch's theorem only relabels them. A free wave is written as $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ with $\mathbf k$ in the first zone:</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Empty-lattice bands</span><a class="tag exam" href="#exam-q4">Exam Q4c</a></div>
       $$\begin{aligned}\varepsilon_{\mathbf G}(\mathbf k)&=\frac{\hbar^2}{2m}\,\lvert\mathbf k-\mathbf G\rvert^2\\ \mathbf k&\in\text{1st BZ}\end{aligned}$$
-      <span class="eq-n">(5)</span></div>
+      <span class="eq-n">(7)</span></div>
       <p>Each $\mathbf G$ gives one free parabola, shifted by $\mathbf G$ and folded back into the zone: this is the reduced-zone scheme. Repeating that picture at every $\mathbf G$ gives the periodic zone scheme that the exam asks for. Along [100], $\mathbf k=(k,0,0)$ and</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Along [100]</span><a class="tag exam" href="#exam-q4">Exam Q4c–d</a><span class="tag deriv">Exam-relevant derivation</span></div>
       $$\varepsilon=\frac{\hbar^2}{2m}\big[(k-G_x)^2+G_y^2+G_z^2\big]$$
-      <span class="eq-n">(6)</span></div>
+      <span class="eq-n">(8)</span></div>
       <p>Every $\mathbf G$ with the same $G_x$ and the same $G_y^2+G_z^2$ gives the <b>same curve</b>. The number of such $\mathbf G$ is the degeneracy to write on a sketch. Energies below are in units of $E_0=\hbar^2\pi^2/2ma^2$, where $a$ is the cubic lattice constant.</p>
       <div class="dict"><table>
         <thead><tr><th>Lattice</th><th>Γ (k = 0)</th><th>k = (π/2a, 0, 0)</th><th>X</th></tr></thead>
@@ -168,7 +185,7 @@
       <div class="check"><b>Sanity check:</b> enumerated by brute force in node over all G with |h|, |k|, |l| ≤ 4. The sc rows agree with Kittel's empty-lattice table for sc (ch. 7, with ħ²/2m = 1 there).</div>
       <p class="trap">Two ways to lose points in Q4c: leaving degeneracies unlabelled, and drawing bands that "end" at the zone edge. In the periodic zone scheme the picture repeats every G.</p>
       <details class="check"><summary>sc lattice, k = 0: the second-lowest empty-lattice energy and its degeneracy, in units of E₀?</summary><p>$4E_0$, sixfold: the six $\mathbf G=\frac{2\pi}a(\pm1,0,0),(0,\pm1,0),(0,0,\pm1)$ all have $\frac{\hbar^2}{2m}|\mathbf G|^2=\frac{\hbar^2}{2m}\frac{4\pi^2}{a^2}=4E_0$. Compare the table.</p></details>
-      <p class="takeaway">With U → 0 the bands are free parabolas (5), one per G, folded into the zone. G's with equal $G_x$ and equal $G_y^2+G_z^2$ give one curve, and their count is its degeneracy.</p>
+      <p class="takeaway">With U → 0 the bands are free parabolas (7), one per G, folded into the zone. G's with equal $G_x$ and equal $G_y^2+G_z^2$ give one curve, and their count is its degeneracy.</p>
     </article>
     <article class="card" id="c-standing">
       <span class="eyebrow">2.6.2 · Standing waves</span>
@@ -178,34 +195,17 @@
       <p>In 1D at $k=\pi/a$, the waves $e^{\pm i\pi x/a}$ have the same energy and Bragg-reflect into each other. The eigenstates are the two standing waves</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Standing waves at the zone face</span><a class="tag exam" href="#exam-q4">Exam Q4f</a><a class="tag hw" href="#hw-x-2">Practice B</a></div>
       $$\begin{aligned}\psi_+&\propto\cos\frac{\pi x}{a}\\ \psi_-&\propto\sin\frac{\pi x}{a}\end{aligned}$$
-      <span class="eq-n">(7)</span></div>
+      <span class="eq-n">(9)</span></div>
       <p>They have the same kinetic energy but put the electron in different places. $\lvert\psi_+\rvert^2\propto\cos^2(\pi x/a)$ piles charge on the ions at $x=0,a,2a,\dots$, and $\lvert\psi_-\rvert^2\propto\sin^2(\pi x/a)$ piles it between them. With $U(x)=2U_G\cos(2\pi x/a)$ and both states normalised over one cell,</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Potential energy of each standing wave</span></div>
       $$\begin{aligned}\langle\psi_+|U|\psi_+\rangle&=+U_G\\ \langle\psi_-|U|\psi_-\rangle&=-U_G\end{aligned}$$
-      <span class="eq-n">(8)</span></div>
+      <span class="eq-n">(10)</span></div>
       <p>which differ by $2\lvert U_G\rvert$: a gap opens between them. The ions attract electrons, so $U$ is most negative at the ions and $U_G<0$. Then $\psi_+$, with its charge on the ions, is the top of band 1, and $\psi_-$ is the bottom of band 2. Reversing the sign of $U_G$ swaps them; try it in Model 2.</p>
       <p><b>The sign of ψ at an atom.</b> A single sign means nothing, because multiplying ψ by −1 (or any phase) changes no measurement. What matters is where |ψ|² piles up, and the relative sign between neighbouring cells, which k sets.</p>
       <div class="check"><b>Sanity check:</b> both expectation values were integrated numerically in node and give ±U_G to four digits. Kittel writes the potential as $U\cos(2\pi x/a)$ and finds $E_g=U$. That is the same result, because its Fourier component is $U_G=U/2$.</div>
       <p class="trap">Assuming the cos state is always lower. It is lower only for attractive ions ($U_G<0$). The sign of $U_G$ decides which standing wave lies below the gap.</p>
-      <details class="check"><summary>If U<sub>G</sub> &gt; 0, which standing wave is the top of band 1?</summary><p>$\psi_-\propto\sin(\pi x/a)$. By (8) it now has the lower potential energy, $-U_G$, so it sits below the gap, and $\cos$ becomes the bottom of band 2.</p></details>
+      <details class="check"><summary>If U<sub>G</sub> &gt; 0, which standing wave is the top of band 1?</summary><p>$\psi_-\propto\sin(\pi x/a)$. By (10) it now has the lower potential energy, $-U_G$, so it sits below the gap, and $\cos$ becomes the bottom of band 2.</p></details>
       <p class="takeaway">At the zone face the two travelling waves mix into standing waves. The one whose charge sits where U is lowest (on attractive ions) lies 2|U<sub>G</sub>| below the other.</p>
-    </article>
-    <article class="card" id="c-central">
-      <span class="eyebrow">2.6.2 · Central equation</span>
-      <h4>The central equation</h4>
-      <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a>, <a href="#c-empty">2.6.2 · Empty lattice</a></p>
-      <p>Expand both the potential and the Bloch function in plane waves:</p>
-      <div class="eq"><div class="eq-head"><span class="eq-label">Plane-wave expansions</span></div>
-      $$\begin{aligned}U(\mathbf r)&=\sum_{\mathbf G}U_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r}\\ \psi_{\mathbf k}(\mathbf r)&=\sum_{\mathbf G}C_{\mathbf k-\mathbf G}\,e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}\end{aligned}$$
-      <span class="eq-n">(9)</span></div>
-      <p>Insert both into the Schrödinger equation and collect the coefficient of $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$. In the notes' notation, $\varepsilon^0_{\mathbf q}=\hbar^2q^2/2m$ is the free kinetic energy:</p>
-      <div class="eq"><div class="eq-head"><span class="eq-label">Central equation (nearly free electrons)</span><a class="tag exam" href="#exam-q4">Exam Q4e</a></div>
-      $$\begin{aligned}&\big(\varepsilon^0_{\mathbf k-\mathbf G}-\varepsilon\big)\,C_{\mathbf k-\mathbf G}\\&\quad+\sum_{\mathbf G'}U_{\mathbf G'-\mathbf G}\,C_{\mathbf k-\mathbf G'}=0\end{aligned}$$
-      <span class="eq-n">(10)</span></div>
-      <p>There is one equation per $\mathbf G$. Together they form an eigenvalue problem for the matrix $H_{\mathbf G\mathbf G'}=\varepsilon^0_{\mathbf k-\mathbf G}\,\delta_{\mathbf G\mathbf G'}+U_{\mathbf G'-\mathbf G}$, whose eigenvalues at each $\mathbf k$ are the band energies $\varepsilon_{n\mathbf k}$. $U_{\mathbf 0}$ is set to 0, since the average potential only shifts every level. Kittel's eq. (27), $(\lambda_k-\varepsilon)C(\mathbf k)+\sum_{\mathbf G}U_{\mathbf G}C(\mathbf k-\mathbf G)=0$, is the same equation after $\mathbf k\to\mathbf k-\mathbf G$. Model 2 solves it numerically with 27–33 plane waves.</p>
-      <div class="assume"><b>Where the notes stop (p54):</b> they reach this equation and do not solve it. Two slips there: the kinetic term is written $-\frac{\hbar}{2m}\nabla$ where it should be $-\frac{\hbar^2}{2m}\nabla^2$, and the coefficient inside the sum reads like $C_{\mathbf k-\mathbf G}$. It must be $C_{\mathbf k-\mathbf G'}$, otherwise the sum would not couple different waves. The solution below follows Kittel ch. 7.</div>
-      <details class="check"><summary>In (10), which two plane waves does a given Fourier component couple directly?</summary><p>$U_{\mathbf G'-\mathbf G}$ couples $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ to $e^{i(\mathbf k-\mathbf G')\cdot\mathbf r}$, i.e. waves whose wave vectors differ by $\mathbf G'-\mathbf G$. If that component is zero, the two waves do not mix directly.</p></details>
-      <p class="takeaway">In a plane-wave basis the Schrödinger equation becomes a matrix eigenproblem at each k: free energies on the diagonal, Fourier components of U off it. The bands are its eigenvalues.</p>
     </article>
     <article class="card" id="c-gap">
       <span class="eyebrow">2.6.2 · Gap</span>
@@ -234,7 +234,7 @@
       <p class="takeaway">Where two free waves are degenerate (on a Bragg plane), $U_{\mathbf G}$ mixes them and opens a gap $E_g=2|U_{\mathbf G}|$. The bands meet the zone face flat, with v = 0.</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> sketch the empty-lattice bands along [100] with their degeneracies (Q4c), compute the two lowest energies at k₀ and k₁ (Q4d), name the nearly-free-electron model (Q4e), and explain where and why the gaps open (Q4f). With 2.6.1 and the reciprocal lattice (Q4b), that is the whole of <a href="#exam-q4">Q4</a>. Try <a href="#hw-x-2">Practice B</a> first.</p>
+    <p class="cannow"><b>You can now</b> write the central equation and name the nearly-free-electron model (Q4e), sketch its U<sub>G</sub> = 0 limit, the empty-lattice bands along [100], with their degeneracies (Q4c), compute the two lowest energies at k₀ and k₁ (Q4d), and explain where and why the gaps open (Q4f). With 2.6.1 and the reciprocal lattice (Q4b), that is the whole of <a href="#exam-q4">Q4</a>. Try <a href="#hw-x-2">Practice B</a> first.</p>
   </section>
   <section class="sec" id="s-2-6-3">
     <h3><span class="step">2.6.3</span>Tight binding</h3>
@@ -641,7 +641,7 @@
   <div class="card">
     <p>2022 Q4 "Electrons in condensed matter": state Bloch's theorem; give the reciprocal lattice vectors; sketch the free-electron (empty-lattice) band structure along [100] in the periodic zone scheme; compute the lowest two energies at k = (0,0,0) and k = (π/2a,0,0); name the approximation for a weak periodic potential (nearly free electrons); sketch how gaps open at the zone boundary and compare. It reuses the reciprocal lattice of §1.3.</p>
     <p>Things to do in 5 minutes without notes: write both forms of Bloch's theorem; get bcc ↔ fcc reciprocal lattices right; list the empty-lattice curves along [100] with degeneracies; know E<sub>g</sub> = 2|U<sub>G</sub>| and which standing wave is lower.</p>
-    <p><b>Where each part is taught:</b> Q4a → <a href="#s-2-6-1">2.6.1</a>, (2), (3); Q4b → the reciprocal lattice in the worked answer below; Q4c–d → <a href="#c-empty">2.6.2 · Empty lattice</a>, (5), (6) and its table; Q4e → (10); Q4f → (7) and (11)–(14).</p>
+    <p><b>Where each part is taught:</b> Q4a → <a href="#s-2-6-1">2.6.1</a>, (2), (3); Q4b → the reciprocal lattice in the worked answer below; Q4c–d → <a href="#c-empty">2.6.2 · Empty lattice</a>, (7), (8) and its table; Q4e → (6); Q4f → (9) and (11)–(14).</p>
   </div>
   <article class="hw" id="exam-q4">
     <span class="tag">Exam 2022 · Q4 a–f · worked answer</span>

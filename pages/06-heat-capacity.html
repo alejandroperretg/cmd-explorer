@@ -14,6 +14,11 @@
 <script defer src="../assets/common.js"></script>
 </head>
 <body>
+<style>
+  /* In the body, not the head: tools/to-artifact.js keeps only body markup. Collapsible side note (units card). */
+  details.side > summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--accent); }
+  details.side[open] { display: flex; flex-direction: column; gap: 8px; }
+</style>
 <nav class="site-nav" aria-label="Site"><div class="in">
   <a class="brand" href="../index.html">CMD Explorer</a>
   <a href="../index.html#map">Syllabus map</a>
@@ -41,7 +46,7 @@
   <h2 id="path-h">Reading path</h2>
   <p>Read the Concepts section by section, in the lecture's order (notes pp. 33–38): the general result (★) first, then its two limits, then the models that interpolate between them. Each line says which cards it holds and which model or exercise to try next. Sheet 7 covers 1.7.1.2 and 1.7.1.3; heat capacity was not asked in the 2022 exam, so the exam-style exercise follows the sheet's level. You need phonons and the density of states from <a href="05-phonons.html#s-1-6-5">topic 05</a>; the recaps below repeat the essentials. About 2 hours in total.</p>
   <ol>
-    <li data-sec="1.7.1"><a href="#s-1-7-1">Lattice specific heat</a><span class="min">30 min</span><span class="then"><a href="#c-partition">Partition function and (★)</a> → <a href="#c-units">units</a>. Then: <a href="#freeze">Model 1</a>.</span></li>
+    <li data-sec="1.7.1"><a href="#s-1-7-1">Lattice specific heat</a><span class="min">30 min</span><span class="then"><a href="#c-partition">Partition function and (★)</a>, then the collapsed side note on <a href="#c-units">units</a>. Then: <a href="#freeze">Model 1</a>.</span></li>
     <li data-sec="1.7.1.1"><a href="#s-1-7-1-1">High-temperature limit</a><span class="min">15 min</span><span class="then"><a href="#c-high">Dulong–Petit and its correction</a>. Then: <a href="#compare">Model 2</a> with the series on.</span></li>
     <li data-sec="1.7.1.2"><a href="#s-1-7-1-2">Low-temperature limit</a><span class="min">30 min</span><span class="then"><a href="#c-low">The T³ law</a>. Then: <a href="#dims">Model 3</a>, <a href="#hw-7-1">Sheet 7.1</a>.</span></li>
     <li data-sec="1.7.1.3"><a href="#s-1-7-1-3">Intermediate temperatures</a><span class="min">40 min</span><span class="then"><a href="#c-debye">Debye</a> → <a href="#c-einstein">Einstein and combined</a> → <a href="#c-dosint">phonon DOS</a>. Then: <a href="#compare">Model 2</a>, <a href="#diamond">Model 4</a>, <a href="#hw-7-2">Sheet 7.2</a>.</span></li>
@@ -75,7 +80,7 @@
     <p class="hook"><b>Where you meet this.</b> Warming a 1 kg copper block by one kelvin takes about 385 J, and almost all of it goes into lattice vibrations. This section turns that number into a formula: count the phonon modes, give each one its quantum share of the heat, and add them up.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The crystal as a set of independent quantum oscillators, its partition function, the internal energy (Bose occupation plus zero-point energy) and the general heat capacity (★); then the four normalisations of "heat capacity" you will meet. Lecture notes pp. 33–34.</p>
-      <p><b>Why it matters.</b> (★) is the starting point of every later result on this page and of sheet 7.1. Its one-mode weight w(x) explains why heat capacity freezes out at low T, and the same Bose factor returns in phonon scattering on <a href="08-transport.html">topic 08</a>.</p>
+      <p><b>Why it matters.</b> (★) is the starting point of every later result on this page and of sheet 7.1. Its one-mode weight w(x) explains why heat capacity freezes out at low T, and the same Bose factor returns in phonon scattering on <a href="08-transport.html#c-matt">topic 08</a>.</p>
     </div>
     <div class="cards">
     <article class="card" id="c-partition">
@@ -101,9 +106,10 @@
       <p class="takeaway">The crystal is $3nN$ independent quantum oscillators. Each adds $k_B\,w(\hbar\omega/k_BT)$ to the heat capacity, between 0 (frozen) and $k_B$ (classical).</p>
     </article>
     <article class="card" id="c-units">
-      <span class="eyebrow">1.7.1 · Units</span>
+      <span class="eyebrow">1.7.1 · Units · side note</span>
       <h4>Per volume, per crystal, per mole, per gram</h4>
       <p class="needs"><a href="#c-partition">1.7.1 · Partition function</a></p>
+      <details class="side"><summary>Not part of the derivation. Open it when you compare numbers from different sources.</summary>
       <p>Four normalisations appear in the sources, and mixing them up is the most common numerical slip:</p>
       <ul>
         <li><b>Lecture:</b> $c_v$ is per <b>volume</b> (the $\frac1V$ in (★)), in J K⁻¹ m⁻³.</li>
@@ -115,6 +121,7 @@
       <div class="assume"><b>Notation clashes:</b> lecture $\Theta_D$, $\bar c$ versus Kittel $\theta$, $v$. Kittel ch. 5 writes $\tau=k_BT$, which is not the relaxation time of topic 08. In the notes, $n$ is both the number of basis atoms and the atom density; this page writes the atom density as $n_{at}=nN/V$. The notes' $N$ counts cells on p33–34 but atoms in the Debye construction on p36.</div>
       <p class="trap">Comparing a per-gram graph value with a per-mole formula. For carbon, 3R = 24.94 J mol⁻¹ K⁻¹ is only 0.496 cal g⁻¹ K⁻¹.</p>
       <details class="check"><summary>Convert 0.1 cal g⁻¹ K⁻¹ for diamond to a fraction of Dulong–Petit.</summary><p>$0.1\times4.184\times12.011=5.03$ J mol⁻¹ K⁻¹, and $5.03/24.94=0.20$ of $3R$.</p></details>
+      </details>
       <p class="takeaway">Fix the normalisation before comparing numbers. $C/(3Nk_B)$ is the same in all four and is what the models plot.</p>
     </article>
     </div>
@@ -157,7 +164,7 @@
 
   <section class="sec" id="s-1-7-1-2">
     <h3><span class="step">1.7.1.2</span>Low-temperature limit</h3>
-    <p class="hook"><b>Where you meet this.</b> At 1 K, copper's lattice heat capacity is about 5×10⁻⁵ J mol⁻¹ K⁻¹, two millionths of its room-temperature value (the conduction electrons then dominate, <a href="07-free-electron-gas.html">topic 07</a>). That collapse is why a cryostat with only microwatts to milliwatts of cooling power can still bring a heavy copper sample stage down to millikelvin.</p>
+    <p class="hook"><b>Where you meet this.</b> At 1 K, copper's lattice heat capacity is about 5×10⁻⁵ J mol⁻¹ K⁻¹, two millionths of its room-temperature value (the conduction electrons then dominate, <a href="07-free-electron-gas.html#c-metal">topic 07</a>). That collapse is why a cryostat with only microwatts to milliwatts of cooling power can still bring a heavy copper sample stage down to millikelvin.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> Why only long-wavelength acoustic modes matter at low T, the substitution x = ħck/k_BT, the T³ law in the lecture's form and in Kittel's form with Θ_D, and the counting picture behind it. Lecture notes pp. 35–36.</p>
       <p><b>Why it matters.</b> Sheet 7.1 repeats this calculation in two dimensions, sheet 7.2 uses the T³ law on low-T data, and sheet 9.1 compares it with the electronic γT on <a href="07-free-electron-gas.html#hw-9-1">topic 07</a>.</p>
@@ -194,7 +201,7 @@
     <p class="hook"><b>Where you meet this.</b> Tables of Debye temperatures (Cu 343 K, Al 428 K, diamond 2230 K) sum up each solid's lattice heat capacity at every temperature with a single number. Sheet 7.2 has you pull that number out of measured diamond data, and find that it is not quite constant.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The Debye model (linear branches, a sphere for the zone, k_D and Θ_D, the Debye integral), the Einstein model and its exponential freeze-out, the lecture's combined model for a basis, and the phonon density of states that all three approximate. Lecture notes pp. 36–38.</p>
-      <p><b>Why it matters.</b> Sheet 7.2 is a Debye fit to real data. Θ_D returns in the resistivity of metals (<a href="08-transport.html">topic 08</a>), and the Einstein picture is the right one for flat optical branches (<a href="05-phonons.html#s-1-6-2">1.6.2</a>).</p>
+      <p><b>Why it matters.</b> Sheet 7.2 is a Debye fit to real data. Θ_D returns in the resistivity of metals (<a href="08-transport.html#c-matt">topic 08</a>), and the Einstein picture is the right one for flat optical branches (<a href="05-phonons.html#s-1-6-2">1.6.2</a>).</p>
     </div>
     <div class="cards">
     <article class="card" id="c-debye">
@@ -210,6 +217,11 @@
       $$\begin{aligned}c_v^{Debye}&=9\,n_{at}k_B\Big(\frac{T}{\Theta_D}\Big)^3\\&\times\int_0^{\Theta_D/T}\frac{x^4e^x}{(e^x-1)^2}\,dx\end{aligned}$$
       <span class="eq-n">(9)</span></div>
       <p>For $\Theta_D/T\to\infty$ the integral is $4\pi^4/15$ (the $T^3$ law). For $\Theta_D/T\to0$ it is $\frac13(\Theta_D/T)^3$, giving $3n_{at}k_B$ (Dulong–Petit). Both limits are therefore right, and in between it is a one-parameter curve. $\Theta_D$ plays the role for phonons that $\varepsilon_F/k_B$ plays for electrons: it separates "quantum" from "classical". The Debye sphere is not the BZ; it only has the same volume. For $n>1$ basis atoms, count all $nN$ atoms in $k_D$, or use the combined model below.</p>
+      <p>The figure puts the Debye line next to acoustic branches of the sine shape found for the chain in <a href="05-phonons.html#c-chain">1.6.1</a>. Debye is right at small $k$ and wrong near the zone edge, where real branches flatten and stop below $\omega_D$ (TA) or bend over just above it (LA).</p>
+      <figure><div class="plot short" id="dl-p"></div>
+        <figcaption><b>How to read:</b> aluminium, Θ_D = 428 K. The horizontal axis is k in units of k_D (the zone treated as the Debye sphere), the vertical axis phonon energy ħω in meV. The dark curves are sine-shaped acoustic branches, schematic rather than measured: two transverse (TA) reaching 21 meV and one longitudinal (LA) reaching 39 meV. The copper line is Debye's ω = c̄k, one straight line for all three branches, ending at k_D with ħω_D = k_BΘ_D = 36.9 meV (green dashed). c̄ is the average 3/c̄³ = Σ 1/c_s³ of the branches' small-k slopes, so line and branches agree at small k. Look at k → k_D: the real branches flatten (v_g → 0), the Debye line keeps rising.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--fg)"></i>sine branches, Al (schematic)</span><span><i class="sw" style="background:var(--occ)"></i>Debye ω = c̄k</span><span><i class="sw" style="background:var(--ef)"></i>ħω_D</span></div>
+      </figure>
       <p class="trap">Drawing the Debye sphere as the Brillouin zone. It only has the same volume (the same number of k-points); its radius k_D is not π/a.</p>
       <details class="check"><summary>Show that (9) gives Dulong–Petit when T ≫ Θ_D.</summary><p>For small $x$ the integrand is $\approx x^2$, so the integral is $\frac13(\Theta_D/T)^3$. Then $c_v=9n_{at}k_B\cdot\frac13=3n_{at}k_B$.</p></details>
       <p class="takeaway">Debye: linear dispersion up to a cut-off k_D chosen to hold all modes. One parameter, Θ_D, and both limits come out right.</p>
@@ -248,7 +260,11 @@
       <div class="eq"><div class="eq-head"><span class="eq-label">Surface form</span></div>
       $$g(\omega)=\sum_s\oint_{\omega_s=\omega}\frac{dS_k}{(2\pi)^3\,|\nabla_{\mathbf k}\omega_s|}$$
       <span class="eq-n">(13)</span></div>
-      <p>$g$ is per volume and per unit $\omega$, and $\int g\,d\omega=3n_{at}$ (Kittel's $D(\omega)=Vg$). Debye: $g=\frac{3}{2\pi^2}\frac{\omega^2}{\bar c^3}$ up to $\omega_D$. Einstein: $g=3n_{at}\,\delta(\omega-\omega_E)$. A real $g$ (e.g. Al, sketched on p38) follows $\omega^2$ only at low $\omega$, then has van Hove peaks where $\nabla_{\mathbf k}\omega=0$. The dispersion relations themselves are on <a href="05-phonons.html">topic 05</a>.</p>
+      <p>$g$ is per volume and per unit $\omega$, and $\int g\,d\omega=3n_{at}$ (Kittel's $D(\omega)=Vg$). Debye: $g=\frac{3}{2\pi^2}\frac{\omega^2}{\bar c^3}$ up to $\omega_D$. Einstein: $g=3n_{at}\,\delta(\omega-\omega_E)$. A real $g$ (e.g. Al, sketched on p38) follows $\omega^2$ only at low $\omega$, then has van Hove peaks where $\nabla_{\mathbf k}\omega=0$. The dispersion relations themselves are on <a href="05-phonons.html#c-dos">topic 05</a>. The figure shows all three on one axis.</p>
+      <figure><div class="plot short" id="gd-p"></div>
+        <figcaption><b>How to read:</b> the horizontal axis is phonon energy ħω in meV, the vertical axis g per 3N modes (meV⁻¹), so every curve has area 1. Copper: Debye, ∝ ω² up to ħω_D = 36.9 meV (Al, Θ_D = 428 K). Blue: Einstein, all modes in one δ spike at ħω_E = 28.6 meV (Θ_E = √0.6 Θ_D = 331 K, the choice that makes the two high-T series of 1.7.1.1 agree). Dark: aluminium, <b>schematic</b>, built from the sine branches of the Debye figure and smoothed over 3 meV; it is not measured data. It follows the same ω² at low ω, then piles up in van Hove peaks near the TA (≈ 20 meV) and LA (≈ 38 meV) zone-edge energies, where the branches are flat. Look at where Al has more or less weight than Debye.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Debye</span><span><i class="sw" style="background:var(--emp)"></i>Einstein δ</span><span><i class="sw" style="background:var(--fg)"></i>Al, schematic</span></div>
+      </figure>
       <p class="trap">Treating Debye's ω² law as the real spectrum. It holds only at low ω; real spectra have extra weight from flat branches, which is why Θ_D fitted from data drifts with T (Sheet 7.2).</p>
       <details class="check"><summary>What is ∫g dω for the Debye spectrum, and why?</summary><p>$3n_{at}$: three branches times one mode per atom (per volume). That condition is what fixes $\omega_D$.</p></details>
       <p class="takeaway">Heat capacity is $k_B\,w(\hbar\omega/k_BT)$ integrated against g(ω). Debye (ω² up to ω_D) and Einstein (a δ at ω_E) are two simple guesses for g.</p>
@@ -642,7 +658,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   onChange('input[name="dm-r"]', renderDM);
 
-  CM.wire({ fo: renderFO, cm: renderCM, dd: renderDD, dm: renderDM });
+  /* ---------- Concept figures (static, no controls): Debye line vs branches, and three DOS (both 1.7.1.3) ---------- */
+  // Al schematic: sine branches ħω = ħω_s sin(πk/2k_D) over the Debye sphere, ħω_s = 21 meV (TA ×2), 39 meV (LA).
+  // node check: their small-k slopes give 3/ω_D³ = (2/π)³ Σ 1/ω_s³ → ħω_D = 36.8 meV, vs 36.9 meV from Θ_D = 428 K.
+  const ALD = 428 * meVperK, ALT = 21, ALL = 39, ALE = Math.sqrt(0.6) * ALD;    // ħω_E = 28.6 meV (node check)
+  const lab = (x, y, t, color, o = {}) => Object.assign({ x, y, text: t, showarrow: false, font: { size: 12, color } }, o);
+  function renderDL() {
+    const u = lin(0, 1, 121), br = m => u.map(x => m * Math.sin(PI * x / 2));
+    const hov = n => 'k/k_D = %{x:.2f}<br>ħω = %{y:.1f} meV<extra>' + n + '</extra>';
+    Plotly.react('dl-p', [
+      { x: u, y: br(ALT), mode: 'lines', line: { color: C.fg, width: 2 }, hovertemplate: hov('TA ×2') },
+      { x: u, y: br(ALL), mode: 'lines', line: { color: C.fg, width: 2 }, hovertemplate: hov('LA') },
+      { x: [0, 1], y: [0, ALD], mode: 'lines+markers', line: { color: C.occ, width: 2.5 }, marker: { size: [0, 9], color: C.occ }, hovertemplate: hov('Debye') }],
+      layout({ shapes: [hline(ALD, C.ef), vline(1, C.muted)],
+        annotations: [lab(0.5, 27.6, 'LA', C.fg, { xanchor: 'right', yanchor: 'bottom' }), lab(0.9, 20.2, 'TA ×2', C.fg, { yanchor: 'top' }), lab(0.8, 29.5, 'Debye', C.occ, { xanchor: 'left', yanchor: 'top' })],
+        xaxis: ax('k / k_D', { range: [0, 1.06] }), yaxis: ax('ħω (meV)', { range: [0, 44] }) }), CFG);
+  }
+  function renderGD() {
+    const p = 2 / PI, F = (x, m) => x <= 0 ? 0 : x >= m ? 1 : (p * Math.asin(x / m)) ** 3;   // fraction of a branch's modes below ħω = x
+    const Ft = x => (2 * F(x, ALT) + F(x, ALL)) / 3, h = 3, E = lin(0, 45, 451);             // box-smoothed over h meV
+    const ED = E.filter(x => x <= ALD);
+    Plotly.react('gd-p', [
+      { x: E, y: E.map(x => (Ft(x + h / 2) - Ft(x - h / 2)) / h), mode: 'lines', line: { color: C.fg, width: 2 }, hovertemplate: 'ħω = %{x:.1f} meV<br>g = %{y:.3f} /meV<extra>Al, schematic</extra>' },
+      { x: ED.concat([ALD, ALD]), y: ED.map(x => 3 * x * x / ALD ** 3).concat([3 / ALD, 0]), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'ħω = %{x:.1f} meV<br>g = %{y:.3f} /meV<extra>Debye</extra>' },
+      { x: [ALE, ALE], y: [0, 0.172], mode: 'lines+markers', line: { color: C.emp, width: 3 }, marker: { symbol: 'triangle-up', size: [0, 10], color: C.emp }, hovertemplate: 'ħω_E = %{x:.1f} meV<extra>Einstein δ, area 1</extra>' }],
+      layout({ annotations: [lab(ALE, 0.172, 'Einstein δ', C.emp, { xanchor: 'right', xshift: -6, yanchor: 'top' })],
+        xaxis: ax('Phonon energy ħω (meV)', { range: [0, 45] }), yaxis: ax('g per 3N modes (meV⁻¹)', { range: [0, 0.18] }) }), CFG);
+  }
+
+  CM.wire({ fo: renderFO, cm: renderCM, dd: renderDD, dm: renderDM, dl: renderDL, gd: renderGD });
 });
 </script>
 </body>

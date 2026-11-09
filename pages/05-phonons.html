@@ -111,6 +111,7 @@
       <ul>
         <li><b>Long waves</b>, $ka\ll1$: $\omega\approx a\sqrt{f/m}\,|k|$. Sound with speed $v_s=a\sqrt{f/m}$, independent of frequency, as in a continuum.</li>
         <li><b>Group velocity</b> $v_g=d\omega/dk=v_s\cos(ka/2)$ for $k>0$: the speed of a packet and of energy. It falls to zero at $k=\pi/a$.</li>
+        <li><b>Phase velocity</b> $\omega/k$ does not: at $k=\pi/a$, with $\omega_m=2v_s/a$, it is $\omega_m/(\pi/a)=\tfrac{2}{\pi}v_s\approx0.64\,v_s$, while $v_g=0$. The crests still move, but no energy does.</li>
         <li><b>Zone boundary</b> $k=\pm\pi/a$: $u_j\propto(-1)^j$, neighbours exactly opposed. A standing wave, the lattice version of Bragg reflection with $\lambda=2a$.</li>
       </ul>
       <div class="assume"><b>Notes, p27:</b> the chain potential is written with $(u_l+u_{l+1})^2$. It must be a difference, $(u_l-u_{l+1})^2$: a rigid shift of the whole chain costs no energy, and the force on the next line only follows from the minus sign.</div>
@@ -147,7 +148,7 @@
     <p class="hook"><b>Where you meet this.</b> Rock-salt (NaCl) windows are a standard part of infrared spectrometers because they are transparent out to about 15 µm. Further out, near 61 µm, the crystal absorbs strongly: there light shakes Na⁺ and Cl⁻ against each other in the optical branch you derive here.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> A chain with two different masses per cell: the equations of motion, the 2×2 matrix and its determinant, the full solution with acoustic and optical branches, the gap, the eigenvectors, and branch counting in 3D. Lecture notes pp. 30–31; the notes stop at the determinant, so the solution follows Kittel ch. 4.</p>
-      <p><b>Why it matters.</b> Every crystal with a basis (NaCl, diamond, GaAs) has optical branches. They are what light couples to (1.6.6) and what the Einstein model describes on <a href="06-heat-capacity.html">topic 06</a>, and the count of 3p branches gives the 3nN modes of the heat capacity. The exam-style exercise below is this section with numbers.</p>
+      <p><b>Why it matters.</b> Every crystal with a basis (NaCl, diamond, GaAs) has optical branches. They are what light couples to (1.6.6) and what the Einstein model describes on <a href="06-heat-capacity.html#c-einstein">topic 06</a>, and the count of 3p branches gives the 3nN modes of the heat capacity. The exam-style exercise below is this section with numbers.</p>
     </div>
     <div class="cards">
     <article class="card" id="c-basis-setup">
@@ -213,10 +214,10 @@
 
   <section class="sec" id="s-1-6-4">
     <h3><span class="step">1.6.4</span>Density of states</h3>
-    <p class="hook"><b>Where you meet this.</b> Every heat capacity in a data table, such as copper's 24.4 J mol⁻¹ K⁻¹ at room temperature, is a sum over the vibration modes, each weighted by how strongly it is excited. The density of states is the list that sum runs over: how many modes sit at each frequency. <a href="06-heat-capacity.html">Topic 06</a> does the sum; this section builds the list.</p>
+    <p class="hook"><b>Where you meet this.</b> Every heat capacity in a data table, such as copper's 24.4 J mol⁻¹ K⁻¹ at room temperature, is a sum over the vibration modes, each weighted by how strongly it is excited. The density of states is the list that sum runs over: how many modes sit at each frequency. <a href="06-heat-capacity.html#c-dosint">Topic 06</a> does the sum; this section builds the list.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The definition of g(ω) as a zone integral over a δ-function, its 1D reduction to the roots of ω(k) = ω, the van Hove singularity where the band is flat, and the closed form for the monatomic chain. The lecture derives it on notes p38, inside heat capacity (numbered 1.7.1.4 there); the topic list files it here, and topic 06 recaps it where the lecture uses it.</p>
-      <p><b>Why it matters.</b> Sheet 6.2 asks for exactly the 1D DOS. The Debye and Einstein models on <a href="06-heat-capacity.html">topic 06</a> are two approximations to g(ω), and the same construction gives the electron DOS on <a href="07-free-electron-gas.html">topic 07</a>.</p>
+      <p><b>Why it matters.</b> Sheet 6.2 asks for exactly the 1D DOS. The Debye and Einstein models on <a href="06-heat-capacity.html#c-dosint">topic 06</a> are two approximations to g(ω), and the same construction gives the electron DOS on <a href="07-free-electron-gas.html#c-dos">topic 07</a>.</p>
     </div>
     <div class="cards">
     <article class="card" id="c-dos">
@@ -249,7 +250,7 @@
     <p class="hook"><b>Where you meet this.</b> Diamond has no free electrons, yet it conducts heat about five times better than copper (roughly 2000 against 400 W m⁻¹ K⁻¹), which is why diamond heat spreaders sit under some high-power laser diodes. Every joule of that heat is carried by phonons, the quanta of this section.</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> Quantised mode energies, the phonon as one quantum of a mode, its thermal occupation, and crystal momentum ħk defined only up to ħG. Lecture notes p33.</p>
-      <p><b>Why it matters.</b> The Planck occupation is where the heat capacity on <a href="06-heat-capacity.html">topic 06</a> starts. Conservation of crystal momentum modulo ħG is the Umklapp rule of transport (<a href="08-transport.html#c-umk">topic 08</a>) and the selection rule of neutron scattering (1.6.6).</p>
+      <p><b>Why it matters.</b> The Planck occupation is where the heat capacity on <a href="06-heat-capacity.html#c-partition">topic 06</a> starts. Conservation of crystal momentum modulo ħG is the Umklapp rule of transport (<a href="08-transport.html#c-umk">topic 08</a>) and the selection rule of neutron scattering (1.6.6).</p>
     </div>
     <div class="cards">
     <article class="card" id="c-phonon">
