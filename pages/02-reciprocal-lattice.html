@@ -14,6 +14,23 @@
 <script defer src="../assets/common.js"></script>
 </head>
 <body>
+<style>
+  /* Static SVG figures (page-local; colours are tokens only, so both themes work) */
+  .sfig { margin: 14px 0; }
+  .sfig svg { display: block; width: 100%; max-width: var(--fw, 400px); height: auto; margin: 0 auto; overflow: visible; }
+  .sfig text { font-family: var(--body); font-size: 14px; fill: var(--fg); }
+  .sfig text.sm { font-size: 12.5px; fill: var(--muted); }
+  .sfig text.it { font-style: italic; }
+  .sfig .ln { stroke: var(--muted); stroke-width: 1.3; fill: none; }
+  .sfig .dash { stroke-dasharray: 4 3; }
+  .sfig .pt { fill: var(--fg); }
+  .sfig .f-occ { fill: var(--occ); } .sfig .f-emp { fill: var(--emp); } .sfig .f-ef { fill: var(--ef); } .sfig .f-line { fill: var(--line); }
+  .sfig .s-occ { stroke: var(--occ); } .sfig .s-emp { stroke: var(--emp); } .sfig .s-ef { stroke: var(--ef); } .sfig .s-fg { stroke: var(--fg); }
+  .sfig .vec { stroke-width: 2; fill: none; }
+  .sfig .atom { stroke: var(--panel); stroke-width: 1.2; }
+  .sfig text.c-occ { fill: var(--occ); } .sfig text.c-emp { fill: var(--emp); } .sfig text.c-ef { fill: var(--ef); }
+  .sfig text.b { font-weight: 600; }
+</style>
 <nav class="site-nav" aria-label="Site"><div class="in">
   <a class="brand" href="../index.html">CMD Explorer</a>
   <a href="../index.html#map">Syllabus map</a>
@@ -47,7 +64,7 @@
     <li data-sec="1.3.3"><a href="#c-laue">X-ray scattering and the Laue condition</a><span class="min">15 min</span><span class="then">Then: <a href="#model4">Model 4</a>.</span></li>
     <li data-sec="1.3.3"><a href="#c-bz">Brillouin zones</a><span class="min">10 min</span><span class="then">Then: <a href="#hw-2-2">Sheet 2.2</a>.</span></li>
     <li data-sec="1.3.5"><a href="#c-sf">Structure and form factors</a><span class="min">20 min</span><span class="then">Then: <a href="#model5">Model 5</a>, <a href="#model6">Model 6</a>; <a href="#hw-3-1">Sheet 3.1</a>, <a href="#hw-3-2">Sheet 3.2</a>.</span></li>
-    <li data-sec="Ex"><a href="#exam-ex">Exam-style exercise: copper</a><span class="min">20 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
+    <li data-sec="Ex"><a href="#exam-ex">Exam-style exercise: copper</a><span class="min">10 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
   </ol>
   <div class="legend">
     <b>Colour key</b>
@@ -73,7 +90,7 @@
     <li>$S_{\mathbf G}=\sum_j f_j e^{-i\mathbf G\cdot\mathbf r_j}$ decides which reflections vanish.</li>
     <li>The form factor $f$ is the Fourier transform of one atom's electron cloud.</li>
   </ul>
-  <p>Lattices and primitive vectors are on <a href="01-crystal-structure.html">topic 01</a>; this page starts from them. The reciprocal lattice and the Brillouin zone are used again for phonons (<a href="05-phonons.html">topic 05</a>), free electrons (<a href="07-free-electron-gas.html">topic 07</a>) and bands (<a href="09-bands.html">topic 09</a>). Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 2 (Bragg law, Fourier analysis, reciprocal lattice, diffraction conditions, Laue equations, Brillouin zones, Fourier analysis of the basis), ch. 1 "Direct Imaging of Atomic Structure", and the lecture notes pp. 7–15.</p>
+  <p>Lattices and primitive vectors are on <a href="01-crystal-structure.html#c-lattice">topic 01</a>; this page starts from them. The reciprocal lattice and the Brillouin zone are used again for phonons (<a href="05-phonons.html#c-chain">topic 05</a>), free electrons (<a href="07-free-electron-gas.html#c-count">topic 07</a>) and bands (<a href="09-bands.html#c-bloch">topic 09</a>). Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 2 (Bragg law, Fourier analysis, reciprocal lattice, diffraction conditions, Laue equations, Brillouin zones, Fourier analysis of the basis), ch. 1 "Direct Imaging of Atomic Structure", and the lecture notes pp. 7–15.</p>
 </section>
 
 <section class="block" id="concepts">
@@ -99,11 +116,66 @@
       $$p=\sqrt{2m_eeU\Big(1+\frac{eU}{2m_ec^2}\Big)}.$$
       <span class="eq-n">(2)</span></div>
       <p>At 250 kV this gives about 2 pm, a hundred times smaller than the spacing of atoms. Magnetic lenses image the electrons that pass through a thin sample. In practice lens aberrations, not λ, limit the resolution, but it still reaches atomic columns.</p>
+      <figure class="sfig" style="--fw: 340px">
+        <svg viewBox="0 0 300 300" role="img" aria-label="TEM column, top to bottom: electron gun, condenser lens, thin sample, objective lens, projector lens, screen.">
+          <!-- schematic, not to scale -->
+          <polygon points="98,14 122,14 110,34" class="f-occ"/>
+          <path d="M110,34 L86,70 L92,120 L92,160 L110,190 L128,160 L128,120 L134,70 Z" class="f-ef" fill-opacity="0.16"/>
+          <path d="M110,190 L90,225 L52,280 M110,190 L130,225 L168,280" class="ln s-ef"/>
+          <path d="M110,34 L86,70 L92,120 L92,160 L110,190 M110,34 L134,70 L128,120 L128,160 L110,190" class="ln s-ef"/>
+          <ellipse cx="110" cy="70" rx="42" ry="7" class="ln s-emp" style="stroke-width: 2"/>
+          <rect x="72" y="117" width="76" height="5" class="f-occ"/>
+          <ellipse cx="110" cy="160" rx="42" ry="7" class="ln s-emp" style="stroke-width: 2"/>
+          <ellipse cx="110" cy="225" rx="42" ry="7" class="ln s-emp" style="stroke-width: 2"/>
+          <rect x="36" y="280" width="148" height="6" class="pt"/>
+          <text x="172" y="29">electron gun</text>
+          <text x="172" y="75">condenser lens</text>
+          <text x="172" y="124">thin sample</text>
+          <text x="172" y="165">objective lens</text>
+          <text x="172" y="230">projector lens</text>
+          <text x="196" y="288">screen</text>
+        </svg>
+        <figcaption><b>How to read:</b> a schematic of the TEM column, top to bottom (not to scale). The gun emits electrons accelerated through $U$; the condenser lens (blue) forms a near-parallel beam (green) on the thin sample (copper), thin enough for the electrons to pass through. The objective lens forms the first magnified image, and the projector lens enlarges it onto the screen or camera. All lenses are magnetic coils.</figcaption>
+      </figure>
       <p><b>STM.</b> A sharp metal tip is held a few atomic diameters above a conducting surface. Electrons tunnel through the vacuum gap $d$, and the current falls off as</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">STM tunnelling current</span><a class="tag hw" href="#hw-2-3">Sheet 2.3b</a></div>
       $$\begin{aligned}I&\propto e^{-2\kappa d},\\ \kappa&=\frac{\sqrt{2m_e\phi}}{\hbar},\end{aligned}$$
       <span class="eq-n">(3)</span></div>
       <p>where $\phi$ is the work function (the barrier height, in J) and $m_e$ the electron mass. With $\phi\approx 3$ eV the current changes by a factor of about 6 per 0.1 nm, so the foremost atom of the tip carries almost all of it. A feedback loop moves the tip to keep $I$ constant, and the tip height traced over the surface is the image.</p>
+      <figure class="sfig" style="--fw: 380px">
+        <svg viewBox="0 0 320 228" role="img" aria-label="STM schematic: a tip on a piezo scanner above a row of surface atoms, apex atom at gap d, bias voltage V and current meter I in the circuit, and a feedback loop from I to the piezo height z.">
+          <defs>
+            <marker id="c2-af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" class="f-ef"/></marker>
+            <marker id="c2-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill: var(--muted)"/></marker>
+          </defs>
+          <!-- schematic, not to scale -->
+          <rect x="10" y="198" width="300" height="24" class="f-line"/>
+          <text x="18" y="215" class="sm">conducting sample</text>
+          <g class="atom f-emp"><circle cx="30" cy="186" r="12"/><circle cx="56" cy="186" r="12"/><circle cx="82" cy="186" r="12"/><circle cx="108" cy="186" r="12"/><circle cx="134" cy="186" r="12"/><circle cx="160" cy="186" r="12"/><circle cx="186" cy="186" r="12"/><circle cx="212" cy="186" r="12"/><circle cx="238" cy="186" r="12"/><circle cx="264" cy="186" r="12"/><circle cx="290" cy="186" r="12"/></g>
+          <rect x="128" y="40" width="64" height="26" class="f-line" style="stroke: var(--muted)"/>
+          <text x="160" y="58" text-anchor="middle" class="sm">piezo</text>
+          <polygon points="140,66 180,66 160,140" style="fill: var(--muted)"/>
+          <circle cx="160" cy="146" r="8" class="atom f-occ"/>
+          <line x1="160" y1="155" x2="160" y2="173" class="s-ef dash" style="stroke-width: 2"/>
+          <line x1="176" y1="154" x2="176" y2="174" class="ln" marker-start="url(#c2-am)" marker-end="url(#c2-am)"/>
+          <text x="182" y="169" class="it">d</text>
+          <text x="148" y="150" text-anchor="end" class="sm">apex atom</text>
+          <path d="M192,53 H270 V80 M270,90 V112 M270,138 V198" class="ln s-fg"/>
+          <line x1="256" y1="80" x2="284" y2="80" class="ln s-fg" style="stroke-width: 2"/>
+          <line x1="262" y1="90" x2="278" y2="90" class="ln s-fg" style="stroke-width: 4"/>
+          <text x="290" y="90" class="it">V</text>
+          <circle cx="270" cy="125" r="13" class="ln s-fg" style="fill: var(--panel)"/>
+          <text x="270" y="130" text-anchor="middle" class="it">I</text>
+          <rect x="8" y="34" width="100" height="40" rx="4" class="ln s-ef" style="fill: var(--panel)"/>
+          <text x="58" y="51" text-anchor="middle" class="sm">feedback:</text>
+          <text x="58" y="67" text-anchor="middle" class="sm">hold I fixed</text>
+          <path d="M283,125 H310 V16 H58 V31" class="ln s-ef dash" marker-end="url(#c2-af)"/>
+          <line x1="108" y1="53" x2="125" y2="53" class="vec s-ef" marker-end="url(#c2-af)"/>
+          <text x="116" y="47" text-anchor="middle" class="c-ef it">z</text>
+        </svg>
+        <figcaption><b>How to read:</b> a schematic of the STM (not to scale). The bias $V$ drives a tunnelling current $I$ across the vacuum gap $d$ (green dashes) between the tip's apex atom (copper) and the surface atoms (blue). The dashed green line carries the measured $I$ to the feedback unit, which moves the piezo up or down ($z$) to keep $I$ constant. Scanning sideways, the recorded $z$ is the image.</figcaption>
+      </figure>
+      <p><b>What each one shows.</b> A TEM looks <i>through</i> a thin sample and images the projected columns of atoms: the periodic lattice itself, defects such as dislocations and grain boundaries, and nanocrystals (in diffraction mode it shows the reciprocal lattice, <a href="#c-recip">1.3.2</a>). An STM sees only the <i>surface</i> of a conductor, atom by atom: surface reconstructions, steps, and single adsorbed atoms.</p>
       <div class="assume"><b>Course sources differ:</b> the notes write $I\propto e^{-\alpha x}$ and the sheet $e^{-2\kappa d}$, so $\alpha=2\kappa$. The notes list "TEM, SEM" as the two imaging options, but an SEM does not reach atomic resolution; sheet 2.3 and Kittel pair TEM with STM.</div>
       <p class="trap">Forgetting the relativistic correction at TEM voltages. At 250 kV, $eU/2m_ec^2=0.245$, so (1) overestimates λ by about 10 %.</p>
       <details class="check"><summary>At 250 kV, what are λ from (1) and from (2)?</summary><p>(1): 2.45 pm. (2): $p$ is larger by $\sqrt{1.245}=1.116$, so λ = 2.20 pm (node).</p></details>
@@ -127,17 +199,41 @@
       <h4>Bragg's law</h4>
       <div class="recap"><b>Recap from <a href="01-crystal-structure.html#c-index">1.1.2</a>.</b> A lattice plane family (hkl) is a stack of equally spaced, parallel planes that contains every lattice point.</div>
       <p>Diffraction is a wave effect, so the wavelength has to be comparable to the spacing of atoms. Treat the crystal as a stack of parallel atomic planes with spacing $d$. Each plane reflects a little of the beam like a weak mirror. Reflections from neighbouring planes add up in phase only when their path difference $2d\sin\theta$ is a whole number of wavelengths:</p>
-      <div class="eq key"><div class="eq-head"><span class="eq-label">Bragg's law (n = 1, 2, 3, …)</span><a class="tag hw" href="#exam-ex">Exercise (d)</a></div>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Bragg's law (n = 1, 2, 3, …)</span><a class="tag hw" href="#exam-ex">Exercise (b)–(c)</a></div>
       $$2d\sin\theta=n\lambda.$$
       <span class="eq-n">(4)</span></div>
+      <figure class="sfig" style="--fw: 400px">
+        <svg viewBox="0 0 300 165" role="img" aria-label="Two lattice planes a distance d apart. Two parallel rays reflect at glancing angle theta; the lower ray travels an extra d sin theta on the way in and d sin theta on the way out.">
+          <defs><marker id="c2-ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" class="f-emp"/></marker>
+          <marker id="c2-am2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill: var(--muted)"/></marker></defs>
+          <!-- To scale: theta = 30 deg, d = 70 px, so each d sin(theta) segment is 35 px. P, Q = feet of the perpendiculars from A (150,60) onto ray 2 (node). -->
+          <line x1="8" y1="60" x2="292" y2="60" class="ln"/><line x1="8" y1="130" x2="292" y2="130" class="ln"/>
+          <g class="pt"><circle cx="10" cy="60" r="4"/><circle cx="45" cy="60" r="4"/><circle cx="80" cy="60" r="4"/><circle cx="115" cy="60" r="4"/><circle cx="150" cy="60" r="4"/><circle cx="185" cy="60" r="4"/><circle cx="220" cy="60" r="4"/><circle cx="255" cy="60" r="4"/><circle cx="290" cy="60" r="4"/><circle cx="10" cy="130" r="4"/><circle cx="45" cy="130" r="4"/><circle cx="80" cy="130" r="4"/><circle cx="115" cy="130" r="4"/><circle cx="150" cy="130" r="4"/><circle cx="185" cy="130" r="4"/><circle cx="220" cy="130" r="4"/><circle cx="255" cy="130" r="4"/><circle cx="290" cy="130" r="4"/></g>
+          <path d="M46.1,0 L150,60 L253.9,0 M46.1,70 L150,130 L253.9,70" class="vec s-emp" style="stroke-width: 1.6"/>
+          <line x1="230" y1="13.9" x2="248.7" y2="3.1" class="vec s-emp" marker-end="url(#c2-ae)"/>
+          <line x1="70" y1="13.9" x2="88.7" y2="24.7" class="vec s-emp" marker-end="url(#c2-ae)"/>
+          <path d="M150,60 L119.7,112.5 M150,60 L180.3,112.5" class="ln dash"/>
+          <path d="M119.7,112.5 L150,130 L180.3,112.5" class="vec s-occ" style="stroke-width: 3.5"/>
+          <path d="M122,60 A28,28 0 0,1 125.8,46" class="ln s-fg"/>
+          <path d="M178,60 A28,28 0 0,0 174.2,46" class="ln s-fg"/>
+          <text x="104" y="56" class="it">θ</text><text x="188" y="56" class="it">θ</text>
+          <text x="114" y="124" text-anchor="end" class="c-occ">d sin θ</text>
+          <text x="186" y="122" class="c-occ">d sin θ</text>
+          <line x1="272" y1="64" x2="272" y2="126" class="ln" marker-start="url(#c2-am2)" marker-end="url(#c2-am2)"/>
+          <text x="278" y="100" class="it">d</text>
+          <text x="8" y="153" class="sm">lattice planes (hkl), spacing d</text>
+        </svg>
+        <figcaption><b>How to read:</b> two planes of a family (hkl), drawn to scale for θ = 30°. Blue lines are two parallel rays, reflected at the glancing angle θ from the upper and the lower plane. The dashed lines are the wavefronts through the upper reflection point. The lower ray travels the two thick copper segments extra, each $d\sin\theta$ long: path difference $2d\sin\theta$, which (4) sets equal to $n\lambda$. At θ = 30° each segment is exactly $d/2$.</figcaption>
+      </figure>
       <p>Here θ is the <i>glancing</i> angle between the beam and the planes. The beam is deflected by 2θ, and a θ–2θ diffractometer plots intensity against 2θ. A solution needs $\lambda\le 2d$, which is why X-rays (photons, $\lambda=hc/E$) of about 0.1 nm, or electrons and neutrons of similar wavelength, are used. Visible light cannot diffract from a crystal lattice.</p>
       <p>Bragg's law says <i>where</i> reflections can appear. It says nothing about their strength, which comes from the basis (1.3.5).</p>
+      <div class="assume"><b>Board example (notes p. 10; angles read off a photo, unverified):</b> a θ–θ diffractometer (source and detector rotate together) on a CaF₂ crystal shows a (220) peak near θ ≈ 20° and a (440) peak near 40°. (440) is not a new plane family: $d_{440}=d_{220}/2$, so $2d_{440}\sin\theta=\lambda$ is the same condition as $2d_{220}\sin\theta=2\lambda$, the <b>second order</b> ($n=2$) of (220). Note that $\sin\theta$ doubles, not θ: from 20°, the second order sits at $\arcsin(2\sin20^\circ)=43^\circ$.</div>
       <p class="trap">Using the deflection angle as θ. θ is measured from the planes, not from the incoming beam's normal, and the detector sits at 2θ.</p>
       <details class="check"><summary>Cu Kα (154.06 pm) on the (100) planes of polonium (d = 334 pm): first-order Bragg angle?</summary><p>$\sin\theta=154.06/668=0.231$, so θ = 13.33° and the deflection is 26.67°. That is the angle Model 2 opens on.</p></details>
       <p class="takeaway">Reflection needs $2d\sin\theta=n\lambda$ (4) with θ the glancing angle, so only waves with $\lambda\le2d$ diffract.</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> find where a plane family reflects for a given wavelength, and say why X-rays, electrons and neutrons work but light does not. That is part (d) of the <a href="#exam-ex">copper exercise</a>.</p>
+    <p class="cannow"><b>You can now</b> find where a plane family reflects for a given wavelength, and say why X-rays, electrons and neutrons work but light does not. That is parts (b) and (c) of the <a href="#exam-ex">copper exercise</a>.</p>
   </section>
 
   <section class="sec" id="s-1-3-2">
@@ -153,7 +249,10 @@
       <h4>Reciprocal lattice</h4>
       <p class="needs">← from <a href="01-crystal-structure.html#c-cell">1.1.1 Primitive cell</a>, <a href="01-crystal-structure.html#c-cubic">1.1.2 Cubic lattices</a></p>
       <div class="recap"><b>Recap from <a href="01-crystal-structure.html#c-cell">1.1.1</a>.</b> Lattice vectors are $\mathbf R=n_1\mathbf a_1+n_2\mathbf a_2+n_3\mathbf a_3$ with integer $n_i$, and the primitive cell has volume $V_c=|\mathbf a_1\cdot(\mathbf a_2\times\mathbf a_3)|$. fcc: $V_c=a^3/4$; bcc: $a^3/2$.</div>
-      <p>Anything periodic in the crystal, such as the electron density, can be written as a Fourier series:</p>
+      <p>Start in 1D. A function with the lattice period $a$, $f(x+a)=f(x)$, can contain only plane waves that fit a whole number of times into $a$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">1D Fourier series of a function with period a</span></div>
+      $$\begin{aligned}f(x)&=\sum_k f_k\,e^{ikx},\\ k&=m\,\frac{2\pi}a,\ \ m\in\mathbb Z.\end{aligned}$$</div>
+      <p>The allowed $k$ form a 1D lattice of their own, with spacing $2\pi/a$. In 3D, anything periodic in the crystal, such as the electron density, is written the same way:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Fourier series of a lattice-periodic function</span></div>
       $$n(\mathbf r)=\sum_{\mathbf G}n_{\mathbf G}\,e^{i\mathbf G\cdot\mathbf r}.$$
       <span class="eq-n">(5)</span></div>
@@ -208,7 +307,34 @@
       <span class="eyebrow">1.3.3 · Laue condition</span>
       <h4>X-ray scattering and the Laue condition</h4>
       <p class="needs"><a href="#c-recip">1.3.2 Reciprocal lattice</a>; <a href="#c-bragg">1.3.1 Bragg's law</a></p>
-      <p>Each volume element of the crystal scatters the incoming wave $e^{i\mathbf k\cdot\mathbf r}$ with an amplitude proportional to the local electron density. The wave leaves towards the detector with wave vector $\mathbf k'$. The path to and from a point $\mathbf r$ adds the phase factor $e^{-i\Delta\mathbf k\cdot\mathbf r}$ with $\Delta\mathbf k=\mathbf k'-\mathbf k$. Summing over the crystal (Kittel's sign):</p>
+      <p>The incoming X-ray is an electromagnetic plane wave, with vector potential $\mathbf A(\mathbf r,t)=\mathbf A_0\,e^{i(\mathbf k\cdot\mathbf r-\omega t)}$, wave number $k=|\mathbf k|=2\pi/\lambda$, and a transverse field, $\mathbf A_0\cdot\mathbf k=0$.</p>
+      <p>Its oscillating field drives every electron at the same frequency ω, and each driven electron re-radiates like a tiny dipole antenna (Thomson scattering). So a volume element $dV$ at $\mathbf r$ scatters an amplitude proportional to the number of electrons in it, $n(\mathbf r)\,dV$.</p>
+      <figure class="sfig" style="--fw: 400px">
+        <svg viewBox="0 0 320 182" role="img" aria-label="Scattering geometry: a source sends wave vector k onto the sample; rays reach the origin O and a volume element dV at position r, and leave with wave vector k prime towards a distant detector.">
+          <defs><marker id="c2-ae2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" class="f-emp"/></marker>
+          <marker id="c2-af2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" class="f-ef"/></marker></defs>
+          <!-- schematic, not to scale -->
+          <rect x="8" y="86" width="40" height="62" rx="4" class="f-line" style="stroke: var(--muted)"/>
+          <text x="28" y="166" text-anchor="middle" class="sm">source</text>
+          <rect x="118" y="78" width="104" height="80" rx="10" class="f-line" style="stroke: var(--muted)"/>
+          <text x="170" y="176" text-anchor="middle" class="sm">sample, density n(r)</text>
+          <rect x="270" y="10" width="44" height="28" rx="3" class="f-line" style="stroke: var(--muted)"/>
+          <text x="264" y="29" text-anchor="end" class="sm">detector</text>
+          <path d="M48,96 H194 M48,140 H140 M140,140 L280,38 M194,96 L296,38" class="ln dash s-emp"/>
+          <circle cx="140" cy="140" r="3.5" class="pt"/>
+          <text x="126" y="154" class="sm">O</text>
+          <rect x="190" y="92" width="8" height="8" class="f-occ"/>
+          <text x="201" y="114" class="sm">dV</text>
+          <line x1="140" y1="140" x2="187" y2="103" class="vec s-ef" marker-end="url(#c2-af2)"/>
+          <text x="152" y="118" class="it b c-ef">r</text>
+          <line x1="60" y1="66" x2="108" y2="66" class="vec s-emp" marker-end="url(#c2-ae2)"/>
+          <text x="80" y="58" class="it b c-emp">k</text>
+          <line x1="236" y1="132" x2="268" y2="108.6" class="vec s-emp" marker-end="url(#c2-ae2)"/>
+          <text x="274" y="122" class="it b c-emp">k′</text>
+        </svg>
+        <figcaption><b>How to read:</b> a schematic of one scattering event (not to scale). Dashed blue rays go from the source to two points of the sample, the origin O and a volume element dV (copper) at position $\mathbf r$ (green), and on to a distant detector. Solid blue arrows give the incoming and outgoing wave vectors $\mathbf k$ and $\mathbf k'$. The ray via $\mathbf r$ picks up the extra phase $e^{-i\Delta\mathbf k\cdot\mathbf r}$ compared with the one via O, with $\Delta\mathbf k=\mathbf k'-\mathbf k$.</figcaption>
+      </figure>
+      <p>The wave leaves towards the detector with wave vector $\mathbf k'$. The path to and from a point $\mathbf r$ adds the phase factor $e^{-i\Delta\mathbf k\cdot\mathbf r}$ with $\Delta\mathbf k=\mathbf k'-\mathbf k$. Summing over the crystal (Kittel's sign):</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Scattering amplitude</span></div>
       $$\begin{aligned}F&=\int n(\mathbf r)\,e^{-i\Delta\mathbf k\cdot\mathbf r}\,dV\\&=\sum_{\mathbf G}n_{\mathbf G}\\&\quad\times\int e^{i(\mathbf G-\Delta\mathbf k)\cdot\mathbf r}\,dV.\end{aligned}$$
       <span class="eq-n">(10)</span></div>
@@ -238,6 +364,20 @@
       $$\mathbf k\cdot\big(\tfrac12\mathbf G\big)=\big(\tfrac12\mathbf G\big)^2.$$
       <span class="eq-n">(13)</span></div>
       <p>This is the elastic diffraction condition (12), divided by 4. So the zone faces are <b>exactly the wave vectors that are Bragg-reflected</b>. A wave with $\mathbf k$ on a face is reflected into $\mathbf k-\mathbf G$ and becomes a standing wave. That standing wave gives zero group velocity for phonons (topic 05) and the band gap for electrons (topic 09). Higher zones are the regions reached by crossing one, two, … more bisector planes; each has the same volume as the first, (9).</p>
+      <figure class="sfig" style="--fw: 340px">
+        <svg viewBox="0 0 320 300" role="img" aria-label="Reciprocal lattice of a square lattice with the first Brillouin zone, a square, and the second zone, four triangles around it.">
+          <!-- Square lattice, edge a: reciprocal points at (2 pi/a)(i, j); 42 px per pi/a, centre (160,150). Zone 1: |kx|,|ky| < pi/a. Zone 2: between that square and |kx|+|ky| < 2 pi/a (bisectors of (2 pi/a)(+-1,+-1)). -->
+          <rect x="118" y="108" width="84" height="84" class="f-occ" fill-opacity="0.28"/>
+          <g class="f-emp" fill-opacity="0.24"><polygon points="118,108 202,108 160,66"/><polygon points="202,108 202,192 244,150"/><polygon points="118,192 202,192 160,234"/><polygon points="118,108 118,192 76,150"/></g>
+          <g class="ln dash"><line x1="118" y1="0" x2="118" y2="270"/><line x1="202" y1="0" x2="202" y2="270"/><line x1="0" y1="108" x2="320" y2="108"/><line x1="0" y1="192" x2="320" y2="192"/><line x1="94" y1="0" x2="320" y2="226"/><line x1="0" y1="74" x2="226" y2="300"/><line x1="94" y1="300" x2="320" y2="74"/><line x1="0" y1="226" x2="226" y2="0"/></g>
+          <g class="pt"><circle cx="76" cy="66" r="4.5"/><circle cx="160" cy="66" r="4.5"/><circle cx="244" cy="66" r="4.5"/><circle cx="76" cy="150" r="4.5"/><circle cx="160" cy="150" r="4.5"/><circle cx="244" cy="150" r="4.5"/><circle cx="76" cy="234" r="4.5"/><circle cx="160" cy="234" r="4.5"/><circle cx="244" cy="234" r="4.5"/></g>
+          <text x="178" y="138" class="b c-occ">1</text>
+          <text x="160" y="100" text-anchor="middle" class="b c-emp">2</text><text x="226" y="155" text-anchor="middle" class="b c-emp">2</text><text x="160" y="214" text-anchor="middle" class="b c-emp">2</text><text x="94" y="155" text-anchor="middle" class="b c-emp">2</text>
+          <text x="146" y="166" class="sm">Γ</text>
+          <text x="202" y="288" text-anchor="middle" class="sm">π/a</text><text x="244" y="288" text-anchor="middle" class="sm">2π/a</text><text x="292" y="288" text-anchor="middle" class="sm">kₓ →</text>
+        </svg>
+        <figcaption><b>How to read:</b> dots are the reciprocal lattice of a square lattice (spacing $2\pi/a$), with Γ at the centre. Dashed lines are the perpendicular bisectors of the vectors from Γ to its nearest (±2π/a, 0) and next-nearest (±2π/a, ±2π/a) points. Zone 1 (copper) is the square $|k_x|,|k_y|&lt;\pi/a$, reached from Γ without crossing any bisector. Zone 2 (blue) is the four triangles reached by crossing exactly one. Shift each triangle by a $\mathbf G$ and they tile zone 1 exactly: both zones have area $(2\pi/a)^2$.</figcaption>
+      </figure>
       <p class="trap">Giving the fcc Brillouin zone as a rhombic dodecahedron. That is the Wigner–Seitz cell of the fcc <i>real</i> lattice. The reciprocal lattice of fcc is bcc, so the zone is the bcc Wigner–Seitz cell, a truncated octahedron.</p>
       <details class="check"><summary>For fcc, where does the zone boundary along [100] sit?</summary><p>The shortest G along [100] is $\tfrac{2\pi}a(2,0,0)$, so the face is at half of it: the X point, $\tfrac{2\pi}a(1,0,0)$ (exam Q4c–d).</p></details>
       <p class="note"><b>Used in</b> <a href="05-phonons.html#c-chain">1.6.1 Dispersion →</a> (dispersion over the first zone, zero group velocity at its edge), <a href="06-heat-capacity.html#c-debye">1.7.1.3 Debye model →</a> (cut-off sphere holding one zone of modes) and <a href="09-bands.html#c-standing">2.6.2 Standing waves and gaps →</a>.</p>
@@ -280,7 +420,7 @@
       <p class="takeaway">Where reflections can appear is set by the lattice (G); how strong they are is set by the basis through $S_{\mathbf G}$ (14) and the form factors (15).</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> compute a structure factor, derive extinction rules, and compute a form factor from an electron density. That is <a href="#hw-3-1">Sheet 3.1</a>, <a href="#hw-3-2">Sheet 3.2</a> and part (d) of the <a href="#exam-ex">copper exercise</a>.</p>
+    <p class="cannow"><b>You can now</b> compute a structure factor, derive extinction rules, and compute a form factor from an electron density. That is <a href="#hw-3-1">Sheet 3.1</a>, <a href="#hw-3-2">Sheet 3.2</a> and part (a) of the <a href="#exam-ex">copper exercise</a>.</p>
   </section>
 </section>
 
@@ -645,7 +785,7 @@
     <ul>
       <li><b>Q4b</b> ("What are its reciprocal lattice vectors?") in the Bloch-electron question. With the fcc lattice assumed there, the answer is the bcc set $\mathbf b_1=\frac{2\pi}a(-1,1,1)$, … The full Q4 answer is on <a href="09-bands.html#exam-q4">topic 09</a>.</li>
       <li><b>Q4c–d</b> need the zone boundary along [100]: X = (2π/a, 0, 0) for fcc.</li>
-      <li><b>Q2c</b> asks for the k-space volume per allowed k-point, $(2\pi/L)^3$; see <a href="07-free-electron-gas.html">topic 07</a>.</li>
+      <li><b>Q2c</b> asks for the k-space volume per allowed k-point, $(2\pi/L)^3$; see <a href="07-free-electron-gas.html#exam-q2">topic 07, exam Q2</a>.</li>
     </ul>
     <p>Sheets 2 and 3 are the best guide to the exercise level. Be able to do these in 5 minutes without notes:</p>
     <ul>
@@ -658,19 +798,17 @@
   </div>
   <article class="hw" id="exam-ex">
     <span class="tag">Exam-style exercise · practice (not from the course)</span>
-    <h3>Copper: reciprocal lattice and first reflections</h3>
-    <p class="ask">Copper is fcc with a = 361.5 pm. (a) Give the reciprocal primitive vectors and name the reciprocal lattice. (b) A student writes $|\mathbf b_i|=2\pi/|\mathbf a_i|$. Is that right here? (c) Volume of the first Brillouin zone. (d) Which of (100), (110), (111), (200) appear in X-ray diffraction? (e) At what angle 2θ is the first reflection seen with Cu Kα radiation?</p>
+    <h3>Copper: which reflections, and where</h3>
+    <p class="ask">Copper is fcc with a = 361.5 pm. (Its reciprocal lattice and Brillouin zone are <a href="#hw-2-2">Sheet 2.2(b)–(c)</a>; this exercise starts from there.) (a) Which of (100), (110), (111), (200) appear in X-ray diffraction? (b) At what angle 2θ is the first reflection seen with Cu Kα radiation? (c) And the second?</p>
     <div class="assume"><b>Data not on any sheet:</b> Cu Kα₁ wavelength λ = 154.06 pm, the standard laboratory X-ray line.</div>
     <details>
       <summary>Show worked solution</summary>
       <ol>
-        <li><b>(a)</b> With $\mathbf a_1=\tfrac a2(0,1,1)$ etc.: $\mathbf b_1=\tfrac{2\pi}a(-1,1,1)$, $\mathbf b_2=\tfrac{2\pi}a(1,-1,1)$, $\mathbf b_3=\tfrac{2\pi}a(1,1,-1)$, with $2\pi/a=1.738\times10^{10}$ m⁻¹. The reciprocal lattice is <b>bcc</b>, cube edge 4π/a.</li>
-        <li><b>(b)</b> No. $|\mathbf a_i|=a/\sqrt2$ would give $2.458\times10^{10}$ m⁻¹, but $|\mathbf b_i|=\sqrt3\cdot2\pi/a=3.010\times10^{10}$ m⁻¹. The shortcut assumes each $\mathbf a_i$ is perpendicular to the other two, and fcc vectors meet at 60°.</li>
-        <li><b>(c)</b> $V_{BZ}=(2\pi)^3/(a^3/4)=2.100\times10^{31}$ m⁻³, a truncated octahedron.</li>
-        <li><b>(d)</b> fcc rule, all even or all odd: (111) and (200) appear; (100) and (110) are extinct ($S=0$).</li>
-        <li><b>(e)</b> The first allowed family is (111), with $d=a/\sqrt3=208.7$ pm. $\sin\theta=\lambda/2d=154.06/417.4=0.369$, so θ = 21.66° and <b>2θ = 43.3°</b>.</li>
+        <li><b>(a)</b> fcc rule (<a href="#c-sf">1.3.5</a>), all even or all odd: (111) and (200) appear; (100) and (110) are extinct ($S=0$).</li>
+        <li><b>(b)</b> The first allowed family is (111), with $d=a/\sqrt3=208.7$ pm. $\sin\theta=\lambda/2d=154.06/417.4=0.369$, so θ = 21.66° and <b>2θ = 43.3°</b>.</li>
+        <li><b>(c)</b> Next is (200), with $d=a/2=180.75$ pm. $\sin\theta=154.06/361.5=0.426$, so θ = 25.22° and <b>2θ = 50.45°</b>.</li>
       </ol>
-      <div class="result"><b>Result:</b> bcc reciprocal lattice, $|\mathbf b|=3.01\times10^{10}$ m⁻¹, $V_{BZ}=2.10\times10^{31}$ m⁻³, (111) and (200) present, first peak at 2θ = 43.3°.</div>
+      <div class="result"><b>Result:</b> (111) and (200) present, (100) and (110) extinct; peaks at 2θ = 43.3° (111) and 50.45° (200).</div>
       <div class="check"><b>Sanity check:</b> all values recomputed in node. 2θ(111) = 43.32° and 2θ(200) = 50.45° are also the first two sticks of Model 5 (fcc, 154.06 pm).</div>
     </details>
   </article>
