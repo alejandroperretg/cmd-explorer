@@ -25,7 +25,7 @@
 <header class="page-head">
   <div class="meta"><span>Topic 09</span><span>Syllabus §2.6</span><span>Kittel ch. 7, 9</span><span>Notes pp. 50–54</span><span>Exam 2022 Q4</span></div>
   <h1>Energy Bands</h1>
-  <p class="lead">Why electrons in a crystal have bands and gaps, from Bloch's theorem through the nearly-free-electron and tight-binding pictures. The models follow the lecture. Model 1 shows what k means for a Bloch state (2.6.1), Model 2 folds free electrons into the Brillouin zone and opens gaps with a weak periodic potential (2.6.2), and Model 3 builds bands from atoms (2.6.3). Models 4–8 then show how electrons move in a metal: why a partly full band conducts, how temperature fills the bands, current in a wire, and Fermi surfaces in 2D and 3D.</p>
+  <p class="lead">Why electrons in a crystal have bands and gaps, from Bloch's theorem through the nearly-free-electron and tight-binding pictures. The models follow the lecture. Model 1 shows what k means for a Bloch state (2.6.1), Model 2 folds free electrons into the Brillouin zone and opens gaps with a weak periodic potential (2.6.2), Model 2b redraws one band structure in the extended, reduced and periodic zone schemes, Model 3 builds bands from atoms (2.6.3), and Model 3b shows how s and p orbitals set the shape of each band. Models 4–8 then show how electrons move in a metal: why a partly full band conducts, how temperature fills the bands, current in a wire, and Fermi surfaces in 2D and 3D.</p>
   <ol class="chain">
     <li><a href="#overview">Overview</a></li>
     <li><a href="#concepts">Concepts</a></li>
@@ -39,11 +39,11 @@
 
 <nav class="path" id="path" aria-labelledby="path-h">
   <h2 id="path-h">Reading path</h2>
-  <p>Read the Concepts section by section, in topic-list order; each line says which cards it holds and which model or exercise to try next. 2.6.1 and 2.6.2 are the exam core (2022 Q4). 2.6.3 is not yet lectured and was not examined in 2022. About 2 hours in total.</p>
+  <p>Read the Concepts section by section, in topic-list order; each line says which cards it holds and which model or exercise to try next. 2.6.1 and 2.6.2 are the exam core (2022 Q4). 2.6.3 is a reading assignment (Kittel ch. 9) and was not examined in 2022. About 2 hours in total.</p>
   <ol>
     <li data-sec="2.6.1"><a href="#s-2-6-1">Bloch theorem</a><span class="min">25 min</span><span class="then"><a href="#c-periodic">Periodic potential</a> → <a href="#c-bloch">statement and proof</a> → <a href="#c-implies">consequences</a>. Then: <a href="#kwave">Model 1</a>, <a href="#hw-x-1">Practice A</a>.</span></li>
-    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-central">Central equation</a> → <a href="#c-empty">empty lattice</a>, its U<sub>G</sub> = 0 case (then <a href="#empty">Model 2</a> at U<sub>G</sub> = 0) → <a href="#c-standing">standing waves</a> → <a href="#c-gap">gap</a> (then Model 2 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
-    <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">10 min</span><span class="then">Then: <a href="#atoms">Model 3</a>, <a href="#hw-x-3">Practice C</a>.</span></li>
+    <li data-sec="2.6.2"><a href="#s-2-6-2">Nearly free electron model</a><span class="min">50 min</span><span class="then"><a href="#c-central">Central equation</a> → <a href="#c-empty">empty lattice</a>, its U<sub>G</sub> = 0 case (then <a href="#empty">Model 2</a> at U<sub>G</sub> = 0) → <a href="#c-zones">zone schemes</a> (then <a href="#zones">Model 2b</a>) → <a href="#c-standing">standing waves</a> → <a href="#c-gap">gap</a> (then Model 2 with U<sub>G</sub> ≠ 0, and <a href="#hw-x-2">Practice B</a>).</span></li>
+    <li data-sec="2.6.3"><a href="#s-2-6-3">Tight binding</a><span class="min">10 min</span><span class="then">Then: <a href="#atoms">Model 3</a>, <a href="#orb">Model 3b</a>, <a href="#hw-x-3">Practice C</a>.</span></li>
     <li data-sec="2.6"><a href="#s-2-6-x">Connecting ideas</a><span class="min">20 min</span><span class="then"><a href="#c-four">Four questions</a>. Then, how electrons move in a metal: <a href="#cond">Model 4</a> → <a href="#ek">Model 5</a> → <a href="#wire">Model 6</a> → <a href="#fs2d">Models 7</a> and <a href="#fs3d">8</a> (Fermi surfaces, beyond the topic list).</span></li>
     <li data-sec="Q4"><a href="#exam-q4">Exam 2022 Q4, worked answer</a><span class="min">30 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
   </ol>
@@ -172,7 +172,7 @@
       <div class="eq key"><div class="eq-head"><span class="eq-label">Empty-lattice bands</span><a class="tag exam" href="#exam-q4">Exam Q4c</a></div>
       $$\begin{aligned}\varepsilon_{\mathbf G}(\mathbf k)&=\frac{\hbar^2}{2m}\,\lvert\mathbf k-\mathbf G\rvert^2\\ \mathbf k&\in\text{1st BZ}\end{aligned}$$
       <span class="eq-n">(7)</span></div>
-      <p>Each $\mathbf G$ gives one free parabola, shifted by $\mathbf G$ and folded back into the zone: this is the reduced-zone scheme. Repeating that picture at every $\mathbf G$ gives the periodic zone scheme that the exam asks for. Along [100], $\mathbf k=(k,0,0)$ and</p>
+      <p>Each $\mathbf G$ gives one free parabola, shifted by $\mathbf G$ and folded back into the zone: this is the <a href="#c-zones">reduced zone scheme</a>. Repeating that picture at every $\mathbf G$ gives the <a href="#c-zones">periodic zone scheme</a> that the exam asks for. Along [100], $\mathbf k=(k,0,0)$ and</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Along [100]</span><a class="tag exam" href="#exam-q4">Exam Q4c–d</a><span class="tag deriv">Exam-relevant derivation</span></div>
       $$\varepsilon=\frac{\hbar^2}{2m}\big[(k-G_x)^2+G_y^2+G_z^2\big]$$
       <span class="eq-n">(8)</span></div>
@@ -184,15 +184,40 @@
           <tr><td>fcc · G = (2π/a)(h,k,l), all odd or all even (bcc)</td><td>0; 12 ×8; 16 ×6</td><td>0.25; 10.25 ×4; 12.25</td><td>(2π/a,0,0): 4 ×2; 8 ×4</td></tr>
         </tbody></table></div>
       <div class="check"><b>Sanity check:</b> enumerated by brute force in node over all G with |h|, |k|, |l| ≤ 4. The sc rows agree with Kittel's empty-lattice table for sc (ch. 7, with ħ²/2m = 1 there).</div>
-      <p class="trap">Two ways to lose points in Q4c: leaving degeneracies unlabelled, and drawing bands that "end" at the zone edge. In the periodic zone scheme the picture repeats every G.</p>
+      <p class="trap">Two ways to lose points in Q4c: leaving degeneracies unlabelled, and drawing bands that "end" at the zone edge. In the <a href="#c-zones">periodic zone scheme</a> the picture repeats every G.</p>
       <details class="check"><summary>sc lattice, k = 0: the second-lowest empty-lattice energy and its degeneracy, in units of E₀?</summary><p>$4E_0$, sixfold: the six $\mathbf G=\frac{2\pi}a(\pm1,0,0),(0,\pm1,0),(0,0,\pm1)$ all have $\frac{\hbar^2}{2m}|\mathbf G|^2=\frac{\hbar^2}{2m}\frac{4\pi^2}{a^2}=4E_0$. Compare the table.</p></details>
       <p class="takeaway">With U → 0 the bands are free parabolas (7), one per G, folded into the zone. G's with equal $G_x$ and equal $G_y^2+G_z^2$ give one curve, and their count is its degeneracy.</p>
+    </article>
+    <article class="card" id="c-zones">
+      <span class="eyebrow">2.6.2 · Zone schemes</span>
+      <h4>Extended, reduced and periodic zone schemes</h4>
+      <p class="needs"><a href="#c-implies">2.6.1 · Consequences</a> (k is defined only up to G), <a href="#c-empty">2.6.2 · Empty lattice</a></p>
+      <div class="tags"><span class="tag">Kittel ch. 9 · Reduced Zone Scheme, Periodic Zone Scheme (Fig. 9.4) · beyond the notes</span><a class="tag exam" href="#exam-q4">Exam Q4c</a></div>
+      <p>Bloch's theorem fixes k only up to a reciprocal lattice vector. Writing $e^{i\mathbf k\cdot\mathbf r}u_{\mathbf k}=e^{i(\mathbf k+\mathbf G)\cdot\mathbf r}\big(e^{-i\mathbf G\cdot\mathbf r}u_{\mathbf k}\big)$ moves the factor into a new function that is still lattice-periodic. So $\mathbf k$ and $\mathbf k+\mathbf G$ label the <b>same</b> state, with the same energy:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">One state, many labels</span><a class="tag exam" href="#exam-q4">Exam Q4c</a></div>
+      $$\begin{aligned}\psi_{n,\mathbf k+\mathbf G}&=\psi_{n,\mathbf k}\\ \varepsilon_n(\mathbf k+\mathbf G)&=\varepsilon_n(\mathbf k)\end{aligned}$$
+      <span class="eq-n">(8a)</span></div>
+      <p>Which label you pick is a choice of drawing, and Kittel names three (his Fig. 9.4 shows them for a 1D lattice). Nothing physical changes between them.</p>
+      <div class="dict"><table>
+        <thead><tr><th>Scheme</th><th>What is drawn</th><th>Use it for</th></tr></thead>
+        <tbody>
+          <tr><td>Extended (Brillouin)</td><td>Band n only in zone n; k runs over all of k-space. Free electrons give one unbroken parabola.</td><td>Nearly-free intuition: the band is a free parabola with gaps cut at the zone faces k = ±nπ/a (1D), where Bragg reflection happens (<a href="#c-gap">2.6.2 · Gap</a>).</td></tr>
+          <tr><td>Reduced</td><td>Every band shifted by a G into the 1st zone, so each k carries many energies, one per band n.</td><td>Counting: each band has exactly N values of k, so 2N states with spin. This is how band structures are usually plotted (Kittel Fig. 7.8 is the empty sc lattice in it).</td></tr>
+          <tr><td>Periodic</td><td>Every band in every zone; ε<sub>n</sub>(k) repeats with period G.</td><td>Fermi surfaces, which must join up across zone faces (Kittel ch. 9, Models 7–8), and Exam Q4c, which asks for the periodic band structure.</td></tr>
+        </tbody></table></div>
+      <p>To map a k′ that lies outside the first zone, subtract the G that brings it back. In 1D the first zone is $-\pi/a\lt k\le\pi/a$ and $G=2\pi m/a$:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Reduce to the first zone</span></div>
+      $$\begin{aligned}k&=k'-\frac{2\pi}{a}\,m\\ m&=\operatorname{round}\!\Big(\frac{k'a}{2\pi}\Big)\end{aligned}$$
+      </div>
+      <p>The energy stays the same, and the band index n is the number of the zone k′ came from. In the extended scheme the gaps sit at the zone faces. In the reduced scheme the same gaps appear at k = 0 and k = ±π/a, between bands n and n + 1.</p>
+      <p class="trap">Counting the copies in the periodic scheme as extra states. Every copy is the same state under another label: count states in one zone only.</p>
+      <details class="check"><summary>1D lattice, free electron with k′ = 1.4π/a. Which zone is it in, where does it go in the reduced scheme, and on which band? Energy in units of E₀ = ħ²π²/2ma²?</summary><p>π/a &lt; 1.4π/a ≤ 2π/a, so it is in the 2nd zone and on band 2. Here m = round(0.7) = 1, so $k=1.4\pi/a-2\pi/a=-0.6\pi/a$. The energy is unchanged: $\varepsilon=\frac{\hbar^2}{2m}(1.4\pi/a)^2=1.96\,E_0$. Check from the reduced side: $(k+G)^2=(-0.6+2)^2=1.96$ in units of $(\pi/a)^2$. In <a href="#zones">Model 2b</a>, set k = 1.40π/a and switch to Reduced.</p></details>
+      <p class="takeaway">k and k + G are one state. Extended (band n in zone n) shows where the gaps open, reduced (all bands in zone 1) counts states, and periodic (every band everywhere) is what Fermi surfaces and Q4c need.</p>
     </article>
     <article class="card" id="c-standing">
       <span class="eyebrow">2.6.2 · Standing waves</span>
       <h4>Why the cos and sin standing waves split</h4>
       <p class="needs"><a href="#c-empty">2.6.2 · Empty lattice</a>; ← from <a href="02-reciprocal-lattice.html#c-bz">1.3.3 Brillouin zone</a></p>
-      <div class="tags"><span class="tag lect">Not yet lectured</span></div>
       <p>In 1D at $k=\pi/a$, the waves $e^{\pm i\pi x/a}$ have the same energy and Bragg-reflect into each other. The eigenstates are the two standing waves</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Standing waves at the zone face</span><a class="tag exam" href="#exam-q4">Exam Q4f</a><a class="tag hw" href="#hw-x-2">Practice B</a></div>
       $$\begin{aligned}\psi_+&\propto\cos\frac{\pi x}{a}\\ \psi_-&\propto\sin\frac{\pi x}{a}\end{aligned}$$
@@ -212,7 +237,6 @@
       <span class="eyebrow">2.6.2 · Gap</span>
       <h4>The gap at the zone boundary: 2|U<sub>G</sub>|</h4>
       <p class="needs"><a href="#c-standing">2.6.2 · Standing waves</a>, <a href="#c-central">2.6.2 · Central equation</a></p>
-      <div class="tags"><span class="tag lect">Not yet lectured</span></div>
       <p>If $U$ is weak, a plane wave $e^{i\mathbf k\cdot\mathbf r}$ is changed noticeably only where another wave $e^{i(\mathbf k-\mathbf G)\cdot\mathbf r}$ has the same kinetic energy, $\lvert\mathbf k-\mathbf G\rvert=\lvert\mathbf k\rvert$. That is the Bragg condition, and the k's that satisfy it are exactly the Brillouin-zone faces. Keep just those two waves:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Two-wave approximation near a zone face</span><span class="tag deriv">Exam-relevant derivation</span><a class="tag exam" href="#exam-q4">Exam Q4f</a></div>
       $$\begin{aligned}&\begin{pmatrix}\varepsilon^0_{\mathbf k}&U_{\mathbf G}\\ U_{\mathbf G}^{*}&\varepsilon^0_{\mathbf k-\mathbf G}\end{pmatrix}\begin{pmatrix}C_{\mathbf k}\\ C_{\mathbf k-\mathbf G}\end{pmatrix}\\&\qquad=\varepsilon\begin{pmatrix}C_{\mathbf k}\\ C_{\mathbf k-\mathbf G}\end{pmatrix}\end{aligned}$$
@@ -242,14 +266,14 @@
     <p class="hook"><b>Where you meet this.</b> Tight binding explains why some metals have heavy electrons. Where neighbouring orbitals barely overlap, the band is narrow and, by $m^*=\hbar^2/2\gamma a^2$, the electron is heavy. In heavy-fermion compounds such as UBe<sub>13</sub> and CeAl<sub>3</sub> the f orbitals overlap so weakly that the electrons may act up to about 1000 times heavier than a free electron (Kittel ch. 6).</p>
     <div class="sec-intro">
       <p><b>What this covers.</b> The opposite limit to 2.6.2: build Bloch states from atomic orbitals that overlap weakly, which gives cosine bands, their width and the effective mass at the band bottom. Not in the notes; taught here from Kittel ch. 9.</p>
-      <p><b>Why it matters.</b> Not asked in 2022 and not yet lectured, but it is on the topic list and Practice C drills it. It is the picture behind every model here except Model 2, and its effective mass and band filling come back for holes and carriers in semiconductors (3.1).</p>
+      <p><b>Why it matters.</b> Not asked in 2022 and set as a reading assignment (Kittel ch. 9, notes p59), but it is on the topic list and Practice C drills it. It is the picture behind every model here except Model 2, and its effective mass and band filling come back for holes and carriers in semiconductors (3.1).</p>
     </div>
     <div class="cards">
     <article class="card" id="c-tb">
       <span class="eyebrow">2.6.3 · Tight binding</span>
       <h4>Bands from overlapping atomic orbitals</h4>
       <p class="needs"><a href="#s-2-6-1">2.6.1 Bloch theorem</a>; ← from <a href="03-crystal-binding.html#c-covalent">1.4.3 Electron-pair bond</a></p>
-      <div class="tags"><span class="tag lect">Not yet lectured · from Kittel ch. 9</span></div>
+      <div class="tags"><span class="tag lect">Reading assignment (notes p59) · Kittel ch. 9</span></div>
       <p>The opposite limit: start from an atomic orbital $\phi(\mathbf r)$ (an s state) on each atom and let it overlap weakly with its neighbours. The combination</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Tight-binding Bloch sum</span><a class="tag hw" href="#hw-x-3">Practice C</a></div>
       $$\begin{aligned}\psi_{\mathbf k}(\mathbf r)={}&N^{-1/2}\sum_j e^{i\mathbf k\cdot\mathbf r_j}\\&\times\phi(\mathbf r-\mathbf r_j)\end{aligned}$$
@@ -278,7 +302,7 @@
       <p class="takeaway">Overlapping atomic orbitals spread each level into a cosine band whose width scales with the overlap γ (12γ for sc). Weak overlap means a narrow band and a heavy electron.</p>
     </article>
     </div>
-    <p class="cannow"><b>You can now</b> write the s band of an sc or fcc crystal, read off its width and band-bottom mass, and decide from the filling whether the solid is a metal. That is <a href="#hw-x-3">Practice C</a>, and Model 3 shows such a band forming as the atoms move together.</p>
+    <p class="cannow"><b>You can now</b> write the s band of an sc or fcc crystal, read off its width and band-bottom mass, and decide from the filling whether the solid is a metal. That is <a href="#hw-x-3">Practice C</a>, and Model 3 shows such a band forming as the atoms move together. <a href="#orb">Model 3b</a> draws the orbitals themselves and shows why an s band and a p band run in opposite directions.</p>
   </section>
   <section class="sec" id="s-2-6-x">
     <h3><span class="step">2.6</span>Connecting ideas</h3>
@@ -310,7 +334,9 @@
   <ol class="chain">
     <li><a href="#kwave">What k looks like</a></li>
     <li><a href="#empty">Empty lattice → gaps</a></li>
+    <li><a href="#zones">Zone schemes</a></li>
     <li><a href="#atoms">Atoms → bands</a></li>
+    <li><a href="#orb">Orbitals → bands</a></li>
     <li><a href="#cond">Why metals conduct</a></li>
     <li><a href="#ek">E(k) and Fermi–Dirac</a></li>
     <li><a href="#wire">Current in a wire</a></li>
@@ -386,6 +412,34 @@
   </div>
 </section>
 
+<section class="bench" id="zones">
+  <div class="rail">
+    <span class="eyebrow">2.6.2 · Model 2b · one band structure, three drawings</span>
+    <h3>Zone schemes</h3>
+    <p>A 1D crystal (a = 4.05 Å, as in Model 2) with a weak periodic potential. The plot shows its lowest three nearly-free-electron bands, solved from the central equation (6). Switch the scheme and each band segment slides by a multiple of G = 2π/a. Colour and dash mark the band index, so you can follow one segment as it moves.</p>
+    <p>← Why all three pictures are the same physics: <a href="#c-zones">2.6.2 · Zone schemes</a> (Kittel Fig. 9.4).</p>
+    <div class="ctls">
+      <fieldset class="seg"><legend>Zone scheme</legend><div class="opts">
+        <label><input type="radio" name="zs-sch" value="ext" checked><span>Extended</span></label>
+        <label><input type="radio" name="zs-sch" value="red"><span>Reduced</span></label>
+        <label><input type="radio" name="zs-sch" value="per"><span>Periodic</span></label>
+      </div></fieldset>
+      <div class="ctl"><label for="zs-u"><span>Fourier component U<sub>G</sub> (every G ≠ 0)</span> <output for="zs-u"></output></label><input type="range" id="zs-u" min="-1.5" max="1.5" step="0.05" value="-0.8" data-fmt="2" data-unit=" eV"></div>
+      <div class="ctl"><label for="zs-k"><span>Chosen k′ (extended label)</span> <output for="zs-k"></output></label><input type="range" id="zs-k" min="-3" max="3" step="0.01" value="1.4" data-pi="1"></div>
+    </div>
+    <div class="state"><span class="pill" id="zs-pill"></span><dl class="readout" id="zs-read"></dl></div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>Extended first: one parabola with a break at every zone face. Switch to Reduced: the two band-2 pieces jump by ±2π/a into the first zone, and so do the band-3 pieces.</li>
+      <li>Periodic: every band is copied into every zone. Go back to Extended and watch the copies merge into one curve again.</li>
+      <li>Set U<sub>G</sub> = 0. The gaps close: in the reduced scheme bands 1 and 2 touch at ±π/a, and bands 2 and 3 at k = 0.</li>
+      <li>With k′ = 1.40π/a (2nd zone), switch to Reduced. The dot lands at −0.60π/a on band 2, which is the card's self-check. The dashed lines are its images k + G, and in Periodic a copy of the dot sits on each.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure class="span2"><div class="plot tall" id="zs-a"></div><figcaption><b>How to read:</b> energy against wave vector, in units of π/a, over three zones on each side. Grey vertical lines are the zone faces at k = ±π/a, ±2π/a, ±3π/a, and the lightly shaded strip is the first zone. Band 1 is copper (solid), band 2 blue (dashed), band 3 green (dotted). The dot is your state, and the thin dashed lines are the labels k + G that name the same state. In every scheme the curves have the same heights. Only their horizontal labels change.</figcaption></figure>
+  </div>
+</section>
+
 <section class="bench" id="atoms">
   <div class="rail">
     <span class="eyebrow">2.6.3 · Model 3 · finite chain</span>
@@ -419,6 +473,54 @@
       <span>No. The 0 eV line is the energy needed to leave the solid completely, into vacuum. Inside a solid, the neighbouring nuclei pull the hills between atoms down. Once a band sits above those hills (an unbroken line on the left plot), each of its states is spread over the whole row, and the electron already belongs to every atom at once.</span>
       <span>Electrons in bands below the hills still move between atoms by tunnelling, just more slowly. That tunnelling is why those levels spread into a narrower band too.</span>
       <span>So "can the electron leave its atom?" is not the real question. The real question is whether the band has empty states left. Models 4 and 6 show why.</span>
+    </div>
+  </div>
+</section>
+
+<section class="bench" id="orb">
+  <div class="rail">
+    <span class="eyebrow">2.6.3 · Model 3b · s and p orbitals on a chain or square lattice</span>
+    <h3>Orbitals → bands</h3>
+    <p><b>Top:</b> real hydrogen-like 2s, 2p<sub>x</sub> and 2p<sub>y</sub> orbitals, one per atom, cut through the plane of the atoms. Each is multiplied by its Bloch phase e<sup>ikna</sup>, the sum (15) of <a href="#c-tb">2.6.3</a>. Copper is Re ψ &gt; 0, blue is Re ψ &lt; 0.</p>
+    <p><b>Bottom:</b> the band ε(k) = ε<sub>orb</sub> − 2t cos ka from (16), with the hopping t (Kittel's γ) set by how much two neighbouring orbitals overlap. Where touching lobes have the same sign, the electron spreads over both and its energy drops below the atomic level (bonding). Opposite signs leave a node between the atoms and raise it (antibonding).</p>
+    <p>← <a href="#atoms">Model 3</a> shows levels widening into bands as atoms approach. This one shows which way each band runs, and why.</p>
+    <div class="ctls">
+      <fieldset class="seg"><legend>Orbital</legend><div class="opts">
+        <label><input type="radio" name="ob-orb" value="s" checked><span>s</span></label>
+        <label><input type="radio" name="ob-orb" value="px"><span>p<sub>x</sub> (σ)</span></label>
+        <label><input type="radio" name="ob-orb" value="py"><span>p<sub>y</sub> (π)</span></label>
+      </div></fieldset>
+      <fieldset class="seg"><legend>Lattice</legend><div class="opts">
+        <label><input type="radio" name="ob-lat" value="1d" checked><span>Chain</span></label>
+        <label><input type="radio" name="ob-lat" value="2d"><span>Square lattice</span></label>
+      </div></fieldset>
+      <div class="ctl"><label for="ob-k"><span>Wave vector k (along x)</span> <output for="ob-k"></output></label><input type="range" id="ob-k" min="-1" max="1" step="0.01" value="0.25" data-pi="1"></div>
+      <div class="ctl"><label for="ob-a"><span>Atomic spacing a</span> <output for="ob-a"></output></label><input type="range" id="ob-a" min="9" max="16" step="0.1" value="10" data-fmt="1" data-unit=" a₀/Z"></div>
+      <div class="btns"><button class="btn" type="button" id="ob-play">Pause</button></div>
+      <p class="note" id="ob-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+    </div>
+    <div class="state">
+      <span class="pill" id="ob-pill"></span>
+      <div class="meter" aria-hidden="true"><i id="ob-bar"></i></div>
+      <dl class="readout" id="ob-read"></dl>
+    </div>
+    <div class="try"><strong>Try</strong><ul>
+      <li>s at k = 0: every orbital has the same sign and all neighbours bond, so this is the band bottom. Slide k to π/a: the signs alternate, every pair is antibonding, and you are at the top.</li>
+      <li>Switch to p<sub>x</sub> (σ). At k = 0 the lobes facing each other have opposite signs, so k = 0 is now the top: the p<sub>σ</sub> band is upside down, with its minimum at the zone edge.</li>
+      <li>p<sub>y</sub> (π): the lobes meet side by side with the same sign at k = 0, so the band runs the right way up again. It is narrower, because side-on lobes overlap less.</li>
+      <li>Increase the spacing. Every overlap and every bandwidth shrinks, and in the lower plot the bands close up toward the atomic levels. That is the lecture's sketch of levels broadening into bands as 1/a grows, read backwards.</li>
+      <li>Square lattice with p<sub>x</sub>: along x the neighbours are σ, along y they sit side by side (π) with the same phase. The y bonds pull the whole curve down by 2t<sub>π</sub>.</li>
+      <li>Press Play: the overall phase e<sup>−iεt/ħ</sup> turns. At k = 0 and π/a the pattern only flips sign. In between, the signs travel along the chain. Bonding or antibonding never changes, because it depends only on the phase step ka between neighbours.</li>
+    </ul></div>
+  </div>
+  <div class="plots">
+    <figure class="span2"><div class="cvwrap"><canvas id="ob-cv" aria-label="Bloch sum of atomic orbitals on a chain or square lattice, above its tight-binding band"></canvas></div>
+      <figcaption><b>How to read:</b> <b>Top</b> is the real part of one Bloch state built from the chosen orbital, in the plane of the atoms (grey dots). Colour gives the sign (copper +, blue −) and its strength the size of Re ψ, on a slightly compressed scale so the overlap between atoms shows. The 2s orbital has a small core of the other sign inside its radial node (r = 2 a₀/Z), so neighbours touch with their outer parts. <b>Bottom</b> is the band energy against k along x (k<sub>y</sub> = 0 on the square lattice). The thick curve is the chosen orbital's band and the thin curves are the other two. Dotted lines are the atomic levels ε<sub>2s</sub> and ε<sub>2p</sub>, and the green dot is your k. Lengths are in a₀/Z (a₀ = Bohr radius, Z = effective nuclear charge). Energies are illustrative.</figcaption>
+      <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>Re ψ &gt; 0</span><span><i class="sw" style="background:var(--emp)"></i>Re ψ &lt; 0</span><span><i class="sw dot" style="background:var(--muted)"></i>atom</span><span><i class="sw dot" style="background:var(--ef)"></i>your k</span></div></figure>
+    <figure class="span2"><div class="plot short" id="ob-c"></div><figcaption><b>How to read:</b> the lecture's sketch, computed. The vertical extent of each shaded area is the energy range of one band, plotted against 1/a, the inverse atomic spacing. On the left the atoms are far apart and each band is a single atomic level. Moving right brings them closer: the overlap grows and each level spreads into a band (4|t| wide on the chain). The chosen orbital's band is darker, the dashed line is your spacing, and the green dot is your ε(k).</figcaption></figure>
+    <div class="idea span2">
+      <strong>What is computed and what is illustrative?</strong>
+      <span>The orbital shapes and their overlaps S are computed exactly for hydrogen-like n = 2 orbitals. The hopping is taken proportional to the overlap, t = κS with κ = 3 eV, as in simple Hückel-type estimates. That choice fixes the signs and the ratios: t<sub>ss</sub> &gt; 0, t<sub>ppσ</sub> &lt; 0, and |t<sub>ppπ</sub>| &lt; |t<sub>ppσ</sub>| at every spacing shown. The atomic levels ε<sub>2s</sub> = −10 eV and ε<sub>2p</sub> = −5 eV and the value of κ are illustrative. For scale: carbon's 2p electrons see Z ≈ 3.25 (Slater's rules), so a₀/Z ≈ 0.16 Å and a = 9 a₀/Z is about 1.5 Å, close to a C–C bond.</span>
     </div>
   </div>
 </section>
@@ -1400,8 +1502,256 @@ function renderEL() {
 }
 document.querySelectorAll('input[name="el-lat"]').forEach(el => el.addEventListener('change', () => CM.schedule(renderEL)));
 
+/* ---------- Model 3b: orbitals → bands (hydrogen-like n = 2 orbitals, lengths in a₀/Z, energies illustrative) ---------- */
+const OB_K = 3, OB_E = { s: -10, p: -5 };   // t = κ·S with κ = 3 eV; ε_2s, ε_2p in eV (illustrative)
+// Overlap S(a) of two n = 2 orbitals with the same orientation, a apart (a₀/Z). σ, π: Mulliken's closed forms (p = a/2);
+// node check: a 3D cylindrical integral of the drawn orbitals reproduces both to 4 digits for a = 5…14, and S(0) = 1.
+const obSpp = a => { const p = a / 2, e = Math.exp(-p); return { sig: e * (1 + p + p * p / 5 - 2 * p ** 3 / 15 - p ** 4 / 15), pi: e * (1 + p + 2 * p * p / 5 + p ** 3 / 15) }; };
+const obSsCache = new Map();
+function obSss(a) {   // 2s–2s overlap in spheroidal coordinates ξ = (r_a + r_b)/a, η = (r_a − r_b)/a (a ≥ 9);
+  // node check against a fine cylindrical grid: S(10) = 0.377, S(14) = 0.168, S(16) = 0.102, all to 4 digits
+  const key = a.toFixed(3); if (obSsCache.has(key)) return obSsCache.get(key);
+  const nu = 160, ne = 80, du = 48 / a / nu, de = 2 / ne; let s = 0;
+  for (let i = 0; i < nu; i++) {
+    const x = 1 + (i + 0.5) * du, ex = Math.exp(-a * x / 2);
+    for (let j = 0; j < ne; j++) { const y = -1 + (j + 0.5) * de, ra = a * (x + y) / 2, rb = a * (x - y) / 2; s += (2 - ra) * (2 - rb) * (x * x - y * y) * ex; }
+  }
+  s *= du * de * 2 * PI * a ** 3 / 8 / (32 * PI); obSsCache.set(key, s); return s;
+}
+const obOrb = () => document.querySelector('input[name="ob-orb"]:checked').value;
+const obLat = () => document.querySelector('input[name="ob-lat"]:checked').value;
+function obHop(a) { const p = obSpp(a), s = obSss(a); return { S: { s, sig: p.sig, pi: p.pi }, s: OB_K * s, sig: OB_K * p.sig, pi: OB_K * p.pi }; }
+function obBand(o, lat, T) {   // ε(k_x, k_y = 0) = e0 − 2 t_x cos k_x a − 2 t_y; p_x is σ along x and π along y
+  const y = lat === '2d';
+  if (o === 's') return { e0: OB_E.s, tx: T.s, ty: y ? T.s : 0, Sx: T.S.s };
+  if (o === 'px') return { e0: OB_E.p, tx: T.sig, ty: y ? T.pi : 0, Sx: T.S.sig };
+  return { e0: OB_E.p, tx: T.pi, ty: y ? T.sig : 0, Sx: T.S.pi };
+}
+const obE = (b, k) => b.e0 - 2 * b.tx * Math.cos(k) - 2 * b.ty;
+const obPhi = { s: (x, y, r) => (2 - r) * Math.exp(-r / 2), px: (x, y, r) => x * Math.exp(-r / 2), py: (x, y, r) => y * Math.exp(-r / 2) };
+const OB = { th: 0, key: '', A: null, B: null, nx: 0, ny: 0 };
+const obCv = $('ob-cv'), obCx = obCv.getContext('2d'), obOff = document.createElement('canvas'), obOx = obOff.getContext('2d');
+const hexRGB = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+function obField(g, o, lat, k, a) {   // A, B: the Bloch sum with cos(kna), sin(kna); Re ψ(θ) = A cos θ + B sin θ
+  const step = 2, nx = Math.ceil((g.R - g.L) / step), ny = Math.ceil(g.TH / step), key = [nx, ny, g.sc, o, lat, k, a].join();
+  if (key === OB.key) return;
+  OB.key = key; OB.nx = nx; OB.ny = ny; OB.A = new Float32Array(nx * ny); OB.B = new Float32Array(nx * ny);
+  const hx = nx * step / 2 / g.sc, hy = ny * step / 2 / g.sc, f = obPhi[o], cut = 16;
+  const ni = Math.ceil((hx + cut) / a), nj = lat === '2d' ? Math.ceil((hy + cut) / a) : 0;
+  for (let i = -ni; i <= ni; i++) {
+    const c = Math.cos(k * i), s = Math.sin(k * i);
+    for (let j = -nj; j <= nj; j++) {
+      const X0 = i * a, Y0 = j * a;
+      const p0 = Math.max(0, Math.floor(((X0 - cut) * g.sc + nx * step / 2) / step)), p1 = Math.min(nx, Math.ceil(((X0 + cut) * g.sc + nx * step / 2) / step));
+      const q0 = Math.max(0, Math.floor(((Y0 - cut) * g.sc + ny * step / 2) / step)), q1 = Math.min(ny, Math.ceil(((Y0 + cut) * g.sc + ny * step / 2) / step));
+      for (let q = q0; q < q1; q++) {
+        const y = -((q + 0.5) * step - ny * step / 2) / g.sc - Y0;   // screen y points down; physics y points up
+        for (let p = p0; p < p1; p++) {
+          const x = ((p + 0.5) * step - nx * step / 2) / g.sc - X0, r = Math.hypot(x, y);
+          if (r > cut) continue;
+          const v = f(x, y, r), idx = q * nx + p; OB.A[idx] += c * v; OB.B[idx] += s * v;
+        }
+      }
+    }
+  }
+}
+function obSize() {
+  const r = obCv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  obCv.width = Math.round(r.width * dpr); obCv.height = Math.round(r.height * dpr);
+  obCx.setTransform(dpr, 0, 0, dpr, 0, 0); if (C.fg) obDraw();
+}
+function obDraw() {
+  const W = obCv.clientWidth, H = obCv.clientHeight; if (!W || !C.fg) return;
+  const cx = obCx, L = 52, R = W - 14, top0 = 26, TH = Math.round(H * 0.4), g = { L, R, TH, sc: Math.min((R - L) / 80, TH / 20) };
+  const o = obOrb(), lat = obLat(), kv = +$('ob-k').value, k = kv * PI, a = +$('ob-a').value;
+  const font = (s, w = 400) => { cx.font = `${w} ${s}px "IBM Plex Sans", system-ui, sans-serif`; };
+  const text = (t, x, y, color, align = 'left', s = 12, w = 400) => { font(s, w); cx.fillStyle = color; cx.textAlign = align; cx.fillText(t, x, y); };
+  cx.clearRect(0, 0, W, H);
+
+  // real-space panel: Re ψ on a pixel grid, drawn into an offscreen canvas and scaled up
+  obField(g, o, lat, k, a);
+  const { nx, ny, A, B } = OB, ct = Math.cos(OB.th), st = Math.sin(OB.th), ref = o === 's' ? 1.1 : 0.8;
+  if (obOff.width !== nx || obOff.height !== ny) { obOff.width = nx; obOff.height = ny; }
+  const img = obOx.createImageData(nx, ny), d = img.data, cp = hexRGB(C.occ), cm = hexRGB(C.emp), bg = hexRGB(C.panel);
+  for (let i = 0; i < nx * ny; i++) {
+    const v = A[i] * ct + B[i] * st, al = Math.min(1, Math.abs(v) / ref) ** 0.8, col = v >= 0 ? cp : cm;
+    d[4 * i] = bg[0] + (col[0] - bg[0]) * al; d[4 * i + 1] = bg[1] + (col[1] - bg[1]) * al; d[4 * i + 2] = bg[2] + (col[2] - bg[2]) * al; d[4 * i + 3] = 255;
+  }
+  obOx.putImageData(img, 0, 0);
+  cx.imageSmoothingEnabled = true; cx.drawImage(obOff, L, top0, R - L, TH);
+  cx.strokeStyle = C.line; cx.lineWidth = 1; cx.strokeRect(L, top0, R - L, TH);
+  const xc = (L + R) / 2, yc = top0 + TH / 2;
+  cx.save(); cx.beginPath(); cx.rect(L, top0, R - L, TH); cx.clip();
+  const ni = Math.ceil((R - L) / 2 / g.sc / a), nj = lat === '2d' ? Math.ceil(TH / 2 / g.sc / a) : 0;
+  cx.fillStyle = C.muted;
+  for (let i = -ni; i <= ni; i++) for (let j = -nj; j <= nj; j++) { cx.beginPath(); cx.arc(xc + i * a * g.sc, yc - j * a * g.sc, 2.5, 0, 2 * PI); cx.fill(); }
+  cx.restore();
+  const T = obHop(a), b = obBand(o, lat, T), e = obE(b, k), bx = -2 * b.tx * Math.cos(k);
+  const kind = Math.abs(bx) < 0.02 ? 'non-bonding' : bx < 0 ? 'bonding' : 'antibonding';
+  text(lat === '2d' ? 'Re ψ on a square lattice, k along x' : 'Re ψ along the chain', L, top0 - 10, C.fg, 'left', 12, 600);
+  text(`phase step ka = ${kv.toFixed(2)}π · neighbours along x: ${kind}`, R, top0 - 10, C.muted, 'right', 11);
+
+  // energy panel: ε(k_x) for all three orbitals, the chosen one thick
+  const eTop = top0 + TH + 44, eBot = H - 34, X = q => L + (R - L) * (q + PI) / (2 * PI);
+  const all = ['s', 'px', 'py'].map(q => obBand(q, lat, obHop(9)));
+  const E0 = Math.floor(Math.min(...all.map(bb => bb.e0 - 2 * Math.abs(bb.tx) - 2 * bb.ty)) - 0.5);
+  const E1 = Math.ceil(Math.max(...all.map(bb => bb.e0 + 2 * Math.abs(bb.tx) - 2 * bb.ty)) + 0.5);
+  const YE = v => eTop + (eBot - eTop) * (E1 - v) / (E1 - E0);
+  text('Band energy ε(k)', L, eTop - 14, C.fg, 'left', 12, 600);
+  const dE = E1 - E0 > 14 ? 4 : 2;
+  cx.strokeStyle = C.line; cx.lineWidth = 1;
+  for (let v = Math.ceil(E0 / dE) * dE; v <= E1; v += dE) { cx.beginPath(); cx.moveTo(L, YE(v)); cx.lineTo(R, YE(v)); cx.stroke(); text(String(v).replace('-', '−'), L - 8, YE(v) + 4, C.muted, 'right', 11); }
+  cx.strokeRect(L, eTop, R - L, eBot - eTop);
+  cx.setLineDash([2, 4]); cx.strokeStyle = C.muted;
+  for (const v of [OB_E.s, OB_E.p]) { cx.beginPath(); cx.moveTo(L, YE(v)); cx.lineTo(R, YE(v)); cx.stroke(); }
+  cx.setLineDash([]);
+  text('ε₂ₛ', R - 4, YE(OB_E.s) - 4, C.muted, 'right', 11); text('ε₂ₚ', R - 4, YE(OB_E.p) - 4, C.muted, 'right', 11);
+  const names = { s: 's', px: lat === '2d' ? 'pₓ' : 'pₓ (σ)', py: lat === '2d' ? 'p_y' : 'p_y (π)' };
+  for (const q of ['s', 'px', 'py']) {
+    const bb = obBand(q, lat, T), sel = q === o;
+    cx.strokeStyle = sel ? C.fg : C.muted; cx.lineWidth = sel ? 2.6 : 1.2; cx.beginPath();
+    for (let i = 0; i <= 200; i++) { const kk = -PI + 2 * PI * i / 200, y = YE(obE(bb, kk)); i ? cx.lineTo(X(kk), y) : cx.moveTo(X(kk), y); }
+    cx.stroke();
+    const yl = YE(obE(bb, -0.82 * PI)) + (bb.tx > 0 ? -6 : 14);
+    text(names[q], X(-0.82 * PI), yl, sel ? C.fg : C.muted, 'center', 11, sel ? 600 : 400);
+  }
+  cx.beginPath(); cx.arc(X(k), YE(e), 6, 0, 2 * PI); cx.fillStyle = C.ef; cx.fill(); cx.strokeStyle = C.panel; cx.lineWidth = 1.5; cx.stroke();
+  [[-PI, '−π/a'], [-PI / 2, '−π/2a'], [0, '0'], [PI / 2, 'π/2a'], [PI, 'π/a']].forEach(([q, t]) => text(t, X(q), eBot + 16, C.muted, 'center', 11));
+  text('k along x', xc, eBot + 30, C.fg, 'center', 11);
+  cx.save(); cx.translate(14, (eTop + eBot) / 2); cx.rotate(-PI / 2); text('Energy (eV, illustrative)', 0, 0, C.fg, 'center', 11); cx.restore();
+}
+function renderOB() {
+  const o = obOrb(), lat = obLat(), kv = +$('ob-k').value, k = kv * PI, a = +$('ob-a').value, two = lat === '2d';
+  const T = obHop(a), b = obBand(o, lat, T), e = obE(b, k), bx = -2 * b.tx * Math.cos(k), by = -2 * b.ty;
+  const wid = 4 * (Math.abs(b.tx) + Math.abs(b.ty)), emin = b.e0 - 2 * Math.abs(b.tx) - 2 * Math.abs(b.ty);
+  const kind = v => Math.abs(v) < 0.02 ? 'non-bonding' : v < 0 ? 'bonding' : 'antibonding';
+  const kx = kind(bx), f2 = v => v.toFixed(2).replace('-', '−');
+  setPill('ob-pill', kx === 'bonding' ? ['semi', 'Bonding along x: energy below the atomic level'] : kx === 'antibonding' ? ['ins', 'Antibonding along x: energy above the atomic level'] : ['atom', 'Non-bonding along x: neighbours 90° out of phase']);
+  const tName = o === 's' ? 't_ssσ' : o === 'px' ? 't_ppσ' : 't_ppπ';
+  setRead('ob-read', [['k', `${kv.toFixed(2)}π/a`], ['ε(k)', `${f2(e)} eV`],
+    [two ? 'Hopping along x, y' : `Hopping ${tName} = κS`, two ? `${f2(b.tx)}, ${f2(b.ty)} eV` : `${f2(b.tx)} eV (S = ${f2(b.Sx)})`],
+    [two ? 'Band width 4(|t_x|+|t_y|)' : 'Band width 4|t|', `${wid.toFixed(2)} eV`],
+    ['Neighbours along x', `${kx} (−2t cos ka = ${f2(bx)} eV)`],
+    ...(two ? [['Neighbours along y (k_y = 0)', `${kind(by)} (${f2(by)} eV)`]] : []),
+    ['Band minimum at', b.tx > 0 ? 'k = 0' : 'k = ±π/a (inverted band)']]);
+  $('ob-bar').style.width = (wid > 0 ? Math.max(0, Math.min(100, (e - emin) / wid * 100)) : 0) + '%';
+  // lower plot: band ranges against 1/a, isolated atoms at the left
+  const inv = lin(1 / 40, 1 / 9, 40), tr = [];
+  for (const q of ['s', 'px', 'py']) {
+    // full-zone range (k_y free on the square lattice): e0 ± 2(|t_x| + |t_y|)
+    const full = inv.map(u => { const bb = obBand(q, lat, obHop(1 / u)), w = 2 * (Math.abs(bb.tx) + Math.abs(bb.ty)); return [bb.e0 - w, bb.e0 + w]; });
+    const sel = q === o, col = sel ? C.fg : C.muted, nm = { s: 's band', px: 'pₓ band', py: 'p_y band' }[q];
+    tr.push({ x: inv, y: full.map(v => v[0]), mode: 'lines', line: { color: col, width: sel ? 1.5 : 0.8 }, hoverinfo: 'skip' },
+      { x: inv, y: full.map(v => v[1]), mode: 'lines', fill: 'tonexty', fillcolor: rgba(col, sel ? 0.35 : 0.15), line: { color: col, width: sel ? 1.5 : 0.8 }, name: nm,
+        customdata: full.map(v => v[0]), hovertemplate: `${nm}<br>1/a = %{x:.3f} Z/a₀<br>%{customdata:.2f} to %{y:.2f} eV<extra></extra>` });
+  }
+  tr.push({ x: [1 / a], y: [e], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hovertemplate: 'your ε(k) = %{y:.2f} eV<extra></extra>' });
+  const tv = [1 / 40, 1 / 20, 1 / 14, 1 / 12, 1 / 10, 1 / 9];
+  Plotly.react('ob-c', tr, layout({ margin: { l: 56, r: 12, t: 8, b: 44 },
+    shapes: [{ type: 'line', yref: 'paper', y0: 0, y1: 1, x0: 1 / a, x1: 1 / a, line: { color: C.ef, width: 1.5, dash: 'dash' } }],
+    xaxis: ax('1/a, inverse spacing (Z/a₀)', { range: [1 / 40, 1 / 9 + 0.002], tickvals: tv, ticktext: ['1/40', '1/20', '1/14', '1/12', '1/10', '1/9'], zeroline: false }),
+    yaxis: ax('Band range (eV, illustrative)', { zeroline: false }) }), CFG);
+  obDraw();
+}
+const obLoop = CM.loop(dt => { OB.th += 1.6 * dt; obDraw(); }, { el: $('orb') });
+CM.playButton($('ob-play'), obLoop, $('ob-note'));
+document.querySelectorAll('input[name="ob-orb"], input[name="ob-lat"]').forEach(el => el.addEventListener('change', () => CM.schedule(renderOB)));
+if ('ResizeObserver' in window) new ResizeObserver(obSize).observe(obCv); else obSize();
+
+/* ---------- Model 2b: 1D nearly free electrons in three zone schemes (a = 4.05 Å, E₀ = EL_E0; every U_G = U, a comb of narrow wells) ---------- */
+const ZS_M = 4, ZS_NB = 3, ZS_N = 48;   // plane waves G = 2πm/a with |m| ≤ 4; three bands as in Kittel Fig. 9.4; 48 k steps per π/a
+function zsBands(kr, U) {   // kr: reduced k in π/a; returns the lowest three energies (eV)
+  const n = 2 * ZS_M + 1, H = [];
+  for (let i = 0; i < n; i++) { H.push([]); for (let j = 0; j < n; j++) H[i].push(i === j ? EL_E0 * (kr - 2 * (i - ZS_M)) ** 2 : U); }
+  return elJacobi(H, false).w.sort((p, q) => p - q).slice(0, ZS_NB);
+}
+// a piece = band n on one side (sg = ±1): extended k′ in sg·[n−1, n]; s0 = the shift that brings it into the first zone
+const ZS_P = [];
+for (let n = 1; n <= ZS_NB; n++) for (const sg of [1, -1]) ZS_P.push({ n, sg, s0: -2 * Math.round(sg * (n - 0.5) / 2) });
+const zsTarget = sch => ZS_P.flatMap((p, i) => sch === 'ext' ? [{ i, o: 0 }] : sch === 'red' ? [{ i, o: p.s0 }] : [-2, 0, 2].map(j => ({ i, o: p.s0 + j })));
+const ZS = { U: null, tab: null, place: null, sch: '', anim: null };
+const zsSch = () => document.querySelector('input[name="zs-sch"]:checked').value;
+function zsTable(U) {   // energies on the reduced grid kr = −1 … 1
+  if (ZS.U === U) return; ZS.U = U;
+  ZS.tab = Array.from({ length: 2 * ZS_N + 1 }, (_, j) => zsBands(-1 + j / ZS_N, U));
+}
+function zsCurve(p) {   // points of a piece at its extended position
+  const x = [], y = [], lo = p.sg > 0 ? p.n - 1 : -p.n, hi = p.sg > 0 ? p.n : -(p.n - 1);
+  for (let j = 0; j <= 2 * ZS_N; j++) {
+    const kx = -1 + j / ZS_N - p.s0;
+    if (kx >= lo - 1e-9 && kx <= hi + 1e-9) { x.push(kx); y.push(ZS.tab[j][p.n - 1]); }
+  }
+  return { x, y };
+}
+function zsMatch(from, to) {   // slide each target placement from the nearest source copy of the same piece; extra copies fade
+  const used = new Set(), out = [], near = o => (a, b) => Math.abs(a.o - o) - Math.abs(b.o - o);
+  for (const t of to) {
+    const cand = from.map((f, j) => ({ o: f.o, i: f.i, j })).filter(f => f.i === t.i).sort(near(t.o));
+    const free = cand.find(f => !used.has(f.j));
+    if (free) { used.add(free.j); out.push({ i: t.i, o0: free.o, o1: t.o, a0: 1, a1: 1 }); }
+    else out.push({ i: t.i, o0: cand.length ? cand[0].o : t.o, o1: t.o, a0: 0, a1: 1 });
+  }
+  from.forEach((f, j) => {
+    if (used.has(j)) return;
+    const c = to.filter(t => t.i === f.i).sort(near(f.o))[0];
+    out.push({ i: f.i, o0: f.o, o1: c ? c.o : f.o, a0: 1, a1: 0 });
+  });
+  return out;
+}
+function zsDraw(u) {   // u: animation progress 0…1 (eased)
+  const U = +$('zs-u').value, kp = +$('zs-k').value, cols = [C.occ, C.emp, C.ef], dash = ['solid', 'dash', 'dot'];
+  const pl = ZS.anim ? ZS.anim.map(m => ({ i: m.i, o: m.o0 + (m.o1 - m.o0) * u, a: m.a0 + (m.a1 - m.a0) * u })) : ZS.place.map(p => ({ i: p.i, o: p.o, a: 1 }));
+  const n = Math.max(1, Math.ceil(Math.abs(kp) - 1e-9)), sg = kp < 0 ? -1 : 1, pi = ZS_P.findIndex(p => p.n === n && p.sg === sg);
+  const m = Math.round(kp / 2), kr = kp - 2 * m, eDot = zsBands(kr, U)[n - 1];
+  const tr = [], shapes = [{ type: 'rect', yref: 'paper', y0: 0, y1: 1, x0: -1, x1: 1, fillcolor: rgba(C.fg, 0.05), line: { width: 0 }, layer: 'below' }];
+  for (const z of [-3, -2, -1, 1, 2, 3]) shapes.push({ type: 'line', yref: 'paper', y0: 0, y1: 1, x0: z, x1: z, line: { color: C.muted, width: 1 } });
+  for (const j of [-2, -1, 0, 1, 2]) { const x = kr + 2 * j; if (Math.abs(x) <= 3) shapes.push({ type: 'line', yref: 'paper', y0: 0, y1: 1, x0: x, x1: x, line: { color: rgba(C.fg, 0.4), width: 1, dash: 'dash' } }); }
+  for (const q of pl) {
+    if (q.a < 0.02) continue;
+    const p = ZS_P[q.i], c = zsCurve(p);
+    tr.push({ x: c.x.map(v => v + q.o), y: c.y, mode: 'lines', opacity: q.a, line: { color: cols[p.n - 1], width: 2.6, dash: dash[p.n - 1] },
+      hovertemplate: `band ${p.n}<br>k = %{x:.2f}π/a<br>%{y:.2f} eV<extra></extra>` });
+  }
+  const dots = pl.filter(q => q.i === pi && q.a > 0.02);
+  tr.push({ x: dots.map(q => kp + q.o), y: dots.map(() => eDot), mode: 'markers', marker: { color: C.fg, size: 10, line: { color: C.panel, width: 1.5 } },
+    hovertemplate: 'your state<br>k = %{x:.2f}π/a<br>%{y:.2f} eV<extra></extra>' });
+  const ann = [1, 2, 3].flatMap(z => [-1, 1].map(s => ({ x: s * (z - 0.5), y: 1, yref: 'paper', yanchor: 'bottom', showarrow: false, text: `zone ${z}`, font: { size: 12, color: C.muted } })));
+  Plotly.react('zs-a', tr, layout({ margin: { l: 56, r: 12, t: 22, b: 44 }, shapes, annotations: ann,
+    xaxis: ax('k (units of π/a)', { range: [-3.05, 3.05], zeroline: false, tickvals: [-3, -2, -1, 0, 1, 2, 3], ticktext: ['−3π/a', '−2π/a', '−π/a', '0', 'π/a', '2π/a', '3π/a'] }),
+    yaxis: ax('Energy (eV)', { range: [-Math.abs(U) - 0.8, EL_E0 * 9 + Math.abs(U) + 0.5], zeroline: false }) }), CFG);
+  return { n, kr, m, eDot };
+}
+function zsStart(sch) {   // animate the placements from the current scheme to sch (instantly under reduced motion)
+  const to = zsTarget(sch);
+  if (!ZS.place || CM.reduceMotion) { ZS.place = to; ZS.anim = null; return; }
+  const anim = zsMatch(ZS.place, to), t0 = performance.now(), dur = 900;
+  ZS.anim = anim; ZS.place = to;
+  const frame = now => {
+    if (ZS.anim !== anim) return;
+    const s = Math.min(1, (now - t0) / dur);
+    zsDraw(s * s * (3 - 2 * s));
+    if (s < 1) requestAnimationFrame(frame); else ZS.anim = null;
+  };
+  requestAnimationFrame(frame);
+}
+function renderZS() {
+  const sch = zsSch(), U = +$('zs-u').value, kp = +$('zs-k').value, f2 = v => v.toFixed(2).replace('-', '−');
+  zsTable(U);
+  let u = 1;
+  if (sch !== ZS.sch) { ZS.sch = sch; zsStart(sch); u = 0; } else ZS.anim = null;   // a slider move during a slide jumps to its end
+  const r = zsDraw(u);
+  const g1 = zsBands(1, U), g0 = zsBands(0, U), krTxt = Math.abs(Math.abs(r.kr) - 1) < 1e-9 ? '±1.00' : f2(r.kr);
+  setPill('zs-pill', ['atom', sch === 'ext' ? 'Extended: band n drawn only in zone n' : sch === 'red' ? 'Reduced: every band shifted into the first zone' : 'Periodic: every band drawn in every zone']);
+  setRead('zs-read', [['Chosen k′', `${f2(kp)}π/a, zone ${r.n} → band ${r.n}`],
+    ['Reduced k = k′ − G', `${krTxt}π/a (G = ${f2(2 * r.m)}π/a)`], ['Energy ε_n(k)', `${f2(r.eDot)} eV`],
+    ['Free electron ħ²k′²/2m', `${f2(EL_E0 * kp * kp)} eV`],
+    ['Gap at ±π/a (bands 1–2)', `${(g1[1] - g1[0]).toFixed(2)} eV`], ['Gap at 0, ±2π/a (bands 2–3)', `${(g0[2] - g0[1]).toFixed(2)} eV`],
+    ['Two-wave estimate 2|U_G|', `${(2 * Math.abs(U)).toFixed(2)} eV`]]);
+}
+document.querySelectorAll('input[name="zs-sch"]').forEach(el => el.addEventListener('change', () => CM.schedule(renderZS)));
+
 /* ---------- wiring (shared: CM.wire formats outputs, schedules renders, re-renders on theme change) ---------- */
-const R = { s1: render1, sk: renderK, sc: renderC, sw: renderW, s2: render2, s3: render3, s4: render4, el: renderEL };
+const R = { ob: renderOB, zs: renderZS, s1: render1, sk: renderK, sc: renderC, sw: renderW, s2: render2, s3: render3, s4: render4, el: renderEL };
 CM.wire(R);
 requestAnimationFrame(animLoop);
 });
