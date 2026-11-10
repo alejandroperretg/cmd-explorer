@@ -25,6 +25,7 @@
   .sfig .ln { stroke: var(--muted); stroke-width: 1.3; fill: none; }
   .sfig .ln.s-emp { stroke: var(--emp); }
   .sfig .f-occ { fill: var(--occ); } .sfig .f-emp { fill: var(--emp); }
+  #model5 .cvwrap canvas { height: 340px; }
 </style>
 <nav class="site-nav" aria-label="Site"><div class="in">
   <a class="brand" href="../index.html">CMD Explorer</a>
@@ -54,14 +55,14 @@
   <p>Read the sections in topic-list order. 1.4.1 and 1.4.2 carry all the calculations (sheets 3.3–4.2). 1.4.3–1.4.5 are mostly qualitative, and 1.4.4 adds the short estimate of sheet 4.3. About 2¼ hours in total, including the exam-style exercise.</p>
   <ol>
     <li data-sec="1.4.1"><a href="#c-cohesive">Cohesive energy and the binding curve</a><span class="min">10 min</span></li>
-    <li data-sec="1.4.1"><a href="#c-vdw">Noble gases: van der Waals attraction and Pauli repulsion</a><span class="min">10 min</span></li>
+    <li data-sec="1.4.1"><a href="#c-vdw">Noble gases: van der Waals attraction and Pauli repulsion</a><span class="min">10 min</span><span class="then">Then: <a href="#model5" data-ab="vdw">Model 5</a> (vdW, to see the clouds).</span></li>
     <li data-sec="1.4.1"><a href="#c-lj">Lennard-Jones crystal: lattice sums and equilibrium</a><span class="min">20 min</span><span class="then">Then: <a href="#model1">Model 1</a>; <a href="#hw-3-3">Sheet 3.3</a>.</span></li>
     <li data-sec="1.4.1"><a href="#c-quantum">Quantum corrections for light atoms</a><span class="min">5 min</span><span class="then">Then: <a href="#hw-3-4">Sheet 3.4</a>.</span></li>
     <li data-sec="1.4.2"><a href="#c-madelung">Ionic crystals: the Madelung energy</a><span class="min">15 min</span><span class="then">Then: <a href="#model2">Model 2</a>; <a href="#hw-4-1">Sheet 4.1 (i)</a>.</span></li>
-    <li data-sec="1.4.2"><a href="#c-ionic-eq">Repulsion, equilibrium and the energy cycle</a><span class="min">15 min</span><span class="then">Then: <a href="#model3">Model 3</a>; <a href="#hw-4-1">Sheet 4.1 (ii)</a>, <a href="#hw-4-2">Sheet 4.2</a>.</span></li>
-    <li data-sec="1.4.3"><a href="#c-covalent">Covalent crystals</a><span class="min">10 min</span></li>
-    <li data-sec="1.4.4"><a href="#c-metal">Metallic crystals</a><span class="min">10 min</span><span class="then">Then: <a href="#model4">Model 4</a>; <a href="#hw-4-3">Sheet 4.3</a>.</span></li>
-    <li data-sec="1.4.5"><a href="#c-hbond">Hydrogen bonding</a><span class="min">5 min</span></li>
+    <li data-sec="1.4.2"><a href="#c-ionic-eq">Repulsion, equilibrium and the energy cycle</a><span class="min">15 min</span><span class="then">Then: <a href="#model3">Model 3</a>, <a href="#model5" data-ab="ion">Model 5</a> (ionic); <a href="#hw-4-1">Sheet 4.1 (ii)</a>, <a href="#hw-4-2">Sheet 4.2</a>.</span></li>
+    <li data-sec="1.4.3"><a href="#c-covalent">Covalent crystals</a><span class="min">10 min</span><span class="then">Then: <a href="#model5" data-ab="cov">Model 5</a> (covalent: H₂ and diamond).</span></li>
+    <li data-sec="1.4.4"><a href="#c-metal">Metallic crystals</a><span class="min">10 min</span><span class="then">Then: <a href="#model4">Model 4</a>, <a href="#model5" data-ab="met">Model 5</a> (metallic); <a href="#hw-4-3">Sheet 4.3</a>.</span></li>
+    <li data-sec="1.4.5"><a href="#c-hbond">Hydrogen bonding</a><span class="min">5 min</span><span class="then">Then: <a href="#model5" data-ab="hb">Model 5</a> (H bond).</span></li>
     <li data-sec="Ex"><a href="#exam-x">Exam-style exercise: solid krypton</a><span class="min">25 min</span><span class="then">Try each part yourself before opening the solution.</span></li>
   </ol>
   <div class="legend">
@@ -362,6 +363,13 @@
 
 <section class="block" id="models">
   <h2>Interactive models</h2>
+  <ol class="chain">
+    <li><a href="#model1">Lennard-Jones crystal</a></li>
+    <li><a href="#model2">Madelung sum</a></li>
+    <li><a href="#model3">BaO charge state</a></li>
+    <li><a href="#model4">Metallic delocalisation</a></li>
+    <li><a href="#model5">Atoms and bonds</a></li>
+  </ol>
 
   <section class="bench" id="model1">
     <div class="rail">
@@ -484,6 +492,55 @@
         <figcaption><b>How to read:</b> the confinement energy E = ħ²/8mΔx² (eV, logarithmic axis) against the size Δx in Bohr radii. The copper dot is the atom (1 a₀), the blue dot the delocalised electron at the chosen Δx, and the vertical gap between them is the energy released. The green dot is the exact kinetic energy of the hydrogen 1s electron, for comparison. Look for: the straight line of slope −2 on log axes, i.e. E ∝ 1/Δx².</figcaption>
         <div class="keys"><span><i class="sw" style="background:var(--muted)"></i>E(Δx)</span><span><i class="sw dot" style="background:var(--occ)"></i>atom</span><span><i class="sw dot" style="background:var(--emp)"></i>delocalised</span><span><i class="sw dot" style="background:var(--ef)"></i>H 1s ⟨T⟩</span></div>
       </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="model5">
+    <div class="rail">
+      <span class="eyebrow">1.4 · Atoms and bonds · Model 5</span>
+      <h3>Atoms and bonds</h3>
+      <p><b>Top:</b> two atoms, or a row of them for a metal, seen as electron clouds. The shading is the electron density |ψ|² in the plane of the screen, computed from simple model orbitals (hydrogen-like s and p shapes, and sp³ hybrids for diamond). The + dots are the nuclei. Moving dots are electrons, sampled from |ψ|².</p>
+      <p><b>Bottom:</b> the energy against the spacing R, from the model each section teaches. The green dot is your R.</p>
+      <p>The formulas: Lennard-Jones (4) in <a href="#c-vdw">1.4.1</a> and <a href="#model1">Model 1</a>; Madelung plus repulsion (10) in <a href="#c-ionic-eq">1.4.2</a>; the two-orbital levels (13) in <a href="#c-covalent">1.4.3</a>; delocalisation in <a href="#c-metal">1.4.4</a> and <a href="#model4">Model 4</a>; the hydrogen bond (16) in <a href="#c-hbond">1.4.5</a>.</p>
+      <div class="ctls">
+        <fieldset class="seg"><legend>Bond type</legend><div class="opts">
+          <label><input type="radio" name="ab-type" value="vdw" checked><span>vdW (Ar)</span></label>
+          <label><input type="radio" name="ab-type" value="ion"><span>Ionic (NaCl)</span></label>
+          <label><input type="radio" name="ab-type" value="cov"><span>Covalent</span></label>
+          <label><input type="radio" name="ab-type" value="met"><span>Metallic (Na)</span></label>
+          <label><input type="radio" name="ab-type" value="hb"><span>H bond (H₂O)</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="ab-R"><span id="ab-Rlab">Spacing R</span> <output for="ab-R"></output></label><input type="range" id="ab-R" min="3" max="7" step="0.01" value="3.76" data-fmt="2" data-unit=" Å"></div>
+        <fieldset class="seg"><legend>Covalent: molecule</legend><div class="opts">
+          <label><input type="radio" name="ab-mol" value="h2" checked><span>H₂</span></label>
+          <label><input type="radio" name="ab-mol" value="c"><span>Diamond (sp³)</span></label>
+        </div></fieldset>
+        <fieldset class="seg"><legend>Covalent: orbital shown</legend><div class="opts">
+          <label><input type="radio" name="ab-orb" value="b" checked><span>Bonding ψ_A+ψ_B</span></label>
+          <label><input type="radio" name="ab-orb" value="a"><span>Antibonding ψ_A−ψ_B</span></label>
+        </div></fieldset>
+        <div class="btns"><button class="btn" type="button" id="ab-play">Pause</button></div>
+        <p class="note" id="ab-note" hidden>Paused because your system asks for reduced motion. Press Play to start.</p>
+      </div>
+      <div class="state">
+        <span class="pill" id="ab-pill"></span>
+        <div class="meter" aria-hidden="true"><i id="ab-bar"></i></div>
+        <dl class="readout" id="ab-read"></dl>
+      </div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>vdW: the left cloud jiggles and the right one follows, a little. Pull them apart and the follower almost stops: the induced dipole falls as 1/R³, the energy as 1/R⁶. Push below σ = 3.40 Å and the clouds overlap (blue): Pauli repulsion.</li>
+        <li>Ionic: watch the Na 3s electron jump to fill the gap in Cl's 3p shell. Drag R past about 17 Å: the Coulomb gain no longer pays the 1.5 eV cost and the electron goes back.</li>
+        <li>Covalent H₂: switch bonding ↔ antibonding. Bonding piles charge between the protons with spins ↑↓; antibonding has a node there. Then pick diamond for four bonds at 109.5°.</li>
+        <li>Metallic: at 3.7 Å the 3s clouds merge and the electrons wander along the whole row. Pull to 8 Å and each one is stuck on its atom.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure class="span2"><div class="cvwrap"><canvas id="ab-cv" aria-label="Animated electron clouds of two bonding atoms"></canvas></div>
+        <figcaption><b>How to read:</b> the plane through the nuclei, seen from the side, with the bond running left to right. Stronger shading is higher electron density on a logarithmic scale (0.005 to 2 electrons per Å³); the thin lines are contours, each a factor 2.15 (⅓ decade) apart, as in Kittel Figs. 11 and 12. The + dots are nuclei. Copper dots are electrons drawn at random from |ψ|²; arrows on them are spins. Green arrows are the fluctuating dipoles (vdW, magnified about five times). Blue shading is where two closed-shell clouds overlap. The R bar under the atoms is the spacing. Orbital sizes are illustrative.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>electron density</span><span><i class="sw dot" style="background:var(--fg)"></i>nucleus</span><span><i class="sw" style="background:var(--emp)"></i>overlap of closed shells</span><span><i class="sw" style="background:var(--ef)"></i>dipole</span></div></figure>
+      <figure class="span2"><div class="plot short" id="ab-p"></div>
+        <figcaption><b>How to read:</b> energy against the spacing R (Å) for the selected bond type. vdW: the Lennard-Jones pair energy (meV) and its two parts. Ionic: the energy per NaCl in the crystal from neutral atoms (eV), with the ion cost and neutral atoms as dashed lines. Covalent: the bonding and antibonding levels ε₀ ∓ |γ(R)| (eV). Metallic: the six levels of a row of six Na atoms and the mean energy per electron. H bond: the bond energy (eV). The green dot is your R.</figcaption>
+        <div class="keys" id="ab-keys"></div></figure>
     </div>
   </section>
 </section>
@@ -889,7 +946,312 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   onChange('#m4-3d', renderM4);
 
-  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3, m4: renderM4 });
+  /* ---------- Model 5: atoms and bonds (1.4) ---------- */
+  // Lengths in Å, energies in eV. x runs along the bond, y up the screen, z out of it; the picture is the slice z = 0.
+  const PI = Math.PI, A0 = CM.K.a0 * 1e10, KEA = KE * 10;   // Bohr radius 0.529 Å; e²/4πε0 = 14.40 eV·Å
+  const fact = n => n <= 1 ? 1 : n * fact(n - 1);
+  // Slater-type radial function R(r) = N r^(n−1) e^(−ζr), normalised: ∫R²r²dr = 1. Sizes (ζ) are illustrative except H 1s (ζ = 1/a0).
+  const sto = (n, zeta) => { const N = Math.pow(2 * zeta, n + 0.5) / Math.sqrt(fact(2 * n)); return r => N * Math.pow(r, n - 1) * Math.exp(-zeta * r); };
+  const Y0 = 1 / Math.sqrt(4 * PI), Y1 = Math.sqrt(3 / (4 * PI));
+  const ORB = { H1s: sto(1, 1 / A0), ArC: sto(2, 5), ArV: sto(3, 2 / 0.7), NaC: sto(2, 1 / 0.3), Na3s: sto(3, 2 / 1.7),
+    ClC: sto(2, 5), ClV: sto(3, 2 / 0.75), CC: sto(1, 10), C2: sto(2, 1 / 0.65), OC: sto(1, 14), O2: sto(2, 1 / 0.45) };
+  const shell = (f, ne) => r => ne * (f(r) * Y0) ** 2;   // spherical shell of ne electrons
+  const hyb = (f, dx, dy, dz, nx, ny, nz) => { const r = Math.hypot(dx, dy, dz) || 1e-9; return f(r) * 0.5 * (Y0 + Math.sqrt(3) * Y1 * (dx * nx + dy * ny + dz * nz) / r); };   // ½(s + √3 p_n)
+  // Overlap ∫φ1φ2 d³r of two orbitals on the z axis (atom 1 at 0 pointing +z, atom 2 at R pointing −z), by a cylindrical grid sum.
+  function overlapAxis(f, R, L) {
+    const nr = 70, nz = 140, dr = L / nr, z0 = -L, dz = (R + 2 * L) / nz; let s = 0;
+    for (let i = 0; i < nr; i++) { const rc = (i + 0.5) * dr; for (let k = 0; k < nz; k++) { const z = z0 + (k + 0.5) * dz; s += f(rc, z, R) * 2 * PI * rc; } }
+    return s * dr * dz;
+  }
+  const S_H = R => { const x = R / A0; return Math.exp(-x) * (1 + x + x * x / 3); };   // exact 1s–1s overlap; the grid sum agrees to 1e-3 (checked in node)
+  const S_C = R => overlapAxis((rc, z, d) => hyb(ORB.C2, rc, 0, z, 0, 0, 1) * hyb(ORB.C2, rc, 0, z - d, 0, 0, -1), R, 6);
+  const S_Na = R => overlapAxis((rc, z, d) => ORB.Na3s(Math.hypot(rc, z)) * ORB.Na3s(Math.hypot(rc, z - d)) * Y0 * Y0, R, 12);
+  const memo = f => { const c = new Map(); return R => { const k = R.toFixed(3); if (!c.has(k)) c.set(k, f(R)); return c.get(k); }; };
+  const SC = memo(S_C), SNa = memo(S_Na);
+
+  // Physical values, all already on this page: Ar ε, σ (Kittel Table 4); NaCl α, R0 = 2.82 Å, ρ = 0.321 Å (Table 7), I − A = 5.1 − 3.6 eV (Fig. 8);
+  // H 1s level −13.6 eV; Na ionisation 5.1 eV; C–C 1.54 Å; hydrogen bond 0.1 eV (16). Coupling scales γ0, Na and O–O spacings and the H-bond curve shape are illustrative.
+  const AR = { eps: 167e-23 / eV * 1e3, sig: 3.40 };   // ε = 10.42 meV
+  const NACL = { alpha: ALPHA, R0: 2.82, rho: 0.321, cost: 5.1 - 3.6 };
+  NACL.zl = NACL.alpha * KEA * NACL.rho / NACL.R0 ** 2 * Math.exp(NACL.R0 / NACL.rho);   // zλ from dU/dR = 0 at R0; U(R0) = 1.5 − 7.91 = −6.41 eV (node)
+  const ljP = R => 4 * AR.eps * ((AR.sig / R) ** 12 - (AR.sig / R) ** 6);
+  const ionU = R => NACL.cost + NACL.zl * Math.exp(-R / NACL.rho) - NACL.alpha * KEA / R;
+  const RC = NACL.alpha * KEA / NACL.cost;   // ≈ 16.8 Å: beyond this the ions cost more than the Madelung energy returns (repulsion negligible there)
+  const G0 = { h2: 4, c: 4, met: 2 }, EPS0 = { h2: -13.6, c: 0, met: -5.1 };   // γ(R) = γ0·S(R), γ0 illustrative (eV)
+  const gam = (mol, R) => G0[mol] * (mol === 'h2' ? S_H(R) : mol === 'c' ? SC(R) : SNa(R));
+  const NM = 6, metLev = R => Array.from({ length: NM }, (_, j) => EPS0.met - 2 * gam('met', R) * Math.cos((j + 1) * PI / (NM + 1)));   // open chain of NM atoms
+  const HB = { D: 0.1, R0: 2.8, a: 1.8, dOH: 0.96 };
+  const hbE = R => HB.D * ((1 - Math.exp(-HB.a * (R - HB.R0))) ** 2 - 1);   // Morse shape (illustrative), depth 0.1 eV from (16)
+  const SL = { vdw: [3, 7, 0.01, 3.76], ion: [2.2, 20, 0.02, 2.82], h2: [0.3, 3, 0.01, 0.74], c: [1, 3, 0.01, 1.54], met: [2.8, 9, 0.02, 3.7], hb: [2.4, 5, 0.01, 2.8] };
+
+  const AB = { t: 3.2, f: 1, walk: [], key: '', img: null, imgKey: '' };
+  const abType = () => radio('ab-type'), abMol = () => radio('ab-mol'), abOrb = () => radio('ab-orb');
+  const slKey = () => abType() === 'cov' ? abMol() : abType();
+  function abSetSlider() {   // each bond type has its own R range; switching type resets R to that type's starting value
+    const el = $('ab-R'), [lo, hi, st, v] = SL[slKey()];
+    el.min = lo; el.max = hi; el.step = st; el.value = v;
+    document.querySelector('output[for="ab-R"]').textContent = CM.fmtSlider(el);
+    const cov = abType() === 'cov';
+    document.querySelectorAll('input[name="ab-mol"], input[name="ab-orb"]').forEach(c => { c.disabled = !cov; });
+    $('ab-Rlab').textContent = { vdw: 'Spacing R (Ar–Ar)', ion: 'Spacing R (Na–Cl)', cov: abMol() === 'c' ? 'Bond length R (C–C)' : 'Spacing R (H–H)', met: 'Spacing R (Na–Na)', hb: 'Spacing R (O···O)' }[abType()];
+  }
+
+  // Scene: nuclei, the density ρ(x, y) in the slice z = 0 (electrons per Å³), and the valence density the walkers sample.
+  function scene() {
+    const ty = abType(), R = +$('ab-R').value, t = AB.t, mol = abMol(), orb = abOrb();
+    const S = { ty, R, nuc: [], lab: [], dens: null, val: null, over: null, span: [R + 4.4, 4.4], cy: 0 };
+    if (ty === 'vdw') {   // fluctuating dipole on A (cloud shift dA), induced on B: dB = dA·(σ/R)³ (field of a dipole ∝ 1/R³)
+      const dA = 0.07 * (0.7 * Math.sin(5.1 * t) + 0.3 * Math.sin(12.7 * t + 1)), dB = dA * Math.min(1, (AR.sig / R) ** 3);
+      const xa = -R / 2, xb = R / 2, va = shell(ORB.ArV, 8), ca = shell(ORB.ArC, 10);
+      S.nuc = [[xa, 0], [xb, 0]]; S.lab = [['Ar', xa, 0], ['Ar', xb, 0]]; S.dip = [[xa, dA], [xb, dB]];
+      const rA = (x, y) => va(Math.hypot(x - xa - dA, y)), rB = (x, y) => va(Math.hypot(x - xb - dB, y));
+      S.dens = (x, y) => rA(x, y) + rB(x, y) + ca(Math.hypot(x - xa, y)) + ca(Math.hypot(x - xb, y));
+      S.over = (x, y) => Math.sqrt(rA(x, y) * rB(x, y));
+    } else if (ty === 'ion') {   // f = fraction of the Na 3s electron moved into the Cl 3p hole (along the bond axis)
+      const f = AB.f, xa = -R / 2, xb = R / 2, n3 = shell(ORB.Na3s, 1 - f), nc = shell(ORB.NaC, 10), cc = shell(ORB.ClC, 10);
+      S.span = [R + 5.6, 5.6];
+      S.nuc = [[xa, 0], [xb, 0]]; S.lab = [[f > 0.5 ? 'Na⁺' : 'Na', xa, 0], [f > 0.5 ? 'Cl⁻' : 'Cl', xb, 0]];
+      S.dens = (x, y) => {
+        const ra = Math.hypot(x - xa, y), dx = x - xb, rb = Math.hypot(dx, y) || 1e-9, v = ORB.ClV(rb);
+        return n3(ra) + nc(ra) + cc(rb) + v * v * (2 * Y0 * Y0 + Y1 * Y1 * ((1 + f) * dx * dx + 2 * y * y) / (rb * rb));   // 3s² + 3p_x^(1+f) 3p_y² (3p_z² is out of the slice)
+      };
+      S.e = AB.eDot;
+    } else if (ty === 'cov' && mol === 'h2') {
+      const xa = -R / 2, xb = R / 2, s = S_H(R), sg = orb === 'b' ? 1 : -1, occ = orb === 'b' ? 2 : 1, nrm = 1 / Math.sqrt(2 * (1 + sg * s));
+      S.span = [R + 3.4, 3.2]; S.nuc = [[xa, 0], [xb, 0]]; S.lab = [['H', xa, 0], ['H', xb, 0]];
+      const psi = (x, y) => nrm * Y0 * (ORB.H1s(Math.hypot(x - xa, y)) + sg * ORB.H1s(Math.hypot(x - xb, y)));
+      S.val = (x, y) => occ * psi(x, y) ** 2; S.dens = S.val; S.nw = occ; S.step = 0.25; S.node = orb === 'a';
+    } else if (ty === 'cov') {   // diamond: central C with four sp³ bonds; two lie in the screen at 109.47°, two point into and out of it
+      const h = Math.acos(-1 / 3) / 2, sh = Math.sin(h), ch = Math.cos(h), s = SC(R), sg = orb === 'b' ? 1 : -1, occ = orb === 'b' ? 2 : 1, nrm = 1 / Math.sqrt(2 * (1 + sg * s));
+      const ns = [[-sh, ch, 0], [sh, ch, 0], [0, -ch, sh], [0, -ch, -sh]];
+      S.span = [2 * R * sh + 3.4, 2 * R * ch + 3.2];
+      S.nuc = [[0, 0], ...ns.slice(0, 2).map(n => [R * n[0], R * n[1]])];
+      S.lab = [['C', 0, 0], ['C', R * ns[0][0], R * ns[0][1]], ['C', R * ns[1][0], R * ns[1][1]]];
+      S.ghost = [0, -R * ch]; S.ang = [ns[0], ns[1]];
+      const core = shell(ORB.CC, 2);
+      S.val = (x, y) => {
+        let d = 0;
+        for (const [nx, ny, nz] of ns) {
+          const px = R * nx, py = R * ny, pz = R * nz;
+          const b = nrm * (hyb(ORB.C2, x, y, 0, nx, ny, nz) + sg * hyb(ORB.C2, x - px, y - py, -pz, -nx, -ny, -nz));
+          d += occ * b * b;
+        }
+        return d;
+      };
+      S.dens = (x, y) => S.val(x, y) + core(Math.hypot(x, y)) + S.nuc.slice(1).reduce((a, [px, py]) => a + core(Math.hypot(x - px, y - py)), 0) + core(Math.hypot(x, y + R * ch));
+      S.nw = 0;
+    } else if (ty === 'met') {   // open chain of NM Na atoms; MO j = Σ sin(jnπ/(N+1)) φ_n; the lowest NM/2 are doubly filled (one 3s e⁻ per atom)
+      const xs = Array.from({ length: NM }, (_, n) => (n - (NM - 1) / 2) * R), core = shell(ORB.NaC, 10);
+      S.span = [(NM - 1) * R + 5.6, 5.6]; S.nuc = xs.map(x => [x, 0]); S.lab = xs.map(x => ['Na', x, 0]);
+      const c = Array.from({ length: NM / 2 }, (_, j) => xs.map((_, n) => Math.sqrt(2 / (NM + 1)) * Math.sin((j + 1) * (n + 1) * PI / (NM + 1))));
+      S.val = (x, y) => {
+        const ph = xs.map(xn => ORB.Na3s(Math.hypot(x - xn, y)) * Y0);
+        let d = 0; for (const cj of c) { let p = 0; for (let n = 0; n < NM; n++) p += cj[n] * ph[n]; d += 2 * p * p; }
+        return d;
+      };
+      S.dens = (x, y) => S.val(x, y) + xs.reduce((a, xn) => a + core(Math.hypot(x - xn, y)), 0);
+      S.nw = NM; S.step = 0.6;
+    } else {   // hydrogen bond: donor O–H···O acceptor; the acceptor is drawn with its lone pair in the screen
+      const xa = -R / 2, xb = R / 2, vib = 0.05 * Math.sin(9 * t), xh = xa + HB.dOH + vib, a1 = 104.5 * PI / 180, a2 = 52.25 * PI / 180;
+      const hs = [[xh, 0], [xa + HB.dOH * Math.cos(a1), HB.dOH * Math.sin(a1)], [xb + HB.dOH * Math.cos(a2), HB.dOH * Math.sin(a2)], [xb + HB.dOH * Math.cos(a2), -HB.dOH * Math.sin(a2)]];
+      S.span = [R + 4.4, 4.0]; S.nuc = [[xa, 0], [xb, 0], ...hs];
+      S.lab = [['O', xa, 0], ['O', xb, 0], ['H', ...hs[1]], ['H', ...hs[2]], ['H', ...hs[3]]];
+      S.hb = { h: hs[0], lp: [xb - 0.55, 0] };
+      const oc = shell(ORB.OC, 2), o1 = shell(ORB.O2, 6.4), o2 = shell(ORB.O2, 4.4), hh = shell(ORB.H1s, 0.6);   // partial charges illustrative: H keeps 0.6 e
+      S.dens = (x, y) => {
+        const lp = hyb(ORB.O2, x - xb, y, 0, -1, 0, 0);
+        return oc(Math.hypot(x - xa, y)) + oc(Math.hypot(x - xb, y)) + o1(Math.hypot(x - xa, y)) + o2(Math.hypot(x - xb, y)) + 2 * lp * lp
+          + hs.reduce((a, [hx, hy]) => a + hh(Math.hypot(x - hx, y - hy)), 0);
+      };
+    }
+    return S;
+  }
+
+  // One animation step: advance the clock, the vdW dipole, the ionic transfer cycle and the Metropolis walkers.
+  let abS = null;
+  function stepAB(dt) {
+    AB.t += dt;
+    const ty = abType(), R = +$('ab-R').value;
+    if (ty === 'ion') {   // 6 s cycle: neutral → electron jumps → ions; if the transfer doesn't pay (R > R_c) it jumps back
+      const ph = AB.t % 6, pays = ionU(R) < 0, sm = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+      const go = sm((ph - 1.2) / 1.3), back = pays ? 0 : sm((ph - 3.8) / 1.3);
+      AB.f = go - back;
+      const moving = (ph > 1.2 && ph < 2.5) || (!pays && ph > 3.8 && ph < 5.1);
+      const u = ph < 3.8 ? go : 1 - back, x0 = -R / 2 + 1.7, x1 = R / 2 - 0.75;
+      AB.eDot = moving ? [x0 + (x1 - x0) * u, 0.35 * Math.sin(PI * u)] : null;
+      if (!abCtl.playing) { AB.f = pays ? 1 : 0; AB.eDot = null; }   // paused: show the state that is lower in energy
+    }
+    abS = scene();
+    if (abS.val && abS.nw) {
+      while (AB.walk.length < abS.nw) AB.walk.push({ x: abS.nuc[AB.walk.length % abS.nuc.length][0] + 0.3, y: 0.2 });
+      AB.walk.length = abS.nw;
+      const n = Math.round(dt * 40);   // Metropolis moves; none when rendered by hand with dt = 0
+      for (const w of AB.walk) for (let k = 0; k < n; k++) {
+        const x = w.x + abS.step * (Math.random() * 2 - 1), y = w.y + abS.step * (Math.random() * 2 - 1);
+        const p0 = abS.val(w.x, w.y), p1 = abS.val(x, y);
+        if (p0 <= 0 || Math.random() < p1 / p0) { w.x = x; w.y = y; }
+      }
+    }
+    drawAB();
+  }
+
+  const cv5 = $('ab-cv'), cx5 = cv5.getContext('2d'), off = document.createElement('canvas'), ox = off.getContext('2d');
+  const hexRGB = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+  function sizeAB() {
+    const r = cv5.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    cv5.width = Math.round(r.width * dpr); cv5.height = Math.round(r.height * dpr);
+    cx5.setTransform(dpr, 0, 0, dpr, 0, 0); AB.imgKey = ''; if (abS) drawAB();
+  }
+  function arrow(x0, y0, x1, y1, col, w = 2) {
+    const a = Math.atan2(y1 - y0, x1 - x0), hl = 7;
+    cx5.strokeStyle = cx5.fillStyle = col; cx5.lineWidth = w; cx5.beginPath(); cx5.moveTo(x0, y0); cx5.lineTo(x1, y1); cx5.stroke();
+    cx5.beginPath(); cx5.moveTo(x1, y1); cx5.lineTo(x1 - hl * Math.cos(a - 0.45), y1 - hl * Math.sin(a - 0.45)); cx5.lineTo(x1 - hl * Math.cos(a + 0.45), y1 - hl * Math.sin(a + 0.45)); cx5.closePath(); cx5.fill();
+  }
+  function drawAB() {
+    const W = cv5.clientWidth, H = cv5.clientHeight; if (!W || !abS) return;
+    if (cv5.width !== Math.round(W * (window.devicePixelRatio || 1))) { sizeAB(); return; }   // resize first if the observer hasn't fired
+    const S = abS, top = 26, bot = H - 34, k = Math.min(W / S.span[0], (bot - top) / S.span[1]);
+    const X = x => W / 2 + k * x, Y = y => (top + bot) / 2 - k * (y - S.cy);
+    const font = (s, w = 400) => { cx5.font = `${w} ${s}px "IBM Plex Sans", system-ui, sans-serif`; };
+    const text = (t, x, y, col, al = 'center', s = 12, w = 400) => { font(s, w); cx5.fillStyle = col; cx5.textAlign = al; cx5.fillText(t, x, y); };
+    cx5.clearRect(0, 0, W, H);
+    // density image on a 3 px grid, log scale 1e-3 … 2 e/Å³; recomputed only when what it shows has changed
+    const animated = S.ty === 'vdw' || S.ty === 'hb' || (S.ty === 'ion' && AB.f > 0 && AB.f < 1);
+    const g = animated ? 4 : 3, gw = Math.ceil(W / g), gh = Math.ceil((bot - top) / g);   // moving clouds: coarser grid, redrawn at 15 Hz
+    const key = [S.ty, S.R, abMol(), abOrb(), S.ty === 'ion' ? AB.f.toFixed(2) : '', animated ? Math.floor(AB.t * 15) : '', W, H, C.occ, C.emp].join('|');
+    if (key !== AB.imgKey) {
+      AB.imgKey = key; off.width = gw; off.height = gh;
+      const im = ox.createImageData(gw, gh), d = im.data, oc = hexRGB(C.occ), em = hexRGB(C.emp), fg = hexRGB(C.fg), L0 = -2.3, L1 = Math.log10(2);
+      for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) {
+        const x = ((i + 0.5) * g - W / 2) / k, y = S.cy - ((j + 0.5) * g + top - (top + bot) / 2) / k;
+        const lg = Math.log10(S.dens(x, y) + 1e-12), a = Math.min(1, Math.max(0, (lg - L0) / (L1 - L0)));
+        const q = 3 * lg, cl = lg > L0 && Math.abs(q - Math.round(q)) < 0.07 ? 0.45 : 0;   // contour every ⅓ decade
+        const o = S.over ? Math.min(1, Math.max(0, (Math.log10(S.over(x, y) + 1e-12) + 1.6) / 1.2)) : 0;
+        const p = 4 * (j * gw + i), m = o * 0.9;
+        for (let c = 0; c < 3; c++) d[p + c] = (oc[c] * (1 - m) + em[c] * m) * (1 - cl) + fg[c] * cl;
+        d[p + 3] = 255 * Math.max(0.85 * a, m, cl);
+      }
+      ox.putImageData(im, 0, 0);
+    }
+    cx5.imageSmoothingEnabled = true; cx5.drawImage(off, 0, top, gw * g, gh * g);
+    // overlays
+    if (S.node) { cx5.strokeStyle = C.emp; cx5.lineWidth = 1.5; cx5.setLineDash([5, 4]); cx5.beginPath(); cx5.moveTo(X(0), top + 6); cx5.lineTo(X(0), bot - 6); cx5.stroke(); cx5.setLineDash([]); text('node: ψ = 0', X(0), top + 14, C.emp, 'center', 12, 600); }
+    if (S.ang) {   // the 109.5° angle between the two in-screen bonds
+      const a0 = Math.atan2(-S.ang[0][1], S.ang[0][0]), a1 = Math.atan2(-S.ang[1][1], S.ang[1][0]), rr = Math.min(40, 0.3 * k * S.R);
+      cx5.strokeStyle = C.ef; cx5.lineWidth = 1.5; cx5.beginPath(); cx5.arc(X(0), Y(0), rr, a1, a0, true); cx5.stroke();
+      text('109.5°', X(0), Y(0) - rr - 6, C.ef, 'center', 12, 600);
+      cx5.strokeStyle = C.fg; cx5.lineWidth = 1; cx5.setLineDash([3, 3]); cx5.beginPath(); cx5.arc(X(S.ghost[0]), Y(S.ghost[1]), 7, 0, 2 * PI); cx5.stroke(); cx5.setLineDash([]);
+      text('2 C, in front of and behind the screen', X(S.ghost[0]), Y(S.ghost[1]) + 22, C.fg, 'center', 11);
+    }
+    if (S.hb) {
+      cx5.strokeStyle = C.ef; cx5.lineWidth = 2; cx5.setLineDash([4, 4]); cx5.beginPath(); cx5.moveTo(X(S.hb.h[0]) + 6, Y(0)); cx5.lineTo(X(S.hb.lp[0]), Y(0)); cx5.stroke(); cx5.setLineDash([]);
+      text('δ+', X(S.hb.h[0]), Y(0) - 14, C.fg, 'center', 13, 600); text('δ− lone pair', X(S.hb.lp[0]), Y(0) + 26, C.fg, 'center', 12, 600);
+      text('H bond', (X(S.hb.h[0]) + X(S.hb.lp[0])) / 2, Y(0) - 30, C.ef, 'center', 12, 600);
+    }
+    for (const [x, y] of S.nuc) { cx5.fillStyle = C.fg; cx5.beginPath(); cx5.arc(X(x), Y(y), 5, 0, 2 * PI); cx5.fill(); text('+', X(x), Y(y) + 3.5, C.panel, 'center', 10, 600); }
+    S.lab.forEach(([t, x, y]) => text(t, X(x), Y(y) - 12, C.fg, 'center', 12, 600));
+    if (S.dip) for (const [x, d] of S.dip) {   // dipole p = −e·d points from the shifted cloud centre to the nucleus; magnified ×5 for display
+      const L = -d * 5 * k; if (Math.abs(L) > 2) arrow(X(x) - L / 2, Y(0) + 22, X(x) + L / 2, Y(0) + 22, C.ef);
+    }
+    if (S.over && S.R < AR.sig) text('Pauli repulsion', X(0), top + 14, C.emp, 'center', 12, 600);
+    if (S.e) { cx5.fillStyle = C.occ; cx5.strokeStyle = C.panel; cx5.lineWidth = 1.5; cx5.beginPath(); cx5.arc(X(S.e[0]), Y(S.e[1]), 6, 0, 2 * PI); cx5.fill(); cx5.stroke(); text('e⁻', X(S.e[0]), Y(S.e[1]) - 10, C.occ, 'center', 12, 600); }
+    if (S.nw) AB.walk.forEach((w, i) => {
+      cx5.fillStyle = C.occ; cx5.strokeStyle = C.panel; cx5.lineWidth = 1.5; cx5.beginPath(); cx5.arc(X(w.x), Y(w.y), 4.5, 0, 2 * PI); cx5.fill(); cx5.stroke();
+      if (S.ty === 'cov') { const up = i === 0 || abOrb() === 'a'; arrow(X(w.x) + 9, Y(w.y) + (up ? 7 : -7), X(w.x) + 9, Y(w.y) + (up ? -7 : 7), C.fg, 1.5); }
+    });
+    // R bar
+    const [xa, xb] = S.ty === 'met' ? [S.nuc[0][0], S.nuc[1][0]] : S.ty === 'cov' && abMol() === 'c' ? [0, S.nuc[2][0]] : [S.nuc[0][0], S.nuc[1][0]];
+    const yb = H - 18; cx5.strokeStyle = C.muted; cx5.lineWidth = 1.2; cx5.beginPath(); cx5.moveTo(X(xa), yb); cx5.lineTo(X(xb), yb);
+    cx5.moveTo(X(xa), yb - 5); cx5.lineTo(X(xa), yb + 5); cx5.moveTo(X(xb), yb - 5); cx5.lineTo(X(xb), yb + 5); cx5.stroke();
+    text(S.ty === 'cov' && abMol() === 'c' ? `R = ${S.R.toFixed(2)} Å (along the bond)` : `R = ${S.R.toFixed(2)} Å`, (X(xa) + X(xb)) / 2, yb - 6, C.muted, 'center', 11);
+  }
+
+  function renderAB() {
+    readSync();
+    const ty = abType(), R = +$('ab-R').value, mol = abMol(), orb = abOrb();
+    const dot = (x, y, txt) => ({ x: [x], y: [y], mode: 'markers', marker: { color: C.ef, size: 11, line: { color: C.panel, width: 1.5 } }, hovertemplate: txt + '<extra></extra>' });
+    const ln = (xs, ys, col, name, dash, w = 2.5) => ({ x: xs, y: ys, mode: 'lines', line: { color: col, width: w, dash: dash || 'solid' }, name, hovertemplate: name + ': %{y:.3f}<extra></extra>' });
+    const keys = items => { $('ab-keys').innerHTML = items.map(([c, t, dsh]) => `<span><i class="sw${c === 'ef' ? ' dot' : ''}" style="background:var(--${c})${dsh ? ';opacity:.6' : ''}"></i>${t}</span>`).join(''); };
+    let tr, xr, yr, yl, rows, pill, bound = 0, what;
+    if (ty === 'vdw') {
+      const Rs = lin(3, 8, 250), E = ljP(R), att = -4 * AR.eps * (AR.sig / R) ** 6, rep = 4 * AR.eps * (AR.sig / R) ** 12;
+      tr = [ln(Rs, Rs.map(ljP), C.occ, 'φ(R) meV'), ln(Rs, Rs.map(r => -4 * AR.eps * (AR.sig / r) ** 6), C.muted, 'attraction −1/R⁶', 'dash', 1.5),
+        ln(Rs, Rs.map(r => 4 * AR.eps * (AR.sig / r) ** 12), C.emp, 'Pauli +1/R¹²', 'dash', 1.5), dot(R, E, `R = ${R.toFixed(2)} Å<br>${E.toFixed(2)} meV`)];
+      xr = [3, 8]; yr = [-13, 13]; yl = 'Pair energy φ(R) (meV)'; bound = -E / AR.eps;
+      keys([['occ', 'φ(R), eq. (4)'], ['muted', 'attraction −4ε(σ/R)⁶'], ['emp', 'Pauli repulsion +4ε(σ/R)¹²'], ['ef', 'your R']]);
+      what = R < AR.sig ? 'The closed shells overlap (blue). Pauli forces electrons into higher states, so the energy shoots up.'
+        : R < 1.6 * AR.sig ? 'A fluctuating dipole on the left atom induces an aligned one on the right. The pair attracts, but the clouds barely change.'
+        : 'Far apart: the induced dipole is small and the attraction, ∝ 1/R⁶, almost vanishes.';
+      pill = R < AR.sig ? ['ins', 'Clouds overlap: Pauli repulsion'] : ['atom', 'Closed shells: weak fluctuating-dipole attraction'];
+      rows = [['R', `${R.toFixed(2)} Å = ${(R / AR.sig).toFixed(3)} σ`], ['φ(R) pair energy', `${E.toFixed(2)} meV`], ['Attraction −4ε(σ/R)⁶', `${att.toFixed(2)} meV`],
+        ['Repulsion +4ε(σ/R)¹²', `${rep.toFixed(2)} meV`], ['Induced dipole ∝ (σ/R)³', `${((AR.sig / R) ** 3).toFixed(2)} × at R = σ`]];
+    } else if (ty === 'ion') {
+      const Rs = lin(2.2, 20, 300), E = ionU(R), mad = -NACL.alpha * KEA / R, rep = NACL.zl * Math.exp(-R / NACL.rho);
+      tr = [ln(Rs, Rs.map(ionU), C.occ, 'Na⁺Cl⁻ crystal (eV)'), ln([2.2, 20], [0, 0], C.muted, 'neutral atoms', 'dash', 1.5),
+        ln([2.2, 20], [NACL.cost, NACL.cost], C.emp, 'ions far apart: I − A', 'dash', 1.5), dot(R, E, `R = ${R.toFixed(2)} Å<br>${E.toFixed(2)} eV`)];
+      xr = [2.2, 20]; yr = [-7.5, 3]; yl = 'Energy per NaCl from atoms (eV)'; bound = -E / 6.41;
+      keys([['occ', 'ionic crystal, eq. (10) + I − A'], ['muted', 'neutral atoms (0)'], ['emp', 'cost I − A = 1.5 eV'], ['ef', 'your R']]);
+      what = E >= 0 ? `Too far apart: the Coulomb gain ${(-mad).toFixed(2)} eV is less than the 1.5 eV cost, so the electron goes back.`
+        : R < 2.5 ? 'The closed shells of Na⁺ and Cl⁻ are pushed together: the repulsion λe^(−R/ρ) rises steeply.'
+        : 'Na gives its 3s electron to the half-empty 3p of Cl (cost 5.1 − 3.6 = 1.5 eV). The Coulomb attraction of the ions pays it back.';
+      pill = E < 0 ? ['metal', 'Transfer pays: Na⁺Cl⁻ is lower than the atoms'] : ['ins', 'Transfer does not pay: neutral atoms are lower'];
+      rows = [['R', `${R.toFixed(2)} Å`], ['Cost I(Na) − A(Cl)', '5.1 − 3.6 = 1.5 eV'], ['Madelung −αe²/4πε₀R', `${mad.toFixed(2)} eV`], ['Repulsion zλe^(−R/ρ)', `${rep.toFixed(2)} eV`],
+        ['Total from atoms', `${E.toFixed(2)} eV`], ['Break-even R (α e²/4πε₀R = 1.5 eV)', `${RC.toFixed(1)} Å`]];
+    } else if (ty === 'cov') {
+      const lo = mol === 'h2' ? 0.3 : 1, Rs = lin(lo, 3, 160), e0 = EPS0[mol], g = gam(mol, R), Eb = e0 - g, Ea = e0 + g;
+      const sel = orb === 'b' ? Eb : Ea, nm = mol === 'h2' ? 'H 1s' : 'sp³ hybrid';
+      tr = [ln(Rs, Rs.map(r => e0 - gam(mol, r)), C.occ, 'bonding ε₀ − |γ|'), ln(Rs, Rs.map(r => e0 + gam(mol, r)), C.emp, 'antibonding ε₀ + |γ|'),
+        ln([lo, 3], [e0, e0], C.muted, `free ${nm} ε₀`, 'dash', 1.5), dot(R, sel, `R = ${R.toFixed(2)} Å<br>${sel.toFixed(2)} eV`)];
+      xr = [lo, 3]; yr = [e0 - 1.15 * G0[mol], e0 + 1.15 * G0[mol]]; yl = mol === 'h2' ? 'Level energy (eV)' : 'Level energy − ε₀ (eV)'; bound = orb === 'b' ? g / G0[mol] : 0;
+      keys([['occ', 'bonding level, eq. (13)'], ['emp', 'antibonding level'], ['muted', `free-atom ${nm} level ε₀`], ['ef', 'your R, on the orbital shown']]);
+      const ratio = mol === 'h2' ? (orb === 'b' ? 2 / (1 + S_H(R)) : 0) : null;
+      what = mol === 'c' ? (orb === 'b' ? 'Four sp³ lobes at 109.5°, each paired with a lobe of a neighbour: charge piles up along every bond, as in Kittel Fig. 11.'
+        : 'With ψ_A − ψ_B the charge is pushed off every bond: a node cuts each C–C link.')
+        : orb === 'b' ? `Charge piles up between the protons (${ratio.toFixed(2)} × two free atoms at the midpoint). Both electrons share the bonding orbital, spins ↑↓.`
+        : 'A node between the protons: the charge is pushed out of the bond. An electron put here pushes the atoms apart; a second one with the same spin could not share the bonding orbital.';
+      pill = orb === 'b' ? ['metal', 'Bonding: shared pair, spins ↑↓, energy lowered by |γ|'] : ['ins', 'Antibonding: node between the nuclei, energy raised by |γ|'];
+      rows = [['R', `${R.toFixed(2)} Å = ${(R / A0).toFixed(2)} a₀`], ['Overlap S(R)', (mol === 'h2' ? S_H(R) : SC(R)).toFixed(3)], ['|γ(R)| = γ₀S (γ₀ illustrative)', `${g.toFixed(2)} eV`],
+        ['Bonding ε₀ − |γ|', `${Eb.toFixed(2)} eV`], ['Antibonding ε₀ + |γ|', `${Ea.toFixed(2)} eV`], ['Pair gain 2|γ| (bonding, ↑↓)', `${(2 * g).toFixed(2)} eV`]];
+    } else if (ty === 'met') {
+      const Rs = lin(2.8, 9, 100), LV = Rs.map(metLev), lev = metLev(R), mean = lev.slice(0, NM / 2).reduce((a, b) => a + b, 0) / (NM / 2), s = SNa(R);
+      tr = [...Array.from({ length: NM }, (_, j) => ln(Rs, LV.map(l => l[j]), j < NM / 2 ? C.occ : C.emp, `level ${j + 1}${j < NM / 2 ? ' (2 e⁻)' : ' (empty)'}`, '', 1.8)),
+        ln(Rs, LV.map(l => l.slice(0, NM / 2).reduce((a, b) => a + b, 0) / (NM / 2)), C.ef, 'mean per electron', 'dot', 1.5),
+        ln([2.8, 9], [EPS0.met, EPS0.met], C.muted, 'free Na 3s', 'dash', 1.5), dot(R, mean, `R = ${R.toFixed(2)} Å<br>mean ${mean.toFixed(2)} eV`)];
+      xr = [2.8, 9]; yr = [EPS0.met - 2.3 * G0.met, EPS0.met + 2.3 * G0.met]; yl = 'Level energy (eV)'; bound = (EPS0.met - mean) / (2 * G0.met);
+      keys([['occ', 'filled levels (2 e⁻ each)'], ['emp', 'empty levels'], ['muted', 'free Na 3s, −5.1 eV'], ['ef', 'mean energy per electron at your R']]);
+      what = s > 0.25 ? 'The 3s clouds overlap into one shared sea: each electron spreads over the whole row, and its energy drops below the free-atom 3s level.'
+        : 'The 3s clouds barely touch: each electron stays on its own atom, and the levels sit at the free-atom value.';
+      pill = s > 0.25 ? ['metal', 'Shared electron sea: delocalised 3s electrons'] : ['atom', 'Separate atoms: electrons stay at home'];
+      rows = [['R', `${R.toFixed(2)} Å`], ['Neighbour 3s overlap S', s.toFixed(3)], ['|γ| = γ₀S (γ₀ illustrative)', `${gam('met', R).toFixed(2)} eV`],
+        ['Level spread (6 atoms)', `${(lev[NM - 1] - lev[0]).toFixed(2)} eV`], ['Mean per electron − ε₀', `${(mean - EPS0.met).toFixed(2)} eV`]];
+    } else {
+      const Rs = lin(2.4, 5, 200), E = hbE(R);
+      tr = [ln(Rs, Rs.map(hbE), C.occ, 'H-bond energy (eV)'), ln([2.4, 5], [0, 0], C.muted, 'separate molecules', 'dash', 1.5), dot(R, E, `R = ${R.toFixed(2)} Å<br>${E.toFixed(3)} eV`)];
+      xr = [2.4, 5]; yr = [-0.13, 0.25]; yl = 'Energy (eV)'; bound = -E / HB.D;
+      keys([['occ', 'bond energy (shape illustrative, depth 0.1 eV from (16))'], ['muted', 'separate molecules'], ['ef', 'your R']]);
+      what = 'The O–H proton has lost most of its electron to its O (δ+). It is pulled to the δ− lone pair of the next molecule, a weak bridge of about 0.1 eV.';
+      pill = E < -0.05 ? ['metal', 'Proton bridge: about 0.1 eV, a few k_BT'] : ['atom', 'Too far apart or too close for the bridge'];
+      rows = [['R (O···O)', `${R.toFixed(2)} Å`], ['Bond energy', `${E.toFixed(3)} eV`], ['In units of k_BT at 300 K', `${(E / (CM.K.kBeV * 300)).toFixed(1)}`]];
+    }
+    rows.push(["What you're seeing", what]);
+    Plotly.react('ab-p', tr, layout({ xaxis: ax('Spacing R (Å)', { range: xr }), yaxis: ax(yl, { range: yr }) }), CFG);
+    setPill('ab-pill', pill); setRead('ab-read', rows);
+    $('ab-bar').style.width = Math.max(0, Math.min(100, 100 * bound)) + '%';
+    if (!abCtl.playing) stepAB(0); else { abS = scene(); drawAB(); }
+  }
+  function readSync() {   // after a bond-type or molecule change, reset R and the walkers
+    const k = slKey(); if (k !== AB.key) { AB.key = k; abSetSlider(); AB.walk = []; if (abType() === 'ion') { AB.t = 3.2; AB.f = ionU(+$('ab-R').value) < 0 ? 1 : 0; AB.eDot = null; } }
+  }
+  const abCtl = CM.loop(dt => stepAB(dt), { el: $('model5') });
+  CM.playButton($('ab-play'), abCtl, $('ab-note'));
+  cv5.abStep = stepAB;   // lets a test drive the animation by hand
+  onChange('input[name="ab-type"], input[name="ab-mol"], input[name="ab-orb"]', renderAB);
+  if ('ResizeObserver' in window) new ResizeObserver(sizeAB).observe(cv5);
+  document.querySelectorAll('a[data-ab]').forEach(a => a.addEventListener('click', () => {   // "Then: Model 5" links open the matching bond type
+    const r = document.querySelector(`input[name="ab-type"][value="${a.dataset.ab}"]`); if (r) { r.checked = true; CM.schedule(renderAB); }
+  }));
+
+  CM.wire({ m1: renderM1, m2: renderM2, m3: renderM3, m4: renderM4, ab: renderAB });
 });
 </script>
 </body>
