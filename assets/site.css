@@ -100,7 +100,10 @@ header { display: flex; flex-direction: column; gap: 14px; }
 .eq > :not(.eq-head, .eq-n) { grid-column: 1; min-width: 0; overflow: visible; padding: 2px 0; }
 .eq .katex-display { margin: 0; padding: 4px 0; font-size: 1.3em; overflow: visible; }
 .eq.key .katex-display { font-size: 1.45em; }
-.eq math[display="block"] { margin: 4px 0; font-size: 1.45em; font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math; }
+/* MathML (phone builds): same sizes as the KaTeX panels above (1.3em, must-know 1.45em), so key results stay distinct */
+.eq math[display="block"] { margin: 4px 0; font-size: 1.3em; font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math; }
+.eq.key math[display="block"] { font-size: 1.45em; }
+/* MathML: Chrome ignores columnalign and columnspacing on mtable; CM.fitEq applies both as cell padding (alignMathTables in common.js). */
 /* MathML fallback: Chrome ignores mathvariant="bold", which would turn vectors such as \mathbf k into plain italic k */
 math [mathvariant="bold"] { font-weight: 700; font-style: normal; text-transform: none; }
 math [mathvariant="bold-italic"] { font-weight: 700; font-style: italic; text-transform: none; }
@@ -152,7 +155,7 @@ a.tag:hover, a.tag:focus-visible { text-decoration: underline; outline: none; }
 .cannow::before { content: "\2713"; position: absolute; left: 10px; top: 10px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
   background: var(--b-take); color: var(--panel); font-size: 11px; font-weight: 700; }
 .cannow b { color: var(--b-take); font-weight: 600; }
-.needs { font-size: 12.5px; color: var(--muted); }
+.needs, .card p.needs { font-size: 12.5px; color: var(--muted); }
 .needs::before { content: "Needs: "; font-weight: 600; color: var(--fg); }
 /* Cross-page links: .recap = a short recap of an earlier section, opening with <b>Recap from <a>X.Y.Z …</a>.</b>; .fwd = a "Used in X.Y.Z →" or "← from X.Y.Z" line (p or inline span) */
 .recap { border-left: 3px solid var(--muted); background: var(--bg); border-radius: 0 4px 4px 0; padding: 7px 12px; font-size: 13.5px; }
@@ -209,7 +212,8 @@ dl.readout dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabul
 .try ul { margin: 4px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
 
 .plots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; min-width: 0; align-content: start; }
-.plots.wide-left { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+/* The side panel (e.g. a DOS sharing the left plot's energy axis) keeps at least 280 px */
+.plots.wide-left { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); }
 .plots.one { grid-template-columns: minmax(0, 1fr); }
 .span2 { grid-column: 1 / -1; }
 figure { margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
@@ -290,7 +294,7 @@ a.topic:hover, a.topic:focus-visible { border-color: var(--accent); outline: non
   .card p, .card li, .rail p, .try, .hw .ask, .hw ol, .hw ul, .result, .check, .assume, .sources ul, .sec-intro, .cannow, .idea, .notes,
   .recap, p.fwd, .takeaway, .trap, details.check, .path li, .path > p, .topic ul, .topic .models, .dict table, .ctl label, .seg legend, .chk { font-size: 15px; }
   .hw summary { font-size: 15px; }
-  figcaption, .keys, .note, .needs, .legend, .eq-label, .path .then, .path .min, .chain, .btns, .err { font-size: 13px; }
+  figcaption, .keys, .note, .needs, .card p.needs, .legend, .eq-label, .path .then, .path .min, .chain, .btns, .err { font-size: 13px; }
   .eyebrow, .hw .tag, .hw h4, .dict th, .topic .num, .topic .pill, .eq-n, .page-head .meta span, .step,
   .tag:is(.hw, .exam, .deriv, .lect), .eq.key .eq-head::before, .takeaway::before, .trap::before, details.check > summary::before, .cannow::before { font-size: 12px; }
   .btn, .site-nav .theme { min-height: 40px; font-size: 14px; }

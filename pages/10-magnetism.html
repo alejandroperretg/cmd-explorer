@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Magnetic Properties · CMD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script defer src="../assets/common.js"></script>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in">
+  <a class="brand" href="../index.html">CMD Explorer</a>
+  <a href="../index.html#map">Syllabus map</a>
+  <a href="14-exam-prep.html">Exam prep</a>
+  <button class="theme" type="button" data-theme-toggle>Dark</button>
+</div></nav>
+
+<main class="wrap">
+<header class="page-head">
+  <div class="meta"><span>Topic 10</span><span>Syllabus §2.8</span><span>Kittel ch. 11</span><span>Notes pp. 61–64</span><span>Sheets: none yet</span></div>
+  <h1>Magnetic Properties</h1>
+  <p class="lead">How a magnetic field enters the quantum mechanics of an electron, and how the shifted energy levels turn into a magnetization you can measure. One Hamiltonian, expanded carefully, gives both paramagnetism (from orbital and spin moments) and diamagnetism (from induced currents); the free energy then turns levels into M, S and χ.</p>
+  <ol class="chain">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#homework">Practice</a></li>
+    <li><a href="#exam">Exam angle</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+  <p id="loaderr" class="err" hidden>The plotting library did not load. Check your connection and reload the page.</p>
+</header>
+
+<nav class="path" id="path" aria-labelledby="path-h">
+  <h2 id="path-h">Reading path</h2>
+  <p>The sections follow the lecture of 9 November (notes pp. 61–64): what magnetization and susceptibility are, then the Hamiltonian of an electron in a field, squared out term by term, then the thermodynamics that turns energy levels into M and χ. The Hamiltonian and its three terms are the core. About 1¾ hours in total.</p>
+  <ol>
+    <li data-sec="2.8"><a href="#s-2-8">Magnetic properties</a><span class="min">10 min</span><span class="then"><a href="#c-resp">Magnetization and χ</a>.</span></li>
+    <li data-sec="2.8.1"><a href="#s-2-8-1">Hamilton operator for an electron in a field</a><span class="min">45 min</span><span class="then"><a href="#c-ham">Minimal coupling</a> → <a href="#c-square">careful squaring</a> → <a href="#c-terms">para- and diamagnetic terms</a> → <a href="#c-levels">levels to moments</a> → <a href="#c-free">free energy</a>. Then: <a href="#m-shift">Model 1</a>, <a href="#m-spin">Model 2</a>.</span></li>
+    <li data-sec="2.8"><a href="#s-2-8-x">Going further (not yet lectured)</a><span class="min">15 min</span><span class="then"><a href="#c-beyond">Curie, Langevin, Pauli, Landau</a>.</span></li>
+    <li data-sec="P"><a href="#homework">Practice problems</a><span class="min">25 min</span><span class="then"><a href="#hw-p1">P1</a>, <a href="#hw-p2">P2</a>, <a href="#hw-p3">P3</a>; then the <a href="#exam-ex1">exam-style exercise</a>.</span></li>
+  </ol>
+  <div class="legend">
+    <b>Colour key</b>
+    <span><i class="sw-eq"></i>Display equation</span>
+    <span><i class="sw-key"></i>Must-know result</span>
+    <span><span class="tag hw">Practice 2</span>used by a practice problem</span>
+    <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
+    <span><span class="tag lect">Not yet lectured</span>taught here from Kittel</span>
+    <span><i class="sw-take"></i>Takeaway</span>
+    <span><i class="sw-trap"></i>Common trap</span>
+    <span><i class="sw-check"></i>Self-test, tap to reveal</span>
+  </div>
+</nav>
+
+<section class="block" id="overview">
+  <h2>Overview</h2>
+  <p>An electron of charge $-e$ in a field $\mathbf B=\nabla\times\mathbf A$ has the Hamiltonian $H_e=(\mathbf p+e\mathbf A)^2/2m-\mathbf m_{\text{spin}}\cdot\mathbf B$. For a uniform field, $\mathbf A=-\tfrac12\,\mathbf r\times\mathbf B$, and squaring out (carefully, since $\mathbf p$ and $\mathbf A$ are operators) splits the field-dependent part into three terms: $\mu_B\mathbf B\cdot\mathbf L/\hbar$ and $\mu_Bg_e\mathbf B\cdot\mathbf S/\hbar$, linear in $B$ and paramagnetic, and $(e^2/8m)B^2r_\perp^2$, quadratic and diamagnetic. The energy levels $E_n(B)$ then give the moment of each state, $M_n=-\frac1V\partial E_n/\partial B$, and the thermal average follows from the free energy: $\langle M\rangle=-\frac1V\partial F/\partial B$ and $\chi_m=-\frac{\mu_0}{V}\partial^2F/\partial B^2$.</p>
+  <p>Key results to leave with: the boxed Hamiltonian, the three-term $\Delta H_e$ with its signs, why the linear terms dominate whenever they are not zero (about $10^6$ times larger for an atom at 1 T), and the chain $E_n(B)\to F\to M,\,S,\,\chi_m$. The lecture stopped there; Curie, Langevin, Pauli and Landau come next and are previewed at the end. This page uses the free-electron Hamiltonian from <a href="07-free-electron-gas.html#c-plane">topic 07</a> and the crystal quantum numbers from <a href="09-bands.html#c-bloch">topic 09</a>.</p>
+  <p>Read alongside Kittel, <i>Introduction to Solid State Physics</i> 8th ed., ch. 11 (Langevin Diamagnetism Equation; Quantum Theory of Diamagnetism of Mononuclear Systems; Paramagnetism; Quantum Theory of Paramagnetism) and Appendix G (vector potential), and the lecture notes pp. 61–64.</p>
+</section>
+
+<section class="block" id="concepts">
+  <h2>Concepts</h2>
+
+  <section class="sec" id="s-2-8">
+    <h3><span class="step">2.8</span>Magnetic properties</h3>
+    <p class="hook"><b>Where you meet this.</b> Below 1 K, labs cool samples by magnetic refrigeration (adiabatic demagnetization, as in the cryogen-free cryostats Kiutra builds in Munich): a paramagnetic salt is magnetised, its spin entropy flows out, then the field is lowered and the spins soak heat back up. A spin-½ salt can store at most $k_B\ln2$ of entropy per spin, and at 1 T and 1 K it has already lost about a quarter of it. Every number in that cycle comes from the free energy of section 2.8.1.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Magnetization, susceptibility and its sign, why magnetism is a quantum effect, and the three microscopic sources of a moment. Lecture notes p61.</p>
+      <p><b>Why it matters.</b> It sets the target of the whole chapter: compute $\chi_m$ from microscopic physics. No sheet or 2022 exam question yet; the practice problems below use it throughout.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-resp">
+      <span class="eyebrow">2.8 · Magnetic response</span>
+      <h4>Magnetization and susceptibility</h4>
+      <p>A field $\mathbf B=\mu_0\mathbf H$ induces a <b>magnetization</b> $\mathbf M$, the magnetic moment per volume (A/m). For weak fields the response is linear:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Magnetic susceptibility</span></div>
+      $$\begin{aligned}\mathbf M&=\chi_m\mathbf H\\ \chi_m&=\frac{\partial M}{\partial H}\Big|_{H=0}\end{aligned}$$
+      <span class="eq-n">(1)</span></div>
+      <p>In SI, $\chi_m$ is dimensionless. $\chi_m&gt;0$ is <b>paramagnetism</b> (M along B, the sample is pulled into a strong field); $\chi_m&lt;0$ is <b>diamagnetism</b> (M against B, pushed out). Both are tiny for most materials, so $B\approx\mu_0H$ inside the sample too.</p>
+      <p><b>Magnetism needs quantum mechanics.</b> In classical statistical mechanics a system in thermal equilibrium has no magnetization at all (Bohr–van Leeuwen theorem): the field enters only through $\mathbf p+e\mathbf A$, and shifting the momentum integration variable in the classical partition function removes $\mathbf A$, so $F$ does not depend on $B$ and $M=0$.</p>
+      <p>The lecture names three effects in an atom:</p>
+      <ul>
+        <li>the orbital angular momentum $\mathbf L$ carries a moment: paramagnetic;</li>
+        <li>the spin $\mathbf S$ carries a moment: paramagnetic;</li>
+        <li>the field induces orbital currents that oppose it (Lenz): diamagnetic, present in every material.</li>
+      </ul>
+      <p>All three drop out of one Hamiltonian in 2.8.1.</p>
+      <p class="trap">Quoting a molar or CGS susceptibility as if it were the SI volume $\chi_m$. Tables often give $\chi_{\text{mol}}$ in cm³/mol (CGS); the SI molar value is $4\pi\times10^{-6}$ times it in m³/mol, and the volume $\chi_m$ is $\chi_{\text{mol}}$ times moles per m³.</p>
+      <details class="check"><summary>A sample is pushed out of the strong-field region of a magnet. What is the sign of χ_m, and which of the three effects must dominate?</summary><p>$\chi_m&lt;0$, diamagnetic. The induced-current effect dominates, which happens when the atoms carry no net $\mathbf L$ or $\mathbf S$ (closed shells, e.g. He, Cu⁺ cores, water).</p></details>
+      <p class="takeaway">$\mathbf M=\chi_m\mathbf H$: positive χ from the moments of L and S, negative χ from induced currents, and none of it exists classically.</p>
+    </article>
+    </div>
+    <p class="cannow"><b>You can now</b> say what χ_m measures and what its sign means, and name the three sources. To compute them, you need the Hamiltonian, 2.8.1 →.</p>
+  </section>
+
+  <section class="sec" id="s-2-8-1">
+    <h3><span class="step">2.8.1</span>Hamilton operator for an electron in a magnetic field</h3>
+    <p class="hook"><b>Where you meet this.</b> Electron spin resonance spectrometers flip unpaired electron spins with microwaves. The linear spin term of this section splits the two spin states by $g_e\mu_BB$, which at 1 T corresponds to a photon of 28.0 GHz. The same term, with nuclear instead of electron moments, is the basis of MRI.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> Minimal coupling $\mathbf p\to\mathbf p+e\mathbf A$ plus the spin term, the vector potential of a uniform field, the expansion of $(\mathbf p+e\mathbf A)^2$ with non-commuting operators, the resulting para- and diamagnetic terms, and the thermodynamics of magnetization: $E_n(B)\to M_n\to\langle M\rangle$ via $F$. Lecture notes pp. 61–64.</p>
+      <p><b>Why it matters.</b> This is the only topic-list item of 2.8, so expect "write down and expand the Hamiltonian" and "get M or χ from F" as exam parts. Practice <a href="#hw-p1">P1</a>–<a href="#hw-p3">P3</a> and the <a href="#exam-ex1">exam-style exercise</a> use it.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-ham">
+      <span class="eyebrow">2.8.1 · Minimal coupling</span>
+      <h4>The Hamiltonian in a field</h4>
+      <p class="needs"><a href="#c-resp">2.8 · Magnetic response</a>; ← from <a href="07-free-electron-gas.html#c-plane">2.1.2 Plane waves</a></p>
+      <div class="recap"><b>Recap from <a href="07-free-electron-gas.html#c-plane">2.1.2 Plane waves</a>.</b> A free electron has $H_{e,0}=\mathbf p^2/2m$ with $\mathbf p=-i\hbar\nabla$.</div>
+      <p>Write the field through a vector potential, $\mathbf B=\nabla\times\mathbf A$. For a particle of charge $q$ the momentum operator becomes $\mathbf p-q\mathbf A$; for the electron $q=-e$, so $\mathbf p+e\mathbf A$. The spin moment couples to $\mathbf B$ directly, as a dipole does:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Hamilton operator for an electron in a B-field</span></div>
+      $$\begin{aligned}H_e=\;&\frac{\big(\mathbf p+e\mathbf A(\mathbf r)\big)^2}{2m}\\&-\mathbf m_{\text{spin}}\cdot\mathbf B(\mathbf r)\end{aligned}$$
+      <span class="eq-n">(2)</span></div>
+      <p>A periodic crystal potential or the nuclear Coulomb potential just adds to (2); it does not change the field terms. For a uniform field the lecture uses</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Vector potential of a uniform field</span></div>
+      $$\begin{aligned}\mathbf A&=-\tfrac12\,\mathbf r\times\mathbf B\\ \nabla\times\mathbf A&=\mathbf B,\qquad \nabla\cdot\mathbf A=0\end{aligned}$$
+      <span class="eq-n">(3)</span></div>
+      <p>For $\mathbf B=B\hat z$ this is $\mathbf A=\tfrac B2(-y,\,x,\,0)$: circles around the z axis. $\nabla\cdot\mathbf A=0$ (Coulomb gauge) is what makes the expansion in the next card simple.</p>
+      <p class="trap">Writing $\mathbf p-e\mathbf A$. That is the rule for charge $+e$; with the lecture's electron charge $-e$ it is $\mathbf p+e\mathbf A$. The sign decides the sign of the orbital Zeeman term.</p>
+      <details class="check"><summary>Check ∇×A = B for A = (B/2)(−y, x, 0).</summary><p>$(\nabla\times\mathbf A)_z=\partial_xA_y-\partial_yA_x=\tfrac B2+\tfrac B2=B$, and the x and y components vanish because nothing depends on z. $\nabla\cdot\mathbf A=\partial_x(-\tfrac B2y)+\partial_y(\tfrac B2x)=0$.</p></details>
+      <p class="takeaway">The field enters twice: through $\mathbf p+e\mathbf A$ (orbital motion) and through $-\mathbf m_{\text{spin}}\cdot\mathbf B$ (spin).</p>
+    </article>
+
+    <article class="card" id="c-square">
+      <span class="eyebrow">2.8.1 · Careful squaring</span>
+      <h4>Expanding (p + eA)² with operators</h4>
+      <p class="needs"><a href="#c-ham">2.8.1 · Minimal coupling</a></p>
+      <div class="tags"><span class="tag deriv">Exam-relevant derivation</span></div>
+      <p>$\mathbf p$ and $\mathbf A(\mathbf r)$ are operators that need not commute, so the square has two cross terms in a fixed order:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Square, keeping the order</span></div>
+      $$\begin{aligned}&(\mathbf p+e\mathbf A)^2=\mathbf p^2\\&\quad+e(\mathbf p\cdot\mathbf A+\mathbf A\cdot\mathbf p)\\&\quad+e^2\mathbf A^2\end{aligned}$$
+      <span class="eq-n">(4)</span></div>
+      <p><b>Step 1: the order does not matter here.</b> Acting on a wavefunction, $\mathbf p\cdot(\mathbf A\psi)=-i\hbar(\nabla\cdot\mathbf A)\psi+\mathbf A\cdot(\mathbf p\psi)$. In the Coulomb gauge $\nabla\cdot\mathbf A=0$, so $\mathbf p\cdot\mathbf A=\mathbf A\cdot\mathbf p$.</p>
+      <p><b>Step 2: insert A = −½ r × B.</b> This gives the lecture's line</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">After inserting the uniform-field A</span></div>
+      $$\begin{aligned}H_e=\;&\frac{\mathbf p^2}{2m}\\&-\frac{1}{2m}\frac e2\big[\mathbf p\cdot(\mathbf r\times\mathbf B)\\&\qquad+(\mathbf r\times\mathbf B)\cdot\mathbf p\big]\\&+\frac{1}{2m}\frac{e^2}{4}(\mathbf r\times\mathbf B)^2\\&-\mathbf m_{\text{spin}}\cdot\mathbf B\end{aligned}$$
+      <span class="eq-n">(5)</span></div>
+      <p><b>Step 3: the cross term is the angular momentum.</b> Cycling the triple product with $\mathbf B$ (a constant) moved out, $(\mathbf r\times\mathbf B)\cdot\mathbf p=-\mathbf B\cdot(\mathbf r\times\mathbf p)=-\mathbf B\cdot\mathbf L$; $\mathbf r$ stays to the left of $\mathbf p$ throughout, so no ordering is changed. With step 1 both orderings are equal:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Cross term and quadratic term</span></div>
+      $$\begin{aligned}&\mathbf p\cdot(\mathbf r\times\mathbf B)+(\mathbf r\times\mathbf B)\cdot\mathbf p\\&\quad=-2\,\mathbf B\cdot\mathbf L\\ &(\mathbf r\times\mathbf B)^2=B^2r_\perp^2\end{aligned}$$
+      <span class="eq-n">(6)</span></div>
+      <p>Here $\mathbf L=\mathbf r\times\mathbf p$ and $r_\perp$ is the distance from the axis through the origin along $\mathbf B$ ($|\mathbf r\times\mathbf B|=rB\sin\theta$). So the linear term is $+\frac{e}{2m}\mathbf B\cdot\mathbf L=\mu_B\mathbf B\cdot\mathbf L/\hbar$.</p>
+      <p><b>Step 4: the spin moment.</b> $\mathbf m_{\text{spin}}=-\mu_Bg_e\mathbf S/\hbar$, antiparallel to the spin because the charge is negative, with</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Bohr magneton and electron g-factor</span></div>
+      $$\begin{aligned}\mu_B&=\frac{e\hbar}{2m}\\&=9.274\times10^{-24}\ \text{J/T}\\&=57.88\ \mu\text{eV/T}\\ g_e&\approx2\ (2.0023)\end{aligned}$$
+      <span class="eq-n">(7)</span></div>
+      <p class="trap">Expanding $(\mathbf p+e\mathbf A)^2$ as $\mathbf p^2+2e\mathbf A\cdot\mathbf p+e^2A^2$ without saying why. It is only right because $\nabla\cdot\mathbf A=0$; in another gauge an extra $-i\hbar e\,\nabla\cdot\mathbf A$ appears. Say it, because "careful squaring" is what the lecture stressed.</p>
+      <details class="check"><summary>Why is μ_B·B·L/ħ positive for L along B, even though a current loop's energy is −m·B?</summary><p>The electron's charge is negative, so its orbital moment is $\mathbf m_L=-\mu_B\mathbf L/\hbar$, opposite to $\mathbf L$. Then $-\mathbf m_L\cdot\mathbf B=+\mu_B\mathbf B\cdot\mathbf L/\hbar$: consistent with $U=-\mathbf m\cdot\mathbf B$.</p></details>
+      <p class="takeaway">Coulomb gauge makes $\mathbf p\cdot\mathbf A=\mathbf A\cdot\mathbf p$; the cross term becomes $\mu_B\mathbf B\cdot\mathbf L/\hbar$ and $\mathbf A^2$ becomes $\tfrac14B^2r_\perp^2$.</p>
+    </article>
+
+    <article class="card" id="c-terms">
+      <span class="eyebrow">2.8.1 · Three terms</span>
+      <h4>Paramagnetic and diamagnetic terms</h4>
+      <p class="needs"><a href="#c-square">2.8.1 · Careful squaring</a></p>
+      <div class="tags"><a class="tag hw" href="#hw-p1">Practice 1</a></div>
+      <p>Collecting (5)–(7): $H_e=H_{e,0}+\Delta H_e$, with the whole field dependence in</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">B-dependent part of the Hamiltonian</span></div>
+      $$\begin{aligned}\Delta H_e=\;&\mu_B\frac{\mathbf B\cdot\mathbf L}{\hbar}+\frac{e^2}{8m}B^2r_\perp^2\\&+\mu_Bg_e\frac{\mathbf B\cdot\mathbf S}{\hbar}\end{aligned}$$
+      <span class="eq-n">(8)</span></div>
+      <p>For $\mathbf B=B\hat z$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Field along z</span><a class="tag hw" href="#hw-p1">Practice 1</a></div>
+      $$\begin{aligned}\Delta H_e=\;&\mu_BB\,\frac{L_z+g_eS_z}{\hbar}\\&+\frac{e^2}{8m}B^2(x^2+y^2)\end{aligned}$$
+      <span class="eq-n">(9)</span></div>
+      <ul>
+        <li><b>First term, linear in B: paramagnetism.</b> In a state with $L_z=m_l\hbar$, $S_z=m_s\hbar$ it shifts the level by $\mu_BB(m_l+g_em_s)$. States with $m_l+g_em_s&lt;0$ go down, so in equilibrium they fill first and the moment lines up with B.</li>
+        <li><b>Second term, quadratic in B: diamagnetism.</b> Always positive, $\frac{e^2B^2}{8m}\langle x^2+y^2\rangle$; the energy rises with B, so the induced moment points against it. Every electron has it.</li>
+      </ul>
+      <p><b>Sizes at 1 T.</b> $\mu_BB=57.9$ μeV. For a hydrogen 1s electron, $\langle x^2+y^2\rangle=\tfrac23\langle r^2\rangle=2a_0^2$, and the diamagnetic term is $1.2\times10^{-10}$ eV, about $2\times10^{-6}$ of the linear one. The two would be equal only near $B^*=4\hbar|m_l+g_em_s|/(e\langle r_\perp^2\rangle)\approx5\times10^5$ T. So the diamagnetic term matters only when the linear term averages to zero: closed shells ($\sum m_l=\sum m_s=0$), as in He, Ne or ion cores. <a href="#m-shift">Model 1</a> shows the two terms side by side.</p>
+      <p class="trap">Concluding that diamagnetism is negligible. It is small, but in closed-shell atoms and ions it is the only response there is, so it decides the sign of χ for most solids that are not magnetic.</p>
+      <details class="check"><summary>For m_l = −1, m_s = +½, what is the linear shift with g_e = 2? With g_e = 2.0023?</summary><p>$m_l+g_em_s=-1+1=0$ with $g_e=2$: the linear term cancels and only the diamagnetic shift remains. With 2.0023 it is $0.00116\,\mu_BB$, about 67 neV at 1 T. Try it in Model 1.</p></details>
+      <p class="takeaway">$\Delta H_e$: $\mu_BB(L_z+g_eS_z)/\hbar$ (paramagnetic, ∝ B) plus $\frac{e^2}{8m}B^2r_\perp^2$ (diamagnetic, ∝ B², always raises the energy).</p>
+    </article>
+
+    <article class="card" id="c-levels">
+      <span class="eyebrow">2.8.1 · Thermodynamics of magnetization</span>
+      <h4>From energy levels to the moment of a state</h4>
+      <p class="needs"><a href="#c-terms">2.8.1 · Three terms</a>; ← from <a href="09-bands.html#c-bloch">2.6.1 Bloch theorem</a></p>
+      <p>Solving the Schrödinger equation with (8) tells you how each level moves with the field: $E_n(B)$. The label $n$ is the full set of quantum numbers:</p>
+      <ul>
+        <li>atoms: $n=(n,l,m_l,m_s)$;</li>
+        <li>crystals: $n=(\mathbf k,n,m_s)$, the Bloch wavevector and band index of <a href="09-bands.html#c-bloch">topic 09</a> plus spin.</li>
+      </ul>
+      <p>A magnetic dipole in a field has energy $U=-\mathbf m\cdot\mathbf B$ (a current loop has $\mathbf m=I\mathbf A$, with $\mathbf A=\hat{\mathbf n}A$ the area vector). Turned around: if the level moves by $dE_n$ when the field changes by $d\mathbf B$, the state carries the moment $-\partial E_n/\partial\mathbf B$. Per volume, $dE_n=-V\mathbf M_n\cdot d\mathbf B$, and with $\mathbf M\parallel\mathbf B$:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Magnetization of state n</span><a class="tag hw" href="#hw-p3">Practice 3</a></div>
+      $$\mathbf M_n=-\frac1V\frac{\partial E_n}{\partial B}\,\hat{\mathbf B}$$
+      <span class="eq-n">(10)</span></div>
+      <p>Applied to (9): the linear term gives the $B$-independent moment $-\mu_B(m_l+g_em_s)/V$ (a permanent moment), the quadratic term an induced moment $-\frac{e^2B}{4mV}\langle r_\perp^2\rangle$, proportional to B and opposite to it.</p>
+      <details class="check"><summary>What moment does the m_s = −½, m_l = 0 state carry (g_e = 2)?</summary><p>$E=-\mu_BB$ from the spin term, so $-\partial E/\partial B=+\mu_B$: one Bohr magneton along $\mathbf B$, as expected for a spin pointing against B with a negative charge.</p></details>
+      <p class="takeaway">A state's moment is the slope of its level: $M_n=-\frac1V\partial E_n/\partial B$.</p>
+    </article>
+
+    <article class="card" id="c-free">
+      <span class="eyebrow">2.8.1 · Free energy</span>
+      <h4>Thermal average: M, S and χ from F</h4>
+      <p class="needs"><a href="#c-levels">2.8.1 · From energy levels to the moment</a></p>
+      <div class="tags"><span class="tag deriv">Exam-relevant derivation</span><a class="tag hw" href="#hw-p2">Practice 2</a></div>
+      <p>At temperature $T$ each state is occupied with Boltzmann weight $e^{-\beta E_n}/Z$, with $\beta=1/k_BT$ and partition function $Z=\sum_ne^{-\beta E_n}$. Average (10):</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Thermal average of the magnetization</span></div>
+      $$\begin{aligned}\langle M\rangle&=\frac1Z\sum_nM_ne^{-\beta E_n}\\&=-\frac{1}{VZ}\sum_n\frac{\partial E_n}{\partial B}e^{-\beta E_n}\\&=-\frac1V\frac{\partial}{\partial B}\Big[-\frac1\beta\ln Z\Big]\end{aligned}$$
+      <span class="eq-n">(11)</span></div>
+      <p>The bracket is the Helmholtz free energy, $F=-k_BT\ln Z$. (Differentiate $\ln Z$ to check: the chain rule brings down $-\beta\,\partial E_n/\partial B$.)</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Magnetization</span></div>
+      $$\langle\mathbf M\rangle=-\frac1V\frac{\partial F}{\partial B}\,\hat{\mathbf B}$$
+      <span class="eq-n">(12)</span></div>
+      <p>The same result from thermodynamics: the work done on the sample is $-V\mathbf M\cdot d\mathbf B$, so $dU=T\,dS-V\mathbf M\cdot d\mathbf B$, and with $F=U-TS$, $dF=-S\,dT-V\mathbf M\cdot d\mathbf B$. Read off the partial derivatives, and use $M=\chi_mH=\chi_mB/\mu_0$ for the last one:</p>
+      <div class="eq key"><div class="eq-head"><span class="eq-label">Entropy, magnetization, susceptibility</span><a class="tag hw" href="#hw-p2">Practice 2</a></div>
+      $$\begin{aligned}S&=-\Big(\frac{\partial F}{\partial T}\Big)_B\\ M&=-\frac1V\Big(\frac{\partial F}{\partial B}\Big)_T\\ \chi_m&=-\frac{\mu_0}{V}\Big(\frac{\partial^2F}{\partial B^2}\Big)_{T,\,B\to0}\end{aligned}$$
+      <span class="eq-n">(13)</span></div>
+      <p><b>Example: one spin ½ per site</b>, no orbital moment, $N$ spins in $V$, density $n=N/V$. With $g_e=2$ the levels are $E_\pm=\pm\mu_BB$, so $Z=(2\cosh\beta\mu_BB)^N$ and $F=-Nk_BT\ln(2\cosh\beta\mu_BB)$. Then (13) gives $M=n\mu_B\tanh(\mu_BB/k_BT)$ and $\chi_m=\mu_0n\mu_B^2/k_BT$. <a href="#m-spin">Model 2</a> does exactly these derivatives numerically.</p>
+      <p class="trap">Differentiating $Z$ instead of $F$, or forgetting the factor $1/V$. $M$ is a moment <i>per volume</i>; $-\partial F/\partial B$ alone is the total moment of the sample, in J/T.</p>
+      <details class="check"><summary>At T → 0, what does (12) reduce to?</summary><p>Only the ground state survives in $Z$, so $F\to E_0(B)$ and $\langle M\rangle\to M_0=-\frac1V\partial E_0/\partial B$: the moment of the ground state, eq. (10).</p></details>
+      <p class="fwd">Used in <a href="#c-beyond">2.8 · Going further →</a> (Curie and Langevin are this formula applied to two cases)</p>
+      <p class="takeaway">Levels $E_n(B)$ → $Z$ → $F=-k_BT\ln Z$; then $S=-\partial F/\partial T$, $M=-\frac1V\partial F/\partial B$, $\chi_m=-\frac{\mu_0}V\partial^2F/\partial B^2$.</p>
+    </article>
+    </div>
+    <p class="cannow"><b>You can now</b> write down the Hamiltonian of an electron in a field, expand it with the operator ordering justified, name each term's effect and sign, and get M, S and χ from a given set of levels: practice <a href="#hw-p1">P1</a>–<a href="#hw-p3">P3</a> and the <a href="#exam-ex1">exam-style exercise</a>.</p>
+  </section>
+
+  <section class="sec" id="s-2-8-x">
+    <h3><span class="step">2.8</span>Going further: the standard susceptibilities</h3>
+    <p class="hook"><b>Where you meet this.</b> Helium gas, sodium metal and a copper sulfate crystal respond to the same field with susceptibilities spread over more than seven orders of magnitude, about −1×10⁻⁹, +5.5×10⁻⁶ (free-electron estimate) and +0.04 at 1 K. The four classic formulas below explain why.</p>
+    <div class="sec-intro">
+      <p><b>What this covers.</b> The results the lecture builds towards next, each from eqs. (8) and (13): Curie paramagnetism of free spins, Langevin diamagnetism of closed shells, and the Pauli and Landau susceptibilities of conduction electrons. From Kittel ch. 11.</p>
+      <p><b>Why it matters.</b> Not lectured yet, so not exam material yet. It shows what the free-energy machinery is for, and the lecture will likely continue here.</p>
+    </div>
+    <div class="cards">
+    <article class="card" id="c-beyond">
+      <span class="eyebrow">2.8 · Beyond the lecture</span>
+      <h4>Curie, Langevin, Pauli, Landau</h4>
+      <p class="needs"><a href="#c-free">2.8.1 · Free energy</a>; ← from <a href="07-free-electron-gas.html#c-dos">2.1.3 Density of states</a></p>
+      <div class="tags"><span class="tag lect">Not yet lectured</span></div>
+      <p><b>Curie law (free spins).</b> The spin-½ example of <a href="#c-free">2.8.1</a> already is it: $\chi_m=\mu_0n\mu_B^2/k_BT$. The general form for moments with angular momentum $J$ is $\chi_m=\mu_0np^2\mu_B^2/3k_BT$ with $p^2=g^2J(J+1)$; spin ½ with $g=2$ has $p^2=3$ and gives the same result.</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Curie law</span></div>
+      $$\chi_m=\frac{C}{T},\qquad C=\frac{\mu_0n\,p^2\mu_B^2}{3k_B}$$
+      <span class="eq-n">(14)</span></div>
+      <p><b>Langevin diamagnetism (closed shells).</b> Only the quadratic term of (9) survives. At $T\to0$, $F=E_0(B)$ and first-order perturbation theory gives $E_0(B)=E_0+\frac{e^2B^2}{8m}\sum_i\langle x_i^2+y_i^2\rangle$. For a spherical atom $\langle x^2+y^2\rangle=\tfrac23\langle r^2\rangle$; then (13) gives, for $n$ atoms per volume with $Z$ electrons each,</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Langevin diamagnetism</span></div>
+      $$\chi_m=-\frac{\mu_0nZe^2\langle r^2\rangle}{6m}$$
+      <span class="eq-n">(15)</span></div>
+      <p><b>Pauli paramagnetism (conduction electrons).</b> Fermi–Dirac statistics stops most electrons from flipping their spin: only those within about $\mu_BB$ of $\varepsilon_F$ can. The result depends on the density of states at the Fermi level, so it is small and almost independent of T.</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Pauli and Landau</span></div>
+      $$\begin{aligned}\chi_P&=\frac{\mu_0\mu_B^2D(\varepsilon_F)}{V}=\frac{3n\mu_0\mu_B^2}{2\varepsilon_F}\\ \chi_L&=-\tfrac13\chi_P\end{aligned}$$
+      <span class="eq-n">(16)</span></div>
+      <p>$\chi_L$ is Landau diamagnetism: the orbital motion of free electrons, quantized into Landau levels spaced by $\hbar\omega_c=\hbar eB/m$ (0.116 meV at 1 T). For Na ($n=2.65\times10^{28}$ m⁻³, $\varepsilon_F=3.24$ eV) the free-electron values are $\chi_P=8.3\times10^{-6}$ and $\chi_L=-2.8\times10^{-6}$.</p>
+      <details class="check"><summary>Why is the Pauli susceptibility of a metal far below the Curie value n μ_B²μ₀/k_BT at room temperature?</summary><p>Pauli blocking. Curie assumes every spin is free to flip; in a degenerate gas only a fraction of order $k_BT/\varepsilon_F$ near the Fermi level can, so χ is smaller by about $T/T_F$, roughly 1/100 at 300 K. The same shell argument gave the small electronic heat capacity on <a href="07-free-electron-gas.html#c-cel">topic 07</a>.</p></details>
+      <p class="takeaway">Free spins: χ ∝ 1/T. Closed shells: χ &lt; 0, set by ⟨r²⟩. Conduction electrons: small, T-independent Pauli χ minus a third for Landau.</p>
+    </article>
+    </div>
+    <p class="cannow"><b>You can now</b> estimate the sign and order of magnitude of χ for an insulator with closed shells, a salt with free spins, and a simple metal, ahead of the lecture.</p>
+  </section>
+</section>
+
+<section class="block" id="models">
+  <h2>Interactive models</h2>
+
+  <section class="bench" id="m-shift">
+    <div class="rail">
+      <span class="eyebrow">2.8.1 · Model 1 · Zeeman vs diamagnetic shift</span>
+      <h3>How far a level moves in a field</h3>
+      <p>The two parts of eq. (9) for one electron state: the linear Zeeman shift μ_B B (m_l + g_e m_s) and the quadratic diamagnetic shift (e²/8m) B² ⟨r⊥²⟩. g_e = 2.0023. The orbital size ⟨r⊥²⟩ is a free input in units of a₀²; 2 a₀² is the hydrogen 1s value.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m1-ml"><span>Orbital quantum number m_l</span> <output for="m1-ml"></output></label><input type="range" id="m1-ml" min="-2" max="2" step="1" value="0" data-fmt="0"></div>
+        <fieldset class="seg"><legend>Spin m_s</legend><div class="opts">
+          <label><input type="radio" name="m1-ms" value="-0.5" checked><span>−½</span></label>
+          <label><input type="radio" name="m1-ms" value="0.5"><span>+½</span></label>
+        </div></fieldset>
+        <div class="ctl"><label for="m1-r"><span>Orbit size, log₁₀(⟨r⊥²⟩/a₀²)</span> <output for="m1-r"></output></label><input type="range" id="m1-r" min="-0.5" max="4" step="0.01" value="0.30" data-fmt="2"></div>
+        <div class="ctl"><label for="m1-b"><span>Field, log₁₀(B/T)</span> <output for="m1-b"></output></label><input type="range" id="m1-b" min="-2" max="7" step="0.01" value="0" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m1-pill"></span><dl class="readout" id="m1-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Opening state: a hydrogen-1s-sized orbit, spin down, at 1 T. The diamagnetic shift is a million times smaller; the two lines cross only near 5×10⁵ T.</li>
+        <li>Set m_l = −1 and m_s = +½: with g_e ≈ 2 the linear term almost cancels, and B* drops by a factor of about 900.</li>
+        <li>Raise the orbit size to 10⁴ a₀² (an orbit about 10 nm across): B* falls to about 100 T. Large orbits feel the quadratic term most.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m1-p1"></div>
+        <figcaption><b>How to read:</b> log–log axes, field B in T against the size of the energy shift in eV. The copper line is the linear Zeeman term (slope 1), the blue line the diamagnetic term (slope 2). They cross at the green dashed line B*. The grey dotted line is k_BT at 300 K. Dots mark your field.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>|μ_B B (m_l + g_e m_s)|</span><span><i class="sw" style="background:var(--emp)"></i>(e²/8m) B² ⟨r⊥²⟩</span><span><i class="sw" style="background:var(--ef)"></i>B*</span><span><i class="sw" style="background:var(--muted)"></i>k_BT, 300 K</span></div>
+      </figure>
+      <figure><div class="plot" id="m1-p2"></div>
+        <figcaption><b>How to read:</b> linear axes, B from 0 to your field against the signed level shift ΔE in eV. Copper dashed: linear term, blue dashed: quadratic term, grey solid: their sum, the actual level E(B) − E(0). Below B* the sum follows the copper line; the blue curve bends it upwards only beyond B*.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>linear</span><span><i class="sw" style="background:var(--emp)"></i>quadratic</span><span><i class="sw" style="background:var(--fg)"></i>total ΔE</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bench" id="m-spin">
+    <div class="rail">
+      <span class="eyebrow">2.8.1 · Model 2 · M = −(1/V) ∂F/∂B at work</span>
+      <h3>Spin-½ paramagnet from its free energy</h3>
+      <p>Independent spins ½ with E_± = ±(g_e/2) μ_B B, at the Cu²⁺ density of CuSO₄·5H₂O (n = 5.51×10²⁷ m⁻³; treated as pure spin ½ with g_e = 2.0023). The model builds Z and F and takes the derivatives of eq. (13) numerically, then compares them with the closed forms.</p>
+      <div class="ctls">
+        <div class="ctl"><label for="m2-b"><span>Field B</span> <output for="m2-b"></output></label><input type="range" id="m2-b" min="0" max="5" step="0.01" value="1" data-fmt="2" data-unit=" T"></div>
+        <div class="ctl"><label for="m2-t"><span>Temperature, log₁₀(T/K)</span> <output for="m2-t"></output></label><input type="range" id="m2-t" min="-0.7" max="2.5" step="0.01" value="0" data-fmt="2"></div>
+      </div>
+      <div class="state"><span class="pill atom" id="m2-pill"></span><dl class="readout" id="m2-read"></dl></div>
+      <div class="try"><strong>Try</strong><ul>
+        <li>Opening state: 1 T at 1 K, μB/k_BT = 0.67. 79 % of the spins sit in the lower level and M is 59 % of saturation. The numerical −(1/V)∂F/∂B and n μ tanh agree.</li>
+        <li>Lower T to 0.2 K: the F curve develops a kink at B = 0, its slopes approach ±n μ, and M saturates.</li>
+        <li>Raise T to 300 K: F becomes an almost flat parabola, M is linear in B and χ_m drops to 1.4×10⁻⁴, the Curie 1/T law.</li>
+      </ul></div>
+    </div>
+    <div class="plots">
+      <figure><div class="plot" id="m2-p1"></div>
+        <figcaption><b>How to read:</b> free energy per spin, F/N in μeV, against B in T at your temperature. The copper curve is −k_BT ln(2 cosh(μB/k_BT)). The green dashed line is the tangent at your field; its slope times −n is M. The curvature at B = 0 is χ_m (eq. 13).</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>F/N</span><span><i class="sw" style="background:var(--ef)"></i>tangent, slope −M/n</span></div>
+      </figure>
+      <figure><div class="plot" id="m2-p2"></div>
+        <figcaption><b>How to read:</b> magnetization as a fraction of saturation, M/(nμ), against B in T. The copper curve is tanh(μB/k_BT) at your temperature, the dot your field. The green dashed line is the linear response χ_m B/μ₀ from the curvature of F: it fits only while μB ≪ k_BT.</figcaption>
+        <div class="keys"><span><i class="sw" style="background:var(--occ)"></i>M/(nμ)</span><span><i class="sw" style="background:var(--ef)"></i>χ_m B/μ₀ (linear)</span></div>
+      </figure>
+    </div>
+  </section>
+</section>
+
+<section class="block" id="homework">
+  <h2>Practice problems</h2>
+  <p class="note">There are no sheet problems for 2.8 yet. These three are practice in the sheets' style, written for this page, not from a sheet.</p>
+
+  <article class="hw" id="hw-p1">
+    <span class="tag">Practice 1 · not from a sheet</span>
+    <h3>Paramagnetic vs diamagnetic shift of an atom at 1 T</h3>
+    <p class="ask">A hydrogen atom in its 1s state sits in a field $B=1$ T along z. (a) Using eq. (9), compute the linear (spin) shift for $m_s=\pm\tfrac12$ and the diamagnetic shift, with $\langle r^2\rangle=3a_0^2$ for 1s. (b) What is their ratio? (c) At what field would they be equal? (d) Compare both with $k_BT$ at 300 K.</p>
+    <h4>Method</h4>
+    <p>Evaluate the two terms of (9) in the state: $L_z=0$, $S_z=m_s\hbar$, and $\langle x^2+y^2\rangle=\tfrac23\langle r^2\rangle$ for a spherical state.</p>
+    <div class="assume"><b>Assumption:</b> $\langle r^2\rangle_{1s}=3a_0^2$ is the textbook hydrogen value; first-order perturbation theory (expectation value of ΔH in the unperturbed state).</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Linear: $\Delta E=g_e\mu_BBm_s=\pm\mu_BB=\pm9.27\times10^{-24}$ J $=\pm57.9$ μeV (with $g_e=2$).</li>
+        <li>Diamagnetic: $\langle x^2+y^2\rangle=2a_0^2=5.60\times10^{-21}$ m². $\Delta E=\dfrac{e^2B^2}{8m}2a_0^2=\dfrac{(1.602\times10^{-19})^2\cdot5.60\times10^{-21}}{8\cdot9.109\times10^{-31}}=1.97\times10^{-29}$ J $=1.23\times10^{-10}$ eV.</li>
+        <li>Ratio: $1.23\times10^{-10}/5.79\times10^{-5}=2.1\times10^{-6}$.</li>
+        <li>Equal when $\mu_BB=\frac{e^2B^2}{8m}2a_0^2$, i.e. $B^*=\dfrac{4\hbar}{e\cdot2a_0^2}=4.7\times10^5$ T.</li>
+        <li>$k_BT(300\text{ K})=25.9$ meV: the spin splitting $2\mu_BB$ is 0.45 % of it, the diamagnetic shift $5\times10^{-9}$ of it.</li>
+      </ol>
+      <div class="result"><b>Result:</b> ±57.9 μeV (spin) against +1.2×10⁻¹⁰ eV (diamagnetic), ratio 2×10⁻⁶; equal only at about 5×10⁵ T. Both far below $k_BT$ at room temperature.</div>
+      <div class="check"><b>Sanity check:</b> units of $\hbar/(ea_0^2)$: J s/(C m²) = V s/m² = T. Recomputed in node with CODATA constants; Model 1 at m_l = 0, ⟨r⊥²⟩ = 2 a₀² reads the same B*.</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-p2">
+    <span class="tag">Practice 2 · not from a sheet</span>
+    <h3>Susceptibility of a two-level spin system from F</h3>
+    <p class="ask">$N$ independent spins ½ (no orbital moment, $g_e=2$) in volume $V$ sit in a field $B$ along z at temperature $T$. (a) Give the levels and $Z$. (b) Find $F$, then $M$ from eq. (13). (c) Find $\chi_m$ and $S$. (d) Evaluate $M$ and $\chi_m$ for $n=5.51\times10^{27}$ m⁻³ at 1 T and 1 K, and $\chi_m$ at 300 K.</p>
+    <h4>Method</h4>
+    <p>Follow the lecture's chain: levels → $Z$ → $F=-k_BT\ln Z$ → derivatives. The spins are independent, so $Z=z^N$ with a single-spin $z$.</p>
+    <div class="assume"><b>Assumption:</b> $n$ is the Cu²⁺ density of CuSO₄·5H₂O from its density 2.286 g/cm³ and molar mass 249.7 g/mol (standard handbook values), treated as pure spin ½.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>Levels: $E_\pm=\mu_Bg_eBm_s=\pm\mu_BB$. One spin: $z=e^{\beta\mu_BB}+e^{-\beta\mu_BB}=2\cosh x$, $x=\mu_BB/k_BT$. $Z=z^N$.</li>
+        <li>$F=-Nk_BT\ln(2\cosh x)$. $M=-\frac1V\frac{\partial F}{\partial B}=\frac NV k_BT\tanh x\cdot\frac{\mu_B}{k_BT}=n\mu_B\tanh x$.</li>
+        <li>$\chi_m=\mu_0\frac{\partial M}{\partial B}\Big|_{B\to0}=\mu_0n\mu_B\cdot\frac{\mu_B}{k_BT}=\dfrac{\mu_0n\mu_B^2}{k_BT}$, the Curie law. $S=-\frac{\partial F}{\partial T}=Nk_B[\ln(2\cosh x)-x\tanh x]$, which is $Nk_B\ln2$ at $B=0$.</li>
+        <li>At 1 T, 1 K: $x=0.672$, $\tanh x=0.587$, $M=0.587\cdot n\mu_B=3.0\times10^4$ A/m. $\chi_m(1\text{ K})=0.043$; $\chi_m(300\text{ K})=1.4\times10^{-4}$.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $M=n\mu_B\tanh(\mu_BB/k_BT)$, $\chi_m=\mu_0n\mu_B^2/k_BT$. For the given n: $M=3.0\times10^4$ A/m at 1 T and 1 K; $\chi_m=0.043$ at 1 K and $1.4\times10^{-4}$ at 300 K.</div>
+      <div class="check"><b>Sanity check:</b> limits: $x\to\infty$ gives saturation $n\mu_B$, $x\to0$ the linear law. The general Curie constant $\mu_0np^2\mu_B^2/3k_B$ with $p^2=g^2S(S+1)=3$ gives the same χ. Model 2 computes the derivatives of F numerically and agrees with these closed forms (node, CODATA constants).</div>
+    </details>
+  </article>
+
+  <article class="hw" id="hw-p3">
+    <span class="tag">Practice 3 · not from a sheet</span>
+    <h3>Diamagnetism of helium from the ground-state energy</h3>
+    <p class="ask">Helium has a closed 1s² shell ($L=S=0$). (a) Using eq. (9), write the ground-state energy $E_0(B)$ to order $B^2$. (b) Use $F\to E_0$ at $T\to0$ and eq. (13) to get $\chi_m$ for $n$ atoms per volume. (c) The measured molar susceptibility is $-1.9\times10^{-6}$ cm³/mol (CGS). Convert to SI and find $\langle r^2\rangle$ per electron, in units of $a_0^2$. (d) Compare with a hydrogen-like 1s orbital with effective nuclear charge $Z_{\text{eff}}=1.69$, for which $\langle r^2\rangle=3a_0^2/Z_{\text{eff}}^2$.</p>
+    <h4>Method</h4>
+    <p>The linear terms vanish ($\sum m_l=\sum m_s=0$), so only the diamagnetic term shifts the level. Then $M_0=-\frac1V\partial E_0/\partial B$ per atom and $\chi_m=-\frac{\mu_0}{V}\partial^2F/\partial B^2$.</p>
+    <div class="assume"><b>Data and assumptions:</b> measured value from Kittel ch. 11 ("Langevin Diamagnetism Equation"); SI molar χ = 4π×10⁻⁶ × CGS value; $Z_{\text{eff}}=27/16\approx1.69$ is the standard variational value for He. Spherical atom, so $\langle x^2+y^2\rangle=\tfrac23\langle r^2\rangle$.</div>
+    <details>
+      <summary>Show worked solution</summary>
+      <h4>Steps</h4>
+      <ol>
+        <li>$E_0(B)=E_0(0)+\dfrac{e^2B^2}{8m}\cdot2\cdot\tfrac23\langle r^2\rangle=E_0(0)+\dfrac{e^2B^2}{6m}\langle r^2\rangle$ (two electrons).</li>
+        <li>Per volume, $F=nV\,E_0(B)$, so $\chi_m=-\mu_0n\dfrac{\partial^2E_0}{\partial B^2}=-\dfrac{\mu_0n\cdot2e^2\langle r^2\rangle}{6m}$: Langevin, eq. (15), with $Z=2$.</li>
+        <li>SI molar: $\chi_{\text{mol}}=4\pi\times10^{-6}\cdot(-1.9\times10^{-6})=-2.39\times10^{-11}$ m³/mol $=-\mu_0N_A\,2e^2\langle r^2\rangle/6m$.</li>
+        <li>$\mu_0N_Ae^2/6m=3.55\times10^{9}$ m/mol, so $2\langle r^2\rangle=2.39\times10^{-11}/3.55\times10^{9}=6.72\times10^{-21}$ m² $=2.40\,a_0^2$, i.e. $\langle r^2\rangle=1.20\,a_0^2$ per electron.</li>
+        <li>Hydrogen-like with $Z_{\text{eff}}=1.69$: $3/1.69^2=1.05\,a_0^2$, about 12 % below. Electron repulsion makes the real orbital slightly larger.</li>
+      </ol>
+      <div class="result"><b>Result:</b> $\chi_m=-\mu_0n\,Ze^2\langle r^2\rangle/6m$; the measured He value implies $\langle r^2\rangle\approx1.2\,a_0^2$ per electron, close to the screened-hydrogen estimate 1.05 $a_0^2$. For He gas at 0 °C and 1 atm ($n=2.69\times10^{25}$ m⁻³) this is $\chi_m\approx-1.1\times10^{-9}$.</div>
+      <div class="check"><b>Sanity check:</b> sign negative, as for any closed shell. Units of $\mu_0N_Ae^2/m$: (T m/A)(1/mol)(C²)/kg = m/mol, times m² gives m³/mol. Numbers recomputed in node; the inferred $\langle r^2\rangle$ is about 40 % of hydrogen's 3 a₀², as expected for a nuclear charge near 2.</div>
+    </details>
+  </article>
+</section>
+
+<section class="block" id="exam">
+  <h2>Exam angle</h2>
+  <div class="card">
+    <p><b>Not asked in 2022.</b> The 2022 paper has no magnetism question, and there is no sheet for 2.8 yet. The topic list names one item, the Hamiltonian of an electron in a field, so a 2026 question would most likely ask you to write it down, expand it, and identify the terms, possibly followed by "get M or χ from F" for a simple level scheme. In 5 minutes without notes you should be able to: write eq. (2), give $\mathbf A$ for a uniform field, justify $\mathbf p\cdot\mathbf A=\mathbf A\cdot\mathbf p$, produce eq. (8) with its signs, and quote $M=-\frac1V\partial F/\partial B$ and $\chi_m=-\frac{\mu_0}{V}\partial^2F/\partial B^2$.</p>
+  </div>
+  <article class="hw" id="exam-ex1">
+    <span class="tag">Exam-style exercise · 2022 pattern</span>
+    <h3>Electron in a uniform magnetic field</h3>
+    <p class="ask">a) Write the Hamiltonian of an electron (charge −e, mass m, spin S) in a magnetic field $\mathbf B=\nabla\times\mathbf A$. b) Show that $\mathbf A=-\frac12\mathbf r\times\mathbf B$ describes a uniform field, and expand the Hamiltonian for this $\mathbf A$. State where the operator ordering matters. c) Name the effect of each field-dependent term and its sign. d) A system has levels $E_n(B)$. Derive the thermal magnetization in terms of the free energy, and give $\chi_m$.</p>
+    <details>
+      <summary>Show model answer</summary>
+      <ol>
+        <li><b>a)</b> $H_e=\dfrac{(\mathbf p+e\mathbf A)^2}{2m}-\mathbf m_{\text{spin}}\cdot\mathbf B$, with $\mathbf m_{\text{spin}}=-g_e\mu_B\mathbf S/\hbar$, $\mu_B=e\hbar/2m$, $g_e\approx2$.</li>
+        <li><b>b)</b> For $\mathbf B=B\hat z$, $\mathbf A=\frac B2(-y,x,0)$: $\nabla\times\mathbf A=B\hat z$ and $\nabla\cdot\mathbf A=0$. Expand $(\mathbf p+e\mathbf A)^2=\mathbf p^2+e(\mathbf p\cdot\mathbf A+\mathbf A\cdot\mathbf p)+e^2A^2$; the order matters in general, but $\mathbf p\cdot(\mathbf A\psi)=\mathbf A\cdot\mathbf p\psi-i\hbar(\nabla\cdot\mathbf A)\psi$ and $\nabla\cdot\mathbf A=0$, so both cross terms are equal. $(\mathbf r\times\mathbf B)\cdot\mathbf p=-\mathbf B\cdot\mathbf L$ gives the cross term $\frac{e}{2m}\mathbf B\cdot\mathbf L$; $A^2=\frac14B^2(x^2+y^2)$. Result: $H_e=\frac{\mathbf p^2}{2m}+\mu_B\frac{\mathbf B\cdot\mathbf L}{\hbar}$ $+\frac{e^2}{8m}B^2(x^2+y^2)$ $+g_e\mu_B\frac{\mathbf B\cdot\mathbf S}{\hbar}$.</li>
+        <li><b>c)</b> $\mu_B\mathbf B\cdot\mathbf L/\hbar$ and $g_e\mu_B\mathbf B\cdot\mathbf S/\hbar$: linear in B, permanent orbital and spin moments, paramagnetism ($\chi&gt;0$; the levels with $m_l+g_em_s&lt;0$ go down and fill first). $\frac{e^2}{8m}B^2r_\perp^2$: quadratic, always raises the energy, induced moment against B, diamagnetism ($\chi&lt;0$), present in every atom and dominant only for closed shells.</li>
+        <li><b>d)</b> State $n$ carries $M_n=-\frac1V\partial E_n/\partial B$. Boltzmann average: $\langle M\rangle=\sum_nM_ne^{-\beta E_n}/Z=\frac1V\frac{1}{\beta}\frac{\partial\ln Z}{\partial B}=-\frac1V\frac{\partial F}{\partial B}$, with $F=-k_BT\ln Z$. Since $M=\chi_mB/\mu_0$, $\chi_m=-\frac{\mu_0}{V}\frac{\partial^2F}{\partial B^2}\big|_{B\to0}$.</li>
+      </ol>
+      <div class="check"><b>Points lost in practice:</b> the sign of eA for a negative charge, expanding the square as if p and A were numbers without mentioning ∇·A = 0, a missing 1/V, and swapping which term is para- and which is diamagnetic.</div>
+    </details>
+  </article>
+</section>
+
+<section class="block sources" id="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., ch. 11 (eqs. 1–16, 45; He molar susceptibility; Pauli and Landau results) and Appendix G.</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 61–64 (lecture of 9 November 2026).</li>
+    <li>Condensed Matter and Devices topic list, §2.8 and 2.8.1.</li>
+    <li>Practice problems P1–P3 and the exam-style exercise were written for this page; they are not from a course sheet or exam.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.Plotly) { document.getElementById('loaderr').hidden = false; return; }
+  const { $, C, ax, layout, CFG, vline, lin, setRead, setPill, K } = CM;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`).value;
+  const sup = s => String(s).replace('-', '⁻').replace(/\d/g, c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]);
+  const fx = (x, d = 2) => { if (x === 0) return '0'; const s = x.toExponential(d - 1).split('e'); return +s[1] === 0 ? s[0] : s[0] + '×10' + sup(+s[1]); };
+  const muB = K.e * K.hbar / (2 * K.me), GE = 2.00231930436, MU0 = 1.25663706212e-6;   // μ_B = 9.274e-24 J/T (node check); μ0 CODATA 2018
+
+  /* ---------- Model 1 (2.8.1): linear Zeeman vs quadratic diamagnetic shift ---------- */
+  // B* = 4ħ|m_l + g m_s| / (e ⟨r⊥²⟩): 4.70e5 T for |…| = 1, ⟨r⊥²⟩ = 2 a0² (node).
+  const BS = lin(-2, 7, 181).map(l => 10 ** l), KT300 = K.kBeV * 300;
+  function renderM1() {
+    const ml = +$('m1-ml').value, ms = +radio('m1-ms'), r2 = 10 ** +$('m1-r').value * K.a0 ** 2, B = 10 ** +$('m1-b').value;
+    const q = ml + GE * ms, lin1 = b => muB * b * q / K.e, quad = b => K.e * b * b * r2 / (8 * K.me);   // both in eV (quad: e²B²r²/8m / e)
+    const Bstar = 4 * K.hbar * Math.abs(q) / (K.e * r2);
+    Plotly.react('m1-p1', [
+      { x: BS, y: BS.map(b => Math.abs(lin1(b))), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'B = %{x:.3g} T<br>%{y:.3g} eV<extra>linear</extra>' },
+      { x: BS, y: BS.map(quad), mode: 'lines', line: { color: C.emp, width: 2.5 }, hovertemplate: 'B = %{x:.3g} T<br>%{y:.3g} eV<extra>diamagnetic</extra>' },
+      { x: [BS[0], BS[BS.length - 1]], y: [KT300, KT300], mode: 'lines', line: { color: C.muted, width: 1.5, dash: 'dot' }, hoverinfo: 'skip' },
+      { x: [B, B], y: [Math.abs(lin1(B)), quad(B)], mode: 'markers', marker: { color: [C.occ, C.emp], size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ shapes: [vline(Math.log10(Bstar), C.ef)], showlegend: false,
+        xaxis: ax('Field B (T)', { type: 'log', range: [-2, 7], exponentformat: 'power' }),
+        yaxis: ax('|ΔE| (eV)', { type: 'log', range: [-16, 4], exponentformat: 'power' }) }), CFG);
+    const bs = lin(0, B, 121), tot = bs.map(b => lin1(b) + quad(b));
+    Plotly.react('m1-p2', [
+      { x: bs, y: bs.map(lin1), mode: 'lines', line: { color: C.occ, width: 2, dash: 'dash' }, hovertemplate: '%{y:.3g} eV<extra>linear</extra>' },
+      { x: bs, y: bs.map(quad), mode: 'lines', line: { color: C.emp, width: 2, dash: 'dash' }, hovertemplate: '%{y:.3g} eV<extra>quadratic</extra>' },
+      { x: bs, y: tot, mode: 'lines', line: { color: C.fg, width: 2.5 }, hovertemplate: 'B = %{x:.3g} T<br>ΔE = %{y:.3g} eV<extra>total</extra>' }],
+      layout({ showlegend: false, xaxis: ax('Field B (T)', { range: [0, B], exponentformat: 'power' }), yaxis: ax('Level shift ΔE (eV)', { exponentformat: 'power' }) }), CFG);
+    const L = lin1(B), Q = quad(B);
+    setPill('m1-pill', B < Bstar ? ['metal', 'Paramagnetic term dominates'] : ['semi', 'Diamagnetic term dominates']);
+    setRead('m1-read', [
+      ['Field B', fx(B, 3) + ' T'],
+      ['⟨r⊥²⟩', fx(r2 / K.a0 ** 2, 3) + ' a₀² = ' + fx(r2 * 1e20, 3) + ' Å²'],
+      ['m_l + g_e m_s', q.toFixed(4).replace('-', '−')],
+      ['Linear μ_B B (m_l + g_e m_s)', fx(L, 3) + ' eV'],
+      ['Quadratic (e²/8m) B² ⟨r⊥²⟩', fx(Q, 3) + ' eV'],
+      ['Ratio quadratic / |linear|', fx(Q / Math.abs(L), 2)],
+      ['Crossing field B*', fx(Bstar, 3) + ' T'],
+      ['k_BT at 300 K', (KT300 * 1e3).toFixed(1) + ' meV']]);
+  }
+  document.querySelectorAll('input[name="m1-ms"]').forEach(el => el.addEventListener('change', () => CM.schedule(renderM1)));
+
+  /* ---------- Model 2 (2.8.1): spin-½ paramagnet, M and χ from F ---------- */
+  // n = 2.286e6 g/m³ / 249.68 g/mol × N_A = 5.51e27 m⁻³ (Cu²⁺ in CuSO₄·5H₂O). At 1 T, 1 K: x = 0.672, tanh = 0.587, p₋ = 0.793 (node).
+  const NS = 2.286e6 / 249.68 * K.NA, MU = GE * muB / 2;
+  const fV = (B, T) => -NS * K.kB * T * Math.log(2 * Math.cosh(MU * B / (K.kB * T)));   // F/V in J/m³
+  function renderM2() {
+    const B = +$('m2-b').value, T = 10 ** +$('m2-t').value, kT = K.kB * T, x = MU * B / kT;
+    const hB = 1e-3, hT = 1e-4 * T, hC = 1e-2;
+    const Mnum = -(fV(B + hB, T) - fV(B - hB, T)) / (2 * hB), Mana = NS * MU * Math.tanh(x);
+    const Snum = -(fV(B, T + hT) - fV(B, T - hT)) / (2 * hT) / (NS * K.kB);
+    const chiNum = -MU0 * (fV(hC, T) - 2 * fV(0, T) + fV(-hC, T)) / (hC * hC), chiCurie = MU0 * NS * MU * MU / kT;
+    const bs = lin(-5, 5, 201), toU = 1e6 / K.e / NS;                                    // J/m³ → μeV per spin
+    const F0 = fV(B, T) * toU, slope = -Mnum * toU;
+    Plotly.react('m2-p1', [
+      { x: bs, y: bs.map(b => fV(b, T) * toU), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'B = %{x:.2f} T<br>F/N = %{y:.2f} μeV<extra></extra>' },
+      { x: [B - 2, B + 2], y: [F0 - 2 * slope, F0 + 2 * slope], mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: [B], y: [F0], mode: 'markers', marker: { color: C.ef, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ showlegend: false, xaxis: ax('Field B (T)', { range: [-5, 5] }), yaxis: ax('F/N (μeV)') }), CFG);
+    const bp = lin(0, 5, 126), s = chiNum / (MU0 * NS * MU), bEnd = Math.min(5, 1.05 / s);   // linear response M/(nμ) = χB/(μ0 nμ)
+    Plotly.react('m2-p2', [
+      { x: bp, y: bp.map(b => Math.tanh(MU * b / kT)), mode: 'lines', line: { color: C.occ, width: 2.5 }, hovertemplate: 'B = %{x:.2f} T<br>M/nμ = %{y:.3f}<extra></extra>' },
+      { x: [0, bEnd], y: [0, s * bEnd], mode: 'lines', line: { color: C.ef, width: 2, dash: 'dash' }, hoverinfo: 'skip' },
+      { x: [B], y: [Mana / (NS * MU)], mode: 'markers', marker: { color: C.occ, size: 10, line: { color: C.panel, width: 1.5 } }, hoverinfo: 'skip' }],
+      layout({ showlegend: false, xaxis: ax('Field B (T)', { range: [0, 5] }), yaxis: ax('M / (nμ)', { range: [0, 1.05] }) }), CFG);
+    const pLow = 1 / (1 + Math.exp(-2 * x));
+    setPill('m2-pill', x > 1 ? ['metal', 'Strong field: near saturation'] : x > 0.2 ? ['semi', 'Nonlinear: μB ~ k_BT'] : ['atom', 'Linear response: Curie regime']);
+    setRead('m2-read', [
+      ['T', (T < 10 ? T.toFixed(2) : T.toFixed(0)) + ' K'],
+      ['μB / k_BT', x.toFixed(3)],
+      ['E_± = ±μB', '±' + (MU * B / K.e * 1e6).toFixed(1) + ' μeV'],
+      ['Lower / upper population', (100 * pLow).toFixed(1) + ' % / ' + (100 * (1 - pLow)).toFixed(1) + ' %'],
+      ['F/N = −k_BT ln(2 cosh x)', F0.toFixed(2).replace('-', '−') + ' μeV'],
+      ['M = −(1/V) ∂F/∂B, numerical', fx(Mnum, 4) + ' A/m'],
+      ['M = nμ tanh x, closed form', fx(Mana, 4) + ' A/m'],
+      ['S/(N k_B) = −∂F/∂T, numerical', Snum.toFixed(4) + ' (max ln 2 = 0.6931)'],
+      ['χ_m = −(μ₀/V) ∂²F/∂B², numerical', fx(chiNum, 4)],
+      ['Curie μ₀ n μ² / k_BT', fx(chiCurie, 4)]]);
+  }
+
+  CM.wire({ m1: renderM1, m2: renderM2 });
+});
+</script>
+</body>
+</html>

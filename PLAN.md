@@ -43,8 +43,9 @@ Every page must also meet the definition of done in `CONVENTIONS.md`. Inputs per
   Done when: Concepts cover Bloch theorem, empty lattice, nearly free electrons, tight binding; a new model shows empty-lattice bands along [100] in the reduced zone and the gap opening with a weak potential U_G; exam Q4 (a–f) answered; the seven existing models still work unchanged.
   Result: built and reviewed 2026-11-05 (physics + code PASS).
 
-- [ ] **10 Magnetic properties** (`pages/10-magnetism.html`; §2.8; Kittel ch. 11)
+- [x] **10 Magnetic properties** (`pages/10-magnetism.html`; §2.8; Kittel ch. 11)
   Done when: concepts derive the Hamiltonian of an electron in a field (p → p + eA, Zeeman term) and the dia-/paramagnetic terms; at least one model; content checked against the lecture notes once they cover §2.8 (not yet in notes).
+  Result: built and reviewed 2026-11-05 (physics + code PASS).
 
 - [ ] **11 Dielectrics** (`pages/11-dielectrics.html`; §2.9; Kittel ch. 16)
   Done when: concepts cover polarization, local field, Clausius–Mossotti, polarizability; at least one model; checked against the notes once they cover §2.9.

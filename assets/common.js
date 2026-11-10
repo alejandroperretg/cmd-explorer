@@ -113,7 +113,27 @@
   const MATH_OPTS = { delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
     throwOnError: false, ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'output'] };
   // Call CM.math(el) after inserting HTML that contains $...$ (static page text is rendered automatically).
-  function math(el = document.body) { if (window.renderMathInElement) { window.renderMathInElement(el, MATH_OPTS); if (MATH_OPTS.output === 'mathml') splitInlineMath(el); fitEq(el); } }
+  function math(el = document.body) { if (window.renderMathInElement) { window.renderMathInElement(el, MATH_OPTS); if (MATH_OPTS.output === 'mathml') { mathVariants(el); splitInlineMath(el); } fitEq(el); } }
+
+  // MathML (phone builds): Chrome supports only mathvariant="normal" (bold is faked in site.css), so \mathbb Z, \mathbb 1,
+  // \mathcal O and \mathsf N came out as plain italic letters. Swap in the Unicode math letters (ℤ, 𝟙, 𝒪, 𝖭) instead.
+  const MV = { 'double-struck': [0x1D538, 0x1D552, 0x1D7D8, { C: 0x2102, H: 0x210D, N: 0x2115, P: 0x2119, Q: 0x211A, R: 0x211D, Z: 0x2124 }],
+    script: [0x1D49C, 0x1D4B6, 0, { B: 0x212C, E: 0x2130, F: 0x2131, H: 0x210B, I: 0x2110, L: 0x2112, M: 0x2133, R: 0x211B, e: 0x212F, g: 0x210A, o: 0x2134 }],
+    'sans-serif': [0x1D5A0, 0x1D5BA, 0x1D7E2, {}] };
+  function mathVariants(el = document.body) {
+    (el.querySelectorAll ? el : document).querySelectorAll('math [mathvariant]').forEach(m => {
+      const v = MV[m.getAttribute('mathvariant')]; if (!v || m.children.length) return;
+      m.textContent = [...m.textContent].map(ch => {
+        if (v[3][ch]) return String.fromCodePoint(v[3][ch]);
+        const c = ch.charCodeAt(0);
+        if (c >= 65 && c <= 90) return String.fromCodePoint(v[0] + c - 65);
+        if (c >= 97 && c <= 122) return String.fromCodePoint(v[1] + c - 97);
+        if (c >= 48 && c <= 57 && v[2]) return String.fromCodePoint(v[2] + c - 48);
+        return ch;
+      }).join('');
+      m.setAttribute('mathvariant', 'normal');
+    });
+  }
 
   // MathML (the phone builds) cannot line-break inline math, so a long formula spills out of narrow text. Split each
   // inline formula after its top-level relations (=, <, ≈, →, …) into separate <math> pieces with a break chance
@@ -154,20 +174,48 @@
   }
 
   /* ---------- fit display equations to their .eq panel (safety net only) ---------- */
-  // Equations are written to fit at 360 px (aligned lines). If one still overflows, shrink it to fit, never below FIT_MIN.
+  // Equations are written to fit at 360 px (aligned lines). If one still overflows, shrink it to fit, never below FIT_MIN,
+  // except that the larger must-know panels may go further, down to the 18 px equation floor (EQ_FLOOR).
   // The panels never scroll. Width is measured with a Range so content overflowing on either side counts.
-  const FIT_MIN = 0.85;
+  const FIT_MIN = 0.85, EQ_FLOOR = 18;
+  // MathML (phone builds): Chrome ignores columnalign and centres every cell, so aligned equations did not line up at =.
+  // Pad each cell by its column's spare width (right-aligned: before, left-aligned: after), in em so CM.fitEq scaling keeps it.
+  function alignMathTables(el = document) {
+    if (MATH_OPTS.output !== 'mathml') return;
+    (el.querySelectorAll ? el : document).querySelectorAll('mtable[columnalign]').forEach(t => {
+      const al = t.getAttribute('columnalign').trim().split(/\s+/);
+      const rows = [...t.children].filter(r => r.localName === 'mtr').map(r => [...r.children].filter(c => c.localName === 'mtd'));
+      // columnspacing is ignored too (Chrome pads every cell 0.4em each side, a gap before every =): apply it as right padding.
+      const sp = (t.getAttribute('columnspacing') || '').trim().split(/\s+/).filter(Boolean);
+      rows.forEach(r => r.forEach((c, j) => {
+        c.style.paddingLeft = sp.length ? '0' : '';
+        c.style.paddingRight = sp.length ? (j < r.length - 1 ? sp[Math.min(j, sp.length - 1)] : '0') : '';
+      }));
+      const w = rows.map(r => r.map(c => { const g = document.createRange(); g.selectNodeContents(c); return g.getBoundingClientRect().width; }));
+      const max = []; w.forEach(r => r.forEach((x, j) => { max[j] = Math.max(max[j] || 0, x); }));
+      rows.forEach((r, i) => r.forEach((c, j) => {
+        const a = al[Math.min(j, al.length - 1)], spare = max[j] - w[i][j];
+        if (spare < 0.5 || (a !== 'left' && a !== 'right')) return;
+        const cs = getComputedStyle(c), fs = parseFloat(cs.fontSize), side = a === 'right' ? 'Left' : 'Right';
+        c.style['padding' + side] = ((parseFloat(cs['padding' + side]) + spare) / fs).toFixed(3) + 'em';
+      }));
+    });
+  }
+
   function fitEq(el = document) {
+    alignMathTables(el);
     (el.querySelectorAll ? el : document).querySelectorAll('.eq > :not(.eq-head, .eq-n)').forEach(box => {
       box.style.fontSize = '';
       let scale = 1;
+      const m = box.querySelector('.katex-display > .katex, math[display="block"]'), px = m ? parseFloat(getComputedStyle(m).fontSize) : 0;
+      const min = px ? Math.min(FIT_MIN, EQ_FLOOR / px) : FIT_MIN;
       for (let i = 0; i < 3; i++) {
         const avail = box.clientWidth; if (!avail) return;
         // KaTeX also emits a clipped, full-width MathML copy for screen readers; measure only the visible rendering.
         const rg = document.createRange(); rg.selectNodeContents(box.querySelector('.katex-html') || box);
         const need = Math.max(box.scrollWidth, rg.getBoundingClientRect().width);
-        if (need <= avail + 1 || scale <= FIT_MIN) break;
-        scale = Math.max(FIT_MIN, scale * (avail - 2) / need);
+        if (need <= avail + 1 || scale <= min) break;
+        scale = Math.max(min, scale * (avail - 2) / need);
         box.style.fontSize = (scale * 100).toFixed(1) + '%';
       }
     });

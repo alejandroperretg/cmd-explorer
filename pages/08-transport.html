@@ -31,7 +31,7 @@
 
 <main class="wrap">
 <header class="page-head">
-  <div class="meta"><span>Topic 08</span><span>Syllabus §2.2, 2.4, 2.5, 2.7.7</span><span>Kittel ch. 6, 8, App. F</span><span>Notes pp. 42–49</span><span>Sheet 9</span></div>
+  <div class="meta"><span>Topic 08</span><span>Syllabus §2.2, 2.4, 2.5, 2.7.7</span><span>Kittel ch. 6, 8, App. F</span><span>Notes pp. 42–49, 59–60</span><span>Sheet 9</span></div>
   <h1>Transport: conductivity, Umklapp, Wiedemann–Franz, thermoelectrics</h1>
   <p class="lead">How electrons carry charge and heat through a metal or semiconductor. A field shifts the Fermi sphere and scattering holds it in place. That one picture gives Ohm's law, the AC response, the Wiedemann–Franz law and, once a temperature gradient is added, the thermoelectric effects of exam question 3.</p>
   <ol class="chain">
@@ -47,7 +47,7 @@
 
 <nav class="path" id="path" aria-labelledby="path-h">
   <h2 id="path-h">Reading path</h2>
-  <p>The sections follow the lecture (notes pp. 42–49): the Boltzmann equation, the relaxation time, the shifted Fermi sphere and Ohm's law, then what scatters electrons in a metal, Umklapp, and the Wiedemann–Franz law. Thermoelectric effects (2.7.7) are not in the notes yet; they come last, from Kittel, because exam 2022 Q3 asks for them. About 2½ hours in total.</p>
+  <p>The sections follow the lecture (notes pp. 42–49): the Boltzmann equation, the relaxation time, the shifted Fermi sphere and Ohm's law, then what scatters electrons in a metal, Umklapp, and the Wiedemann–Franz law. Thermoelectric effects (2.7.7) come last, as in the lecture (notes pp. 59–60); exam 2022 Q3 asks for them. About 2½ hours in total.</p>
   <ol>
     <li data-sec="2.2.1"><a href="#s-2-2-1">Boltzmann transport equation</a><span class="min">15 min</span><span class="then"><a href="#c-bte">Drift, force, collisions</a>. Then: <a href="#m-fs">Model 1</a>.</span></li>
     <li data-sec="2.2.2"><a href="#s-2-2-2">Relaxation-time approximation</a><span class="min">10 min</span><span class="then"><a href="#c-rta">One time τ</a>. Then: <a href="#m-rx">Model 2</a>.</span></li>
@@ -65,7 +65,6 @@
     <span><span class="tag exam">Exam Q3a</span>asked in the 2022 exam</span>
     <span><span class="tag hw">Sheet 9.2</span>used by a sheet or practice problem</span>
     <span><span class="tag deriv">Exam-relevant derivation</span>steps the exam needs you to reproduce</span>
-    <span><span class="tag lect">Not yet lectured</span>taught here from Kittel</span>
     <span><i class="sw-take"></i>Takeaway</span>
     <span><i class="sw-trap"></i>Common trap</span>
     <span><i class="sw-check"></i>Self-test, tap to reveal</span>
@@ -312,7 +311,7 @@
     <h3><span class="step">2.7.7</span>Thermoelectric effects</h3>
     <p class="hook"><b>Where you meet this.</b> A thermocouple in an oven turns a temperature difference into a voltage, and a Peltier cooler in a camping fridge turns a current into a heat flow. Both are the coupling between charge and heat currents described here, and the sign of the voltage tells you whether a semiconductor is n- or p-type.</p>
     <div class="sec-intro">
-      <p><b>What this covers.</b> The coupled charge and heat fluxes, the thermopower Q, the Peltier coefficient Π and the Kelvin relation Π = QT, with signs and sizes. Not in the notes yet: from Kittel ch. 8.</p>
+      <p><b>What this covers.</b> The coupled charge and heat fluxes, the thermopower Q, the Peltier coefficient Π and the Kelvin relation Π = QT, with signs and sizes. Lecture notes pp. 59–60 (drift model), with Kittel ch. 8 for the coupled-flux form.</p>
       <p><b>Why it matters.</b> Exam 2022 Q3 asks for exactly these definitions. It also previews the semiconductor chapter (3.1).</p>
     </div>
     <div class="cards">
@@ -320,16 +319,15 @@
       <span class="eyebrow">2.7.7 · Coupled fluxes</span>
       <h4>Each flux responds to both forces</h4>
       <p class="needs"><a href="#c-shift">2.2.3 · Shifted Fermi sphere</a>, <a href="#c-wf">2.5 · κ/σ = LT</a></p>
-      <div class="tags"><span class="tag lect">Not yet lectured</span></div>
-      <p>The notes give only the separate laws $\vec j=\sigma\vec E$ and $\vec j_u=\kappa(-\nabla T)$. In reality each flux responds to <b>both</b> driving forces. In linear response:</p>
+      <p>Notes p49 gives the separate laws $\vec j=\sigma\vec E$ and $\vec j_u=\kappa(-\nabla T)$. In reality each flux responds to <b>both</b> driving forces. In linear response (Kittel ch. 8):</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Coupled fluxes</span><a class="tag exam" href="#exam-q3">Exam Q3a</a></div>
       $$\begin{aligned}\vec j&=L_{11}\vec E+L_{12}(-\nabla T)\\ \vec j_u&=L_{21}\vec E+L_{22}(-\nabla T)\end{aligned}$$
       <span class="eq-n">(12)</span></div>
       <p>$\vec j$ is the electric current density (A/m²) and $\vec j_u$ the energy flux (W/m²), with energies measured from the chemical potential μ, so it is the heat flux. $L_{11}=\sigma$.</p>
       <ul>
-        <li><b>Thermopower Q (Seebeck):</b> open circuit, $\vec j=0$. A temperature gradient then builds up a field $\vec E=Q\nabla T$, so $Q=L_{12}/L_{11}$ (V/K).</li>
-        <li><b>Peltier coefficient Π:</b> uniform temperature, $\nabla T=0$. The current carries energy $\vec j_u=\Pi\vec j$, so $\Pi=L_{21}/L_{11}$ (V = J/C: energy carried per unit charge).</li>
-        <li><b>Kelvin relation:</b> Onsager reciprocity gives $L_{21}=TL_{12}$, hence $\Pi=QT$.</li>
+        <li><b>Thermopower Q (Seebeck):</b> open circuit, $\vec j=0$. A temperature gradient then builds up a field $\vec E=Q\nabla T$ (boxed in the notes, p60), so $Q=L_{12}/L_{11}$ (V/K).</li>
+        <li><b>Peltier coefficient Π:</b> uniform temperature, $\nabla T=0$. The current carries energy $\vec j_u=\Pi\vec j$, so $\Pi=L_{21}/L_{11}$ (V = J/C: energy carried per unit charge). The notes write the current density as $\vec j_q$: $\vec j_u=\Pi\,\vec j_q$ (boxed, p60).</li>
+        <li><b>Kelvin relation:</b> $\Pi=QT$ (boxed, p60). Onsager reciprocity gives $L_{21}=TL_{12}$, which is where it comes from.</li>
       </ul>
       <p>Eliminating $\vec E$ gives the form to write in an exam:</p>
       <div class="eq key"><div class="eq-head"><span class="eq-label">Exam form</span><a class="tag exam" href="#exam-q3">Exam Q3a–b</a></div>
@@ -344,12 +342,17 @@
       <span class="eyebrow">2.7.7 · Sign and size</span>
       <h4>Sign and size of Π and Q</h4>
       <p class="needs"><a href="#thermo">2.7.7 · Coupled fluxes</a></p>
-      <div class="tags"><span class="tag lect">Not yet lectured</span></div>
-      <p>Kittel's drift picture for a non-degenerate semiconductor (ch. 8, eqs. 54–60): each electron carries the energy $(E_c-\mu)+\tfrac32k_BT$ above the Fermi level, and its energy flux runs opposite to its charge flux. This gives</p>
+      <p>The lecture's drift picture for a non-degenerate semiconductor (notes pp. 59–60, following Kittel ch. 8, eqs. 54–60). With the chemical potential μ as the energy zero, a conduction-band electron at temperature T carries on average the band-edge energy plus its thermal kinetic energy:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Energy carried per electron</span></div>
+      $$\varepsilon=E_{CB}-\mu+\tfrac32k_BT$$</div>
+      <p>In a field the electrons drift with $\vec v_D=-\mu_e\vec E$ ($\mu_e$ is the mobility, not the chemical potential). Energy and charge then flow together, and their ratio is Π:</p>
+      <div class="eq"><div class="eq-head"><span class="eq-label">Drift fluxes</span></div>
+      $$\begin{aligned}\vec j_u&=n\,\varepsilon\,(-\mu_e)\vec E\\ \vec j_q&=n(-e)(-\mu_e)\vec E\\ \vec j_u&=\Pi\,\vec j_q\end{aligned}$$</div>
+      <p>The energy flux runs opposite to the charge flux, so $\Pi_e=\varepsilon/(-e)$. Holes are analogous with the valence-band edge:</p>
       <div class="eq"><div class="eq-head"><span class="eq-label">Peltier coefficients, drift model</span><a class="tag exam" href="#exam-q3">Exam Q3b</a><a class="tag hw" href="#exam-ex1">Hot-probe exercise</a></div>
-      $$\begin{aligned}\Pi_e&=-\frac{E_c-\mu+\tfrac32k_BT}{e}\\ \Pi_h&=+\frac{\mu-E_v+\tfrac32k_BT}{e}\\ Q&=\frac{\Pi}{T}\end{aligned}$$
+      $$\begin{aligned}\Pi_e&=-\frac{E_{CB}-\mu+\tfrac32k_BT}{e}\\ \Pi_h&=+\frac{\mu-E_{VB}+\tfrac32k_BT}{e}\\ Q&=\frac{\Pi}{T}\end{aligned}$$
       <span class="eq-n">(14)</span></div>
-      <p>So $\Pi_e<0$ for electrons and $\Pi_h>0$ for holes. The sign of $Q$ gives the sign of the carriers. Heat one end of an n-type sample: electrons diffuse to the cold end and charge it negatively. This is the quick hot-probe test for n vs p type (Kittel Fig. 23). Example: n-Si with $E_c-\mu=0.25$ eV at 300 K gives $\Pi_e=-0.289$ V and $Q=-0.96$ mV/K.</p>
+      <p>So $\Pi_e<0$ for electrons (n-type) and $\Pi_h>0$ for holes (p-type), and $Q=\Pi/T$ has the same sign (notes p60). The sign of $Q$ gives the sign of the carriers. Heat one end of an n-type sample: electrons diffuse to the cold end and charge it negatively. This is the quick hot-probe test for n vs p type (Kittel Fig. 23). Example: n-Si with $E_{CB}-\mu=0.25$ eV at 300 K gives $\Pi_e=-0.289$ V and $Q=-0.96$ mV/K.</p>
       <p>In a metal only electrons within $k_BT$ of $\varepsilon_F$ contribute, so $Q$ is smaller by about $k_BT/\varepsilon_F$. The free-electron (Mott) result is $Q=-\frac{\pi^2k_B^2T}{2e\varepsilon_F}$, or −1.57 μV/K for Cu at 300 K (<a href="#m-te">Model 8</a>).</p>
       <div class="assume"><b>Source:</b> the metal formula is the standard Boltzmann result for a constant τ (Mott formula). Kittel ch. 8 does not give it; App. F has the method. Measured Cu has the opposite (positive) sign, a known failure of the free-electron model that band structure explains. No measured value is quoted here because none is in the course sources.</div>
       <p class="note">Checked with node: (0.25 + 1.5 × 0.025852) V = 0.2888 V, /300 K = 0.963 mV/K; π²k_B²(300 K)/(2e · 7.00 eV) = 1.570 μV/K.</p>
@@ -585,7 +588,7 @@
   <!-- Model 8: thermoelectric -->
   <section class="bench pending" id="m-te">
     <div class="rail">
-      <span class="eyebrow">2.7.7 · Model 8 · thermopower, not yet lectured</span>
+      <span class="eyebrow">2.7.7 · Model 8 · thermopower</span>
       <h3>Thermopower and Peltier coefficient</h3>
       <p>A non-degenerate semiconductor bar with its ends at different temperatures and no current flowing. Kittel's drift picture gives $\Pi=\mp(\Delta+\tfrac32k_BT)/e$, with Δ the distance from μ to the band edge of the carriers, and $Q=\Pi/T$. The free-electron metal value for Cu is shown for scale.</p>
       <div class="ctls">
@@ -648,7 +651,7 @@
 <section class="block" id="exam">
   <h2>Exam angle</h2>
   <div class="card" id="exam-q3">
-    <span class="eyebrow">2022 Q3 · Thermoelectric phenomena · not yet lectured — from Kittel</span>
+    <span class="eyebrow">2022 Q3 · Thermoelectric phenomena · notes pp. 59–60, Kittel ch. 8</span>
     <p><b>(a) Give expressions for the energy flux and the current density. (b) Define the Peltier coefficient and the absolute thermopower Q.</b> The notes' separate laws $\vec j=\sigma\vec E$ and $\vec j_u=\kappa(-\nabla T)$ are not a full answer: Q3 asks for the <i>coupled</i> fluxes.</p>
     <details>
       <summary>Show model answer</summary>
@@ -656,9 +659,9 @@
         <li>(a) In linear response each flux depends on both forces:
           <div class="eq"><div class="eq-head"><span class="eq-label">Coupled fluxes</span></div>
           $$\begin{aligned}\vec j&=L_{11}\vec E+L_{12}(-\nabla T)\\ \vec j_u&=L_{21}\vec E+L_{22}(-\nabla T)\end{aligned}$$</div>
-          with $L_{11}=\sigma$ and energies measured from μ. Equivalent form: $\vec j=\sigma(\vec E-Q\nabla T)$, $\vec j_u=\Pi\vec j-\kappa\nabla T$. For a semiconductor with electrons (Kittel): $\vec j=ne\mu_e\vec E$ and $\vec j_u=n\big(E_c-\mu+\tfrac32k_BT\big)(-\mu_e)\vec E$, with mobility $\mu_e>0$.</li>
+          with $L_{11}=\sigma$ and energies measured from μ. Equivalent form: $\vec j=\sigma(\vec E-Q\nabla T)$, $\vec j_u=\Pi\vec j-\kappa\nabla T$. For a semiconductor with electrons (drift model, notes p60): $\vec j=ne\mu_e\vec E$ and $\vec j_u=n\big(E_{CB}-\mu+\tfrac32k_BT\big)(-\mu_e)\vec E$, with mobility $\mu_e>0$.</li>
         <li>(b) Thermopower: in open circuit ($\vec j=0$) a temperature gradient produces $\vec E=Q\nabla T$, so $Q=L_{12}/L_{11}$, in V/K. Peltier coefficient: at uniform T the energy flux carried by a current is $\vec j_u=\Pi\vec j$, so $\Pi=L_{21}/L_{11}$, the energy carried per unit charge, in V.</li>
-        <li>Kelvin relation: $\Pi=QT$ (Onsager, $L_{21}=TL_{12}$). Signs: electrons give $\Pi,Q<0$ ($\Pi_e=-(E_c-\mu+\tfrac32k_BT)/e$); holes give $\Pi,Q>0$.</li>
+        <li>Kelvin relation: $\Pi=QT$ (Onsager, $L_{21}=TL_{12}$). Signs: electrons give $\Pi,Q<0$ ($\Pi_e=-(E_{CB}-\mu+\tfrac32k_BT)/e$); holes give $\Pi,Q>0$.</li>
       </ol>
     </details>
     <p>Points are lost for writing only the uncoupled Ohm and Fourier laws, for sign errors, and for not linking the sign of Q to the carrier type.</p>
@@ -669,7 +672,7 @@
     <h3>Hot-probe test on n-type silicon</h3>
     <p class="ask">An n-type Si bar at 300 K has its Fermi level 0.25 eV below the conduction band edge. (a) Find Π and Q in Kittel's drift model. (b) One end is heated by 10 K with no current flowing: which end becomes positive, and what voltage appears? (c) What heat flux does a current density of 10⁴ A/m² carry at uniform temperature?</p>
     <h4>Method</h4>
-    <p>$\Pi_e=-(E_c-\mu+\tfrac32k_BT)/e$, then $Q=\Pi/T$ (Kelvin). Open circuit means $\vec E=Q\nabla T$; the Peltier heat flux is $j_u=\Pi j$.</p>
+    <p>$\Pi_e=-(E_{CB}-\mu+\tfrac32k_BT)/e$, then $Q=\Pi/T$ (Kelvin). Open circuit means $\vec E=Q\nabla T$; the Peltier heat flux is $j_u=\Pi j$.</p>
     <details>
       <summary>Show worked solution</summary>
       <ol>
@@ -712,7 +715,7 @@
   <h2>Sources</h2>
   <ul>
     <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed.: ch. 6 (Tables 1, 3, 5; "Electrical Conductivity and Ohm's Law", "Umklapp Scattering", "Thermal Conductivity of Metals", Problem 6); ch. 5 Table 1; ch. 8 "Thermoelectric Effects" (eqs. 54–60, Fig. 23); Appendix F "Boltzmann Transport Equation".</li>
-    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 42–49.</li>
+    <li>V. Wagner, Condensed Matter and Devices, lecture notes (handwritten), pp. 42–49 and 59–60 (thermoelectric effects).</li>
     <li>Problem sheet 9 (problem 2), Fall 2026.</li>
     <li>Condensed Matter and Devices topic list (§2.2, 2.4, 2.5, 2.7.7); 2022 exam as recovered by alumni (Q3).</li>
     <li>Tutoring boards 10 "Conduction &amp; Free Electron Gas" and 13 "Conductivity Wednesday": no readable transport content; the shifted-sphere model follows the board 10 suggestion.</li>
