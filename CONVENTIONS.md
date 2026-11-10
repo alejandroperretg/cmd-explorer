@@ -10,6 +10,7 @@
   - Kittel: rigour.
 - The topic list defines the scope. Every subsection it lists for your section gets a Concepts entry, even when no other source covers it.
 - The lecture notes are incomplete (lectures were missed) and contain errors (see `../digest/`). Use them for the lecturer's notation, never as the only basis for a claim.
+- Follow Kittel more closely (user request, 2026-11-10): for each lectured section, include Kittel's standard concepts, named schemes and key figures for it (e.g. extended / reduced / periodic zone schemes for bands), even when the lecture skips or only mentions them. Keep the lecture's order and notation, and tag such material "Kittel §…" so it's clear it goes beyond the notes.
 - Kittel fills gaps and is the check on physics. When a course source disagrees with Kittel on physics, flag it in an `.assume` box rather than silently picking one.
 
 **Physics.** Notation follows the sheets where they set one (e.g. $\sigma(\omega)=\sigma_0/(1+i\omega\tau)$ on sheet 9.2), otherwise Kittel 8th-ed. notation and sign conventions (e.g. $\mathbf a_i$, $\mathbf b_i$ with $\mathbf a_i\cdot\mathbf b_j = 2\pi\delta_{ij}$, $\mathbf G$, $\omega(k)$, $D(\varepsilon)$, $k_B$, $\varepsilon_F$). SI units throughout; write $\hbar$ explicitly (no $\hbar = 1$ in text; if a model uses scaled units, say so in its caption). Use eV or meV for energies where Kittel does, with the conversion shown once. Constants: `CM.K` (CODATA 2018, SI).
